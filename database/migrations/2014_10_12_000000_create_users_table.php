@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('level_sistems_id')->unsigned()->index()->nullable();
+            $table->foreign('level_sistems_id')->references('id_level_sistems')->on('master_level_sistems')->onUpdate('set null')->onDelete('set null');
+            $table->string('username');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -21,6 +24,7 @@ return new class extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
