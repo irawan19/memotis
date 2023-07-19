@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 19, 2023 at 02:31 PM
+-- Generation Time: Jul 19, 2023 at 02:44 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -51,6 +51,29 @@ CREATE TABLE `master_akses` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `master_akses`
+--
+
+INSERT INTO `master_akses` (`id_akses`, `level_sistems_id`, `fiturs_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2023-07-19 12:42:13', NULL),
+(2, 1, 2, '2023-07-19 12:42:13', NULL),
+(3, 1, 3, '2023-07-19 12:42:13', NULL),
+(4, 1, 4, '2023-07-19 12:42:13', NULL),
+(5, 1, 5, '2023-07-19 12:42:13', NULL),
+(6, 1, 6, '2023-07-19 12:42:13', NULL),
+(7, 1, 7, '2023-07-19 12:42:13', NULL),
+(8, 1, 8, '2023-07-19 12:42:13', NULL),
+(9, 1, 9, '2023-07-19 12:42:13', NULL),
+(10, 1, 10, '2023-07-19 12:42:13', NULL),
+(11, 1, 11, '2023-07-19 12:42:13', NULL),
+(12, 1, 12, '2023-07-19 12:42:13', NULL),
+(13, 1, 13, '2023-07-19 12:42:13', NULL),
+(14, 1, 14, '2023-07-19 12:42:13', NULL),
+(15, 1, 15, '2023-07-19 12:42:13', NULL),
+(16, 1, 16, '2023-07-19 12:42:13', NULL),
+(17, 1, 17, '2023-07-19 12:42:13', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -64,6 +87,29 @@ CREATE TABLE `master_fiturs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `master_fiturs`
+--
+
+INSERT INTO `master_fiturs` (`id_fiturs`, `menus_id`, `nama_fiturs`, `created_at`, `updated_at`) VALUES
+(1, 1, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(2, 2, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(3, 2, 'tambah', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(4, 2, 'baca', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(5, 2, 'edit', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(6, 2, 'hapus', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(7, 3, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(8, 3, 'tambah', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(9, 3, 'baca', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(10, 3, 'edit', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(11, 3, 'hapus', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(12, 4, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(13, 4, 'tambah', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(14, 4, 'baca', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(15, 4, 'edit', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(16, 4, 'hapus', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(17, 5, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45');
 
 -- --------------------------------------------------------
 
@@ -97,6 +143,13 @@ CREATE TABLE `master_level_sistems` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `master_level_sistems`
+--
+
+INSERT INTO `master_level_sistems` (`id_level_sistems`, `nama_level_sistems`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Developer', '2023-07-19 12:36:53', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -113,6 +166,17 @@ CREATE TABLE `master_menus` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `master_menus`
+--
+
+INSERT INTO `master_menus` (`id_menus`, `menus_id`, `nama_menus`, `icon_menus`, `link_menus`, `order_menus`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Konfigurasi Dashboard', 'cil-settings', '', 2, '2022-08-06 20:52:45', '2023-07-08 08:01:34'),
+(2, 1, 'Menu', 'cil-border-all', 'menu', 0, '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(3, 1, 'Level Sistem', 'cil-lan', 'level_sistem', 1, '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(4, 1, 'Admin', 'cil-user', 'admin', 2, '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(5, 1, 'Konfigurasi Aplikasi', 'cil-applications-settings', 'konfigurasi_aplikasi', 3, '2022-08-06 20:52:45', '2022-08-06 20:52:45');
 
 -- --------------------------------------------------------
 
@@ -189,6 +253,13 @@ CREATE TABLE `sessions` (
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('cvLDzfcXFKfbyE6kOoRb31h0O5IZKoyv4WmaWgN9', NULL, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOVZlcWdkZWN3WWtkd0pvb0g5QVg2THpYcGx2MkpKM0plYkQ2TDltbiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMiO319', 1689770271);
+
 -- --------------------------------------------------------
 
 --
@@ -213,6 +284,13 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `level_sistems_id`, `username`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'developer', 'Developer', 'developer@memotis.com', NULL, '$2y$10$EQSjIeEqgeumP8Lh0k5aIO788F8x1ZZOt2Bd2JQqQPWg7UCrK/rnC', NULL, NULL, NULL, 'GABGsMSCq1dWGldUam99ZbS9Q3XLF93Mfq6qlUYuthcUY5tWS3REsWCseO7Z', NULL, NULL, '2023-07-19 12:37:07', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -309,13 +387,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `master_akses`
 --
 ALTER TABLE `master_akses`
-  MODIFY `id_akses` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_akses` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
-  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `master_konfigurasi_aplikasis`
@@ -327,13 +405,13 @@ ALTER TABLE `master_konfigurasi_aplikasis`
 -- AUTO_INCREMENT for table `master_level_sistems`
 --
 ALTER TABLE `master_level_sistems`
-  MODIFY `id_level_sistems` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_level_sistems` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `master_menus`
 --
 ALTER TABLE `master_menus`
-  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -351,7 +429,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
