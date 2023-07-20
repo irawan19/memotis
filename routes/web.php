@@ -18,6 +18,10 @@ use App\Http\Controllers\Dashboard\KonfigurasiProfilController as DashboardKonfi
 use App\Http\Controllers\Dashboard\KonfigurasiAkunController as DashboardKonfigurasiAkun;
 
 //Konfigurasi Aplikasi
+use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
+use App\Http\Controllers\Dashboard\DisposisiSuratController as DashboardDisposisiSurat;
+use App\Http\Controllers\Dashboard\DerajatSuratController as DashboardDerajatSurat;
+use App\Http\Controllers\Dashboard\SifatSuratController as DashboardSifatSurat;
 use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
@@ -61,6 +65,50 @@ Route::middleware([
         });
 
         //Konfigurasi Aplikasi
+            //Klasifikasi Surat
+            Route::group(['prefix' => 'klasifikasi_surat'], function() {
+                Route::get('/', [DashboardKlasifikasiSurat::class, 'index']);
+                Route::get('/cari', [DashboardKlasifikasiSurat::class, 'cari']);
+                Route::get('/tambah', [DashboardKlasifikasiSurat::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardKlasifikasiSurat::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardKlasifikasiSurat::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardKlasifikasiSurat::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardKlasifikasiSurat::class, 'hapus']);
+            });
+            
+            //Disposisi Surat
+            Route::group(['prefix' => 'disposisi_surat'], function() {
+                Route::get('/', [DashboardDisposisiSurat::class, 'index']);
+                Route::get('/cari', [DashboardDisposisiSurat::class, 'cari']);
+                Route::get('/tambah', [DashboardDisposisiSurat::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardDisposisiSurat::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardDisposisiSurat::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardDisposisiSurat::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardDisposisiSurat::class, 'hapus']);
+            });
+            
+            //Derajat Surat
+            Route::group(['prefix' => 'derajat_surat'], function() {
+                Route::get('/', [DashboardDerajatSurat::class, 'index']);
+                Route::get('/cari', [DashboardDerajatSurat::class, 'cari']);
+                Route::get('/tambah', [DashboardDerajatSurat::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardDerajatSurat::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardDerajatSurat::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardDerajatSurat::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardDerajatSurat::class, 'hapus']);
+            });
+            
+            //Sifat Surat
+            Route::group(['prefix' => 'sifat_surat'], function() {
+                Route::get('/', [DashboardSifatSurat::class, 'index']);
+                Route::get('/cari', [DashboardSifatSurat::class, 'cari']);
+                Route::get('/tambah', [DashboardSifatSurat::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardSifatSurat::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardSifatSurat::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardSifatSurat::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardSifatSurat::class, 'hapus']);
+            });
+
             //Menu
             Route::group(['prefix' => 'menu'], function () {
                 Route::get('/', [DashboardMenu::class, 'index']);
