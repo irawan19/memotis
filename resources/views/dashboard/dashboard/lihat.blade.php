@@ -46,11 +46,9 @@
 		}
 	</style>
 
-	</style>
-
 	<div class="animated fadeIn">
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-6">
 				<div class="card" style="min-height: 225px;background-color: white">
 				    <div class="card-body pb-0">
 				    	<div class="row">
@@ -69,9 +67,45 @@
 				    </div>
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-sm-4">
+					    <a href="{{URL('dashboard/buat_surat')}}" class="nonstyle">
+					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
+					            <div class="card-body pb-0">
+					                <div class="btn-group float-right">
+					                    <svg class="c-icon">
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-plus')}}"></use>
+					                    </svg>
+					                </div>
+					                <div class="text-value-lg">
+										<svg class="c-icon">
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-open')}}"></use>
+					                    </svg>
+									</div>
+					                <div class="textnotifberanda">Buat Surat</div>
+					            </div>
+					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+					        </div>
+					    </a>
+					</div>
+					<div class="col-sm-4">
+					    <a href="{{URL('dashboard/list_surat')}}" class="nonstyle">
+					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
+					            <div class="card-body pb-0">
+					                <div class="btn-group float-right">
+					                    <svg class="c-icon">
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-closed')}}"></use>
+					                    </svg>
+					                </div>
+					                <div class="text-value-lg">{{General::konversiNilai(0)}} <span>{{General::konversiNilaiString(0)}}</span></div>
+					                <div class="textnotifberanda">List Surat</div>
+					            </div>
+					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+					        </div>
+					    </a>
+					</div>
+					<div class="col-sm-4">
 					    <a href="{{URL('dashboard/surat')}}" class="nonstyle">
 					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
 					            <div class="card-body pb-0">
@@ -81,7 +115,55 @@
 					                    </svg>
 					                </div>
 					                <div class="text-value-lg">{{General::konversiNilai(0)}} <span>{{General::konversiNilaiString(0)}}</span></div>
-					                <div class="textnotifberanda">Surat</div>
+					                <div class="textnotifberanda">Surat Masuk</div>
+					            </div>
+					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+					        </div>
+					    </a>
+					</div>
+					<div class="col-sm-4">
+					    <a href="{{URL('dashboard/disposisi')}}" class="nonstyle">
+					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
+					            <div class="card-body pb-0">
+					                <div class="btn-group float-right">
+					                    <svg class="c-icon">
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-sync')}}"></use>
+					                    </svg>
+					                </div>
+					                <div class="text-value-lg">{{General::konversiNilai(0)}} <span>{{General::konversiNilaiString(0)}}</span></div>
+					                <div class="textnotifberanda">Disposisi</div>
+					            </div>
+					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+					        </div>
+					    </a>
+					</div>
+					<div class="col-sm-4">
+					    <a href="{{URL('dashboard/arsip')}}" class="nonstyle">
+					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
+					            <div class="card-body pb-0">
+					                <div class="btn-group float-right">
+					                    <svg class="c-icon">
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-file')}}"></use>
+					                    </svg>
+					                </div>
+					                <div class="text-value-lg">{{General::konversiNilai(0)}} <span>{{General::konversiNilaiString(0)}}</span></div>
+					                <div class="textnotifberanda">Arsip</div>
+					            </div>
+					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+					        </div>
+					    </a>
+					</div>
+					<div class="col-sm-4">
+					    <a href="{{URL('dashboard/mom')}}" class="nonstyle">
+					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
+					            <div class="card-body pb-0">
+					                <div class="btn-group float-right">
+					                    <svg class="c-icon">
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-file')}}"></use>
+					                    </svg>
+					                </div>
+					                <div class="text-value-lg">{{General::konversiNilai(0)}} <span>{{General::konversiNilaiString(0)}}</span></div>
+					                <div class="textnotifberanda">MOM</div>
 					            </div>
 					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 					        </div>
@@ -89,22 +171,22 @@
 					</div>
 				</div>
 			</div>
-		</div>
 		    	
-		<div class="col-md-12">
-			<div class="card">
-				<div class="card-header">
-					<strong>
-						<svg class="c-sidebar-nav-icon" style="width: 50px">
-							<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-calendar')}}"></use>
-						</svg>Kalender
-					</strong>
-				</div>
-				<div class="card-body center-align">
-					<div id='loading' class="spinner-border" role="status">
-						<span class="visually-hidden"></span>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<strong>
+							<svg class="c-sidebar-nav-icon" style="width: 50px">
+								<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-calendar')}}"></use>
+							</svg>Kalender
+						</strong>
 					</div>
-					<div id="calendar"></div>
+					<div class="card-body center-align">
+						<div id='loading' class="spinner-border" role="status">
+							<span class="visually-hidden"></span>
+						</div>
+						<div id="calendar"></div>
+					</div>
 				</div>
 			</div>
 		</div>
