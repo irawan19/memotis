@@ -36,6 +36,8 @@
 					    			@endif
 				    				<th class="nowrap" width="50px">No</th>
 				    				<th class="nowrap">Nama</th>
+				    				<th class="nowrap">Divisi</th>
+				    				<th class="nowrap">Sub</th>
 				    			</tr>
 				    		</thead>
 				    		<tbody>
@@ -49,27 +51,37 @@
 										            	<button class="btn btn-sm btn-success dropdown-toggle" id="dropdownMenu2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
 										            	<div class="dropdown-menu" aria-labelledby="dropdownMenu2" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px; will-change: transform;">
 										            		{{General::baca($link_level_sistem,'dashboard/level_sistem/baca/'.$level_sistems->id_level_sistems)}}
-										            		<div class="dropdown-divider"></div>
-										            		{{General::edit($link_level_sistem,'dashboard/level_sistem/edit/'.$level_sistems->id_level_sistems)}}
-										            		<div class="dropdown-divider"></div>
-										            		{{General::hapus($link_level_sistem,'dashboard/level_sistem/hapus/'.$level_sistems->id_level_sistems, $level_sistems->nama_level_sistems)}}
-										            	</div>
+															<div class="dropdown-divider"></div>
+															{{General::edit($link_level_sistem,'dashboard/level_sistem/edit/'.$level_sistems->id_level_sistems)}}
+															@if($level_sistems->id_level_sistems != 1)
+																<div class="dropdown-divider"></div>
+																{{General::hapus($link_level_sistem,'dashboard/level_sistem/hapus/'.$level_sistems->id_level_sistems, $level_sistems->nama_level_sistems)}}
+										            		@endif
+														</div>
 										            </div>
 											    </td>
 									    	@endif
 								    		<td class="nowrap">{{$no}}</td>
 								    		<td class="nowrap">{{$level_sistems->nama_level_sistems}}</td>
+								    		<td class="nowrap">{{$level_sistems->nama_divisis}}</td>
+								    		<td class="nowrap">{{$level_sistems->nama_sub_level_sistems}}</td>
 								    	</tr>
 								    	@php($no++)
 								    @endforeach
 								@else
 									<tr>
 										@if(General::totalHakAkses($link_level_sistem) != 0)
-											<td colspan="3" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="6" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@else
-											<td colspan="2" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="5" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@endif
 									</tr>

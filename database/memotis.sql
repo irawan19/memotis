@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2023 at 08:04 AM
+-- Generation Time: Jul 20, 2023 at 10:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -214,7 +214,11 @@ INSERT INTO `master_fiturs` (`id_fiturs`, `menus_id`, `nama_fiturs`, `created_at
 (30, 11, 'lihat', NULL, NULL),
 (31, 11, 'tambah', NULL, NULL),
 (32, 11, 'edit', NULL, NULL),
-(33, 11, 'hapus', NULL, NULL);
+(33, 11, 'hapus', NULL, NULL),
+(34, 12, 'lihat', NULL, NULL),
+(35, 12, 'tambah', NULL, NULL),
+(36, 12, 'edit', NULL, NULL),
+(37, 12, 'hapus', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -295,7 +299,7 @@ CREATE TABLE `master_level_sistems` (
 --
 
 INSERT INTO `master_level_sistems` (`id_level_sistems`, `level_sistems_id`, `divisis_id`, `nama_level_sistems`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, NULL, 1, 'Developer', '2023-07-19 12:36:53', '2023-07-20 03:48:36', NULL);
+(1, NULL, NULL, 'Developer', '2023-07-19 12:36:53', '2023-07-20 03:48:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -320,16 +324,17 @@ CREATE TABLE `master_menus` (
 
 INSERT INTO `master_menus` (`id_menus`, `menus_id`, `nama_menus`, `icon_menus`, `link_menus`, `order_menus`, `created_at`, `updated_at`) VALUES
 (1, NULL, 'Konfigurasi Dashboard', 'cil-settings', '', 3, '2022-08-06 20:52:45', '2023-07-20 02:36:50'),
-(2, 1, 'Menu', 'cil-border-all', 'menu', 5, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
-(3, 1, 'Level Sistem', 'cil-lan', 'level_sistem', 6, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
-(4, 1, 'Admin', 'cil-user', 'admin', 7, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
-(5, 1, 'Konfigurasi Aplikasi', 'cil-applications-settings', 'konfigurasi_aplikasi', 8, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
+(2, 1, 'Menu', 'cil-border-all', 'menu', 5, '2022-08-06 20:52:45', '2023-07-20 06:09:40'),
+(3, 1, 'Level Sistem', 'cil-lan', 'level_sistem', 7, '2022-08-06 20:52:45', '2023-07-20 06:09:40'),
+(4, 1, 'Admin', 'cil-user', 'admin', 8, '2022-08-06 20:52:45', '2023-07-20 06:09:40'),
+(5, 1, 'Konfigurasi Aplikasi', 'cil-applications-settings', 'konfigurasi_aplikasi', 9, '2022-08-06 20:52:45', '2023-07-20 06:09:40'),
 (6, NULL, 'Surat', 'cil-grid', '', 1, '2023-07-20 02:35:07', '2023-07-20 02:36:50'),
 (7, NULL, 'MOM', 'cil-file', '', 2, '2023-07-20 02:36:44', '2023-07-20 02:36:50'),
-(8, 1, 'Klasifikasi Surat', 'cil-tag', 'klasifikasi_surat', 1, '2023-07-20 03:46:50', '2023-07-20 03:48:20'),
-(9, 1, 'Disposisi Surat', 'cil-check', 'disposisi_surat', 2, '2023-07-20 03:47:24', '2023-07-20 03:48:20'),
-(10, 1, 'Derajat Surat', 'cil-tags', 'derajat_surat', 3, '2023-07-20 03:47:44', '2023-07-20 03:48:20'),
-(11, 1, 'Sifat Surat', 'cil-share-alt', 'sifat_surat', 4, '2023-07-20 03:48:04', '2023-07-20 03:48:20');
+(8, 1, 'Klasifikasi Surat', 'cil-tag', 'klasifikasi_surat', 1, '2023-07-20 03:46:50', '2023-07-20 06:09:40'),
+(9, 1, 'Disposisi Surat', 'cil-check', 'disposisi_surat', 2, '2023-07-20 03:47:24', '2023-07-20 06:09:40'),
+(10, 1, 'Derajat Surat', 'cil-tags', 'derajat_surat', 3, '2023-07-20 03:47:44', '2023-07-20 06:09:40'),
+(11, 1, 'Sifat Surat', 'cil-share-alt', 'sifat_surat', 4, '2023-07-20 03:48:04', '2023-07-20 06:09:40'),
+(12, 1, 'Divisi', 'cil-asterisk-circle', 'divisi', 6, '2023-07-20 06:09:35', '2023-07-20 06:09:40');
 
 -- --------------------------------------------------------
 
@@ -439,7 +444,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('N362Wfb9b3qQqngSCWi8dnBfJWYRflxygbO8QBvy', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiZGtFM0R3OURwb0ZXMlpXWGNLeDdrNGpab2R5MmVnb3FzRzVUOFI3MSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTMzOiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9ldmVudGNhbGVuZGFyP2VuZD0yMDIzLTA4LTA3VDAwJTNBMDAlM0EwMCUyQjA3JTNBMDAmc3RhcnQ9MjAyMy0wNi0yNlQwMCUzQTAwJTNBMDAlMkIwNyUzQTAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6ODoiaGFsYW1hbjIiO3M6NTY6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21lbnUvc3VibWVudS8xIjtzOjc6ImhhbGFtYW4iO3M6NTk6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2tsYXNpZmlrYXNpX3N1cmF0Ijt9', 1689831775);
+('jmdQBqfHQqCtJgeYIkjlUXWhJpyLEqHkADZgajEE', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoidDFnWVFoM29YaXhCN2txZkFVQlF5b3JNZk0ySEJyQ0pkQ3VwWHRsUyI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjU0OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9sZXZlbF9zaXN0ZW0iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjc6ImhhbGFtYW4iO3M6NTQ6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2xldmVsX3Npc3RlbSI7fQ==', 1689843083),
+('N362Wfb9b3qQqngSCWi8dnBfJWYRflxygbO8QBvy', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiZGtFM0R3OURwb0ZXMlpXWGNLeDdrNGpab2R5MmVnb3FzRzVUOFI3MSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2xldmVsX3Npc3RlbSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjg6ImhhbGFtYW4yIjtzOjU2OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tZW51L3N1Ym1lbnUvMSI7czo3OiJoYWxhbWFuIjtzOjU0OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9sZXZlbF9zaXN0ZW0iO30=', 1689833383);
 
 -- --------------------------------------------------------
 
@@ -624,7 +630,7 @@ ALTER TABLE `master_divisis`
 -- AUTO_INCREMENT for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
-  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `master_klasifikasi_surats`
@@ -648,7 +654,7 @@ ALTER TABLE `master_level_sistems`
 -- AUTO_INCREMENT for table `master_menus`
 --
 ALTER TABLE `master_menus`
-  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `master_sifat_surats`

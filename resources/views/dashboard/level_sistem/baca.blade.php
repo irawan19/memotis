@@ -14,6 +14,16 @@
 							<th width="1px">:</th>
 							<td>{{$baca_level_sistems->nama_level_sistems}}</td>
 						</tr>
+						<tr>
+							<th>Divisi</th>
+							<th>:</th>
+							<td>{{$baca_level_sistems->nama_divisis}}</td>
+						</tr>
+						<tr>
+							<th>Sub</th>
+							<th>:</th>
+							<td>{{$baca_level_sistems->nama_sub_level_sistems}}</td>
+						</tr>
 					</table>
 					<hr/>
 					<table class="table table-responsive-sm table-bordered table-striped table-sm">
