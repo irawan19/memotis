@@ -64,7 +64,7 @@
 						</div>
 						<div class="form-group row">
 	                        <div class="col-md-12 center-align">
-								<label class="form-col-form-label" for="userfile_logo">256x128px</label>
+								<label class="form-col-form-label" for="userfile_logo">256x256px</label>
 								<br/>
 	                          	<input id="userfile_logo" type="file" name="userfile_logo">
 								{{General::pesanErrorFormFile($errors->first('userfile_logo'))}}
@@ -94,7 +94,7 @@
 						</div>
 						<div class="form-group row">
 	                        <div class="col-md-12 center-align">
-								<label class="form-col-form-label" for="userfile_icon">256x256px</label>
+								<label class="form-col-form-label" for="userfile_icon">64x64px</label>
 								<br/>
 	                          	<input id="userfile_icon" type="file" name="userfile_icon">
 								{{General::pesanErrorFormFile($errors->first('userfile_icon'))}}
@@ -134,66 +134,6 @@
 	                <div class="card-footer right-align">
 						{{General::perbarui()}}
 	                </div>
-				</form>
-			</div>
-
-			<div class="card">
-				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/konfigurasi_aplikasi/proseseditgambarsubscribe') }}" enctype="multipart/form-data" method="POST">
-					{{ csrf_field() }}
-					<div class="card-header">
-						<strong>Gambar Subscribe</strong>
-					</div>
-					<div class="card-body">
-						@if (Session::get('setelah_simpan_gambar_subscribe.alert') == 'sukses')
-							{{ General::pesanSuksesForm(Session::get('setelah_simpan_gambar_subscribe.text')) }}
-						@endif
-						<div class="form-group center-align">
-							<a data-fancybox="gallery" href="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->gambar_subscribe_konfigurasi_aplikasis)}}">
-								<img src="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->gambar_subscribe_konfigurasi_aplikasis)}}" width="256">
-							</a>
-						</div>
-						<div class="form-group row">
-							<div class="col-md-12 center-align">
-								<label class="form-col-form-label" for="userfile_gambar_slideshow">732x562px</label>
-								<br/>
-								<input id="userfile_gambar_subscribe" type="file" name="userfile_gambar_subscribe">
-								{{General::pesanErrorFormFile($errors->first('userfile_gambar_subscribe'))}}
-							</div>
-						</div>
-					</div>
-					<div class="card-footer right-align">
-						{{General::perbarui()}}
-					</div>
-				</form>
-			</div>
-
-			<div class="card">
-				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/konfigurasi_aplikasi/proseseditheader') }}" enctype="multipart/form-data" method="POST">
-					{{ csrf_field() }}
-					<div class="card-header">
-						<strong>Header</strong>
-					</div>
-					<div class="card-body">
-						@if (Session::get('setelah_simpan_header.alert') == 'sukses')
-							{{ General::pesanSuksesForm(Session::get('setelah_simpan_header.text')) }}
-						@endif
-						<div class="form-group center-align">
-							<a data-fancybox="gallery" href="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->header_konfigurasi_aplikasis)}}">
-								<img src="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->header_konfigurasi_aplikasis)}}" width="256">
-							</a>
-						</div>
-						<div class="form-group row">
-							<div class="col-md-12 center-align">
-								<label class="form-col-form-label" for="userfile_gambar_slideshow">1894x381px</label>
-								<br/>
-								<input id="userfile_header" type="file" name="userfile_header">
-								{{General::pesanErrorFormFile($errors->first('userfile_header'))}}
-							</div>
-						</div>
-					</div>
-					<div class="card-footer right-align">
-						{{General::perbarui()}}
-					</div>
 				</form>
 			</div>
 		</div>

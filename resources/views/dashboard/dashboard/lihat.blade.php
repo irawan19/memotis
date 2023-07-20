@@ -72,16 +72,16 @@
 			<div class="col-sm-4">
 				<div class="row">
 					<div class="col-sm-6">
-					    <a href="{{URL('dashboard/swara_nusvantara')}}" class="nonstyle">
+					    <a href="{{URL('dashboard/surat')}}" class="nonstyle">
 					        <div class="card" style="height: 100px; background-color: #fff; color: #000;">
 					            <div class="card-body pb-0">
 					                <div class="btn-group float-right">
 					                    <svg class="c-icon">
-					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-newspaper')}}"></use>
+					                        <use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-letter')}}"></use>
 					                    </svg>
 					                </div>
 					                <div class="text-value-lg">{{General::konversiNilai(0)}} <span>{{General::konversiNilaiString(0)}}</span></div>
-					                <div class="textnotifberanda">Swara Nusvantara</div>
+					                <div class="textnotifberanda">Surat</div>
 					            </div>
 					            <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 					        </div>
