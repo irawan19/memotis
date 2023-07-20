@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 19, 2023 at 02:44 PM
+-- Generation Time: Jul 20, 2023 at 06:08 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -56,23 +56,66 @@ CREATE TABLE `master_akses` (
 --
 
 INSERT INTO `master_akses` (`id_akses`, `level_sistems_id`, `fiturs_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2023-07-19 12:42:13', NULL),
-(2, 1, 2, '2023-07-19 12:42:13', NULL),
-(3, 1, 3, '2023-07-19 12:42:13', NULL),
-(4, 1, 4, '2023-07-19 12:42:13', NULL),
-(5, 1, 5, '2023-07-19 12:42:13', NULL),
-(6, 1, 6, '2023-07-19 12:42:13', NULL),
-(7, 1, 7, '2023-07-19 12:42:13', NULL),
-(8, 1, 8, '2023-07-19 12:42:13', NULL),
-(9, 1, 9, '2023-07-19 12:42:13', NULL),
-(10, 1, 10, '2023-07-19 12:42:13', NULL),
-(11, 1, 11, '2023-07-19 12:42:13', NULL),
-(12, 1, 12, '2023-07-19 12:42:13', NULL),
-(13, 1, 13, '2023-07-19 12:42:13', NULL),
-(14, 1, 14, '2023-07-19 12:42:13', NULL),
-(15, 1, 15, '2023-07-19 12:42:13', NULL),
-(16, 1, 16, '2023-07-19 12:42:13', NULL),
-(17, 1, 17, '2023-07-19 12:42:13', NULL);
+(18, 1, 18, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(19, 1, 19, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(20, 1, 20, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(21, 1, 21, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(22, 1, 22, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(23, 1, 23, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(24, 1, 24, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(25, 1, 25, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(26, 1, 26, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(27, 1, 27, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(28, 1, 28, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(29, 1, 29, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(30, 1, 30, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(31, 1, 31, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(32, 1, 32, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(33, 1, 33, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(34, 1, 2, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(35, 1, 4, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(36, 1, 3, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(37, 1, 5, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(38, 1, 6, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(39, 1, 7, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(40, 1, 9, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(41, 1, 8, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(42, 1, 10, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(43, 1, 11, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(44, 1, 12, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(45, 1, 14, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(46, 1, 13, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(47, 1, 15, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(48, 1, 16, '2023-07-20 03:48:36', '2023-07-20 03:48:36'),
+(49, 1, 17, '2023-07-20 03:48:36', '2023-07-20 03:48:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_derajat_surats`
+--
+
+CREATE TABLE `master_derajat_surats` (
+  `id_derajat_surats` bigint(20) UNSIGNED NOT NULL,
+  `nama_derajat_surats` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_disposisi_surats`
+--
+
+CREATE TABLE `master_disposisi_surats` (
+  `id_disposisi_surats` bigint(20) UNSIGNED NOT NULL,
+  `nama_disposisi_surats` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -109,7 +152,37 @@ INSERT INTO `master_fiturs` (`id_fiturs`, `menus_id`, `nama_fiturs`, `created_at
 (14, 4, 'baca', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
 (15, 4, 'edit', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
 (16, 4, 'hapus', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
-(17, 5, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45');
+(17, 5, 'lihat', '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
+(18, 8, 'lihat', NULL, NULL),
+(19, 8, 'tambah', NULL, NULL),
+(20, 8, 'edit', NULL, NULL),
+(21, 8, 'hapus', NULL, NULL),
+(22, 9, 'lihat', NULL, NULL),
+(23, 9, 'tambah', NULL, NULL),
+(24, 9, 'edit', NULL, NULL),
+(25, 9, 'hapus', NULL, NULL),
+(26, 10, 'lihat', NULL, NULL),
+(27, 10, 'tambah', NULL, NULL),
+(28, 10, 'edit', NULL, NULL),
+(29, 10, 'hapus', NULL, NULL),
+(30, 11, 'lihat', NULL, NULL),
+(31, 11, 'tambah', NULL, NULL),
+(32, 11, 'edit', NULL, NULL),
+(33, 11, 'hapus', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_klasifikasi_surats`
+--
+
+CREATE TABLE `master_klasifikasi_surats` (
+  `id_klasifikasi_surats` bigint(20) UNSIGNED NOT NULL,
+  `nama_klasifikasi_surats` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -128,6 +201,13 @@ CREATE TABLE `master_konfigurasi_aplikasis` (
   `logo_konfigurasi_aplikasis` varchar(255) NOT NULL,
   `logo_text_konfigurasi_aplikasis` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `master_konfigurasi_aplikasis`
+--
+
+INSERT INTO `master_konfigurasi_aplikasis` (`id_konfigurasi_aplikasis`, `nama_konfigurasi_aplikasis`, `email_konfigurasi_aplikasis`, `telepon_konfigurasi_aplikasis`, `deskripsi_konfigurasi_aplikasis`, `keywords_konfigurasi_aplikasis`, `icon_konfigurasi_aplikasis`, `logo_konfigurasi_aplikasis`, `logo_text_konfigurasi_aplikasis`) VALUES
+(1, 'Memotis', 'info@memotis.com', '022-872-45817', 'Memotis merupakan aplikasi e-agenda yang digunakan di Graha Yasa Selaras', 'memotis,agenda,eagenda,gys,graha,yasa,selaras,graha yasa selaras,laravel,app', 'logo/icon.png', 'logo/logo.png', 'logo/logotext.png');
 
 -- --------------------------------------------------------
 
@@ -148,7 +228,7 @@ CREATE TABLE `master_level_sistems` (
 --
 
 INSERT INTO `master_level_sistems` (`id_level_sistems`, `nama_level_sistems`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Developer', '2023-07-19 12:36:53', NULL, NULL);
+(1, 'Developer', '2023-07-19 12:36:53', '2023-07-20 03:48:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -172,11 +252,31 @@ CREATE TABLE `master_menus` (
 --
 
 INSERT INTO `master_menus` (`id_menus`, `menus_id`, `nama_menus`, `icon_menus`, `link_menus`, `order_menus`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Konfigurasi Dashboard', 'cil-settings', '', 2, '2022-08-06 20:52:45', '2023-07-08 08:01:34'),
-(2, 1, 'Menu', 'cil-border-all', 'menu', 0, '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
-(3, 1, 'Level Sistem', 'cil-lan', 'level_sistem', 1, '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
-(4, 1, 'Admin', 'cil-user', 'admin', 2, '2022-08-06 20:52:45', '2022-08-06 20:52:45'),
-(5, 1, 'Konfigurasi Aplikasi', 'cil-applications-settings', 'konfigurasi_aplikasi', 3, '2022-08-06 20:52:45', '2022-08-06 20:52:45');
+(1, NULL, 'Konfigurasi Dashboard', 'cil-settings', '', 3, '2022-08-06 20:52:45', '2023-07-20 02:36:50'),
+(2, 1, 'Menu', 'cil-border-all', 'menu', 5, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
+(3, 1, 'Level Sistem', 'cil-lan', 'level_sistem', 6, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
+(4, 1, 'Admin', 'cil-user', 'admin', 7, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
+(5, 1, 'Konfigurasi Aplikasi', 'cil-applications-settings', 'konfigurasi_aplikasi', 8, '2022-08-06 20:52:45', '2023-07-20 03:48:20'),
+(6, NULL, 'Surat', 'cil-grid', '', 1, '2023-07-20 02:35:07', '2023-07-20 02:36:50'),
+(7, NULL, 'MOM', 'cil-file', '', 2, '2023-07-20 02:36:44', '2023-07-20 02:36:50'),
+(8, 1, 'Klasifikasi Surat', 'cil-tag', 'klasifikasi_surat', 1, '2023-07-20 03:46:50', '2023-07-20 03:48:20'),
+(9, 1, 'Disposisi Surat', 'cil-check', 'disposisi_surat', 2, '2023-07-20 03:47:24', '2023-07-20 03:48:20'),
+(10, 1, 'Derajat Surat', 'cil-tags', 'derajat_surat', 3, '2023-07-20 03:47:44', '2023-07-20 03:48:20'),
+(11, 1, 'Sifat Surat', 'cil-share-alt', 'sifat_surat', 4, '2023-07-20 03:48:04', '2023-07-20 03:48:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_sifat_surats`
+--
+
+CREATE TABLE `master_sifat_surats` (
+  `id_sifat_surats` bigint(20) UNSIGNED NOT NULL,
+  `nama_sifat_surats` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -205,7 +305,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2023_07_19_122751_create_master_konfigurasi_aplikasis_table', 1),
 (9, '2023_07_19_122818_create_master_menus_table', 1),
 (10, '2023_07_19_122824_create_master_fiturs_table', 1),
-(11, '2023_07_19_122835_create_master_akses_table', 1);
+(11, '2023_07_19_122835_create_master_akses_table', 1),
+(12, '2023_07_20_102220_create_master_klasifikasi_surats_table', 2),
+(13, '2023_07_20_102241_create_master_disposisi_surats_table', 2),
+(14, '2023_07_20_102302_create_master_derajat_surats_table', 2),
+(15, '2023_07_20_102314_create_master_sifat_surats_table', 2);
 
 -- --------------------------------------------------------
 
@@ -258,7 +362,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('cvLDzfcXFKfbyE6kOoRb31h0O5IZKoyv4WmaWgN9', NULL, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOVZlcWdkZWN3WWtkd0pvb0g5QVg2THpYcGx2MkpKM0plYkQ2TDltbiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMiO319', 1689770271);
+('N362Wfb9b3qQqngSCWi8dnBfJWYRflxygbO8QBvy', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiZGtFM0R3OURwb0ZXMlpXWGNLeDdrNGpab2R5MmVnb3FzRzVUOFI3MSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjE6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2xldmVsX3Npc3RlbS9lZGl0LzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRFUVNqSWVFcWdldW1QOExoMGs1YUlPNzg4Rjh4MVpaT3QyQmQySlFxUVBXZzdVQ3JLL3JuQyI7czo4OiJoYWxhbWFuMiI7czo1NjoiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvbWVudS9zdWJtZW51LzEiO3M6NzoiaGFsYW1hbiI7czo1NDoiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvbGV2ZWxfc2lzdGVtIjt9', 1689824923);
 
 -- --------------------------------------------------------
 
@@ -312,11 +416,29 @@ ALTER TABLE `master_akses`
   ADD KEY `master_akses_fiturs_id_index` (`fiturs_id`);
 
 --
+-- Indexes for table `master_derajat_surats`
+--
+ALTER TABLE `master_derajat_surats`
+  ADD PRIMARY KEY (`id_derajat_surats`);
+
+--
+-- Indexes for table `master_disposisi_surats`
+--
+ALTER TABLE `master_disposisi_surats`
+  ADD PRIMARY KEY (`id_disposisi_surats`);
+
+--
 -- Indexes for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
   ADD PRIMARY KEY (`id_fiturs`),
   ADD KEY `master_fiturs_menus_id_index` (`menus_id`);
+
+--
+-- Indexes for table `master_klasifikasi_surats`
+--
+ALTER TABLE `master_klasifikasi_surats`
+  ADD PRIMARY KEY (`id_klasifikasi_surats`);
 
 --
 -- Indexes for table `master_konfigurasi_aplikasis`
@@ -336,6 +458,12 @@ ALTER TABLE `master_level_sistems`
 ALTER TABLE `master_menus`
   ADD PRIMARY KEY (`id_menus`),
   ADD KEY `master_menus_menus_id_index` (`menus_id`);
+
+--
+-- Indexes for table `master_sifat_surats`
+--
+ALTER TABLE `master_sifat_surats`
+  ADD PRIMARY KEY (`id_sifat_surats`);
 
 --
 -- Indexes for table `migrations`
@@ -387,19 +515,37 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `master_akses`
 --
 ALTER TABLE `master_akses`
-  MODIFY `id_akses` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_akses` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- AUTO_INCREMENT for table `master_derajat_surats`
+--
+ALTER TABLE `master_derajat_surats`
+  MODIFY `id_derajat_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `master_disposisi_surats`
+--
+ALTER TABLE `master_disposisi_surats`
+  MODIFY `id_disposisi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
-  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `master_klasifikasi_surats`
+--
+ALTER TABLE `master_klasifikasi_surats`
+  MODIFY `id_klasifikasi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `master_konfigurasi_aplikasis`
 --
 ALTER TABLE `master_konfigurasi_aplikasis`
-  MODIFY `id_konfigurasi_aplikasis` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_konfigurasi_aplikasis` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `master_level_sistems`
@@ -411,13 +557,19 @@ ALTER TABLE `master_level_sistems`
 -- AUTO_INCREMENT for table `master_menus`
 --
 ALTER TABLE `master_menus`
-  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `master_sifat_surats`
+--
+ALTER TABLE `master_sifat_surats`
+  MODIFY `id_sifat_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
