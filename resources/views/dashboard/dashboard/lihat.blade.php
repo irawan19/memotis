@@ -25,6 +25,27 @@
 		.text-muted {
 		    color: #0e2f44 !important;
 		}
+		#loading{
+			text-align:center;
+			margin: 0 auto;
+		}
+
+		.fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start{
+            cursor:pointer !important;
+        }
+        .fc-direction-ltr .fc-daygrid-event.fc-event-start, .fc-direction-rtl .fc-daygrid-event.fc-event-end{
+            cursor: pointer !important;
+        }
+		.nonstyle{
+			text-decoration:none;
+			cursor:pointer;
+		}
+		a:hover{
+			text-decoration:none !important;
+			cursor:pointer;
+		}
+	</style>
+
 	</style>
 
 	<div class="animated fadeIn">
@@ -69,69 +90,58 @@
 				</div>
 			</div>
 		</div>
-
-
-		@php($id_user               = Auth::user()->id)
-		@php($ambil_menus           = \App\Models\Master_menu::where('menus_id',null)
-		                                                ->orderBy('order_menus')
-		                                                ->get())
-		@foreach($ambil_menus as $menus)
-		    @if($loop->last)
-		    	@php($style = 'style=padding-bottom:30px')
-		    @else
-		    	@php($style = '')
-		    @endif
-			@php($id_menus          = $menus->id_menus)
-		    @php($ambil_sub_menus   = \App\Models\Master_menu::join('master_fiturs','master_menus.id_menus','=','master_fiturs.menus_id')
-		                                                ->join('master_akses','master_fiturs.id_fiturs','=','master_akses.fiturs_id')
-		                                                ->join('master_level_sistems','master_akses.level_sistems_id','=','master_level_sistems.id_level_sistems')
-		                                                ->join('users','master_level_sistems.id_level_sistems','=','users.level_sistems_id')
-		                                                ->where('master_menus.menus_id',$id_menus)
-		                                                ->where('id',$id_user)
-		                                                ->where('nama_fiturs','lihat')
-		                                                ->groupBy('nama_menus')
-		                                                ->orderBy('order_menus')
-		                                                ->get())
-		    @php($total_sub_menus   = \App\Models\Master_menu::join('master_fiturs','master_menus.id_menus','=','master_fiturs.menus_id')
-		                                                ->join('master_akses','master_fiturs.id_fiturs','=','master_akses.fiturs_id')
-		                                                ->join('master_level_sistems','master_akses.level_sistems_id','=','master_level_sistems.id_level_sistems')
-		                                                ->join('users','master_level_sistems.id_level_sistems','=','users.level_sistems_id')
-		                                               ->where('master_menus.menus_id',$id_menus)
-		                                                ->where('id',$id_user)
-		                                                ->where('nama_fiturs','lihat')
-		                                                ->count())
-		    @if($total_sub_menus != 0)
-		    	<div class="card" style="margin-bottom: 10px; border-radius: 0">
-		    		<div class="card-header">
-		    			<strong>
-		    				<svg class="c-sidebar-nav-icon" style="width: 50px">
-							  	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#'.$menus->icon_menus)}}"></use>
-							</svg>{{$menus->nama_menus}}
-		    			</strong>
-		    		</div>
-		    		<div class="card-body">
-		    			<div class="row">
-		    				@foreach($ambil_sub_menus as $sub_menus)
-			    				<div class="col-sm-3">
-			    					<a href="{{URL('dashboard/'.$sub_menus->link_menus)}}" style="color:black; text-decoration: none; cursor: pointer">
-				    					<div class="card-custom">
-					        				<div class="card-body p-2 d-flex align-items-center">
-										        <svg class="c-sidebar-nav-icon">
-											      	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#'.$sub_menus->icon_menus)}}"></use>
-											    </svg>
-					                      		<div>
-					                        		<div class="text-muted text-uppercase font-weight-bold small">{{$sub_menus->nama_menus}}</div>
-					                      		</div>
-					                    	</div>
-					                    </div>
-					                </a>
-				                </div>
-				            @endforeach
-				    	</div>
-					</div>
+		    	
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<strong>
+						<svg class="c-sidebar-nav-icon" style="width: 50px">
+							<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-calendar')}}"></use>
+						</svg>Kalender
+					</strong>
 				</div>
-		   	@endif
-		@endforeach
+				<div class="card-body center-align">
+					<div id='loading' class="spinner-border" role="status">
+						<span class="visually-hidden"></span>
+					</div>
+					<div id="calendar"></div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<link href="{{URL::asset('template/back/vendors/fullcalendar/main.css')}}" rel="stylesheet">
+    <script src="{{URL::asset('template/back/vendors/fullcalendar/main.js')}}"></script>
+    <script src="{{URL::asset('template/back/vendors/fullcalendar/locales/id.js')}}"></script>
+	
+    <script type="text/javascript">
+	    document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+    		var calendar = new FullCalendar.Calendar(calendarEl, {
+				locale: 'id',
+				height:485,
+				dayMaxEvents: false,
+      			businessHours: true,
+				editable: false,
+				droppable: false,
+				eventClick: function(info) {
+	                swal({
+	                    title: info.event.title,
+	                    text: info.event.extendedProps.description,
+	                    type: "info",
+	                });
+				},
+				events: {
+					url: '{{URL("dashboard/eventcalendar")}}'
+				},
+				loading: function(bool) {
+					document.getElementById('loading').style.display =
+					bool ? 'block' : 'none';
+				}
+			});
+			calendar.render();
+	});
+	</script>
+
 
 @endsection

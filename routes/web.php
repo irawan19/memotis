@@ -8,6 +8,9 @@ use App\Http\Controllers\BerandaController as Beranda;
 //Dashboard
 use App\Http\Controllers\Dashboard\DashboardController as Dashboard;
 
+//Event Calendar
+use App\Http\Controllers\Dashboard\EventCalendarController as DashboardEventCalendar;
+
 //Konfigurasi Profil
 use App\Http\Controllers\Dashboard\KonfigurasiProfilController as DashboardKonfigurasiProfil;
 
@@ -41,6 +44,9 @@ Route::middleware([
     Route::group(['prefix' => 'dashboard'], function (){
         //Dashboard
         Route::get('/', [Dashboard::class, 'index'])->name('dashboard');
+
+        //Event Calendar
+        Route::get('/eventcalendar', [DashboardEventCalendar::class, 'index']);
 
         //Konfigurasi Profil
         Route::group(['prefix' => 'konfigurasi_profil'], function(){
