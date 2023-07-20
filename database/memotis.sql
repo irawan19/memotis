@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2023 at 06:08 AM
+-- Generation Time: Jul 20, 2023 at 07:43 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -103,6 +103,15 @@ CREATE TABLE `master_derajat_surats` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `master_derajat_surats`
+--
+
+INSERT INTO `master_derajat_surats` (`id_derajat_surats`, `nama_derajat_surats`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Biasa', '2023-07-20 05:40:22', NULL, NULL),
+(2, 'Segera', '2023-07-20 05:40:26', NULL, NULL),
+(3, 'Sangat Segera', '2023-07-20 05:40:29', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -116,6 +125,22 @@ CREATE TABLE `master_disposisi_surats` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `master_disposisi_surats`
+--
+
+INSERT INTO `master_disposisi_surats` (`id_disposisi_surats`, `nama_disposisi_surats`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Untuk Diketahui/digunakan', '2023-07-20 05:38:55', NULL, NULL),
+(2, 'Untuk Arsip/file', '2023-07-20 05:39:01', NULL, NULL),
+(3, 'Minta Saran/pertimbangan', '2023-07-20 05:39:14', NULL, NULL),
+(4, 'Siapkan Bahan', '2023-07-20 05:39:18', NULL, NULL),
+(5, 'Harap Selesaikan/ditindaklanjuti', '2023-07-20 05:39:26', NULL, NULL),
+(6, 'Harap Mewakili/hadiri/tugaskan staff', '2023-07-20 05:39:38', NULL, NULL),
+(7, 'Selesaikan sesuai disposisi pimpinan', '2023-07-20 05:39:47', NULL, NULL),
+(8, 'Jadwalkan/agendakan', '2023-07-20 05:39:54', NULL, NULL),
+(9, 'Koordinasikan Dengan Es. 1 terkait', '2023-07-20 05:40:05', NULL, NULL),
+(10, 'Hadir Bersama', '2023-07-20 05:40:12', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -183,6 +208,25 @@ CREATE TABLE `master_klasifikasi_surats` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `master_klasifikasi_surats`
+--
+
+INSERT INTO `master_klasifikasi_surats` (`id_klasifikasi_surats`, `nama_klasifikasi_surats`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Surat Kuasa', '2023-07-20 05:37:14', NULL, NULL),
+(2, 'Surat Tugas', '2023-07-20 05:37:23', NULL, NULL),
+(3, 'Surat Edaran', '2023-07-20 05:37:26', NULL, NULL),
+(4, 'Surat Keterangan', '2023-07-20 05:37:31', NULL, NULL),
+(5, 'Surat Peringatan', '2023-07-20 05:37:37', NULL, NULL),
+(6, 'Surat Perjanjian', '2023-07-20 05:37:42', NULL, NULL),
+(7, 'Surat Undangan', '2023-07-20 05:37:46', NULL, NULL),
+(8, 'Nota Dinas', '2023-07-20 05:37:51', NULL, NULL),
+(9, 'Surat Lain-Lain', '2023-07-20 05:38:03', NULL, NULL),
+(10, 'Draft Pembahasan', '2023-07-20 05:38:08', NULL, NULL),
+(11, 'Surat Keputusan', '2023-07-20 05:38:12', NULL, NULL),
+(12, 'Laporan', '2023-07-20 05:38:17', NULL, NULL),
+(13, 'Surat Rahasia', '2023-07-20 05:38:22', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -278,6 +322,15 @@ CREATE TABLE `master_sifat_surats` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `master_sifat_surats`
+--
+
+INSERT INTO `master_sifat_surats` (`id_sifat_surats`, `nama_sifat_surats`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Biasa', '2023-07-20 05:40:41', NULL, NULL),
+(2, 'Rahasia', '2023-07-20 05:40:46', NULL, NULL),
+(3, 'Sangat Rahasia', '2023-07-20 05:40:53', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -362,7 +415,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('N362Wfb9b3qQqngSCWi8dnBfJWYRflxygbO8QBvy', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiZGtFM0R3OURwb0ZXMlpXWGNLeDdrNGpab2R5MmVnb3FzRzVUOFI3MSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjE6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2xldmVsX3Npc3RlbS9lZGl0LzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRFUVNqSWVFcWdldW1QOExoMGs1YUlPNzg4Rjh4MVpaT3QyQmQySlFxUVBXZzdVQ3JLL3JuQyI7czo4OiJoYWxhbWFuMiI7czo1NjoiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvbWVudS9zdWJtZW51LzEiO3M6NzoiaGFsYW1hbiI7czo1NDoiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvbGV2ZWxfc2lzdGVtIjt9', 1689824923);
+('N362Wfb9b3qQqngSCWi8dnBfJWYRflxygbO8QBvy', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiZGtFM0R3OURwb0ZXMlpXWGNLeDdrNGpab2R5MmVnb3FzRzVUOFI3MSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTMzOiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9ldmVudGNhbGVuZGFyP2VuZD0yMDIzLTA4LTA3VDAwJTNBMDAlM0EwMCUyQjA3JTNBMDAmc3RhcnQ9MjAyMy0wNi0yNlQwMCUzQTAwJTNBMDAlMkIwNyUzQTAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6ODoiaGFsYW1hbjIiO3M6NTY6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21lbnUvc3VibWVudS8xIjtzOjc6ImhhbGFtYW4iO3M6NTk6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2tsYXNpZmlrYXNpX3N1cmF0Ijt9', 1689831775);
 
 -- --------------------------------------------------------
 
@@ -521,13 +574,13 @@ ALTER TABLE `master_akses`
 -- AUTO_INCREMENT for table `master_derajat_surats`
 --
 ALTER TABLE `master_derajat_surats`
-  MODIFY `id_derajat_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_derajat_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `master_disposisi_surats`
 --
 ALTER TABLE `master_disposisi_surats`
-  MODIFY `id_disposisi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_disposisi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `master_fiturs`
@@ -539,7 +592,7 @@ ALTER TABLE `master_fiturs`
 -- AUTO_INCREMENT for table `master_klasifikasi_surats`
 --
 ALTER TABLE `master_klasifikasi_surats`
-  MODIFY `id_klasifikasi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_klasifikasi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `master_konfigurasi_aplikasis`
@@ -563,7 +616,7 @@ ALTER TABLE `master_menus`
 -- AUTO_INCREMENT for table `master_sifat_surats`
 --
 ALTER TABLE `master_sifat_surats`
-  MODIFY `id_sifat_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sifat_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `migrations`

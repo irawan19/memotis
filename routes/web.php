@@ -64,6 +64,9 @@ Route::middleware([
             Route::post('/prosesedit', [DashboardKonfigurasiAkun::class, 'prosesedit']);
         });
 
+        //Surat
+        
+
         //Konfigurasi Aplikasi
             //Klasifikasi Surat
             Route::group(['prefix' => 'klasifikasi_surat'], function() {
