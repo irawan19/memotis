@@ -50,7 +50,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card" style="min-height: 225px;background-color: white">
-				    <div class="card-body pb-0">
+				    <div class="card-body">
 				    	<div class="row">
 				    		<div class="col-sm-12">
 					        	<div style="text-align: center;">
