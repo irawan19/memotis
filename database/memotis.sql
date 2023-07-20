@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2023 at 07:43 AM
+-- Generation Time: Jul 20, 2023 at 08:04 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -145,6 +145,27 @@ INSERT INTO `master_disposisi_surats` (`id_disposisi_surats`, `nama_disposisi_su
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `master_divisis`
+--
+
+CREATE TABLE `master_divisis` (
+  `id_divisis` bigint(20) UNSIGNED NOT NULL,
+  `nama_divisis` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `master_divisis`
+--
+
+INSERT INTO `master_divisis` (`id_divisis`, `nama_divisis`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Direktur Utama', '2023-07-20 06:02:16', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `master_fiturs`
 --
 
@@ -261,6 +282,8 @@ INSERT INTO `master_konfigurasi_aplikasis` (`id_konfigurasi_aplikasis`, `nama_ko
 
 CREATE TABLE `master_level_sistems` (
   `id_level_sistems` bigint(20) UNSIGNED NOT NULL,
+  `level_sistems_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `divisis_id` bigint(20) UNSIGNED DEFAULT NULL,
   `nama_level_sistems` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -271,8 +294,8 @@ CREATE TABLE `master_level_sistems` (
 -- Dumping data for table `master_level_sistems`
 --
 
-INSERT INTO `master_level_sistems` (`id_level_sistems`, `nama_level_sistems`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Developer', '2023-07-19 12:36:53', '2023-07-20 03:48:36', NULL);
+INSERT INTO `master_level_sistems` (`id_level_sistems`, `level_sistems_id`, `divisis_id`, `nama_level_sistems`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, NULL, 1, 'Developer', '2023-07-19 12:36:53', '2023-07-20 03:48:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -362,7 +385,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2023_07_20_102220_create_master_klasifikasi_surats_table', 2),
 (13, '2023_07_20_102241_create_master_disposisi_surats_table', 2),
 (14, '2023_07_20_102302_create_master_derajat_surats_table', 2),
-(15, '2023_07_20_102314_create_master_sifat_surats_table', 2);
+(15, '2023_07_20_102314_create_master_sifat_surats_table', 2),
+(16, '2023_07_20_125405_create_master_divisis_table', 3);
 
 -- --------------------------------------------------------
 
@@ -481,6 +505,12 @@ ALTER TABLE `master_disposisi_surats`
   ADD PRIMARY KEY (`id_disposisi_surats`);
 
 --
+-- Indexes for table `master_divisis`
+--
+ALTER TABLE `master_divisis`
+  ADD PRIMARY KEY (`id_divisis`);
+
+--
 -- Indexes for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
@@ -503,7 +533,9 @@ ALTER TABLE `master_konfigurasi_aplikasis`
 -- Indexes for table `master_level_sistems`
 --
 ALTER TABLE `master_level_sistems`
-  ADD PRIMARY KEY (`id_level_sistems`);
+  ADD PRIMARY KEY (`id_level_sistems`),
+  ADD KEY `master_level_sistems_level_sistems_id_index` (`level_sistems_id`) USING BTREE,
+  ADD KEY `master_level_sistems_divisis_id_index` (`divisis_id`) USING BTREE;
 
 --
 -- Indexes for table `master_menus`
@@ -583,6 +615,12 @@ ALTER TABLE `master_disposisi_surats`
   MODIFY `id_disposisi_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `master_divisis`
+--
+ALTER TABLE `master_divisis`
+  MODIFY `id_divisis` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
@@ -622,7 +660,7 @@ ALTER TABLE `master_sifat_surats`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -652,6 +690,13 @@ ALTER TABLE `master_akses`
 --
 ALTER TABLE `master_fiturs`
   ADD CONSTRAINT `master_fiturs_menus_id_foreign` FOREIGN KEY (`menus_id`) REFERENCES `master_menus` (`id_menus`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `master_level_sistems`
+--
+ALTER TABLE `master_level_sistems`
+  ADD CONSTRAINT `master_level_sistems_divisis_id_foreign` FOREIGN KEY (`divisis_id`) REFERENCES `master_divisis` (`id_divisis`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `master_level_sistems_level_sistems_id_foreign` FOREIGN KEY (`level_sistems_id`) REFERENCES `master_level_sistems` (`id_level_sistems`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `master_menus`

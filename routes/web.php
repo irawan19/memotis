@@ -23,6 +23,7 @@ use App\Http\Controllers\Dashboard\DisposisiSuratController as DashboardDisposis
 use App\Http\Controllers\Dashboard\DerajatSuratController as DashboardDerajatSurat;
 use App\Http\Controllers\Dashboard\SifatSuratController as DashboardSifatSurat;
 use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
+use App\Http\Controllers\Dashboard\DivisiController as DashboardDivisi;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
 use App\Http\Controllers\Dashboard\KonfigurasiAplikasiController as DashboardKonfigurasiAplikasi;
@@ -63,9 +64,6 @@ Route::middleware([
             Route::get('/', [DashboardKonfigurasiAkun::class, 'index']);
             Route::post('/prosesedit', [DashboardKonfigurasiAkun::class, 'prosesedit']);
         });
-
-        //Surat
-        
 
         //Konfigurasi Aplikasi
             //Klasifikasi Surat
@@ -133,6 +131,17 @@ Route::middleware([
                 Route::get('/edit_submenu/{id}', [DashboardMenu::class, 'edit_submenu']);
                 Route::post('/prosesedit_submenu/{id}', [DashboardMenu::class, 'prosesedit_submenu']);
                 Route::get('/hapus_submenu/{id}', [DashboardMenu::class, 'hapus_submenu']);
+            });
+
+            //Divisi
+            Route::group(['prefix' => 'divisi'], function() {
+                Route::get('/', [DashboardDivisi::class, 'index']);
+                Route::get('/cari', [DashboardDivisi::class, 'cari']);
+                Route::get('/tambah', [DashboardDivisi::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardDivisi::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardDivisi::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardDivisi::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardDivisi::class, 'hapus']);
             });
 
             //Level Sistem
