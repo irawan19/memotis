@@ -44,8 +44,11 @@ use App\Http\Controllers\Dashboard\KonfigurasiAplikasiController as DashboardKon
 |
 */
 
+Route::get('/storage-link', function() {
+    Artisan::call('storage:link'); 
+    return 'The links have been created.';
+});
 Route::get('/', [Beranda::class, 'index']);
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
