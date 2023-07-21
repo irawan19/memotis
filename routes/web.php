@@ -17,8 +17,9 @@ use App\Http\Controllers\Dashboard\KonfigurasiProfilController as DashboardKonfi
 //Konfigurasi Akun
 use App\Http\Controllers\Dashboard\KonfigurasiAkunController as DashboardKonfigurasiAkun;
 
-//Surat
+//Apps
 use App\Http\Controllers\Dashboard\SuratController as DashboardSurat;
+use App\Http\Controllers\Dashboard\MomController as DashboardMom;
 
 //Konfigurasi Aplikasi
 use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
@@ -69,16 +70,28 @@ Route::middleware([
             Route::post('/prosesedit', [DashboardKonfigurasiAkun::class, 'prosesedit']);
         });
 
-        //Surat
-        Route::group(['prefix' => 'surat'], function() {
-            Route::get('/', [DashboardSurat::class, 'index']);
-            Route::get('/cari', [DashboardSurat::class, 'cari']);
-            Route::get('/tambah', [DashboardSurat::class, 'tambah']);
-            Route::post('/prosestambah', [DashboardSurat::class, 'prosestambah']);
-            Route::get('/edit/{id}', [DashboardSurat::class, 'edit']);
-            Route::post('/prosesedit/{id}', [DashboardSurat::class, 'prosesedit']);
-            Route::get('/hapus/{id}', [DashboardSurat::class, 'hapus']);
-        });
+        //Apps
+            //Surat
+            Route::group(['prefix' => 'surat'], function() {
+                Route::get('/', [DashboardSurat::class, 'index']);
+                Route::get('/cari', [DashboardSurat::class, 'cari']);
+                Route::get('/tambah', [DashboardSurat::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardSurat::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardSurat::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardSurat::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardSurat::class, 'hapus']);
+            });
+
+            //Mom
+            Route::group(['prefix' => 'mom'], function() {
+                Route::get('/', [DashboardMom::class, 'index']);
+                Route::get('/cari', [DashboardMom::class, 'cari']);
+                Route::get('/tambah', [DashboardMom::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardMom::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardMom::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardMom::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardMom::class, 'hapus']);
+            });
 
         //Konfigurasi Aplikasi
             //Klasifikasi Surat
