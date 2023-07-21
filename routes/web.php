@@ -29,6 +29,7 @@ use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
 use App\Http\Controllers\Dashboard\DivisiController as DashboardDivisi;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
+use App\Http\Controllers\Dashboard\SosialMediaController as DashboardSosialMedia;
 use App\Http\Controllers\Dashboard\KonfigurasiAplikasiController as DashboardKonfigurasiAplikasi;
 
 /*
@@ -182,6 +183,17 @@ Route::middleware([
                 Route::get('/hapus/{id}', [DashboardAdmin::class, 'hapus']);
             });
 
+            //Sosial Media
+            Route::group(['prefix' => 'sosial_media'], function() {
+                Route::get('/', [DashboardSosialMedia::class, 'index']);
+                Route::get('/cari', [DashboardSosialMedia::class, 'cari']);
+                Route::get('/tambah', [DashboardSosialMedia::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardSosialMedia::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardSosialMedia::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardSosialMedia::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardSosialMedia::class, 'hapus']);
+            });
+
             //Konfigurasi Aplikasi
             Route::group(['prefix' => 'konfigurasi_aplikasi'], function () {
                 Route::get('/', [DashboardKonfigurasiAplikasi::class, 'index']);
@@ -189,8 +201,7 @@ Route::middleware([
                 Route::post('/proseseditlogo', [DashboardKonfigurasiAplikasi::class, 'proseseditlogo']);
                 Route::post('/prosesediticon', [DashboardKonfigurasiAplikasi::class, 'prosesediticon']);
                 Route::post('/proseseditlogotext', [DashboardKonfigurasiAplikasi::class, 'proseseditlogotext']);
-                Route::post('/proseseditgambarsubscribe', [DashboardKonfigurasiAplikasi::class, 'proseseditgambarsubscribe']);
-                Route::post('/proseseditheader', [DashboardKonfigurasiAplikasi::class, 'proseseditheader']);
+                Route::post('/proseseditbackgroundwebsite', [DashboardKonfigurasiAplikasi::class, 'proseseditbackgroundwebsite']);
             });
 
         //Logout

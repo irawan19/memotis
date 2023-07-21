@@ -41,14 +41,7 @@
                                                         ->where('nama_fiturs','lihat')
                                                         ->count())
             @if($total_sub_menus != 0)
-                @php($cek_submenus = \App\Models\Master_menu::where('link_menus',Request::segment(2))
-                                                            ->where('menus_id',$menus->id_menus)
-                                                            ->count())
-                @php($open_menus = '')
-                @if($cek_submenus != 0)
-                    @php($open_menus = 'c-show')
-                @endif
-			  	<li class="c-sidebar-nav-dropdown {{$open_menus}}">
+			  	<li class="c-sidebar-nav-dropdown c-show">
 				  	<a class="c-sidebar-nav-dropdown-toggle" href="#">
 				        <svg class="c-sidebar-nav-icon"  data-toggle="tooltip" data-placement="right" title="" data-original-title="{{$menus->nama_menus}}">
 				          	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#'.$menus->icon_menus)}}"></use>

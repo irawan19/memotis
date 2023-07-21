@@ -25,7 +25,7 @@
 						</div>
 						<div class="form-group">
 							<label class="form-col-form-label" for="telepon_konfigurasi_aplikasis">Telepon</label>
-							<input class="form-control {{ General::validForm($errors->first('telepon_konfigurasi_aplikasis')) }}" id="telepon_konfigurasi_aplikasis" type="email" name="telepon_konfigurasi_aplikasis" value="{{Request::old('telepon_konfigurasi_aplikasis') == '' ? $lihat_konfigurasi_aplikasis->telepon_konfigurasi_aplikasis : Request::old('telepon_konfigurasi_aplikasis')}}">
+							<input class="form-control {{ General::validForm($errors->first('telepon_konfigurasi_aplikasis')) }}" id="telepon_konfigurasi_aplikasis" type="text" name="telepon_konfigurasi_aplikasis" value="{{Request::old('telepon_konfigurasi_aplikasis') == '' ? $lihat_konfigurasi_aplikasis->telepon_konfigurasi_aplikasis : Request::old('telepon_konfigurasi_aplikasis')}}">
 							{{General::pesanErrorForm($errors->first('telepon_konfigurasi_aplikasis'))}}
 						</div>
 						<div class="form-group">
@@ -128,6 +128,36 @@
 								<br/>
 	                          	<input id="userfile_logo_text" type="file" name="userfile_logo_text">
 								{{General::pesanErrorFormFile($errors->first('userfile_logo_text'))}}
+	                        </div>
+	                    </div>
+					</div>
+	                <div class="card-footer right-align">
+						{{General::perbarui()}}
+	                </div>
+				</form>
+			</div>
+
+
+
+			<div class="card mb-4">
+				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/konfigurasi_aplikasi/proseseditbackgroundwebsite') }}" enctype="multipart/form-data" method="POST">
+					{{ csrf_field() }}
+					<div class="card-header">
+						<strong>Background Website (1920x1080)</strong>
+					</div>
+					<div class="card-body">
+						@if (Session::get('setelah_simpan_background_website.alert') == 'sukses')
+							{{ General::pesanSuksesForm(Session::get('setelah_simpan_background_website.text')) }}
+					    @endif
+						<div class="form-group center-align">
+							<a data-fancybox="gallery" href="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->background_website_konfigurasi_aplikasis)}}">
+								<img src="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->background_website_konfigurasi_aplikasis)}}" width="108">
+							</a>
+						</div>
+						<div class="form-group row">
+	                        <div class="col-md-12 center-align">
+	                          	<input id="userfile_background_website" type="file" name="userfile_background_website">
+								{{General::pesanErrorFormFile($errors->first('userfile_background_website'))}}
 	                        </div>
 	                    </div>
 					</div>

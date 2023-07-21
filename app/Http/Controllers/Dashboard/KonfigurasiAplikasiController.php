@@ -172,78 +172,40 @@ class KonfigurasiAplikasiController extends AdminCoreController
         else
             return redirect('dashboard');
     }
-
-    public function proseseditgambarsubscribe(Request $request)
-    {
-        $link_konfigurasi_aplikasi = 'konfigurasi_aplikasi';
-        if(General::hakAkses($link_konfigurasi_aplikasi, 'lihat') == 'true')
-        {
-            $aturan = [
-                'userfile_gambar_subscribe'     => 'required|mimes:png,jpg,jpeg,svg',
-            ];
-            $this->validate($request, $aturan);
-
-            $cek_gambar_subscribe       = Master_konfigurasi_aplikasi::first();
-            if (!empty($cek_gambar_subscribe)) {
-                $gambar_subscribe_lama        = $cek_gambar_subscribe->gambar_subscribe_konfigurasi_aplikasis;
-                if (Storage::disk('public')->exists($gambar_subscribe_lama))
-                    Storage::disk('public')->delete($gambar_subscribe_lama);
-            }
-
-            $nama_gambar_subscribe = date('Ymd') . date('His') . str_replace(')', '', str_replace('(', '', str_replace(' ', '-', $request->file('userfile_gambar_subscribe')->getClientOriginalName())));
-            $path_gambar_subscribe = 'logo/';
-            Storage::disk('public')->put($path_gambar_subscribe.$nama_gambar_subscribe, file_get_contents($request->file('userfile_gambar_subscribe')));
-
-            $data = [
-                'gambar_subscribe_konfigurasi_aplikasis'    => $path_gambar_subscribe . $nama_gambar_subscribe,
-                'updated_at'                    => date('Y-m-d H:i:s'),
-            ];
-
-            Master_konfigurasi_aplikasi::query()->update($data);
-
-            $setelah_simpan_gambar_subscribe = [
-                'alert'                     => 'sukses',
-                'text'                      => 'Gambar Subscribe berhasil diperbarui',
-            ];
-            return redirect()->back()->with('setelah_simpan_gambar_subscribe', $setelah_simpan_gambar_subscribe);
-        }
-        else
-            return redirect('dashboard');
-    }
     
-    public function proseseditheader(Request $request)
+    public function proseseditbackgroundwebsite(Request $request)
     {
         $link_konfigurasi_aplikasi = 'konfigurasi_aplikasi';
         if(General::hakAkses($link_konfigurasi_aplikasi, 'lihat') == 'true')
         {
             $aturan = [
-                'userfile_header'     => 'required|mimes:png,jpg,jpeg,svg',
+                'userfile_background_website'     => 'required|mimes:png,jpg,jpeg,svg',
             ];
             $this->validate($request, $aturan);
 
-            $cek_header       = Master_konfigurasi_aplikasi::first();
-            if (!empty($cek_header)) {
-                $header_lama        = $cek_header->header_konfigurasi_aplikasis;
-                if (Storage::disk('public')->exists($header_lama))
-                    Storage::disk('public')->delete($header_lama);
+            $cek_background_website       = Master_konfigurasi_aplikasi::first();
+            if (!empty($cek_background_website)) {
+                $background_website_lama        = $cek_background_website->background_website_konfigurasi_aplikasis;
+                if (Storage::disk('public')->exists($background_website_lama))
+                    Storage::disk('public')->delete($background_website_lama);
             }
 
-            $nama_header = date('Ymd') . date('His') . str_replace(')', '', str_replace('(', '', str_replace(' ', '-', $request->file('userfile_header')->getClientOriginalName())));
-            $path_header = 'logo/';
-            Storage::disk('public')->put($path_header.$nama_header, file_get_contents($request->file('userfile_header')));
+            $nama_background_website = date('Ymd') . date('His') . str_replace(')', '', str_replace('(', '', str_replace(' ', '-', $request->file('userfile_background_website')->getClientOriginalName())));
+            $path_background_website = 'logo/';
+            Storage::disk('public')->put($path_background_website.$nama_background_website, file_get_contents($request->file('userfile_background_website')));
 
             $data = [
-                'header_konfigurasi_aplikasis'    => $path_header . $nama_header,
-                'updated_at'                    => date('Y-m-d H:i:s'),
+                'background_website_konfigurasi_aplikasis'  => $path_background_website . $nama_background_website,
+                'updated_at'                                => date('Y-m-d H:i:s'),
             ];
 
             Master_konfigurasi_aplikasi::query()->update($data);
 
-            $setelah_simpan_header = [
+            $setelah_simpan_background_website = [
                 'alert'                     => 'sukses',
                 'text'                      => 'Header berhasil diperbarui',
             ];
-            return redirect()->back()->with('setelah_simpan_header', $setelah_simpan_header);
+            return redirect()->back()->with('setelah_simpan_background_website', $setelah_simpan_background_website);
         }
         else
             return redirect('dashboard');
