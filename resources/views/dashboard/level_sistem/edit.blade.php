@@ -15,6 +15,44 @@
 							<input class="form-control {{ General::validForm($errors->first('nama_level_sistems')) }}" id="nama_level_sistems" type="text" name="nama_level_sistems" value="{{Request::old('nama_level_sistems') == '' ? $edit_level_sistems->nama_level_sistems : Request::old('nama_level_sistems')}}">
 							{{General::pesanErrorForm($errors->first('nama_level_sistems'))}}
 						</div>
+						<div class="form-group">
+							<label class="form-col-form-label" for="level_sistems_id">Sub <b style="color:red">*</b></label>
+				            <select class="form-control select2" id="level_sistems_id" name="level_sistems_id">
+								<option value="">Tanpa Sub</option>
+				            	@foreach($edit_sub_level_sistems as $level_sistems)
+				                  	@php($selected = '')
+					              	@if(Request::old('level_sistems_id') == '')
+					              		@if($level_sistems->id_level_sistems == $edit_level_sistems->level_sistems_id)
+					              			@php($selected = 'selected')
+					              		@endif
+					              	@else
+					              		@if($level_sistems->id_level_sistems == Request::old('level_sistems_id'))
+					              			@php($selected = 'selected')
+					              		@endif
+					              	@endif
+								    <option value="{{$level_sistems->id_level_sistems}}" {{ $selected }}>{{$level_sistems->nama_level_sistems}}</option>
+				            	@endforeach
+				            </select>
+		                </div>
+						<div class="form-group">
+							<label class="form-col-form-label" for="divisis_id">Divisi <b style="color:red">*</b></label>
+				            <select class="form-control select2" id="divisis_id" name="divisis_id">
+								<option value="">Tanpa Divisi</option>
+				            	@foreach($edit_divisis as $divisis)
+				                  	@php($selected = '')
+					              	@if(Request::old('level_sistems_id') == '')
+					              		@if($level_sistems->id_level_sistems == $edit_level_sistems->divisis_id)
+					              			@php($selected = 'selected')
+					              		@endif
+					              	@else
+					              		@if($level_sistems->id_level_sistems == Request::old('level_sistems_id'))
+					              			@php($selected = 'selected')
+					              		@endif
+					              	@endif
+								    <option value="{{$divisis->id_divisis}}" {{ $selected }}>{{$divisis->nama_divisis}}</option>
+				            	@endforeach
+				            </select>
+		                </div>
 						<hr/>
 						<table class="table table-responsive-sm table-bordered table-striped table-sm">
 							<thead>

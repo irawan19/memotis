@@ -88,18 +88,21 @@ class LevelSistemController extends AdminCoreController
         {
             $aturan = [
                 'nama_level_sistems'           => 'required',
-                'divisis_id'                   => 'required',
             ];
             $this->validate($request, $aturan);
 
             $level_sistems_id = null;
             if(!empty($request->level_sistems_id))
                 $level_sistems_id = $request->level_sistems_id;
+            
+            $divisis_id = null;
+            if(!empty($request->divisis_id))
+                $divisis_id = $request->divisis_id;
 
             $data = [
                 'nama_level_sistems'    => $request->nama_level_sistems,
                 'level_sistems_id'      => $level_sistems_id,
-                'divisis_id'            => $request->divisis_id,
+                'divisis_id'            => $divisis_id,
                 'created_at'            => date('Y-m-d H:i:s'),
                 'updated_at'            => date('Y-m-d H:i:s'),
             ];
@@ -206,18 +209,21 @@ class LevelSistemController extends AdminCoreController
             {
                 $aturan = [
                     'nama_level_sistems'            => 'required',
-                    'divisis_id'                    => 'required'
                 ];
                 $this->validate($request, $aturan);
 
                 $level_sistems_id = null;
                 if(!empty($request->level_sistems_id))
                     $level_sistems_id = $request->level_sistems_id;
+                
+                $divisis_id = null;
+                if(!empty($request->divisis_id))
+                    $divisis_id = $request->divisis_id;
 
                 $data = [
                     'nama_level_sistems'    => $request->nama_level_sistems,
                     'level_sistems_id'      => $level_sistems_id,
-                    'divisis_id'            => $request->divisis_id,
+                    'divisis_id'            => $divisis_id,
                     'updated_at'            => date('Y-m-d H:i:s')
                 ];
                 Master_level_sistem::where('id_level_sistems', $id_level_sistems)

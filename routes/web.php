@@ -17,6 +17,9 @@ use App\Http\Controllers\Dashboard\KonfigurasiProfilController as DashboardKonfi
 //Konfigurasi Akun
 use App\Http\Controllers\Dashboard\KonfigurasiAkunController as DashboardKonfigurasiAkun;
 
+//Surat
+use App\Http\Controllers\Dashboard\SuratController as DashboardSurat;
+
 //Konfigurasi Aplikasi
 use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
 use App\Http\Controllers\Dashboard\DisposisiSuratController as DashboardDisposisiSurat;
@@ -63,6 +66,17 @@ Route::middleware([
         Route::group(['prefix' => 'konfigurasi_akun'], function() {
             Route::get('/', [DashboardKonfigurasiAkun::class, 'index']);
             Route::post('/prosesedit', [DashboardKonfigurasiAkun::class, 'prosesedit']);
+        });
+
+        //Surat
+        Route::group(['prefix' => 'surat'], function() {
+            Route::get('/', [DashboardSurat::class, 'index']);
+            Route::get('/cari', [DashboardSurat::class, 'cari']);
+            Route::get('/tambah', [DashboardSurat::class, 'tambah']);
+            Route::post('/prosestambah', [DashboardSurat::class, 'prosestambah']);
+            Route::get('/edit/{id}', [DashboardSurat::class, 'edit']);
+            Route::post('/prosesedit/{id}', [DashboardSurat::class, 'prosesedit']);
+            Route::get('/hapus/{id}', [DashboardSurat::class, 'hapus']);
         });
 
         //Konfigurasi Aplikasi
