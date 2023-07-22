@@ -1,0 +1,235 @@
+.namalogin {
+    color: #000
+}
+
+.jam {
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.c-header .c-header-toggler {
+    margin-top: 7px;
+    background-color: white;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.c-header {
+    background-color: transparent !important;
+    color: #000;
+}
+
+.c-sidebar .c-sidebar-brand,
+.c-sidebar .c-sidebar-header {
+    background: #fff !important;
+    color: #000;
+}
+
+.c-sidebar {
+    background-color: #fff !important;
+}
+
+.c-sidebar .c-sidebar-nav-link.c-active,
+.c-sidebar .c-active.c-sidebar-nav-dropdown-toggle {
+    background-color: #DCDCDC !important;
+    color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-link.c-active .c-sidebar-nav-icon,
+.c-sidebar .c-active.c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon {
+    color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon,
+.c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon {
+    color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-link,
+.c-sidebar .c-sidebar-nav-dropdown-toggle {
+    color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-link,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+    color: #000;
+}
+
+.c-sidebar .c-sidebar-nav-dropdown-toggle::after {
+    filter: invert(1);
+}
+
+.c-sidebar .c-sidebar-nav-dropdown.c-show .c-sidebar-nav-link,
+.c-sidebar .c-sidebar-nav-dropdown.c-show .c-sidebar-nav-dropdown-toggle {
+    color: #000;
+}
+
+.c-sidebar-nav-dropdown-items {
+    background-color: #fff;
+}
+
+html:not([dir="rtl"]) .c-sidebar-nav-dropdown-items .c-sidebar-nav-link .c-sidebar-nav-icon,
+html:not([dir="rtl"]) .c-sidebar-nav-dropdown-items .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon {
+    margin-left: -36px !important;
+}
+
+@media (hover: hover),
+not all {
+
+    .c-sidebar .c-sidebar-nav-link:hover .c-sidebar-nav-icon,
+    .c-sidebar .c-sidebar-nav-dropdown-toggle:hover .c-sidebar-nav-icon {
+        color: #000;
+    }
+}
+
+.c-sidebar .c-sidebar-nav-link:hover,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+    background-color: rgba(0, 0, 21, 0.2) !important;
+    color: #000 !important;
+}
+
+.c-sidebar .c-sidebar-minimizer {
+    background: #DCDCDC;
+}
+
+.c-sidebar .c-sidebar-minimizer:hover {
+    background: #DCDCDC;
+}
+
+@media(min-width: 576px) and (max-width:744px) {
+    .textnotifberanda {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .jam {
+        display: none;
+    }
+
+    .namalogin {
+        display: none;
+    }
+
+    .c-header.c-header-light.c-header-fixed.c-header-with-subheader {
+        background-color: #fff !important;
+    }
+
+    .c-header-brand-minimized {
+        width: 128px;
+    }
+}
+
+@media (min-width: 768px) {
+    .c-app:not(.c-legacy-theme):not(.c-dark-theme) .c-header.c-header-fixed {
+        margin-left: 30px;
+        margin-top: 10px;
+        margin-right: 10px;
+        box-shadow: none !important;
+        position: relative;
+    }
+
+    .c-header-brand {
+        display: none
+    }
+}
+
+#ui-datepicker-div {
+    z-index: 100 !important;
+}
+
+.c-header {
+    background-color: transparent !important;
+    color: #303030;
+}
+
+.c-body {
+    margin-top: -20px;
+}
+
+.card {
+    border-radius: 1rem !important;
+}
+
+.card-header {
+    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1rem !important;
+}
+
+.card-footer {
+    border-bottom-left-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.dropdown-item .badge {
+    position: absolute;
+    right: 10px;
+    margin-top: 2px;
+}
+
+.scrolltable {
+    overflow-x: auto;
+    min-height: 250px;
+}
+
+.right-align {
+    text-align: right;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.col-center {
+    margin: 0 auto;
+}
+
+.readonlycustom {
+    color: #303030;
+}
+
+.errorform {
+    color: red;
+}
+
+.errorformfile {
+    padding-top: 10px;
+    color: red;
+}
+
+.row-center {
+    margin: 0 auto;
+}
+
+.select2-container .select2-selection--single {
+    height: 35px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    margin-top: 2px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    margin-top: 2px;
+}
+
+.judulsurat{
+    font-family: "Open Sans", sans-serif;
+    font-size:20px;
+    margin-top:25px;
+}
+
+.judultanggal{
+    font-family: "Open Sans", sans-serif;
+    font-size:14px;
+    margin-top: 5px;
+}
+
+.nosurat{
+    font-family: "Open Sans", sans-serif;
+    font-size:14px;
+}

@@ -13,10 +13,10 @@ class MomController extends AdminCoreController
         $link_mom = 'mom';
         if(General::hakAkses($link_mom,'lihat') == 'true')
         {
-            $data['link_mom']           = $link_mom;
-            $data['hasil_kata']         = '';
-            $url_sekarang               = $request->fullUrl();
-        	$data['lihat_moms']    	    = Mom::get();
+            $data['link_mom']               = $link_mom;
+            $data['hasil_kata']             = '';
+            $url_sekarang                   = $request->fullUrl();
+        	$data['lihat_moms']    	        = Mom::paginate(10);
             session()->forget('halaman');
             session()->forget('hasil_kata');
             session(['halaman'              => $url_sekarang]);
@@ -89,6 +89,25 @@ class MomController extends AdminCoreController
 
                 return redirect($redirect_halaman);
             }
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
+    public function baca($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'baca') == 'true')
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->count();
+            if($cek_moms != 0)
+            {
+                $data['baca_moms']  = Mom::where('id_moms',$id_moms)
+                                            ->first();
+                return view('dashboard.mom.edit',$data);
+            }
+            else
+                return redirect('dashboard/mom');
         }
         else
             return redirect('dashboard/mom');

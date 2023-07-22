@@ -167,6 +167,17 @@ class General
 			}
 		}
 
+		public static function buat($link_menus = '', $link = '', $judul='')
+		{
+			if (General::hakAkses($link_menus, 'tambah') == 'true') {
+				echo 	'<a href="' . URL($link) . '" class="btn btn-sm btn-success">
+								<svg class="c-icon" style="margin-right:5px;">
+									<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-plus') . '"></use>
+								</svg> Buat '.$judul.'
+							</a>';
+			}
+		}
+
 		public static function cetak($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'cetak') == 'true') {
