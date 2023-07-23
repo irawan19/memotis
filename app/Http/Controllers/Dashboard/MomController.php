@@ -23,6 +23,7 @@ class MomController extends AdminCoreController
             {
                 $data['lihat_moms']    	        = Mom::selectRaw('*,
                                                                 moms.created_at as tanggal_moms')
+                                                        ->orderBy('created_at','desc')
                                                         ->paginate(10);
             }
             else
@@ -31,6 +32,7 @@ class MomController extends AdminCoreController
                                                                 moms.created_at as tanggal_moms')
                                                         ->leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->orderBy('created_at','desc')
                                                         ->paginate(10);
             }
             session()->forget('halaman');
@@ -53,7 +55,10 @@ class MomController extends AdminCoreController
             $data['hasil_kata']         = $hasil_kata;
             if(General::hakAkses($link_mom,'tambah') == 'true')
             {
-                $data['lihat_moms']         = Mom::where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
+                $data['lihat_moms']         = Mom::selectRaw('*,
+                                                    moms.created_at as tanggal_moms')
+                                                    ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
+                                                    ->orderBy('created_at','desc')
                                                     ->paginate(10);
             }
             else
@@ -65,6 +70,7 @@ class MomController extends AdminCoreController
                                                         ->where('mom_users.users_id',Auth::user()->id)
                                                         ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->orderBy('created_at','desc')
                                                         ->paginate(10);
             }
             session(['halaman'              => $url_sekarang]);

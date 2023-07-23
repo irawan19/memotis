@@ -1,6 +1,12 @@
 @extends('dashboard.layouts.app')
 @section('content')
 
+	<style>
+		.ui-datepicker-calendar {
+			display: none;
+		}
+	</style>
+
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="card">
@@ -16,17 +22,18 @@
 						</div>
 					</div>
 				</div>
-				<div class="card-body">
-					<form method="GET" action="{{ URL('dashboard/mom/cari') }}">
-						@csrf
-	                	<div class="input-group">
-	                		<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
-	                		<span class="input-group-append">
-	                		  	<button class="btn btn-primary" type="submit"> Cari</button>
-	                		</span>
-	                	</div>
-	                </form>
-				</div>
+				<form method="GET" action="{{ URL('dashboard/mom/cari') }}">
+					@csrf
+					<div class="card-body">
+						<div class="input-group">
+							<input class="form-control" id="cari_kata" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
+						</div>
+					</div>
+					<div class="card-footer right-align">
+						{{General::reset()}}
+						{{General::pencarian()}}
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -137,5 +144,13 @@
 			{{ $lihat_moms->appends(Request::except('page'))->links('vendor.pagination.custom') }}
 		</div>
 	</div>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			$('.resetbutton').on('click', function() {
+				$('#cari_kata').val('');
+			});
+		});
+	</script>
 
 @endsection
