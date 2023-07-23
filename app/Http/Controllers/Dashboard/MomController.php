@@ -6,6 +6,7 @@ use App\Helpers\General;
 use App\Models\Mom;
 use App\Models\User;
 use App\Models\Mom_user;
+use Auth;
 
 class MomController extends AdminCoreController
 {
@@ -85,6 +86,7 @@ class MomController extends AdminCoreController
 
             $data = [
                 'no_moms'                   => General::generateNoMOM(),
+                'users_id'                  => Auth::user()->id,
                 'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
                 'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
                 'venue_moms'                => $request->venue_moms,
@@ -184,6 +186,7 @@ class MomController extends AdminCoreController
                 $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
     
                 $data = [
+                    'users_id'                  => Auth::user()->id,
                     'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
                     'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
                     'venue_moms'                => $request->venue_moms,
