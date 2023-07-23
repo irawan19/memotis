@@ -29,6 +29,18 @@
 							{{General::pesanErrorForm($errors->first('venue_moms'))}}
 						</div>
 						<div class="form-group">
+							<label class="form-col-form-label" for="users_id">Peserta <b style="color:red">*</b></label>
+				            <select class="form-control select2" id="users_id" name="users_id">
+				            	@foreach($tambah_users as $users)
+									@php($nama = $users->nama_level_sistems.' | '.$users->nama)
+									@if(!empty($users->id_divisis))
+										@php($nama = $users->nama_level_sistems.' | '.$users->nama_divisis.' | '.$users->name)
+									@endif
+								    <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
+				            	@endforeach
+				            </select>
+		                </div>
+						<div class="form-group">
 							<label class="form-col-form-label" for="deskripsi_moms">Deskripsi <b style="color:red">*</b></label>
 							<textarea class="form-control {{ General::validForm($errors->first('deskripsi_moms')) }}" id="editor1" name="deskripsi_moms" rows="5">{{Request::old('deskripsi_moms')}}</textarea>
 							{{General::pesanErrorForm($errors->first('deskripsi_moms'))}}

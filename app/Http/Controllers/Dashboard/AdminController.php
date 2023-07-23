@@ -18,7 +18,7 @@ class AdminController extends AdminCoreController
             $data['link_admin']         = $link_admin;
             $data['hasil_kata']         = '';
             $url_sekarang               = $request->fullUrl();
-            $data['lihat_admins']    	= User::join('master_level_sistems','level_sistems_id','=','master_level_sistems.id_level_sistems')
+            $data['lihat_admins']    	= User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                 ->orderBy('nama_level_sistems','asc')
                                                 ->paginate(10);
             session()->forget('halaman');
@@ -39,7 +39,7 @@ class AdminController extends AdminCoreController
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
-            $data['lihat_admins']       = User::join('master_level_sistems','level_sistems_id','=','master_level_sistems.id_level_sistems')
+            $data['lihat_admins']       = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                 ->where('nama_level_sistems', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orWhere('nama_level_sistems', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orWhere('name', 'LIKE', '%'.$hasil_kata.'%')
@@ -157,7 +157,7 @@ class AdminController extends AdminCoreController
             $cek_admins = User::where('id',$id_admins)->first();
             if(!empty($cek_admins))
             {
-            	$ambil_admin 					= User::join('master_level_sistems','level_sistems_id','=','master_level_sistems.id_level_sistems')
+            	$ambil_admin 					= User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                     ->where('id',$id_admins)
         		                                                    ->first();
             	$data['baca_level_sistems']		= Master_level_sistem::where('id_level_sistems',$ambil_admin->id_level_sistems)->first();

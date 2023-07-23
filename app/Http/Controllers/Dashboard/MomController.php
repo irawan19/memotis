@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Mom;
+use App\Models\User;
 
 class MomController extends AdminCoreController
 {
@@ -36,7 +37,7 @@ class MomController extends AdminCoreController
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
             $data['lihat_moms']         = Mom::where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
-                                                ->get();
+                                                ->paginate(10);
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);
             return view('dashboard.mom.lihat', $data);
@@ -49,7 +50,13 @@ class MomController extends AdminCoreController
     {
         $link_mom = 'mom';
         if(General::hakAkses($link_mom,'tambah') == 'true')
-            return view('dashboard.mom.tambah');
+        {
+            $data['tambah_users'] = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                        ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                        ->where('id','!=',1)
+                                        ->paginate(10);
+            return view('dashboard.mom.tambah',$data);
+        }
         else
             return redirect('dashboard/mom');
     }
@@ -60,13 +67,25 @@ class MomController extends AdminCoreController
         if(General::hakAkses($link_mom,'tambah') == 'true')
         {
             $aturan = [
-                'judul_moms'               => 'required',
+                'judul_moms'                => 'required',
+                'tanggal_moms'              => 'required',
+                'venue_moms'                => 'required',
+                'deskripsi_moms'            => 'required',
             ];
             $this->validate($request, $aturan);
 
+            $tanggal_moms           = $request->tanggal_moms;
+            $pecah_tanggal_moms     = explode(' sampai ',$tanggal_moms);
+            $tanggal_mulai_moms     = $pecah_tanggal_moms[0];
+            $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
+
             $data = [
-                'judul_moms'               => $request->judul_moms,
-                'created_at'                            => date('Y-m-d H:i:s'),
+                'tanggal_mulai_moms'        => $tanggal_mulai_moms,
+                'tanggal_selesai_moms'      => $tanggal_selesai_moms,
+                'venue_moms'                => $request->venue_moms,
+                'judul_moms'                => $request->judul_moms,
+                'deskripsi_moms'            => $request->deskripsi_moms,
+                'created_at'                => date('Y-m-d H:i:s'),
             ];
             Mom::insert($data);
 
