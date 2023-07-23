@@ -47,7 +47,7 @@
 													</div>
 													<div class="col-sm-6 right-align">
 														<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
-														<p class="nosurat">0201/MOM/01/2023</p>
+														<p class="nosurat">{{$moms->no_moms}}</p>
 													</div>
 												</div>
 											</div>
