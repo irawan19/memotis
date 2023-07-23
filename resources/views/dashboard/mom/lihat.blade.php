@@ -52,19 +52,61 @@
 												</div>
 											</div>
 											<div class="tab-pane" id="profile-1" role="tabpanel">
-												<div class="row">
-													<div class="col-sm-6">
-														<p class="judulsurat">Judul MOM</p>
+												@if(General::hakAkses($link_mom, 'baca') == 'true')
+													<div class="row">
+														<div class="col-sm-6">
+															<p class="judulsurat">{{$moms->judul_moms}}</p>
+														</div>
+														<div class="col-sm-6 right-align">
+															<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
+															<p class="nosurat">{{$moms->no_moms}}</p>
+														</div>
+														<div class="col-sm-12">
+															<table class="table table-responsive-sm">
+																<tr>
+																	<th>Dari</th>
+																	<th>:</th>
+																	<td>{{General::ubahDBKeTanggalwaktu($moms->tanggal_mulai_moms)}}</td>
+																</tr>
+																<tr>
+																	<th>Sampai</th>
+																	<th>:</th>
+																	<td>{{General::ubahDBKeTanggalwaktu($moms->tanggal_selesai_moms)}}</td>
+																</tr>
+																<tr>
+																	<th width="50px">Venue</th>
+																	<th width="1px">:</th>
+																	<td>{{$moms->venue_moms}}</td>
+																</tr>
+															</table>
+														</div>
+														<div class="col-sm-12">
+															<hr/>
+														</div>
+														<div class="col-sm-12">
+															<h4>Peserta</h4>
+															@php($lihat_pesertas = \App\Models\Mom_user::join('users','users_id','=','users.id')
+																										->where('moms_id',$moms->id_moms)
+																										->orderBy('users.name')
+																										->get())
+															@foreach($lihat_pesertas as $pesertas)
+																- {{$pesertas->name}}
+															@endforeach
+														</div>
+														<div class="col-sm-12">
+															<hr/>
+														</div>
+														<div class="col-sm-12">
+															<h4>Deskripsi</h4>
+															<br/>
+															{!! $moms->deskripsi_moms !!}	
+														</div>
 													</div>
-													<div class="col-sm-6 right-align">
-														<p class="judultanggal">21 Juli 2023 00:00:01</p>
-														<p class="nosurat">0201/MOM/01/2023</p>
-													</div>
-													<div class="col-sm-12">
-														2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-													</div>
-												</div>
+												@endif
 											</div>
+										</div>
+										<div class="buttoncetakmom">
+											{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
 										</div>
 									</div>
 								</div>
