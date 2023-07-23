@@ -19,9 +19,20 @@ class MomController extends AdminCoreController
             $data['link_mom']               = $link_mom;
             $data['hasil_kata']             = '';
             $url_sekarang                   = $request->fullUrl();
-        	$data['lihat_moms']    	        = Mom::selectRaw('*,
-                                                            moms.created_at as tanggal_moms')
-                                                    ->paginate(10);
+            if(General::hakAkses($link_mom,'tambah') == 'true')
+            {
+                $data['lihat_moms']    	        = Mom::selectRaw('*,
+                                                                moms.created_at as tanggal_moms')
+                                                        ->paginate(10);
+            }
+            else
+            {
+                $data['lihat_moms']    	        = Mom::selectRaw('*,
+                                                                moms.created_at as tanggal_moms')
+                                                        ->leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
+                                                        ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->paginate(10);
+            }
             session()->forget('halaman');
             session()->forget('hasil_kata');
             session(['halaman'              => $url_sekarang]);
@@ -40,8 +51,22 @@ class MomController extends AdminCoreController
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
-            $data['lihat_moms']         = Mom::where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
-                                                ->paginate(10);
+            if(General::hakAkses($link_mom,'tambah') == 'true')
+            {
+                $data['lihat_moms']         = Mom::where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
+                                                    ->paginate(10);
+            }
+            else
+            {
+                $data['lihat_moms']    	        = Mom::selectRaw('*,
+                                                                moms.created_at as tanggal_moms')
+                                                        ->leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
+                                                        ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
+                                                        ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
+                                                        ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->paginate(10);
+            }
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);
             return view('dashboard.mom.lihat', $data);
