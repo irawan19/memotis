@@ -57,7 +57,7 @@ class MomController extends AdminCoreController
             $data['tambah_users'] = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                         ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                         ->where('id','!=',1)
-                                        ->paginate(10);
+                                        ->get();
             return view('dashboard.mom.tambah',$data);
         }
         else
@@ -146,6 +146,10 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->count();
             if($cek_moms != 0)
             {
+                $data['edit_users']        = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                ->where('id','!=',1)
+                                                ->get();
                 $data['edit_moms']         = Mom::where('id_moms',$id_moms)
                                                 ->first();
                 return view('dashboard.mom.edit',$data);

@@ -119,7 +119,7 @@
 										<div class="buttoncetakmom">
 											{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
 											@if( strtotime($moms->tanggal_mulai_moms) < strtotime(date('Y-m-d H:i:s')) )
-												{{General::editButton($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
+												{{General::editButton($link_mom,'dashboard/mom/edit/'.$moms->id_moms)}}
 												{{General::hapusButton($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
 											@endif
 										</div>
