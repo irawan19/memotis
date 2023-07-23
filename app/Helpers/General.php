@@ -119,6 +119,13 @@ class General
 				</button>';
 		}
 
+		public static function kirim()
+		{
+			echo '<button class="btn btn-sm btn-success" type="submit" name="kirim" value="kirim">
+					<i class="c-icon cil-send"></i> Kirim
+				</button>';
+		}
+
 		public static function simpankembali()
 		{
 			echo '<button class="btn btn-sm btn-success active" type="submit" name="simpan_kembali" value="simpan_kembali">
