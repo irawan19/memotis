@@ -170,16 +170,45 @@ class MomController extends AdminCoreController
             if(!empty($cek_moms))
             {
                 $aturan = [
-                    'judul_moms'    => 'required',
+                    'judul_moms'                => 'required',
+                    'tanggal_moms'              => 'required',
+                    'venue_moms'                => 'required',
+                    'deskripsi_moms'            => 'required',
+                    'users_id.*'                => 'required',
                 ];
                 $this->validate($request, $aturan);
-
+    
+                $tanggal_moms           = $request->tanggal_moms;
+                $pecah_tanggal_moms     = explode(' sampai ',$tanggal_moms);
+                $tanggal_mulai_moms     = $pecah_tanggal_moms[0];
+                $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
+    
                 $data = [
-		        	'judul_moms'	=> $request->judul_moms,
-                    'updated_at'    => date('Y-m-d H:i:s')
+                    'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
+                    'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
+                    'venue_moms'                => $request->venue_moms,
+                    'judul_moms'                => $request->judul_moms,
+                    'deskripsi_moms'            => $request->deskripsi_moms,
+                    'updated_at'                => date('Y-m-d H:i:s'),
                 ];
                 Mom::where('id_moms', $id_moms)
-                                        ->update($data);
+                    ->update($data);
+
+                Mom_user::where('moms_id',$id_moms)->delete();
+                if(!empty($request->users_id))
+                {
+                    foreach($request->users_id as $id_users)
+                    {
+                        $mom_users_data = [
+                            'moms_id'               => $id_moms,
+                            'users_id'              => $id_users,
+                            'status_baca_mom_users' => 0,
+                            'created_at'            => date('Y-m-d H:i:s'),
+                            'updated_at'            => date('Y-m-d H:i:s'),
+                        ];
+                        Mom_user::insert($mom_users_data);
+                    }
+                }
 
                 if(request()->session()->get('halaman') != '')
                     $redirect_halaman    = request()->session()->get('halaman');

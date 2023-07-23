@@ -101,7 +101,7 @@
 																										->orderBy('users.name')
 																										->get())
 															@foreach($lihat_pesertas as $pesertas)
-																- {{$pesertas->name}}
+																- {{$pesertas->name}}<br/>
 															@endforeach
 														</div>
 														<div class="col-sm-12">

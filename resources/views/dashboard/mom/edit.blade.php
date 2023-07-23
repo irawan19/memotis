@@ -11,8 +11,13 @@
 					</div>
 					<div class="card-body">
 						<div class="form-group">
+							<label class="form-col-form-label" for="no_moms">No <b style="color:red">*</b></label>
+							<input readonly class="form-control {{ General::validForm($errors->first('no_moms')) }}" id="no_moms" type="text" name="no_moms" value="{{$edit_moms->no_moms}}">
+							{{General::pesanErrorForm($errors->first('no_moms'))}}
+						</div>
+						<div class="form-group">
 							<label class="form-col-form-label" for="tanggal_moms">Tanggal <b style="color:red">*</b></label>
-                            @php($tanggal_moms = General::ubahDBKeTanggalwaktu($edit_moms->tanggal_mulai_moms.' sampai '.General::ubaHDBKeTanggalwaktu($edit_moms->tanggal_selesai_moms)))
+                            @php($tanggal_moms = General::ubahDBKeTanggalwaktu($edit_moms->tanggal_mulai_moms).' sampai '.General::ubaHDBKeTanggalwaktu($edit_moms->tanggal_selesai_moms))
 							<input readonly class="form-control getStartEndDateTime {{ General::validForm($errors->first('tanggal_moms')) }}" id="tanggal_moms" type="text" name="tanggal_moms" value="{{Request::old('tanggal_moms') == '' ? $tanggal_moms : Request::old('tanggal_moms')}}">
 							{{General::pesanErrorForm($errors->first('tanggal_moms'))}}
 						</div>
