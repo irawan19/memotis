@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Mom;
 use App\Models\User;
+use App\Models\Mom_user;
 
 class MomController extends AdminCoreController
 {
@@ -71,6 +72,7 @@ class MomController extends AdminCoreController
                 'tanggal_moms'              => 'required',
                 'venue_moms'                => 'required',
                 'deskripsi_moms'            => 'required',
+                'users_id'                  => 'required',
             ];
             $this->validate($request, $aturan);
 
@@ -87,7 +89,20 @@ class MomController extends AdminCoreController
                 'deskripsi_moms'            => $request->deskripsi_moms,
                 'created_at'                => date('Y-m-d H:i:s'),
             ];
-            Mom::insert($data);
+            $id_moms = Mom::insertGetID($data);
+
+            if(!empty($request->users_id))
+            {
+                foreach($request->users_id as $users)
+                {
+                    $mom_users_data = [
+                        'moms_id'               => $id_moms,
+                        'users_id'              => $users->id,
+                        'status_baca_mom_users' => 0,
+                    ];
+                    Mom_user::insert($mom_users_data);
+                }
+            }
 
             $simpan           = $request->simpan;
             $simpan_kembali   = $request->simpan_kembali;

@@ -30,7 +30,7 @@
 						</div>
 						<div class="form-group">
 							<label class="form-col-form-label" for="users_id">Peserta <b style="color:red">*</b></label>
-				            <select class="form-control select2" id="users_id" name="users_id">
+				            <select class="form-control select2" id="users_id" name="users_id[]" multiple="multiple">
 				            	@foreach($tambah_users as $users)
 									@php($nama = $users->nama_level_sistems.' | '.$users->nama)
 									@if(!empty($users->id_divisis))
@@ -39,6 +39,7 @@
 								    <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
 				            	@endforeach
 				            </select>
+							{{General::pesanErrorForm($errors->first('users_id'))}}
 		                </div>
 						<div class="form-group">
 							<label class="form-col-form-label" for="deskripsi_moms">Deskripsi <b style="color:red">*</b></label>
