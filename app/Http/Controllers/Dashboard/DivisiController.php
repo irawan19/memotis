@@ -78,7 +78,7 @@ class DivisiController extends AdminCoreController
                     'alert'  => 'sukses',
                     'text'   => 'Data berhasil ditambahkan',
                 ];
-                return redirect()->back()->with('setelah_simpan', $setelah_simpan);
+    	    	return redirect()->back()->with('setelah_simpan', $setelah_simpan)->withInput($request->all());
             }
             if($simpan_kembali)
             {
@@ -103,7 +103,7 @@ class DivisiController extends AdminCoreController
             if($cek_divisis != 0)
             {
                 $data['edit_divisis']         = Master_divisi::where('id_divisis',$id_divisis)
-                                                                                                    ->first();
+                                                            ->first();
                 return view('dashboard.divisi.edit',$data);
             }
             else

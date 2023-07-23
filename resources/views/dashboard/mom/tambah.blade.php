@@ -7,7 +7,7 @@
 				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/mom/prosestambah') }}" method="POST">
 					{{ csrf_field() }}
 					<div class="card-header">
-						<strong>Tambah MOM</strong>
+						<strong>Buat MOM</strong>
 					</div>
 					<div class="card-body">
 						@if (Session::get('setelah_simpan.alert') == 'sukses')
