@@ -32,7 +32,7 @@
 							<label class="form-col-form-label" for="users_id">Peserta <b style="color:red">*</b></label>
 				            <select class="form-control select2" id="users_id" name="users_id[]" multiple="multiple">
 				            	@foreach($tambah_users as $users)
-									@php($nama = $users->nama_level_sistems.' | '.$users->nama)
+									@php($nama = $users->nama_level_sistems.' | '.$users->name)
 									@if(!empty($users->id_divisis))
 										@php($nama = $users->nama_level_sistems.' | '.$users->nama_divisis.' | '.$users->name)
 									@endif
