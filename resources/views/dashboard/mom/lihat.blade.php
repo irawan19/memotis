@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="card">
-				<div class="card-body">
+				<div class="card-header">
 					<div class="row">
 						<div class="col-sm-6">
 							<strong>Mom</strong>
@@ -15,6 +15,17 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="card-body">
+					<form method="GET" action="{{ URL('dashboard/mom/cari') }}">
+						@csrf
+	                	<div class="input-group">
+	                		<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
+	                		<span class="input-group-append">
+	                		  	<button class="btn btn-primary" type="submit"> Cari</button>
+	                		</span>
+	                	</div>
+	                </form>
 				</div>
 			</div>
 		</div>
@@ -29,18 +40,18 @@
 									<div class="nav-tabs-boxed">
 										<ul class="nav nav-tabs" role="tablist">
 											<li class="nav-item">
-												<a class="nav-link active" data-toggle="tab" href="#home-1" role="tab" aria-controls="home" aria-selected="true">
+												<a class="nav-link active" data-toggle="tab" href="#home-{{$moms->id_moms}}" role="tab" aria-controls="home-{{$moms->id_moms}}" aria-selected="true">
 													Mom
 												</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" data-toggle="tab" href="#profile-1" role="tab" aria-controls="profile" aria-selected="false">
+												<a class="nav-link" data-toggle="tab" href="#profile-{{$moms->id_moms}}" role="tab" aria-controls="profile-{{$moms->id_moms}}" aria-selected="false">
 													Detail
 												</a>
 											</li>
 										</ul>
 										<div class="tab-content">
-											<div class="tab-pane active" id="home-1" role="tabpanel">
+											<div class="tab-pane active" id="home-{{$moms->id_moms}}" role="tabpanel">
 												<div class="row">
 													<div class="col-sm-6">
 														<p class="judulsurat">{{$moms->judul_moms}}</p>
@@ -51,7 +62,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="tab-pane" id="profile-1" role="tabpanel">
+											<div class="tab-pane" id="profile-{{$moms->id_moms}}" role="tabpanel">
 												@if(General::hakAkses($link_mom, 'baca') == 'true')
 													<div class="row">
 														<div class="col-sm-6">
@@ -122,6 +133,9 @@
 		@else
 
 		@endif
+		<div class="col-sm-12">
+			{{ $lihat_moms->appends(Request::except('page'))->links('vendor.pagination.custom') }}
+		</div>
 	</div>
 
 @endsection
