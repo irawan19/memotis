@@ -19,9 +19,9 @@
 							{{General::pesanErrorForm($errors->first('tanggal_moms'))}}
 						</div>
 						<div class="form-group">
-							<label class="form-col-form-label" for="Judul_moms">Judul <b style="color:red">*</b></label>
-							<input class="form-control {{ General::validForm($errors->first('Judul_moms')) }}" id="Judul_moms" type="text" name="Judul_moms" value="{{Request::old('Judul_moms')}}">
-							{{General::pesanErrorForm($errors->first('Judul_moms'))}}
+							<label class="form-col-form-label" for="judul_moms">Judul <b style="color:red">*</b></label>
+							<input class="form-control {{ General::validForm($errors->first('judul_moms')) }}" id="judul_moms" type="text" name="judul_moms" value="{{Request::old('judul_moms')}}">
+							{{General::pesanErrorForm($errors->first('judul_moms'))}}
 						</div>
 						<div class="form-group">
 							<label class="form-col-form-label" for="venue_moms">Venue <b style="color:red">*</b></label>
@@ -39,7 +39,7 @@
 								    <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
 				            	@endforeach
 				            </select>
-							{{General::pesanErrorForm($errors->first('users_id'))}}
+							{{General::pesanErrorForm($errors->first('users_id.*'))}}
 		                </div>
 						<div class="form-group">
 							<label class="form-col-form-label" for="deskripsi_moms">Deskripsi <b style="color:red">*</b></label>

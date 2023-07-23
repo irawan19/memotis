@@ -8,6 +8,7 @@ use DB;
 use URL;
 use Illuminate\Support\Str;
 use App\Models\Master_menu;
+use App\Models\Mom;
 
 class General
 {
@@ -58,6 +59,32 @@ class General
 			$autoincrement 		= DB::table($table)->where('menus_id',$id_menus)->max($id);
 			$id_auto_increment 	= $autoincrement + 1;
 			return $id_auto_increment;
+		}
+
+		public static function generateNoMOM()
+		{
+			$ambil_moms = MOM::select('no_moms')
+									->whereRaw('MONTH(created_at) = "'.date('m').'"')
+									->whereRaw('YEAR(created_at) = "'.date('Y').'"')
+									->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(no_moms,"-",2),"-",-1) AS SIGNED) desc')
+									->first();
+			if(!empty($ambil_moms))
+			{
+				$no_moms 					= $ambil_moms->no_moms;
+				$explode_no 				= explode('/', $no_moms);
+				if(!empty($explode_no[1]))
+				{
+					$no_moms_new 			= (int)$explode_no[1] + 1;
+					$format_no_moms_new 	= sprintf('%04d', $no_moms_new);
+					$format_moms_new 		= 'MOM/'.$format_no_moms_new.'/'.date('m').'/'.date('Y');
+				}
+				else
+					$format_moms_new 		= 'MOM/0001/'.date('m').'/'.date('Y');
+			}
+			else
+				$format_moms_new 			= 'MOM/0001/'.date('m').'/'.date('Y');
+
+			return $format_moms_new;
 		}
 	//Auto Increment
 

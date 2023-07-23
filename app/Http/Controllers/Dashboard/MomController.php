@@ -18,7 +18,9 @@ class MomController extends AdminCoreController
             $data['link_mom']               = $link_mom;
             $data['hasil_kata']             = '';
             $url_sekarang                   = $request->fullUrl();
-        	$data['lihat_moms']    	        = Mom::paginate(10);
+        	$data['lihat_moms']    	        = Mom::selectRaw('*,
+                                                            moms.created_at as tanggal_moms')
+                                                    ->paginate(10);
             session()->forget('halaman');
             session()->forget('hasil_kata');
             session(['halaman'              => $url_sekarang]);
@@ -72,7 +74,7 @@ class MomController extends AdminCoreController
                 'tanggal_moms'              => 'required',
                 'venue_moms'                => 'required',
                 'deskripsi_moms'            => 'required',
-                'users_id'                  => 'required',
+                'users_id.*'                => 'required',
             ];
             $this->validate($request, $aturan);
 
@@ -82,47 +84,35 @@ class MomController extends AdminCoreController
             $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
 
             $data = [
-                'tanggal_mulai_moms'        => $tanggal_mulai_moms,
-                'tanggal_selesai_moms'      => $tanggal_selesai_moms,
+                'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
+                'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
                 'venue_moms'                => $request->venue_moms,
                 'judul_moms'                => $request->judul_moms,
                 'deskripsi_moms'            => $request->deskripsi_moms,
                 'created_at'                => date('Y-m-d H:i:s'),
             ];
-            $id_moms = Mom::insertGetID($data);
+            $id_moms = Mom::insertGetId($data);
 
             if(!empty($request->users_id))
             {
-                foreach($request->users_id as $users)
+                foreach($request->users_id as $id_users)
                 {
                     $mom_users_data = [
                         'moms_id'               => $id_moms,
-                        'users_id'              => $users->id,
+                        'users_id'              => $id_users,
                         'status_baca_mom_users' => 0,
+                        'created_at'            => date('Y-m-d H:i:s'),
                     ];
                     Mom_user::insert($mom_users_data);
                 }
             }
+            
+            if(request()->session()->get('halaman') != '')
+                $redirect_halaman  = request()->session()->get('halaman');
+            else
+                $redirect_halaman  = 'dashboard/mom';
 
-            $simpan           = $request->simpan;
-            $simpan_kembali   = $request->simpan_kembali;
-            if($simpan)
-            {
-                $setelah_simpan = [
-                    'alert'  => 'sukses',
-                    'text'   => 'Data berhasil ditambahkan',
-                ];
-                return redirect()->back()->with('setelah_simpan', $setelah_simpan);
-            }
-            if($simpan_kembali)
-            {
-                if(request()->session()->get('halaman') != '')
-                    $redirect_halaman  = request()->session()->get('halaman');
-                else
-                    $redirect_halaman  = 'dashboard/mom';
-
-                return redirect($redirect_halaman);
-            }
+            return redirect($redirect_halaman);
         }
         else
             return redirect('dashboard/mom');
