@@ -6,6 +6,9 @@ use App\Helpers\General;
 use App\Models\Surat;
 use App\Models\User;
 use App\Models\Surat_user;
+use App\Models\Master_klasifikasi_surat;
+use App\Models\Master_derajat_surat;
+use App\Models\Master_sifat_surat;
 use Auth;
 
 class SuratController extends AdminCoreController
@@ -76,6 +79,24 @@ class SuratController extends AdminCoreController
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);
             return view('dashboard.surat.lihat', $data);
+        }
+        else
+            return redirect('dashboard/surat');
+    }
+
+    public function tambah()
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'tambah') == 'true')
+        {
+            $data['tambah_klasifikasi_surats']  = Master_klasifikasi_surat::orderBy('nama_klasifikasi_surats')->get();
+            $data['tambah_derajat_surats']      = Master_derajat_surat::orderBy('nama_derajat_surats')->get();
+            $data['tambah_sifat_surats']        = Master_sifat_surat::orderBy('nama_sifat_surats')->get();
+            $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                    ->where('id','!=',1)
+                                                    ->get();
+            return view('dashboard.surat.tambah',$data);
         }
         else
             return redirect('dashboard/surat');
