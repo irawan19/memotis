@@ -25,11 +25,17 @@
 		@if(General::hakAkses('mom', 'baca') == 'true')
 			<div class="card linkmodal{{$event_moms->id_moms}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
 				<div class="card-body pb-0">
-					<div class="btn-group float-right">
-						<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
-					</div>
-					<div class="text-value-lg">
-						<p class="nosurat">{{$event_moms->no_moms}}</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-6 left-align">
+									<p class="nosurat">{{$event_moms->no_moms}}</p>
+								</div>
+								<div class="col-sm-6 right-align">
+									<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="titleeventcard" {{$statusbacacolor}}>{{$event_moms->judul_moms}}</div>
 					<div class="titlevenuecard text-muted">venue : {{$event_moms->venue_moms}}</div>
@@ -41,13 +47,15 @@
 					<div class="modal-content">
 						<div class="card-body">
 							<div class="row">
+								<div class="col-sm-12 right-align">
+									<button class="btn-close" type="button" data-coreui-dismiss="modal" aria-label="Close" style="all:unset; cursor:pointer;">
+										<i class="icon icon-2xl mt-5 mb-2 cil-x"></i>
+									</button>
+								</div>
 								<div class="col-sm-6">
 									<p class="judulsurat">{{$event_moms->judul_moms}}</p>
 								</div>
 								<div class="col-sm-6 right-align">
-									<button class="btn-close" type="button" data-coreui-dismiss="modal" aria-label="Close" style="all:unset; cursor:pointer;">
-										<i class="icon icon-2xl mt-5 mb-2 cil-x"></i>
-									</button>
 									<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
 									<p class="nosurat">{{$event_moms->no_moms}}</p>
 								</div>

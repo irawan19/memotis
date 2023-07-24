@@ -226,12 +226,12 @@ not all {
 .judultanggal{
     font-family: "Open Sans", sans-serif;
     font-size:14px;
-    margin-top: 5px;
 }
 
 .nosurat{
     font-family: "Open Sans", sans-serif;
     font-size:14px;
+    font-weight: bold;
 }
 
 .buttoncetakmom{
