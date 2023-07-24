@@ -13,16 +13,16 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col-sm-6">
-							<strong>MOM</strong>
+							<strong>Surat</strong>
 						</div>
 						<div class="col-sm-6">
 							<div class="right-align">
-								{{ General::buat($link_mom,'dashboard/mom/tambah', 'MOM') }}
+								{{ General::buat($link_surat,'dashboard/surat/tambah', 'Surat') }}
 							</div>
 						</div>
 					</div>
 				</div>
-				<form method="GET" action="{{ URL('dashboard/mom/cari') }}">
+				<form method="GET" action="{{ URL('dashboard/surat/cari') }}">
 					@csrf
 					<div class="card-body">
 						<div class="input-group">
@@ -40,58 +40,58 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-body">
-				@if(!$lihat_moms->isEmpty())
+				@if(!$lihat_surats->isEmpty())
 				@php($no = 0)
-				@foreach($lihat_moms as $moms)
+				@foreach($lihat_surats as $surats)
 					@php($backcolor = '#fac8ec')
 					@if($no % 2 == 0)
 						@php($backcolor = '#c5fcb6')
 					@endif
 
-					@if(General::hakAkses('mom','tambah') == 'true')
-						@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
+					@if(General::hakAkses('surat','tambah') == 'true')
+						@php($ambil_surat_users = \App\Models\Surat_user::where('surats_id',$surats->id_surats)
 																	->first())
 					@else
-						@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
+						@php($ambil_surat_users = \App\Models\Surat_user::where('surats_id',$surats->id_surats)
 																	->where('users_id',Auth::user()->id)
 																	->first())
 					@endif
 					
 					@php($statusbacacolor = 'style=color:black;font-weight:bold')
-					@if(!empty($ambil_mom_users))
-						@if($ambil_mom_users->status_baca_mom_users == 1)
+					@if(!empty($ambil_surat_users))
+						@if($ambil_surat_users->status_baca_surat_users == 1)
 							@php($statusbacacolor = '')
 						@endif
 					@endif
 
-					@if(General::hakAkses('mom', 'baca') == 'true')
-						<div class="card linkmodal{{$moms->id_moms}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
+					@if(General::hakAkses('surat', 'baca') == 'true')
+						<div class="card linkmodal{{$surats->id_surats}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
 							<div class="card-body pb-0">
 								<div class="row">
 									<div class="col-sm-12">
 										<div class="row">
 											<div class="col-sm-6 left-align">
-												<p class="nosurat">{{$moms->no_moms}}</p>
+												<p class="nosurat">{{$surats->no_surats}}</p>
 											</div>
 											<div class="col-sm-6 right-align">
-												<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
+												<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($surats->tanggal_surats)}}</p>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="titleeventcard" {{$statusbacacolor}}>{{$moms->judul_moms}}</div>
-								<div class="titlevenuecard text-muted">venue : {{$moms->venue_moms}}</div>
-								<div class="buttoncetakmom">
-									{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
-									@if( strtotime($moms->tanggal_mulai_moms) < strtotime(date('Y-m-d H:i:s')) )
-										{{General::editButton($link_mom,'dashboard/mom/edit/'.$moms->id_moms)}}
-										{{General::hapusButton($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
+								<div class="titleeventcard" {{$statusbacacolor}}>{{$surats->judul_surats}}</div>
+								<div class="titlevenuecard text-muted">venue : {{$surats->venue_surats}}</div>
+								<div class="buttoncetaksurat">
+									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
+									@if( strtotime($surats->tanggal_mulai_surats) < strtotime(date('Y-m-d H:i:s')) )
+										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
+										{{General::hapusButton($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
 									@endif
 								</div>
 							</div>
 						</div>
 
-						<div id="modaldetailmoms{{$moms->id_moms}}" class="modal" tabindex="-1">
+						<div id="modaldetailsurats{{$surats->id_surats}}" class="modal" tabindex="-1">
 							<div class="modal-dialog modal-xl">
 								<div class="modal-content">
 									<div class="card-body">
@@ -102,28 +102,28 @@
 												</button>
 											</div>
 											<div class="col-sm-6">
-												<p class="judulsurat">{{$moms->judul_moms}}</p>
+												<p class="judulsurat">{{$surats->judul_surats}}</p>
 											</div>
 											<div class="col-sm-6 right-align">
-												<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
-												<p class="nosurat">{{$moms->no_moms}}</p>
+												<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($surats->tanggal_surats)}}</p>
+												<p class="nosurat">{{$surats->no_surats}}</p>
 											</div>
 											<div class="col-sm-12">
 												<table class="table table-responsive-sm">
 													<tr>
 														<th>Dari</th>
 														<th>:</th>
-														<td>{{General::ubahDBKeTanggalwaktu($moms->tanggal_mulai_moms)}}</td>
+														<td>{{General::ubahDBKeTanggalwaktu($surats->tanggal_mulai_surats)}}</td>
 													</tr>
 													<tr>
 														<th>Sampai</th>
 														<th>:</th>
-														<td>{{General::ubahDBKeTanggalwaktu($moms->tanggal_selesai_moms)}}</td>
+														<td>{{General::ubahDBKeTanggalwaktu($surats->tanggal_selesai_surats)}}</td>
 													</tr>
 													<tr>
 														<th width="50px">Venue</th>
 														<th width="1px">:</th>
-														<td>{{$moms->venue_moms}}</td>
+														<td>{{$surats->venue_surats}}</td>
 													</tr>
 												</table>
 											</div>
@@ -132,8 +132,8 @@
 											</div>
 											<div class="col-sm-12">
 												<h4>Peserta</h4>
-												@php($lihat_pesertas = \App\Models\Mom_user::join('users','users_id','=','users.id')
-																							->where('moms_id',$moms->id_moms)
+												@php($lihat_pesertas = \App\Models\Surat_user::join('users','users_id','=','users.id')
+																							->where('surats_id',$surats->id_surats)
 																							->orderBy('users.name')
 																							->get())
 												@foreach($lihat_pesertas as $pesertas)
@@ -146,7 +146,7 @@
 											<div class="col-sm-12">
 												<h4>Deskripsi</h4>
 												<br/>
-												{!! $moms->deskripsi_moms !!}	
+												{!! $surats->deskripsi_surats !!}	
 											</div>
 										</div>
 									</div>
@@ -155,18 +155,18 @@
 						</div>
 
 						<script type="text/javascript">
-							$('.linkmodal{{$moms->id_moms}}').on('click', async function() {
+							$('.linkmodal{{$surats->id_surats}}').on('click', async function() {
 								var headerRequest = {
 												'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
 											};
 								$.ajax({
-											url: '{{URL("dashboard/eventcalendar/mom/detail/".$moms->id_moms)}}',
+											url: '{{URL("dashboard/eventcalendar/surat/detail/".$surats->id_surats)}}',
 											type: "GET",
 											dataType: 'JSON',
 											headers: headerRequest,
 											success: function(data)
 											{
-												$("#modaldetailmoms{{$moms->id_moms}}").modal('show');
+												$("#modaldetailsurats{{$surats->id_surats}}").modal('show');
 											},
 											error: function(data) {
 												console.log(data);
@@ -176,19 +176,19 @@
 
 							$('.btn-close').on('click', function(){
 								$('.titleeventcard').css('font-weight','normal');
-								$("#modaldetailmoms{{$moms->id_moms}}").modal('hide');
+								$("#modaldetailsurats{{$surats->id_surats}}").modal('hide');
 							});
 						</script>
 					@else
 						<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
 								<div class="btn-group float-right">
-									<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
+									<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($surats->tanggal_surats)}}</p>
 								</div>
 								<div class="text-value-lg">
-									<p class="nosurat">{{$moms->no_moms}}</p>
+									<p class="nosurat">{{$surats->no_surats}}</p>
 								</div>
-								<div class="titleeventcard">{{$moms->judul_moms}}</div>
+								<div class="titleeventcard">{{$surats->judul_surats}}</div>
 							</div>
 						</div>
 					@endif
@@ -197,12 +197,12 @@
 			@else
 				<div class="card" style="height: 65px; background-color: #fac8ec; color: #000;">
 					<div class="card-body pb-0">
-						<div class="titleeventcardempty">Tidak ada MOM di bulan ini</div>
+						<div class="titleeventcardempty">Tidak ada Surat di bulan ini</div>
 					</div>
 				</div>
 			@endif
 					<div class="col-sm-12">
-						{{ $lihat_moms->appends(Request::except('page'))->links('vendor.pagination.custom') }}
+						{{ $lihat_surats->appends(Request::except('page'))->links('vendor.pagination.custom') }}
 					</div>
 				</div>
 			</div>
