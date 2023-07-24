@@ -21,10 +21,10 @@ class EventCalendarController extends AdminCoreController
         foreach($lihat_moms as $moms)
         {
             $calendar_data[] = [
-                'title'         => $moms->judul_moms,
+                'title'         => $moms->no_moms,
                 'start'         => $moms->tanggal_mulai_moms,
                 'end'           => $moms->tanggal_selesai_moms,
-                'description'   => 'Venue : '.$moms->venue_moms,
+                'description'   => $moms->judul_moms,
                 'color'         => General::randomWarna(),
             ];
         }

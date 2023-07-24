@@ -2,7 +2,7 @@
 @foreach($lihat_event_moms as $event_moms)
 	@if(General::hakAkses('mom', 'baca') == 'true')
 		<a data-target="#modaldetailmoms{{$event_moms->id_moms}}" href="#modaldetailmoms{{$event_moms->id_moms}}" data-toggle="modal" class="nonstyle">
-			<div class="card" style="height: 100px; background-color: #fff; color: #000;">
+			<div class="card" style="height: 150px; background-color: #fff; color: #000;">
 				<div class="card-body pb-0">
 					<div class="btn-group float-right">
 						<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
@@ -10,7 +10,8 @@
 					<div class="text-value-lg">
 						<p class="nosurat">{{$event_moms->no_moms}}</p>
 					</div>
-					<div class="textnotifberanda">{{$event_moms->judul_moms}}</div>
+					<div class="titleeventcard">{{$event_moms->judul_moms}}</div>
+					<div class="titlevenuecard text-muted">venue : {{$event_moms->venue_moms}}</div>
 				</div>
 				<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 			</div>
