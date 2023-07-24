@@ -1,8 +1,12 @@
-
+@php($no = 0)
 @foreach($lihat_event_moms as $event_moms)
+	@php($backcolor = '#fac8ec')
+	@if($no % 2 == 0)
+		@php($backcolor = '#c5fcb6')
+	@endif
 	@if(General::hakAkses('mom', 'baca') == 'true')
 		<a data-target="#modaldetailmoms{{$event_moms->id_moms}}" href="#modaldetailmoms{{$event_moms->id_moms}}" data-toggle="modal" class="nonstyle">
-			<div class="card" style="height: 150px; background-color: #fff; color: #000;">
+			<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
 				<div class="card-body pb-0">
 					<div class="btn-group float-right">
 						<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
@@ -75,7 +79,7 @@
 			</div>
 		</div>
 	@else
-		<div class="card" style="height: 100px; background-color: #fff; color: #000;">
+		<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
 			<div class="card-body pb-0">
 				<div class="btn-group float-right">
 					<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
@@ -88,4 +92,5 @@
 			<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 		</div>
 	@endif
+	@php($no++)
 @endforeach

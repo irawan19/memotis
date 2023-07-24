@@ -87,7 +87,11 @@
 			<div class="col-sm-5">
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="cardeventcalendar"></div>
+						<div class="card">
+							<div class="card-body">
+								<div class="cardeventcalendar"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
