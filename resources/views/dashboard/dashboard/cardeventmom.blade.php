@@ -18,7 +18,6 @@
 						<div class="titleeventcard">{{$event_moms->judul_moms}}</div>
 						<div class="titlevenuecard text-muted">venue : {{$event_moms->venue_moms}}</div>
 					</div>
-					<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 				</div>
 			</a>
 
@@ -88,18 +87,16 @@
 					<div class="text-value-lg">
 						<p class="nosurat">{{$event_moms->no_moms}}</p>
 					</div>
-					<div class="textnotifberanda">{{$event_moms->judul_moms}}</div>
+					<div class="titleeventcard">{{$event_moms->judul_moms}}</div>
 				</div>
-				<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 			</div>
 		@endif
 		@php($no++)
 	@endforeach
 @else
-	<div class="card" style="height: 100px; background-color: #fac8ec; color: #000;">
+	<div class="card" style="height: 70px; background-color: #fac8ec; color: #000;">
 		<div class="card-body pb-0">
-			<div class="textnotifberanda">Tidak ada MOM di bulan ini</div>
+			<div class="titleeventcardempty">Tidak ada MOM di bulan ini</div>
 		</div>
-		<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 	</div>
 @endif

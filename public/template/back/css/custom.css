@@ -245,3 +245,7 @@ not all {
 .titlevenuecard{
     font-family: "Open Sans", sans-serif;
 }
+.titleeventcardempty{
+    text-align: center;
+    font-size: 16px;
+}
