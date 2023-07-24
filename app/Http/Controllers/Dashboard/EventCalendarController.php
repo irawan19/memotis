@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Mom;
+use App\Models\Mom_user;
 use Auth;
 
 class EventCalendarController extends AdminCoreController
@@ -66,6 +67,29 @@ class EventCalendarController extends AdminCoreController
         }
         $data['lihat_event_moms']   = $lihat_moms;
         return view('dashboard.dashboard.cardeventmom',$data);
+    }
+
+    public function detail($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'baca') == 'true')
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->count();
+            if($cek_moms != 0)
+            {
+                $status_baca_data = [
+                    'status_baca_mom_users' => 1,
+                ];
+                Mom_user::where('moms_id',$id_moms)
+                        ->where('users_id',Auth::user()->id)
+                        ->update($status_baca_data);
+                return response()->json(['success' => 'success'], 200);
+            }
+            else
+                return response()->json(["error" => "error"], 400);
+        }
+        else
+            return response()->json(["error" => "error"], 400);
     }
 
 }

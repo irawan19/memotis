@@ -53,7 +53,7 @@
 																			->first())
 							@else
 								@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
-																			->where('users_id',Auth::user()->moms_id)
+																			->where('users_id',Auth::user()->id)
 																			->first())
 							@endif
 							

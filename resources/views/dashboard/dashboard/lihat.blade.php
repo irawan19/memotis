@@ -54,7 +54,7 @@
 				    	<div class="row" style="margin-top:30px !important;">
 				    		<div class="col-sm-12">
 					        	<div style="text-align: center;">
-					        		<img src="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->logo_text_konfigurasi_aplikasis)}}">
+					        		<img src="{{URL::asset('storage/'.$lihat_konfigurasi_aplikasis->logo_text_konfigurasi_aplikasis)}}" width="100%" style="max-width:256px">
 					        	</div>
 					        </div>
 				    		<div class="col-sm-12">
@@ -132,28 +132,28 @@
 			var date = calendar.getDate();
          	var year = date.getFullYear();
          	var month = date.getMonth();
-			$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+			$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
 
 
 			$('body').on('click', 'button.fc-prev-button', function () {
 				var date = calendar.getDate();
                 var year = date.getFullYear();
                 var month = date.getMonth();
-				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
             });
 
 			$('body').on('click', 'button.fc-next-button', function () {
 				var date = calendar.getDate();
                 var year = date.getFullYear();
                 var month = date.getMonth();
-				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
             });
 
 			$('body').on('click', 'button.fc-today-button', function () {
 				var date = calendar.getDate();
 				var year = date.getFullYear();
 				var month = date.getMonth();
-				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
 			});
 		});
 

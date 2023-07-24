@@ -61,7 +61,8 @@ Route::middleware([
         //Event Calendar
         Route::group(['prefix' => 'eventcalendar'], function() {
             Route::get('/', [DashboardEventCalendar::class, 'index']);
-            Route::get('/mom/{bulan}/{tahun}', [DashboardEventCalendar::class, 'mom']);
+            Route::get('/mom/card/{bulan}/{tahun}', [DashboardEventCalendar::class, 'mom']);
+            Route::get('/mom/detail/{id}', [DashboardEventCalendar::class, 'detail']);
         });
 
         //Konfigurasi Profil
