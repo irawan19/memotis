@@ -23,16 +23,16 @@ class MomController extends AdminCoreController
             {
                 $data['lihat_moms']    	        = Mom::selectRaw('*,
                                                                 moms.created_at as tanggal_moms')
-                                                        ->orderBy('created_at','desc')
+                                                        ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
             }
             else
             {
                 $data['lihat_moms']    	        = Mom::selectRaw('*,
                                                                 moms.created_at as tanggal_moms')
-                                                        ->leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
+                                                        ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('mom_users.users_id',Auth::user()->id)
-                                                        ->orderBy('created_at','desc')
+                                                        ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
             }
             session()->forget('halaman');
@@ -58,19 +58,19 @@ class MomController extends AdminCoreController
                 $data['lihat_moms']         = Mom::selectRaw('*,
                                                     moms.created_at as tanggal_moms')
                                                     ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
-                                                    ->orderBy('created_at','desc')
+                                                    ->orderBy('moms.created_at','desc')
                                                     ->paginate(10);
             }
             else
             {
                 $data['lihat_moms']    	        = Mom::selectRaw('*,
                                                                 moms.created_at as tanggal_moms')
-                                                        ->leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
+                                                        ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
                                                         ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
-                                                        ->orderBy('created_at','desc')
+                                                        ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
             }
             session(['halaman'              => $url_sekarang]);
@@ -147,25 +147,6 @@ class MomController extends AdminCoreController
                 $redirect_halaman  = 'dashboard/mom';
 
             return redirect($redirect_halaman);
-        }
-        else
-            return redirect('dashboard/mom');
-    }
-
-    public function baca($id_moms=0)
-    {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'baca') == 'true')
-        {
-            $cek_moms = Mom::where('id_moms',$id_moms)->count();
-            if($cek_moms != 0)
-            {
-                $data['baca_moms']  = Mom::where('id_moms',$id_moms)
-                                            ->first();
-                return view('dashboard.mom.edit',$data);
-            }
-            else
-                return redirect('dashboard/mom');
         }
         else
             return redirect('dashboard/mom');

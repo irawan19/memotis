@@ -47,6 +47,22 @@
 							@if($no % 2 == 0)
 								@php($backcolor = '#c5fcb6')
 							@endif
+
+							@if(General::hakAkses('mom','tambah') == 'true')
+								@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
+																			->first())
+							@else
+								@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
+																			->where('users_id',Auth::user()->moms_id)
+																			->first())
+							@endif
+							
+							@php($statusbacacolor = 'style=color:black;font-weight:bold')
+							@if(!empty($ambil_mom_users))
+								@if($ambil_mom_users->status_baca_mom_users == 1)
+									@php($statusbacacolor = '')
+								@endif
+							@endif
 							<div class="col-sm-12">
 								<div class="card" style="background-color:{{$backcolor}}">
 									<div class="card-body">
@@ -69,7 +85,7 @@
 														<div class="tab-pane active" id="home-{{$moms->id_moms}}" role="tabpanel">
 															<div class="row">
 																<div class="col-sm-6">
-																	<p class="judulsurat">{{$moms->judul_moms}}</p>
+																	<p class="judulsurat" {{$statusbacacolor}}>{{$moms->judul_moms}}</p>
 																</div>
 																<div class="col-sm-6 right-align">
 																	<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
@@ -147,7 +163,11 @@
 							@php($no++)
 						@endforeach
 					@else
-
+						<div class="card" style="height: 65px; background-color: #fac8ec; color: #000;">
+							<div class="card-body pb-0">
+								<div class="titleeventcardempty">Tidak ada MOM</div>
+							</div>
+						</div>
 					@endif
 					<div class="col-sm-12">
 						{{ $lihat_moms->appends(Request::except('page'))->links('vendor.pagination.custom') }}

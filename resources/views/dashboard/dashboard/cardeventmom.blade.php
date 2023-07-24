@@ -5,6 +5,23 @@
 		@if($no % 2 == 0)
 			@php($backcolor = '#c5fcb6')
 		@endif
+
+		@if(General::hakAkses('mom','tambah') == 'true')
+			@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$event_moms->id_moms)
+														->first())
+		@else
+			@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$event_moms->id_moms)
+														->where('users_id',Auth::user()->moms_id)
+														->first())
+		@endif
+		
+		@php($statusbacacolor = 'style=color:black;font-weight:bold')
+		@if(!empty($ambil_mom_users))
+			@if($ambil_mom_users->status_baca_mom_users == 1)
+				@php($statusbacacolor = '')
+			@endif
+		@endif
+
 		@if(General::hakAkses('mom', 'baca') == 'true')
 			<a data-target="#modaldetailmoms{{$event_moms->id_moms}}" href="#modaldetailmoms{{$event_moms->id_moms}}" data-toggle="modal" class="nonstyle">
 				<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
@@ -15,7 +32,7 @@
 						<div class="text-value-lg">
 							<p class="nosurat">{{$event_moms->no_moms}}</p>
 						</div>
-						<div class="titleeventcard">{{$event_moms->judul_moms}}</div>
+						<div class="titleeventcard" {{$statusbacacolor}}>{{$event_moms->judul_moms}}</div>
 						<div class="titlevenuecard text-muted">venue : {{$event_moms->venue_moms}}</div>
 					</div>
 				</div>
@@ -94,7 +111,7 @@
 		@php($no++)
 	@endforeach
 @else
-	<div class="card" style="height: 70px; background-color: #fac8ec; color: #000;">
+	<div class="card" style="height: 65px; background-color: #fac8ec; color: #000;">
 		<div class="card-body pb-0">
 			<div class="titleeventcardempty">Tidak ada MOM di bulan ini</div>
 		</div>

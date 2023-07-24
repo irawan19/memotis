@@ -21,7 +21,7 @@ class EventCalendarController extends AdminCoreController
         }
         else
         {
-            $lihat_moms = Mom::leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
+            $lihat_moms = Mom::leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                 ->whereRaw('DATE(tanggal_mulai_moms) >= "'.$mulai.'"')
                                 ->whereRaw('DATE(tanggal_selesai_moms) <= "'.$selesai.'"')
                                 ->where('mom_users.users_id',Auth::user()->id)
@@ -58,7 +58,7 @@ class EventCalendarController extends AdminCoreController
         {
             $lihat_moms = Mom::selectRaw('*,
                                 moms.created_at as tanggal_moms')
-                                ->leftJoin('mom_users','mom.id_moms','=','mom_users.moms_id')
+                                ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                 ->whereRaw('MONTH(tanggal_mulai_moms) = "'.$konversi_bulan.'"')
                                 ->whereRaw('YEAR(tanggal_selesai_moms) = "'.$tahun.'"')
                                 ->where('mom_users.users_id',Auth::user()->id)
