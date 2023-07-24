@@ -86,28 +86,9 @@
 
 			<div class="col-sm-5">
 				<div class="row">
-
-						<div class="col-sm-12">
-							<a href="{{URL('dashboard/surat')}}" class="nonstyle">
-								<div class="card" style="height: 100px; background-color: #fff; color: #000;">
-									<div class="card-body pb-0">
-										<div class="btn-group float-right">
-											<svg class="c-icon">
-												<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-plus')}}"></use>
-											</svg>
-										</div>
-										<div class="text-value-lg">
-											<svg class="c-icon">
-												<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-open')}}"></use>
-											</svg>
-										</div>
-										<div class="textnotifberanda">Surat</div>
-									</div>
-									<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
-								</div>
-							</a>
-						</div>
-						
+					<div class="col-sm-12">
+						<div class="cardeventcalendar"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -118,21 +99,21 @@
     <script src="{{URL::asset('template/back/vendors/fullcalendar/locales/id.js')}}"></script>
 	
     <script type="text/javascript">
-	    document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
-    		var calendar = new FullCalendar.Calendar(calendarEl, {
+			var calendar = new FullCalendar.Calendar(calendarEl, {
 				locale: 'id',
 				height:485,
 				dayMaxEvents: false,
-      			businessHours: true,
+				businessHours: true,
 				editable: false,
 				droppable: false,
 				eventClick: function(info) {
-	                swal({
-	                    title: info.event.title,
-	                    text: info.event.extendedProps.description,
-	                    type: "info",
-	                });
+					swal({
+						title: info.event.title,
+						text: info.event.extendedProps.description,
+						type: "info",
+					});
 				},
 				events: {
 					url: '{{URL("dashboard/eventcalendar")}}'
@@ -143,7 +124,35 @@
 				}
 			});
 			calendar.render();
-	});
+
+			var date = calendar.getDate();
+         	var year = date.getFullYear();
+         	var month = date.getMonth();
+			$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+
+
+			$('body').on('click', 'button.fc-prev-button', function () {
+				var date = calendar.getDate();
+                var year = date.getFullYear();
+                var month = date.getMonth();
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+            });
+
+			$('body').on('click', 'button.fc-next-button', function () {
+				var date = calendar.getDate();
+                var year = date.getFullYear();
+                var month = date.getMonth();
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+            });
+
+			$('body').on('click', 'button.fc-today-button', function () {
+				var date = calendar.getDate();
+				var year = date.getFullYear();
+				var month = date.getMonth();
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom")}}/'+month+'/'+year);
+			});
+		});
+
 	</script>
 
 
