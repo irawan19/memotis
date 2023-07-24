@@ -260,4 +260,25 @@ class MomController extends AdminCoreController
             return redirect('dashboard/mom');
     }
 
+    public function cetak($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'cetak') == 'true')
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->count();
+            if($cek_moms != 0)
+            {
+                $data['lihat_moms'] = Mom::selectRaw('*,
+                                                    moms.created_at as tanggal_moms')
+                                            ->where('id_moms',$id_moms)
+                                            ->first();
+                return view('dashboard.mom.cetak',$data);
+            }
+            else
+                return redirect('dashboard/mom');
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
 }
