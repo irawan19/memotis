@@ -1,0 +1,113 @@
+@extends('dashboard.layouts.app')
+@section('content')
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/surat/prosestambah') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="card-header">
+						<strong>Buat Surat</strong>
+					</div>
+					<div class="card-body">
+						@if (Session::get('setelah_simpan.alert') == 'sukses')
+					    	{{ General::pesanSuksesForm(Session::get('setelah_simpan.text')) }}
+					    @endif
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="no_asal_surats">No Asal Surat <b style="color:red">*</b></label>
+                                        <input class="form-control {{ General::validForm($errors->first('no_asal_surats')) }}" id="no_asal_surats" type="text" name="no_asal_surats" value="{{Request::old('no_asal_surats')}}">
+                                        {{General::pesanErrorForm($errors->first('no_asal_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="tanggal_asal_surats">Tanggal Asal Surat <b style="color:red">*</b></label>
+                                        <input class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }}" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats')}}">
+                                        {{General::pesanErrorForm($errors->first('tanggal_asal_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="asal_surats">Asal Surat <b style="color:red">*</b></label>
+                                        <input class="form-control {{ General::validForm($errors->first('asal_surats')) }}" id="asal_surats" type="text" name="asal_surats" value="{{Request::old('asal_surats')}}">
+                                        {{General::pesanErrorForm($errors->first('asal_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="perihal_surats">Perihal Surat <b style="color:red">*</b></label>
+                                        <input class="form-control {{ General::validForm($errors->first('perihal_surats')) }}" id="perihal_surats" type="text" name="perihal_surats" value="{{Request::old('perihal_surats')}}">
+                                        {{General::pesanErrorForm($errors->first('perihal_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="judul_surats">Judul <b style="color:red">*</b></label>
+                                        <input class="form-control {{ General::validForm($errors->first('judul_surats')) }}" id="judul_surats" type="text" name="judul_surats" value="{{Request::old('judul_surats')}}">
+                                        {{General::pesanErrorForm($errors->first('judul_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="ringkasan_surats">Ringkasan <b style="color:red">*</b></label>
+                                        <textarea class="form-control {{ General::validForm($errors->first('ringkasan_surats')) }}" id="editor1" name="ringkasan_surats" rows="5">{{Request::old('ringkasan_surats')}}</textarea>
+                                        {{General::pesanErrorForm($errors->first('ringkasan_surats'))}}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="klasifikasi_surats_id">Klasifikasi <b style="color:red">*</b></label>
+                                        <select class="form-control select2" id="klasifikasi_surats_id" name="klasifikasi_surats_id">
+                                            @foreach($tambah_klasifikasi_surats as $klasifikasi_surats)
+                                                <option value="{{$klasifikasi_surats->id_klasifikasi_surats}}" {{ Request::old('klasifikasi_surats_id') == $klasifikasi_surats->id_klasifikasi_surats ? $select='selected' : $select='' }}>{{$klasifikasi_surats->nama_klasifikasi_surats}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="derajat_surats_id">Derajat <b style="color:red">*</b></label>
+                                        <select class="form-control select2" id="derajat_surats_id" name="derajat_surats_id">
+                                            @foreach($tambah_derajat_surats as $derajat_surats)
+                                                <option value="{{$derajat_surats->id_derajat_surats}}" {{ Request::old('derajat_surats_id') == $derajat_surats->id_derajat_surats ? $select='selected' : $select='' }}>{{$derajat_surats->nama_derajat_surats}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="sifat_surats_id">Sifat <b style="color:red">*</b></label>
+                                        <select class="form-control select2" id="sifat_surats_id" name="sifat_surats_id">
+                                            <option value="">Tanpa Divisi</option>
+                                            @foreach($tambah_sifat_surats as $sifat_surats)
+                                                <option value="{{$sifat_surats->id_sifat_surats}}" {{ Request::old('sifat_surats_id') == $sifat_surats->id_sifat_surats ? $select='selected' : $select='' }}>{{$sifat_surats->nama_sifat_surats}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="users_id">Ditujukan Kepada <b style="color:red">*</b></label>
+                                        <select class="form-control select2" id="users_id" name="users_id">
+                                            <option value="" selected disabled="disabled">Silahkan pilih</option>
+                                            @foreach($tambah_users as $users)
+                                                <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$users->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="tanggal_surats">Tanggal <b style="color:red">*</b></label>
+                                        <input readonly class="form-control getStartEndDateTime {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats') == '' ? General::ubahDBKeTanggalwaktu(date('Y-m-d H:i:s')).' sampai '.General::ubahDBKeTanggalwaktu(date('Y-m-d H:i:s')) : Request::old('tanggal_surats')}}">
+                                        {{General::pesanErrorForm($errors->first('tanggal_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="keterangan_surats">Keterangan <b style="color:red">*</b></label>
+                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_surats')) }}" id="keterangan_surats" name="keterangan_surats" rows="5">{{Request::old('keterangan_surats')}}</textarea>
+                                        {{General::pesanErrorForm($errors->first('keterangan_surats'))}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+			        <div class="card-footer right-align">
+						{{General::kirim()}}
+			          	@if(request()->session()->get('halaman') != '')
+		            		@php($ambil_kembali = request()->session()->get('halaman'))
+	                    @else
+	                    	@php($ambil_kembali = URL('dashboard/surat'))
+	                    @endif
+						{{General::batal($ambil_kembali)}}
+			        </div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+@endsection
