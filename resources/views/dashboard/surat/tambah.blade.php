@@ -55,6 +55,7 @@
                                                 <option value="{{$klasifikasi_surats->id_klasifikasi_surats}}" {{ Request::old('klasifikasi_surats_id') == $klasifikasi_surats->id_klasifikasi_surats ? $select='selected' : $select='' }}>{{$klasifikasi_surats->nama_klasifikasi_surats}}</option>
                                             @endforeach
                                         </select>
+                                        {{General::pesanErrorForm($errors->first('klasifikasi_surats_id'))}}
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="derajat_surats_id">Derajat <b style="color:red">*</b></label>
@@ -63,15 +64,16 @@
                                                 <option value="{{$derajat_surats->id_derajat_surats}}" {{ Request::old('derajat_surats_id') == $derajat_surats->id_derajat_surats ? $select='selected' : $select='' }}>{{$derajat_surats->nama_derajat_surats}}</option>
                                             @endforeach
                                         </select>
+                                        {{General::pesanErrorForm($errors->first('derajat_surats_id'))}}
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="sifat_surats_id">Sifat <b style="color:red">*</b></label>
                                         <select class="form-control select2" id="sifat_surats_id" name="sifat_surats_id">
-                                            <option value="">Tanpa Divisi</option>
                                             @foreach($tambah_sifat_surats as $sifat_surats)
                                                 <option value="{{$sifat_surats->id_sifat_surats}}" {{ Request::old('sifat_surats_id') == $sifat_surats->id_sifat_surats ? $select='selected' : $select='' }}>{{$sifat_surats->nama_sifat_surats}}</option>
                                             @endforeach
                                         </select>
+                                        {{General::pesanErrorForm($errors->first('sifat_surats_id'))}}
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="users_id">Ditujukan Kepada <b style="color:red">*</b></label>
@@ -81,11 +83,24 @@
                                                 <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$users->name}}</option>
                                             @endforeach
                                         </select>
+                                        {{General::pesanErrorForm($errors->first('users_id'))}}
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="tanggal_surats">Tanggal <b style="color:red">*</b></label>
                                         <input readonly class="form-control getStartEndDateTime {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats') == '' ? General::ubahDBKeTanggalwaktu(date('Y-m-d H:i:s')).' sampai '.General::ubahDBKeTanggalwaktu(date('Y-m-d H:i:s')) : Request::old('tanggal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_surats'))}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="status_agendakan_surats">Agendakan <b style="color:red">*</b></label>
+                                        <br/>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_agendakan_surats" id="inlineRadio1" value="1">
+                                            <label class="form-check-label" for="inlineRadio1">Ya</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status_agendakan_surats" id="inlineRadio2" value="0" checked>
+                                            <label class="form-check-label" for="inlineRadio2">Tidak</label>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="keterangan_surats">Keterangan <b style="color:red">*</b></label>
@@ -129,6 +144,7 @@
             url: "{{ url('dashboard/surat/lampiran/upload') }}",
             maxFilesize: 5, // MB
             addRemoveLinks: true,
+            type:"POST",
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },

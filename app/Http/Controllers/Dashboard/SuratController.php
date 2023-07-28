@@ -113,9 +113,11 @@ class SuratController extends AdminCoreController
                 'derajat_surats_id'         => 'required',
                 'sifat_surats_id'           => 'required',
                 'tanggal_surats'            => 'required',
+                'judul_surats'              => 'required',
                 'perihal_surats'            => 'required',
                 'ringkasan_surats'          => 'required',
                 'status_agendakan_surats'   => 'required',
+                'users_id'                  => 'required',
             ];
             $this->validate($request, $aturan);
 
@@ -139,10 +141,6 @@ class SuratController extends AdminCoreController
             if(!empty($request->keterangan_surats))
                 $keterangan_surats = $request->keterangan_surats;
 
-            $status_agendakan_surats = 0;
-            if(!empty($request->status_agendakan_surats))
-                $status_agendakan_surats = 1;
-
             $surats_data = [
                 'klasifikasi_surats_id'     => $request->klasifikasi_surats_id,
                 'derajat_surats_id'         => $request->derajat_surats_id,
@@ -158,7 +156,7 @@ class SuratController extends AdminCoreController
                 'perihal_surats'            => $request->perihal_surats,
                 'ringkasan_surats'          => $request->ringkasan_surats,
                 'keterangan_surats'         => $keterangan_surats,
-                'status_agendakan_surats'   => $status_agendakan_surats,
+                'status_agendakan_surats'   => $request->status_agendakan_surats,
                 'created_at'                => date('Y-m-d H:i:s'),
             ];
             $id_surats = Surat::insertGetId($surats_data);

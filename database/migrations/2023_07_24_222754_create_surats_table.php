@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('no_surats');
             $table->string('no_asal_surats');
             $table->string('asal_surats');
+            $table->string('judul_surats');
             $table->date('tanggal_asal_surats')->nullable();
             $table->date('tanggal_mulai_surats');
             $table->date('tanggal_selesai_surats');
