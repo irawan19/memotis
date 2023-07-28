@@ -80,10 +80,9 @@
 									</div>
 								</div>
 								<div class="titleeventcard" {{$statusbacacolor}}>{{$surats->judul_surats}}</div>
-								<div class="titlevenuecard text-muted">venue : {{$surats->venue_surats}}</div>
 								<div class="buttoncetaksurat">
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
-									@if( strtotime($surats->tanggal_mulai_surats) < strtotime(date('Y-m-d H:i:s')) )
+									@if( strtotime($surats->tanggal_mulai_surats) < strtotime(date('Y-m-d')) )
 										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
 										{{General::hapusButton($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
 									@endif
