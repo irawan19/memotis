@@ -77,13 +77,13 @@ class General
 				{
 					$no_surats_new 			= (int)$explode_no[1] + 1;
 					$format_no_surats_new 	= sprintf('%04d', $no_surats_new);
-					$format_surats_new 		= 'SURAT/'.$format_no_surats_new.'/'.date('m').'/'.date('Y');
+					$format_surats_new 		= 'GYS/'.$format_no_surats_new.'/'.date('m').'/'.date('Y');
 				}
 				else
-					$format_surats_new 		= 'SURAT/0001/'.date('m').'/'.date('Y');
+					$format_surats_new 		= 'GYS/0001/'.date('m').'/'.date('Y');
 			}
 			else
-				$format_surats_new 			= 'SURAT/0001/'.date('m').'/'.date('Y');
+				$format_surats_new 			= 'GYS/0001/'.date('m').'/'.date('Y');
 
 			return $format_surats_new;
 		}
