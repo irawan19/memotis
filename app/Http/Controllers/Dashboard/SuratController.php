@@ -245,4 +245,121 @@ class SuratController extends AdminCoreController
         else
             return redirect('dashboard/surat');
     }
+
+    public function prosesedit($id_surats=0, Request $request)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'edit') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->count();
+            if($cek_surats != 0)
+            {
+                $aturan = [
+                    'klasifikasi_surats_id'     => 'required',
+                    'derajat_surats_id'         => 'required',
+                    'sifat_surats_id'           => 'required',
+                    'tanggal_surats'            => 'required',
+                    'judul_surats'              => 'required',
+                    'perihal_surats'            => 'required',
+                    'ringkasan_surats'          => 'required',
+                    'status_agendakan_surats'   => 'required',
+                    'users_id'                  => 'required',
+                ];
+                $this->validate($request, $aturan);
+    
+                $no_asal_surat = '';
+                if(!empty($request->no_asal_surats))
+                    $no_asal_surat = $request->no_asal_surats;
+                
+                $asal_surats = '';
+                if(!empty($request->asal_surats))
+                    $asal_surats = $request->asal_surats;
+                
+                $tanggal_asal_surats = null;
+                if(!empty($request->tanggal_asal_surats))
+                    $tanggal_asal_surats = General::ubahTanggalKeDB($request->tanggal_asal_surats);
+    
+                $tanggal_surats         = explode(' sampai ', $request->tanggal_surats);
+                $tanggal_mulai_surats   = General::ubahTanggalKeDB($tanggal_surats[0]);
+                $tanggal_selesai_surats = General::ubahTanggalKeDB($tanggal_surats[1]);
+                
+                $keterangan_surats = '';
+                if(!empty($request->keterangan_surats))
+                    $keterangan_surats = $request->keterangan_surats;
+    
+                $surats_data = [
+                    'klasifikasi_surats_id'     => $request->klasifikasi_surats_id,
+                    'derajat_surats_id'         => $request->derajat_surats_id,
+                    'sifat_surats_id'           => $request->sifat_surats_id,
+                    'tujuan_users_id'           => $request->users_id,
+                    'dibuat_users_id'           => Auth::user()->id,
+                    'no_surats'                 => General::generateNoSurat(),
+                    'no_asal_surats'            => $no_asal_surat,
+                    'asal_surats'               => $asal_surats,
+                    'judul_surats'              => $request->judul_surats,
+                    'tanggal_asal_surats'       => $tanggal_asal_surats,
+                    'tanggal_mulai_surats'      => $tanggal_mulai_surats,
+                    'tanggal_selesai_surats'    => $tanggal_selesai_surats,
+                    'perihal_surats'            => $request->perihal_surats,
+                    'ringkasan_surats'          => $request->ringkasan_surats,
+                    'keterangan_surats'         => $keterangan_surats,
+                    'status_agendakan_surats'   => $request->status_agendakan_surats,
+                    'updated_at'                => date('Y-m-d H:i:s'),
+                ];
+                $id_surats = Surat::insertGetId($surats_data);
+
+                Surat_lampiran::where('surats_id',$id_surats)
+                                ->delete();
+    
+                if(!empty($request->lampiran))
+                {
+                    foreach($request->input('lampiran', []) as $file) {
+                        $surat_lampirans_data = [
+                            'surats_id'             => $id_surats,
+                            'file_surat_lampirans'  => 'lampiran/'.$file,
+                            'created_at'            => date('Y-m-d H:i:s'),
+                        ];
+                        Surat_lampiran::insert($surat_lampirans_data);
+                    }
+                }
+    
+                if(request()->session()->get('halaman') != '')
+                    $redirect_halaman  = request()->session()->get('halaman');
+                else
+                    $redirect_halaman  = 'dashboard/surat';
+    
+                return redirect($redirect_halaman);
+            }
+            else
+                return redirect('dashboard/surat');
+        }
+        else
+            return redirect('dashboard/surat');
+    }
+
+    public function hapus($id_surats=0)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'hapus') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->first();
+            if(!empty($cek_surats))
+            {
+                $ambil_surat_lampirans = Surat_lampiran::where('surats_id',$id_surats)->get();
+                foreach($ambil_surat_lampirans as $surat_lampirans)
+                {
+                    Storage::disk('public')->delete($surat_lampirans->file_lampirans);
+                }
+                Surat_lampiran::where('surats_id',$id_surats)
+                                ->delete();
+                Surat::where('id_surats',$id_surats)
+                    ->delete();
+                return response()->json(["sukses" => "sukses"], 200);
+            }
+            else
+                return redirect('dashboard/surat');
+        }
+        else
+            return redirect('dashboard/surat');
+    }
 }
