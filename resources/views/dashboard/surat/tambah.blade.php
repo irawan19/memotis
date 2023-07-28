@@ -17,17 +17,17 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="no_asal_surats">No Asal Surat <b style="color:red">*</b></label>
+                                        <label class="form-col-form-label" for="no_asal_surats">No Asal Surat</label>
                                         <input class="form-control {{ General::validForm($errors->first('no_asal_surats')) }}" id="no_asal_surats" type="text" name="no_asal_surats" value="{{Request::old('no_asal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('no_asal_surats'))}}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="tanggal_asal_surats">Tanggal Asal Surat <b style="color:red">*</b></label>
-                                        <input class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }}" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats')}}">
+                                        <label class="form-col-form-label" for="tanggal_asal_surats">Tanggal Asal Surat</label>
+                                        <input class="form-control getDate {{ General::validForm($errors->first('tanggal_asal_surats')) }}" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_asal_surats'))}}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="asal_surats">Asal Surat <b style="color:red">*</b></label>
+                                        <label class="form-col-form-label" for="asal_surats">Asal Surat</label>
                                         <input class="form-control {{ General::validForm($errors->first('asal_surats')) }}" id="asal_surats" type="text" name="asal_surats" value="{{Request::old('asal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('asal_surats'))}}
                                     </div>
