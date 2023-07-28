@@ -150,6 +150,7 @@ class SuratController extends AdminCoreController
                 'no_surats'                 => General::generateNoSurat(),
                 'no_asal_surats'            => $no_asal_surat,
                 'asal_surats'               => $asal_surats,
+                'judul_surats'              => $request->judul_surats,
                 'tanggal_asal_surats'       => $tanggal_asal_surats,
                 'tanggal_mulai_surats'      => $tanggal_mulai_surats,
                 'tanggal_selesai_surats'    => $tanggal_selesai_surats,
@@ -217,5 +218,31 @@ class SuratController extends AdminCoreController
         }
         else
             return response()->json(['error' => 'error'], 400);
+    }
+
+    public function edit($id_surats=0)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat, 'edit') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->first();
+            if(!empty($cek_surats))
+            {
+                $data['edit_surats']                = $cek_surats;
+                $data['edit_klasifikasi_surats']    = Master_klasifikasi_surat::orderBy('nama_klasifikasi_surats')->get();
+                $data['edit_derajat_surats']        = Master_derajat_surat::orderBy('nama_derajat_surats')->get();
+                $data['edit_sifat_surats']          = Master_sifat_surat::orderBy('nama_sifat_surats')->get();
+                $data['edit_users']                 = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                            ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                            ->where('id','!=',1)
+                                                            ->get();
+                $data['edit_surat_lampirans']       = Surat_lampiran::where('surats_id',$id_surats)->get();
+                return view('dashboard.surat.edit',$data);
+            }
+            else
+                return redirect('dashboard/surat');
+        }
+        else
+            return redirect('dashboard/surat');
     }
 }
