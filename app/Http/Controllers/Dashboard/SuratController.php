@@ -5,11 +5,12 @@ use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Surat;
 use App\Models\User;
-use App\Models\Surat_user;
+use App\Models\Surat_lampiran;
 use App\Models\Master_klasifikasi_surat;
 use App\Models\Master_derajat_surat;
 use App\Models\Master_sifat_surat;
 use Auth;
+use Storage;
 
 class SuratController extends AdminCoreController
 {
@@ -100,5 +101,123 @@ class SuratController extends AdminCoreController
         }
         else
             return redirect('dashboard/surat');
+    }
+
+    public function prosestambah(Request $request)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat, 'tambah') == 'true')
+        {
+            $aturan = [
+                'klasifikasi_surats_id'     => 'required',
+                'derajat_surats_id'         => 'required',
+                'sifat_surats_id'           => 'required',
+                'tanggal_surats'            => 'required',
+                'perihal_surats'            => 'required',
+                'ringkasan_surats'          => 'required',
+                'status_agendakan_surats'   => 'required',
+            ];
+            $this->validate($request, $aturan);
+
+            $no_asal_surat = '';
+            if(!empty($request->no_asal_surats))
+                $no_asal_surat = $request->no_asal_surats;
+            
+            $asal_surats = '';
+            if(!empty($request->asal_surats))
+                $asal_surats = $request->asal_surats;
+            
+            $tanggal_asal_surats = null;
+            if(!empty($request->tanggal_asal_surats))
+                $tanggal_asal_surats = General::ubahTanggalKeDB($request->tanggal_asal_surats);
+
+            $tanggal_surats         = explode(' sampai ', $request->tanggal_surats);
+            $tanggal_mulai_surats   = General::ubahTanggalKeDB($tanggal_surats[0]);
+            $tanggal_selesai_surats = General::ubahTanggalKeDB($tanggal_surats[1]);
+            
+            $keterangan_surats = '';
+            if(!empty($request->keterangan_surats))
+                $keterangan_surats = $request->keterangan_surats;
+
+            $status_agendakan_surats = 0;
+            if(!empty($request->status_agendakan_surats))
+                $status_agendakan_surats = 1;
+
+            $surats_data = [
+                'klasifikasi_surats_id'     => $request->klasifikasi_surats_id,
+                'derajat_surats_id'         => $request->derajat_surats_id,
+                'sifat_surats_id'           => $request->sifat_surats_id,
+                'tujuan_users_id'           => $request->users_id,
+                'dibuat_users_id'           => Auth::user()->id,
+                'no_surats'                 => General::generateNoSurat(),
+                'no_asal_surats'            => $no_asal_surat,
+                'asal_surats'               => $asal_surats,
+                'tanggal_asal_surats'       => $tanggal_asal_surats,
+                'tanggal_mulai_surats'      => $tanggal_mulai_surats,
+                'tanggal_selesai_surats'    => $tanggal_selesai_surats,
+                'perihal_surats'            => $request->perihal_surats,
+                'ringkasan_surats'          => $request->ringkasan_surats,
+                'keterangan_surats'         => $keterangan_surats,
+                'status_agendakan_surats'   => $status_agendakan_surats,
+                'created_at'                => date('Y-m-d H:i:s'),
+            ];
+            $id_surats = Surat::insertGetId($surats_data);
+
+            if(!empty($request->lampiran))
+            {
+                foreach($request->input('lampiran', []) as $file) {
+                    $surat_lampirans_data = [
+                        'surats_id'             => $id_surats,
+                        'file_surat_lampirans'  => 'lampiran/'.$file,
+                        'created_at'            => date('Y-m-d H:i:s'),
+                    ];
+                    Surat_lampiran::insert($surat_lampirans_data);
+                }
+            }
+
+            if(request()->session()->get('halaman') != '')
+                $redirect_halaman  = request()->session()->get('halaman');
+            else
+                $redirect_halaman  = 'dashboard/surat';
+
+            return redirect($redirect_halaman);
+        }
+        else
+            return redirect('dashboard/surat');
+    }
+
+    public function uploadlampiran(Request $request)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat, 'tambah') == 'true')
+        {
+            $path = public_path('storage/lampiran');
+
+            $file = $request->file('file');
+            $name = uniqid() . '_' . trim($file->getClientOriginalName());
+            $file->move($path, $name);
+
+            return response()->json([
+                'name'          => $name,
+                'original_name' => $file->getClientOriginalName(),
+            ],200);
+        }
+        else
+            return response()->json(['error' => 'error'], 400);
+    }
+
+    public function hapuslampiran(Request $request)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat, 'tambah') == 'true')
+        {
+            Storage::disk('public')->delete('lampiran/'.$request->file);
+
+            return response()->json([
+                'success' => 'success'
+            ],200);
+        }
+        else
+            return response()->json(['error' => 'error'], 400);
     }
 }

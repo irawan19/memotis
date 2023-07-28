@@ -93,6 +93,16 @@
                                         {{General::pesanErrorForm($errors->first('keterangan_surats'))}}
                                     </div>
                                 </div>
+                                <div class="col-sm-12">
+                                    <hr/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group formdropzone">
+                                        <label for="lampiran">Lampiran</label>
+                                        <div class="needsclick dropzone" id="lampiran-dropzone">
+                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran</span></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 					</div>
@@ -109,5 +119,61 @@
 			</div>
 		</div>
 	</div>
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    <script>
+        var uploadedDocumentMap = {}
+        Dropzone.options.lampiranDropzone = {
+            url: "{{ url('dashboard/surat/lampiran/upload') }}",
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function (file, response) {
+                $('.formdropzone').append('<input type="hidden" name="lampiran[]" value="' + response.name + '">')
+                uploadedDocumentMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                file.previewElement.remove();
+                var name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedDocumentMap[file.name]
+                }
+                $.ajax({
+                    url: "{{ url('dashboard/surat/lampiran/hapus') }}",
+                    data: {'file' : name },
+				    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+				    dataType: 'JSON',
+				    success: function(data)
+				    {
+                        $('.formdropzone').find('input[name="lampiran[]"][value="' + name + '"]').remove();
+				    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
+            },
+            init: function () {
+            @if(isset($project) && $project->lampiran)
+                var files =
+                {!! json_encode($project->lampiran) !!}
+                for (var i in files) {
+                var file = files[i]
+                this.options.addedfile.call(this, file)
+                file.previewElement.classList.add('dz-complete')
+                $('formdropzone').append('<input type="hidden" name="lampiran[]" value="' + file.file_name + '">')
+                }
+            @endif
+            }
+        }
+    </script>
 
 @endsection

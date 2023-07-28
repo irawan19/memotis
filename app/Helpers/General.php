@@ -8,6 +8,7 @@ use DB;
 use URL;
 use Illuminate\Support\Str;
 use App\Models\Master_menu;
+use App\Models\Surat;
 use App\Models\Mom;
 
 class General
@@ -59,6 +60,32 @@ class General
 			$autoincrement 		= DB::table($table)->where('menus_id',$id_menus)->max($id);
 			$id_auto_increment 	= $autoincrement + 1;
 			return $id_auto_increment;
+		}
+
+		public static function generateNoSurat()
+		{
+			$ambil_surats = Surat::select('no_surats')
+									->whereRaw('MONTH(created_at) = "'.date('m').'"')
+									->whereRaw('YEAR(created_at) = "'.date('Y').'"')
+									->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(no_surats,"-",2),"-",-1) AS SIGNED) desc')
+									->first();
+			if(!empty($ambil_surats))
+			{
+				$no_surats 					= $ambil_surats->no_surats;
+				$explode_no 				= explode('/', $no_surats);
+				if(!empty($explode_no[1]))
+				{
+					$no_surats_new 			= (int)$explode_no[1] + 1;
+					$format_no_surats_new 	= sprintf('%04d', $no_surats_new);
+					$format_surats_new 		= 'SURAT/'.$format_no_surats_new.'/'.date('m').'/'.date('Y');
+				}
+				else
+					$format_surats_new 		= 'SURAT/0001/'.date('m').'/'.date('Y');
+			}
+			else
+				$format_surats_new 			= 'SURAT/0001/'.date('m').'/'.date('Y');
+
+			return $format_surats_new;
 		}
 
 		public static function generateNoMOM()

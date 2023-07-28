@@ -87,6 +87,10 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardSurat::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardSurat::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardSurat::class, 'hapus']);
+                Route::group(['prefix' => 'lampiran'], function() {
+                    Route::post('/upload', [DashboardSurat::class, 'uploadlampiran']);
+                    Route::post('/hapus', [DashboardSurat::class, 'hapuslampiran']);
+                });
             });
 
             //Mom
