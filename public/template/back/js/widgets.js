@@ -451,4 +451,4 @@ var brandBoxChart3 = new Chart(document.getElementById('social-box-chart-3'), {
   },
   options: brandBoxChartOptions
 });
-//# sourceMappingURL=widgets.js.map
+/=widgets.js.map

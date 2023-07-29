@@ -17,4 +17,4 @@ $('#toast-2').on('hidden.coreui.toast', function () {
     $('#toast-2').toast('show');
   }, 2500);
 });
-//# sourceMappingURL=toasts.js.map
+/=toasts.js.map

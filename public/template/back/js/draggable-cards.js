@@ -17,4 +17,4 @@ $(element).sortable({
   opacity: 0.8,
   placeholder: 'card-placeholder'
 }).disableSelection();
-//# sourceMappingURL=draggable-cards.js.map
+/=draggable-cards.js.map

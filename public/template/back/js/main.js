@@ -250,4 +250,4 @@ var mainChart = new Chart(document.getElementById('main-chart'), {
     }
   }
 });
-//# sourceMappingURL=main.js.map
+/=main.js.map

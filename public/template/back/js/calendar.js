@@ -11,4 +11,4 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
   plugins: ['dayGrid']
 });
 calendar.render();
-//# sourceMappingURL=calendar.js.map
+/=calendar.js.map

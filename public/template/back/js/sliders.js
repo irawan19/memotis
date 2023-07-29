@@ -206,4 +206,4 @@ $('#range_24').ionRangeSlider({
   hide_from_to: false,
   grid: false
 });
-//# sourceMappingURL=sliders.js.map
+/=sliders.js.map

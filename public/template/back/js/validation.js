@@ -75,4 +75,4 @@ $('#signupForm').validate({
     $(element).addClass('is-valid').removeClass('is-invalid');
   }
 });
-//# sourceMappingURL=validation.js.map
+/=validation.js.map

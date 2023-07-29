@@ -53,4 +53,4 @@ var editor = new Quill('#editor', {
   },
   theme: 'snow'
 });
-//# sourceMappingURL=text-editor.js.map
+/=text-editor.js.map

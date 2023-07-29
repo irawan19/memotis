@@ -26,4 +26,4 @@ Ladda.bind('.btn-ladda-progress', {
     }, 200);
   }
 });
-//# sourceMappingURL=loading-buttons.js.map
+/=loading-buttons.js.map

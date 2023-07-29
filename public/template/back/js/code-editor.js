@@ -13,4 +13,4 @@ var editor = CodeMirror.fromTextArea(codemirror, {
   mode: 'xml'
 });
 editor.setSize('100%', 700);
-//# sourceMappingURL=code-editor.js.map
+/=code-editor.js.map

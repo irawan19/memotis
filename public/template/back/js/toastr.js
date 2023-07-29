@@ -147,4 +147,4 @@ $('#clearlasttoast').click(function () {
 $('#cleartoasts').click(function () {
   toastr.clear();
 });
-//# sourceMappingURL=toastr.js.map
+/=toastr.js.map

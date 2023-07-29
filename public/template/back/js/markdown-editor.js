@@ -17,4 +17,4 @@ var editor = CodeMirror.fromTextArea(codemirror, {
   }
 });
 editor.setSize('100%', 700);
-//# sourceMappingURL=markdown-editor.js.map
+/=markdown-editor.js.map

@@ -46,4 +46,4 @@ $('input[name="singledatepicker"]').daterangepicker({
     firstDay: 1
   }
 });
-//# sourceMappingURL=advanced-forms.js.map
+/=advanced-forms.js.map
