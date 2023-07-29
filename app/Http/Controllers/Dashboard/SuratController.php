@@ -28,7 +28,7 @@ class SuratController extends AdminCoreController
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
-                                                            ->join('users','surats.tujuan_users_id','=','users.id')
+                                                            ->join('users','surats.users_id','=','users.id')
                                                             ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
                                                             ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                             ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
@@ -39,7 +39,7 @@ class SuratController extends AdminCoreController
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
-                                                        ->join('users','surats.tujuan_users_id','=','users.id')
+                                                        ->join('users','surats.users_id','=','users.id')
                                                         ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
                                                         ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                         ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
@@ -70,7 +70,7 @@ class SuratController extends AdminCoreController
             {
                 $data['lihat_surats']         = Surat::selectRaw('*,
                                                         surats.created_at as tanggal_surats')
-                                                    ->join('users','surats.tujuan_users_id','=','users.id')
+                                                    ->join('users','surats.users_id','=','users.id')
                                                     ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
                                                     ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                     ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
@@ -82,7 +82,7 @@ class SuratController extends AdminCoreController
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
-                                                        ->join('users','surats.tujuan_users_id','=','users.id')
+                                                        ->join('users','surats.users_id','=','users.id')
                                                         ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
                                                         ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                         ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
@@ -170,8 +170,7 @@ class SuratController extends AdminCoreController
                 'klasifikasi_surats_id'     => $request->klasifikasi_surats_id,
                 'derajat_surats_id'         => $request->derajat_surats_id,
                 'sifat_surats_id'           => $request->sifat_surats_id,
-                'tujuan_users_id'           => $request->users_id,
-                'dibuat_users_id'           => Auth::user()->id,
+                'users_id'                  => Auth::user()->id,
                 'no_surats'                 => General::generateNoSurat(),
                 'no_asal_surats'            => $no_asal_surat,
                 'asal_surats'               => $asal_surats,
@@ -186,6 +185,14 @@ class SuratController extends AdminCoreController
                 'created_at'                => date('Y-m-d H:i:s'),
             ];
             $id_surats = Surat::insertGetId($surats_data);
+
+            $surat_users_data = [
+                'surats_id'                 => $id_surats,
+                'users_id'                  => $request->users_id,
+                'status_baca_surat_users'   => 0,
+                'created_at'                => date('Y-m-d H:i:s'),
+            ];
+            Surat_user::insert($surat_users_data);
 
             if(!empty($request->lampiran))
             {
@@ -323,8 +330,7 @@ class SuratController extends AdminCoreController
                     'klasifikasi_surats_id'     => $request->klasifikasi_surats_id,
                     'derajat_surats_id'         => $request->derajat_surats_id,
                     'sifat_surats_id'           => $request->sifat_surats_id,
-                    'tujuan_users_id'           => $request->users_id,
-                    'dibuat_users_id'           => Auth::user()->id,
+                    'users_id'                  => Auth::user()->id,
                     'no_surats'                 => General::generateNoSurat(),
                     'no_asal_surats'            => $no_asal_surat,
                     'asal_surats'               => $asal_surats,
@@ -338,7 +344,16 @@ class SuratController extends AdminCoreController
                     'status_agendakan_surats'   => $request->status_agendakan_surats,
                     'updated_at'                => date('Y-m-d H:i:s'),
                 ];
-                $id_surats = Surat::insertGetId($surats_data);
+                Surat::where('id_surats',$id_surats)
+                    ->update($surats_data);
+
+                $surat_users_data = [
+                    'users_id'                  => $request->users_id,
+                    'status_baca_surat_users'   => 0,
+                    'updated_at'                => date('Y-m-d H:i:s'),
+                ];
+                Surat_user::where('surats_id',$id_surats)
+                            ->update($surat_users_data);
 
                 Surat_lampiran::where('surats_id',$id_surats)
                                 ->delete();

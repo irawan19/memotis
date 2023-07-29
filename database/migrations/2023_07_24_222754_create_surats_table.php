@@ -19,10 +19,8 @@ return new class extends Migration
             $table->foreign('derajat_surats_id')->references('id_derajat_surats')->on('master_derajat_surats')->onUpdate('set null')->onDelete('set null');
             $table->bigInteger('sifat_surats_id')->unsigned()->index()->nullable();
             $table->foreign('sifat_surats_id')->references('id_sifat_surats')->on('master_sifat_surats')->onUpdate('set null')->onDelete('set null');
-            $table->bigInteger('tujuan_users_id')->unsigned()->index()->nullable();
-            $table->foreign('tujuan_users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
-            $table->bigInteger('dibuat_users_id')->unsigned()->index()->nullable();
-            $table->foreign('dibuat_users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
+            $table->bigInteger('users_id')->unsigned()->index()->nullable();
+            $table->foreign('users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
             $table->string('no_surats');
             $table->string('no_asal_surats');
             $table->string('asal_surats');

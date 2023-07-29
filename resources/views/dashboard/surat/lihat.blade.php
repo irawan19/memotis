@@ -115,7 +115,13 @@
 													</tr>
 													<tr>
 														<td colspan="3">{{$surats->asal_surats}}</td>
-														<td colspan="3" class="right-align">{{$surats->name}}</td>
+														<td colspan="3" class="right-align">
+															@php($surat_users = \App\Models\Surat_user::join('users','users_id','=','users.id')
+																										->where('surats_id',$surats->id_surats)
+																										->orderBy('id_surat_users','asc')
+																										->first())
+															{{$surat_users->name}}
+														</td>
 													</tr>
 													<tr>
 														<td width="50px">Tanggal</td>
