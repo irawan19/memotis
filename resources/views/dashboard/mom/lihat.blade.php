@@ -109,10 +109,10 @@
 												<p class="nosurat">{{$moms->no_moms}}</p>
 											</div>
 											<div class="col-sm-12">
-												<table class="table table-responsive-sm">
+												<table width="100%">
 													<tr>
-														<th>Dari</th>
-														<th>:</th>
+														<th width="50px">Dari</th>
+														<th width="1px">:</th>
 														<td>{{General::ubahDBKeTanggalwaktu($moms->tanggal_mulai_moms)}}</td>
 													</tr>
 													<tr>
@@ -121,8 +121,8 @@
 														<td>{{General::ubahDBKeTanggalwaktu($moms->tanggal_selesai_moms)}}</td>
 													</tr>
 													<tr>
-														<th width="50px">Venue</th>
-														<th width="1px">:</th>
+														<th>Ditujukan Kepada</th>
+														<th>:</th>
 														<td>{{$moms->venue_moms}}</td>
 													</tr>
 												</table>

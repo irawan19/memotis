@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Surat;
 use App\Models\User;
+use App\Models\Surat_user;
 use App\Models\Surat_lampiran;
 use App\Models\Master_klasifikasi_surat;
 use App\Models\Master_derajat_surat;
@@ -27,13 +28,21 @@ class SuratController extends AdminCoreController
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
-                                                        ->orderBy('surats.created_at','desc')
-                                                        ->paginate(10);
+                                                            ->join('users','surats.tujuan_users_id','=','users.id')
+                                                            ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                            ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                            ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
+                                                            ->orderBy('surats.created_at','desc')
+                                                            ->paginate(10);
             }
             else
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
+                                                        ->join('users','surats.tujuan_users_id','=','users.id')
+                                                        ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                        ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                        ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                         ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
                                                         ->where('surat_users.users_id',Auth::user()->id)
                                                         ->orderBy('surats.created_at','desc')
@@ -60,7 +69,11 @@ class SuratController extends AdminCoreController
             if(General::hakAkses($link_surat,'tambah') == 'true')
             {
                 $data['lihat_surats']         = Surat::selectRaw('*,
-                                                    surats.created_at as tanggal_surats')
+                                                        surats.created_at as tanggal_surats')
+                                                    ->join('users','surats.tujuan_users_id','=','users.id')
+                                                    ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                    ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                    ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                     ->where('judul_surats', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->orderBy('surats.created_at','desc')
                                                     ->paginate(10);
@@ -69,6 +82,10 @@ class SuratController extends AdminCoreController
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
+                                                        ->join('users','surats.tujuan_users_id','=','users.id')
+                                                        ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                        ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                        ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                         ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
                                                         ->where('judul_surats', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('surat_users.users_id',Auth::user()->id)
@@ -133,9 +150,17 @@ class SuratController extends AdminCoreController
             if(!empty($request->tanggal_asal_surats))
                 $tanggal_asal_surats = General::ubahTanggalKeDB($request->tanggal_asal_surats);
 
-            $tanggal_surats         = explode(' sampai ', $request->tanggal_surats);
-            $tanggal_mulai_surats   = General::ubahTanggalKeDB($tanggal_surats[0]);
-            $tanggal_selesai_surats = General::ubahTanggalKeDB($tanggal_surats[1]);
+            if(!empty($request->tanggal_surats))
+            {
+                $tanggal_surats         = explode(' sampai ', $request->tanggal_surats);
+                $tanggal_mulai_surats   = General::ubahTanggalKeDB($tanggal_surats[0]);
+                $tanggal_selesai_surats = General::ubahTanggalKeDB($tanggal_surats[1]);
+            }
+            else
+            {
+                $tanggal_mulai_surats   = null;
+                $tanggal_selesai_surats = null;
+            }
             
             $keterangan_surats = '';
             if(!empty($request->keterangan_surats))
@@ -258,7 +283,6 @@ class SuratController extends AdminCoreController
                     'klasifikasi_surats_id'     => 'required',
                     'derajat_surats_id'         => 'required',
                     'sifat_surats_id'           => 'required',
-                    'tanggal_surats'            => 'required',
                     'judul_surats'              => 'required',
                     'perihal_surats'            => 'required',
                     'ringkasan_surats'          => 'required',
@@ -278,10 +302,18 @@ class SuratController extends AdminCoreController
                 $tanggal_asal_surats = null;
                 if(!empty($request->tanggal_asal_surats))
                     $tanggal_asal_surats = General::ubahTanggalKeDB($request->tanggal_asal_surats);
-    
-                $tanggal_surats         = explode(' sampai ', $request->tanggal_surats);
-                $tanggal_mulai_surats   = General::ubahTanggalKeDB($tanggal_surats[0]);
-                $tanggal_selesai_surats = General::ubahTanggalKeDB($tanggal_surats[1]);
+                
+                if(!empty($request->tanggal_surats))
+                {
+                    $tanggal_surats         = explode(' sampai ', $request->tanggal_surats);
+                    $tanggal_mulai_surats   = General::ubahTanggalKeDB($tanggal_surats[0]);
+                    $tanggal_selesai_surats = General::ubahTanggalKeDB($tanggal_surats[1]);
+                }
+                else
+                {
+                    $tanggal_mulai_surats   = null;
+                    $tanggal_selesai_surats = null;
+                }
                 
                 $keterangan_surats = '';
                 if(!empty($request->keterangan_surats))
@@ -335,6 +367,29 @@ class SuratController extends AdminCoreController
         }
         else
             return redirect('dashboard/surat');
+    }
+
+    public function detail($id_surats=0)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'baca') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->count();
+            if($cek_surats != 0)
+            {
+                $status_baca_data = [
+                    'status_baca_surat_users' => 1,
+                ];
+                Surat_user::where('surats_id',$id_surats)
+                        ->where('users_id',Auth::user()->id)
+                        ->update($status_baca_data);
+                return response()->json(['success' => 'success'], 200);
+            }
+            else
+                return response()->json(["error" => "error"], 400);
+        }
+        else
+            return response()->json(["error" => "error"], 400);
     }
 
     public function hapus($id_surats=0)

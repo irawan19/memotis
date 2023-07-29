@@ -84,6 +84,7 @@ Route::middleware([
                 Route::get('/cari', [DashboardSurat::class, 'cari']);
                 Route::get('/tambah', [DashboardSurat::class, 'tambah']);
                 Route::post('/prosestambah', [DashboardSurat::class, 'prosestambah']);
+                Route::get('/detail/{id}', [DashboardSurat::class, 'detail']);
                 Route::get('/edit/{id}', [DashboardSurat::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardSurat::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardSurat::class, 'hapus']);

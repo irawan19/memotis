@@ -108,21 +108,29 @@
 												<p class="nosurat">{{$surats->no_surats}}</p>
 											</div>
 											<div class="col-sm-12">
-												<table class="table table-responsive-sm">
+												<table width="100%">
 													<tr>
-														<th>Dari</th>
-														<th>:</th>
-														<td>{{General::ubahDBKeTanggalwaktu($surats->tanggal_mulai_surats)}}</td>
+														<th colspan="3">Asal Surat</th>
+														<th colspan="3" class="right-align">Ditujukan Kepada</th>
 													</tr>
 													<tr>
-														<th>Sampai</th>
-														<th>:</th>
-														<td>{{General::ubahDBKeTanggalwaktu($surats->tanggal_selesai_surats)}}</td>
+														<td colspan="3">{{$surats->asal_surats}}</td>
+														<td colspan="3" class="right-align">{{$surats->name}}</td>
 													</tr>
 													<tr>
-														<th width="50px">Venue</th>
-														<th width="1px">:</th>
-														<td>{{$surats->venue_surats}}</td>
+														<td width="50px">Tanggal</td>
+														<td width="1px">:</td>
+														<td>{{General::ubahDBKeTanggal($surats->tanggal_asal_surats)}}</td>
+													</tr>
+													<tr>
+														<td>No</td>
+														<td>:</td>
+														<td>{{$surats->no_asal_surats}}</td>
+													</tr>
+													<tr>
+														<td>Hal</td>
+														<td>:</td>
+														<td>{{$surats->perihal_surats}}</td>
 													</tr>
 												</table>
 											</div>
@@ -130,22 +138,54 @@
 												<hr/>
 											</div>
 											<div class="col-sm-12">
-												<h4>Peserta</h4>
-												@php($lihat_pesertas = \App\Models\Surat_user::join('users','users_id','=','users.id')
-																							->where('surats_id',$surats->id_surats)
-																							->orderBy('users.name')
-																							->get())
-												@foreach($lihat_pesertas as $pesertas)
-													- {{$pesertas->name}}<br/>
-												@endforeach
+												<h4>Ringkasan</h4>
+												<br/>
+												{!! $surats->ringkasan_surats !!}	
 											</div>
 											<div class="col-sm-12">
 												<hr/>
 											</div>
 											<div class="col-sm-12">
-												<h4>Deskripsi</h4>
+												<h4>Keterangan</h4>
 												<br/>
-												{!! $surats->deskripsi_surats !!}	
+												{!! $surats->keterangan_surats !!}	
+											</div>
+											<div class="col-sm-12">
+												<hr/>
+											</div>
+											<div class="col-sm-12">
+												<table width="100%">
+													<tr>
+														<td width="100px">Agendakan</td>
+														<td width="2px">:</td>
+														<td>
+															@if($surats->status_agendakan_surats == 0)
+																Tidak
+															@else
+																Ya
+															@endif
+														</td>
+														<td width="100px">Klasifikasi</td>
+														<td width="2px">:</td>
+														<td>{{$surats->nama_klasifikasi_surats}}</td>
+													</tr>
+													<tr>
+														<td>Mulai</td>
+														<td>:</td>
+														<td>{{General::ubahDBKeTanggal($surats->tanggal_mulai_surats)}}</td>
+														<td>Derajat</td>
+														<td>:</td>
+														<td>{{$surats->nama_derajat_surats}}</td>
+													</tr>
+													<tr>
+														<td>Selesai</td>
+														<td>:</td>
+														<td>{{General::ubahDBKeTanggal($surats->tanggal_selesai_surats)}}</td>
+														<td>Sifat</td>
+														<td>:</td>
+														<td>{{$surats->nama_sifat_surats}}</td>
+													</tr>
+												</table>
 											</div>
 										</div>
 									</div>
@@ -159,7 +199,7 @@
 												'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
 											};
 								$.ajax({
-											url: '{{URL("dashboard/eventcalendar/surat/detail/".$surats->id_surats)}}',
+											url: '{{URL("dashboard/surat/detail/".$surats->id_surats)}}',
 											type: "GET",
 											dataType: 'JSON',
 											headers: headerRequest,

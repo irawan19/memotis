@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('asal_surats');
             $table->string('judul_surats');
             $table->date('tanggal_asal_surats')->nullable();
-            $table->date('tanggal_mulai_surats');
-            $table->date('tanggal_selesai_surats');
+            $table->date('tanggal_mulai_surats')->nullable();
+            $table->date('tanggal_selesai_surats')->nullable();
             $table->string('perihal_surats');
             $table->longtext('ringkasan_surats');
             $table->longtext('keterangan_surats');

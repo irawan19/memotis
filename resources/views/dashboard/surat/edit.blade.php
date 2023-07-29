@@ -26,7 +26,7 @@
                                         @else
                                             @php($tanggal_surats = $edit_surats->tanggal_surats)
                                         @endif
-                                        <input class="form-control getDate {{ General::validForm($errors->first('tanggal_asal_surats')) }}" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats') == '' ? General::ubahDBKeTanggal($tanggal_surats) : Request::old('tanggal_asal_surats')}}">
+                                        <input class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }}" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats') == '' ? General::ubahDBKeTanggal($tanggal_surats) : Request::old('tanggal_asal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_asal_surats'))}}
                                     </div>
                                     <div class="form-group">
