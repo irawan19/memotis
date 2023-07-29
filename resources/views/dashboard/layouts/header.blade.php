@@ -13,8 +13,13 @@
 <ul class="c-header-nav ml-auto"></ul>
 <ul class="c-header-nav">
 	<li class="c-header-nav-item dropdown d-md-down-none mx-2"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-   	    @php($surat 				= 0)
-        @php($total_notifikasi 		= $surat)
+   	    @php($surat = \App\Models\Surat_user::where('users_id',Auth::user()->id)
+											->where('status_baca_surat_users',0)
+											->count())
+		@php($mom 	= \App\Models\Mom_user::where('users_id',Auth::user()->id)
+											->where('status_baca_mom_users',0)
+											->count())
+        @php($total_notifikasi 		= $surat + $mom)
    		<svg class="c-icon">
    		  	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-bell')}}"></use>
    		</svg><span class="badge badge-pill badge-danger">{{$total_notifikasi}}</span></a>
@@ -30,8 +35,13 @@
    			</div>
    			<a class="dropdown-item" href="{{URL('dashboard/surat')}}">
 		   		<svg class="c-icon mr-2 text-success">
-		   		  	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-comment-square')}}"></use>
+		   		  	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-open')}}"></use>
 		   		</svg> Surat <span class="badge badge-pill badge-danger">{{$surat}}</span>
+		   	</a>
+   			<a class="dropdown-item" href="{{URL('dashboard/mom')}}">
+		   		<svg class="c-icon mr-2 text-success">
+		   		  	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-file')}}"></use>
+		   		</svg> MOM <span class="badge badge-pill badge-danger">{{$mom}}</span>
 		   	</a>
    		</div>
     </li>
