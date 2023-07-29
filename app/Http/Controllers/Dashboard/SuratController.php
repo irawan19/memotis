@@ -407,6 +407,32 @@ class SuratController extends AdminCoreController
             return response()->json(["error" => "error"], 400);
     }
 
+    public function cetak($id_surats=0)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'cetak') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->count();
+            if($cek_surats != 0)
+            {
+                $data['lihat_surats'] = Surat::selectRaw('*,
+                                                    surats.created_at as tanggal_surats')
+                                            ->join('users','surats.users_id','=','users.id')
+                                            ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                            ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                            ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
+                                            ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
+                                            ->where('id_surats',$id_surats)
+                                            ->first();
+                return view('dashboard.surat.cetak',$data);
+            }
+            else
+                return redirect('dashboard/surat');
+        }
+        else
+            return redirect('dashboard/surat');
+    }
+
     public function hapus($id_surats=0)
     {
         $link_surat = 'surat';
