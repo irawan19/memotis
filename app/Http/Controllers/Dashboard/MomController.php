@@ -124,8 +124,13 @@ class MomController extends AdminCoreController
             if(!empty($request->moms_id))
                 $moms_id = $request->moms_id;
 
+            $kategori_moms = 'Internal';
+            if(!empty($request->mom_user_externals))
+                $kategori_moms = 'External';
+
             $data = [
                 'moms_id'                   => $moms_id,
+                'kategori_moms'             => $kategori_moms,
                 'no_moms'                   => General::generateNoMOM(),
                 'users_id'                  => Auth::user()->id,
                 'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
