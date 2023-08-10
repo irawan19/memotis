@@ -67,14 +67,14 @@
 											@php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
 										@endif
 										<div class="row" style="margin-bottom:10px">
-											<div class="col-sm-6">
+											<div class="col-sm-4">
 												<div class="form-check checkbox">
 													<input class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
 													<label class="form-check-label" for="users_id{{$users->id}}">{{$nama}}</label>
 												</div>
 												{{General::pesanErrorForm($errors->first('users_id'))}}
 											</div>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<textarea class="form-control {{ General::validForm($errors->first('tugas_mom_users')) }}" id="tugas_mom_users" name="tugas_mom_users[{{$users->id}}]" rows="5">{{Request::old('tugas_mom_users')}}</textarea>
 											</div>
 											<div class="col-sm-2">
@@ -83,6 +83,9 @@
 														<option value="{{$status_tugas->id_status_tugas}}" {{ Request::old('status_tugas_id') == $status_tugas->id_status_tugas ? $select='selected' : $select='' }}>{{$status_tugas->nama_status_tugas}}</option>
 													@endforeach
 												</select>
+											</div>
+											<div class="col-sm-3">
+												<textarea class="form-control {{ General::validForm($errors->first('catatan_mom_users')) }}" id="catatan_mom_users" name="catatan_mom_users[{{$users->id}}]" rows="5">{{Request::old('catatan_mom_users')}}</textarea>
 											</div>
 										</div>
 									@endforeach

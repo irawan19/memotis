@@ -120,7 +120,12 @@ class MomController extends AdminCoreController
             $tanggal_mulai_moms     = $pecah_tanggal_moms[0];
             $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
 
+            $moms_id = null;
+            if(!empty($request->moms_id))
+                $moms_id = $request->moms_id;
+
             $data = [
+                'moms_id'                   => $moms_id,
                 'no_moms'                   => General::generateNoMOM(),
                 'users_id'                  => Auth::user()->id,
                 'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
@@ -139,6 +144,9 @@ class MomController extends AdminCoreController
                     $mom_users_data = [
                         'moms_id'               => $id_moms,
                         'users_id'              => $id_users,
+                        'tugas_mom_users'       => $request->tugas_mom_users[$id_users],
+                        'status_tugas_id'       => $request->status_tugas_id[$id_users],
+                        'catatan_mom_users'     => $request->catatan_mom_users[$id_users],
                         'status_baca_mom_users' => 0,
                         'created_at'            => date('Y-m-d H:i:s'),
                     ];
