@@ -141,16 +141,41 @@ class MomController extends AdminCoreController
             {
                 foreach($request->users_id as $id_users)
                 {
+                    $tugas_mom_users = '';
+                    if(!empty($request->tugas_mom_users[$id_users]))
+                        $tugas_mom_users = $request->tugas_mom_users[$id_users];
+
+                    $status_tugas_id = '';
+                    if(!empty($request->status_tugas_id[$id_users]))
+                        $status_tugas_id = $request->status_tugas_id[$id_users];
+
+                    $catatan_mom_users = '';
+                    if(!empty($request->catatan_mom_users[$id_users]))
+                        $catatan_mom_users = $request->catatan_mom_users[$id_users];
+
                     $mom_users_data = [
                         'moms_id'               => $id_moms,
                         'users_id'              => $id_users,
-                        'tugas_mom_users'       => $request->tugas_mom_users[$id_users],
-                        'status_tugas_id'       => $request->status_tugas_id[$id_users],
-                        'catatan_mom_users'     => $request->catatan_mom_users[$id_users],
+                        'tugas_mom_users'       => $tugas_mom_users,
+                        'status_tugas_id'       => $status_tugas_id,
+                        'catatan_mom_users'     => $catatan_mom_users,
                         'status_baca_mom_users' => 0,
                         'created_at'            => date('Y-m-d H:i:s'),
                     ];
                     Mom_user::insert($mom_users_data);
+                }
+            }
+
+            if(!empty($request->mom_user_externals))
+            {
+                foreach($request->mom_user_externals as $mom_user_externals)
+                {
+                    $mom_user_externals_data = [
+                        'moms_id'               => $id_moms,
+                        'nama_user_externals'   => $mom_user_externals,
+                        'created_at'            => date('Y-m-d H:i:s')
+                    ];
+                    Mom_user_external::insert($mom_user_externals_data);
                 }
             }
             
@@ -163,6 +188,12 @@ class MomController extends AdminCoreController
         }
         else
             return redirect('dashboard/mom');
+
+        foreach($request->users_id as $users)
+        {
+            echo $users.'<br/>';
+            echo $request->catatan_mom_users[$users];
+        }
     }
     public function edit($id_moms=0)
     {

@@ -53,7 +53,7 @@
 										<label class="form-col-form-label" for="nama_user_externals">External</label>
 										<select class="form-control select2creation" id="nama_user_externals" name="nama_user_externals[]" multiple="multiple">
 											@foreach($tambah_mom_user_externals as $mom_user_externals)
-												<option value="{{$mom_user_externals->id_mom_user_externals}}" {{ Request::old('nama_user_externals') == $mom_user_externals->nama_mom_users_externals ? $select='selected' : $select='' }}>{{$mom_user_externals->nama_user_externals}}</option>
+												<option value="{{$mom_user_externals->nama_mom_user_externals}}" {{ Request::old('nama_user_externals') == $mom_user_externals->nama_mom_users_externals ? $select='selected' : $select='' }}>{{$mom_user_externals->nama_user_externals}}</option>
 											@endforeach
 										</select>
 										{{General::pesanErrorForm($errors->first('nama_user_externals.*'))}}
@@ -68,24 +68,30 @@
 										@endif
 										<div class="row" style="margin-bottom:10px">
 											<div class="col-sm-4">
+												@if(Request::old('users_id.'.$users->id) == $users->id)
+													@php($checked = 'checked')
+												@else
+													@php($checked = '')
+												@endif
 												<div class="form-check checkbox">
-													<input class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
+													<input {{$checked}} class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
 													<label class="form-check-label" for="users_id{{$users->id}}">{{$nama}}</label>
 												</div>
-												{{General::pesanErrorForm($errors->first('users_id'))}}
+												{{General::pesanErrorForm($errors->first('users_id.'.$users->id))}}
 											</div>
 											<div class="col-sm-3">
-												<textarea class="form-control {{ General::validForm($errors->first('tugas_mom_users')) }}" id="tugas_mom_users" name="tugas_mom_users[{{$users->id}}]" rows="5">{{Request::old('tugas_mom_users')}}</textarea>
+												<textarea placeholder="Masukkan tugas..." class="form-control {{ General::validForm($errors->first('tugas_mom_users.'.$users->id)) }}" id="tugas_mom_users" name="tugas_mom_users[{{$users->id}}]" rows="5">{{Request::old('tugas_mom_users.'.$users->id)}}</textarea>
 											</div>
 											<div class="col-sm-2">
 												<select class="form-control select2" id="status_tugas_id" name="status_tugas_id[{{$users->id}}]">
+													<option value="">-</option>
 													@foreach($tambah_status_tugas as $status_tugas)
-														<option value="{{$status_tugas->id_status_tugas}}" {{ Request::old('status_tugas_id') == $status_tugas->id_status_tugas ? $select='selected' : $select='' }}>{{$status_tugas->nama_status_tugas}}</option>
+														<option value="{{$status_tugas->id_status_tugas}}" {{ Request::old('status_tugas_id.'.$users->id) == $status_tugas->id_status_tugas ? $select='selected' : $select='' }}>{{$status_tugas->nama_status_tugas}}</option>
 													@endforeach
 												</select>
 											</div>
 											<div class="col-sm-3">
-												<textarea class="form-control {{ General::validForm($errors->first('catatan_mom_users')) }}" id="catatan_mom_users" name="catatan_mom_users[{{$users->id}}]" rows="5">{{Request::old('catatan_mom_users')}}</textarea>
+												<textarea placeholder="Masukkan catatan..." class="form-control {{ General::validForm($errors->first('catatan_mom_users.'.$users->id)) }}" id="catatan_mom_users" name="catatan_mom_users[{{$users->id}}]" rows="5">{{Request::old('catatan_mom_users.'.$users->id)}}</textarea>
 											</div>
 										</div>
 									@endforeach
