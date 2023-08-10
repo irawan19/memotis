@@ -28,6 +28,7 @@ use App\Http\Controllers\Dashboard\DerajatSuratController as DashboardDerajatSur
 use App\Http\Controllers\Dashboard\SifatSuratController as DashboardSifatSurat;
 use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
 use App\Http\Controllers\Dashboard\DivisiController as DashboardDivisi;
+use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
 use App\Http\Controllers\Dashboard\SosialMediaController as DashboardSosialMedia;
@@ -150,6 +151,17 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardSifatSurat::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardSifatSurat::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardSifatSurat::class, 'hapus']);
+            });
+
+            //Status Tugas
+            Route::group(['prefix' => 'status_tugas'], function() {
+                Route::get('/', [DashboardStatusTugas::class, 'index']);
+                Route::get('/cari', [DashboardStatusTugas::class, 'cari']);
+                Route::get('/tambah', [DashboardStatusTugas::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardStatusTugas::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardStatusTugas::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardStatusTugas::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardStatusTugas::class, 'hapus']);
             });
 
             //Menu

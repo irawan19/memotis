@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moms', function (Blueprint $table) {
-            $table->id('id_moms');
+        Schema::create('mom_users', function (Blueprint $table) {
+            $table->id('id_mom_users');
             $table->bigInteger('moms_id')->unsigned()->index()->nullable();
-            $table->foreign('moms_id')->references('id')->on('moms')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('moms_id')->references('id_moms')->on('moms')->onUpdate('set null')->onDelete('set null');
             $table->bigInteger('users_id')->unsigned()->index()->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
-            $table->string('kategori_moms');
-            $table->string('no_moms');
-            $table->string('judul_moms');
-            $table->datetime('tanggal_mulai_moms');
-            $table->datetime('tanggal_selesai_moms');
-            $table->string('venue_moms');
-            $table->longtext('deskripsi_moms');
+            $table->bigInteger('status_tugas_id')->unsigned()->index()->nullable();
+            $table->foreign('status_tugas_id')->references('id_status_tugas')->on('master_status_tugas')->onUpdate('set null')->onDelete('set null');
+            $table->longtext('tugas_mom_users');
+            $table->longText('catatan_mom_users');
+            $table->boolean('status_baca_mom_users')->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moms');
+        Schema::dropIfExists('mom_users');
     }
 };

@@ -6,6 +6,8 @@ use App\Helpers\General;
 use App\Models\Mom;
 use App\Models\User;
 use App\Models\Mom_user;
+use App\Models\Mom_user_external;
+use App\Models\Master_status_tugas;
 use Auth;
 
 class MomController extends AdminCoreController
@@ -86,10 +88,13 @@ class MomController extends AdminCoreController
         $link_mom = 'mom';
         if(General::hakAkses($link_mom,'tambah') == 'true')
         {
-            $data['tambah_users'] = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                        ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                        ->where('id','!=',1)
-                                        ->get();
+            $data['tambah_sub_moms']            = Mom::orderBy('no_moms')->get();
+            $data['tambah_status_tugas']        = Master_status_tugas::get();
+            $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                        ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                        ->where('id','!=',1)
+                                                        ->get();
+            $data['tambah_mom_user_externals']  = Mom_user_external::get();
             return view('dashboard.mom.tambah',$data);
         }
         else
@@ -151,7 +156,6 @@ class MomController extends AdminCoreController
         else
             return redirect('dashboard/mom');
     }
-
     public function edit($id_moms=0)
     {
         $link_mom = 'mom';
@@ -160,12 +164,15 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->count();
             if($cek_moms != 0)
             {
-                $data['edit_users']        = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                ->where('id','!=',1)
-                                                ->get();
-                $data['edit_moms']         = Mom::where('id_moms',$id_moms)
-                                                ->first();
+                $data['edit_sub_moms']              = Mom::orderBy('no_moms')->where('id_moms','!=',$id_moms)->get();
+                $data['edit_status_tugas']          = Master_status_tugas::get();
+                $data['edit_users']                 = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                        ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                        ->where('id','!=',1)
+                                                        ->get();
+                $data['edit_moms']                  = Mom::where('id_moms',$id_moms)
+                                                        ->first();
+                $data['edit_mom_user_externals']    = Mom_user_external::get();
                 return view('dashboard.mom.edit',$data);
             }
             else
