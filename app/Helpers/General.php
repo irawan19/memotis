@@ -305,6 +305,17 @@ class General
 			}
 		}
 
+		public static function detailCard($link_menus = '', $id = '')
+		{
+			if (General::hakAkses($link_menus, 'baca') == 'true') {
+				echo 	'<button type="button" class="btn btn-sm btn-warning linkmodal'.$id.'" style="color:white">
+								<svg class="c-icon" style="margin-right:5px">
+									<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-folder-open') . '"></use>
+								</svg> Baca
+							</button>';
+			}
+		}
+
 		public static function baca($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'baca') == 'true') {

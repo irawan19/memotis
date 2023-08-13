@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 10, 2023 at 06:51 AM
+-- Generation Time: Aug 10, 2023 at 11:38 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -820,6 +820,13 @@ CREATE TABLE `moms` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `moms`
+--
+
+INSERT INTO `moms` (`id_moms`, `moms_id`, `users_id`, `kategori_moms`, `no_moms`, `judul_moms`, `tanggal_mulai_moms`, `tanggal_selesai_moms`, `venue_moms`, `deskripsi_moms`, `created_at`, `updated_at`) VALUES
+(1, NULL, 1, 'Internal', 'MOM/0001/08/2023', 'test', '2023-08-10 15:37:09', '2023-08-10 15:37:09', 'test', '<p>test 123</p>', '2023-08-10 09:14:38', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -837,6 +844,14 @@ CREATE TABLE `mom_users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mom_users`
+--
+
+INSERT INTO `mom_users` (`id_mom_users`, `moms_id`, `users_id`, `status_tugas_id`, `tugas_mom_users`, `catatan_mom_users`, `status_baca_mom_users`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 1, '- test 1\r\n- test 2', '- test 4', 0, '2023-08-10 09:14:38', NULL),
+(2, 1, 5, 2, '- test 3', 'test 5, 6', 0, '2023-08-10 09:14:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -905,7 +920,7 @@ CREATE TABLE `sessions` (
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('9cddpG8TSiHkBVpAQP9X7G5fqXryGsJ7mhDAoQ2m', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNkxwNmdqV0JRNXp6V0xDSkF4eVhZU1BEV2p6NWJ2bWNTcmZWN3ZIMSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578178),
 ('a0NQfmjzIIfXThyhACtyqvsXxq0WnnvlB3kCOZQ9', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiREtGeUt2blBkQjdhbUx3U2Q5WEQ1SWNDQmtkcWlKNklXYnhRTXp4YyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691577396),
-('b1UjaAzghq04ysGpy24FW1c5ohZ67uqYJKZ7RkvF', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiMFBRTE5JY29yRGFSU0d5dlRSNlJrNlVXM0hXUGZIWWtEck1rN3pkQSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTI6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21vbS90YW1iYWgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjg6ImhhbGFtYW4yIjtzOjU2OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tZW51L3N1Ym1lbnUvMSI7czo3OiJoYWxhbWFuIjtzOjQ1OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20iO30=', 1691643087),
+('b1UjaAzghq04ysGpy24FW1c5ohZ67uqYJKZ7RkvF', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiMFBRTE5JY29yRGFSU0d5dlRSNlJrNlVXM0hXUGZIWWtEck1rN3pkQSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTI6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21vbS90YW1iYWgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjg6ImhhbGFtYW4yIjtzOjU2OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tZW51L3N1Ym1lbnUvMSI7czo3OiJoYWxhbWFuIjtzOjQ1OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20iO30=', 1691645663),
 ('CPhfm4GIuPtAxftZUzV1Rx4aFItf6SaadErikilk', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOThKcG5yNnlseHFweXRpTVZOeHg3V0ZGNTY2TmpINDBoV3dsb0VEVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578799),
 ('GhQYpq6k54n4BBUCQWE2pH4UWxSQdhNBSWLr9koP', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMFFZa1RIeWgzOEJQcjlBSmNwVmYzUWpqWnVSRjAwRTg3aDBSYW13RiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691579419),
 ('MfInwakI4PPEz2YyiqLhnbOus8VBIKeShRY1kaIC', NULL, '103.56.204.42', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2xJcm40ZEUwNnFIT0J0SjJITUhZNnpkOXdiMkRrV1NTZWtmMGNhVyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHBzOi8vZ3lzLmFwcC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691576493),
@@ -913,6 +928,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 ('pNGnji8BQkXytKQty3zvljHBuZ8429npCq1Fro8h', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaGZGQWVCOG1tVWpKZ1VQYlVtc0hndFhYM0thZEtNZHRaU3hPZHFmMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578328),
 ('QqUIWTYQmO9CnGv3Q3QsgjcEkQbQbK1pBGtf0VoD', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoic2pISk9rc2dvTXNzSkpDaDV4QU12aFI3QXMxZGRGZHZxRUFvSXdMciI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578258),
 ('rhMDygLh8BEpfYr7hYGBNAxwkNSb9hQL9k7jBSvK', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoicFNueWlVcHRTSFBvWGh3UjdNSEE3WktyQWxGcmFVZWZSdDFmWEdKOCI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjUyOiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20vdGFtYmFoIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRFUVNqSWVFcWdldW1QOExoMGs1YUlPNzg4Rjh4MVpaT3QyQmQySlFxUVBXZzdVQ3JLL3JuQyI7czo3OiJoYWxhbWFuIjtzOjQ1OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20iO30=', 1691585397),
+('stRdcTONEOynM7A85iUe8FJPHKQkG11Et0G83c7A', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoid3FNNGRWUE1NR2NDUDQyUlNEOFBZMDdUZWVxQzhqYmdaYmlYNENLWSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjEzMzoiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvZXZlbnRjYWxlbmRhcj9lbmQ9MjAyMy0wOS0xMVQwMCUzQTAwJTNBMDAlMkIwNyUzQTAwJnN0YXJ0PTIwMjMtMDctMzFUMDAlM0EwMCUzQTAwJTJCMDclM0EwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6NzoiaGFsYW1hbiI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvbW9tIjt9', 1691659633),
 ('YrLcgH7RFCwP0N59Jh87iwatpsyrepe3OzClHJha', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoib2hxVmsxTE5QM2l3dnVuZVFSTGM3YUtxS3U1VUdQcXBoVm9OQ1d4ZyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578207);
 
 -- --------------------------------------------------------
@@ -970,13 +986,6 @@ CREATE TABLE `surat_users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `surat_users`
---
-
-INSERT INTO `surat_users` (`id_surat_users`, `surats_id`, `users_id`, `status_baca_surat_users`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 1, '2023-08-04 09:11:31', '2023-08-04 09:14:30');
 
 -- --------------------------------------------------------
 
@@ -1286,13 +1295,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `moms`
 --
 ALTER TABLE `moms`
-  MODIFY `id_moms` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_moms` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mom_users`
 --
 ALTER TABLE `mom_users`
-  MODIFY `id_mom_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mom_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `mom_user_externals`
@@ -1322,7 +1331,7 @@ ALTER TABLE `surat_lampirans`
 -- AUTO_INCREMENT for table `surat_users`
 --
 ALTER TABLE `surat_users`
-  MODIFY `id_surat_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_surat_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`

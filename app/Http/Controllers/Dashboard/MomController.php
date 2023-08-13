@@ -146,15 +146,15 @@ class MomController extends AdminCoreController
             {
                 foreach($request->users_id as $id_users)
                 {
-                    $tugas_mom_users = '';
+                    $tugas_mom_users = null;
                     if(!empty($request->tugas_mom_users[$id_users]))
                         $tugas_mom_users = $request->tugas_mom_users[$id_users];
 
-                    $status_tugas_id = '';
+                    $status_tugas_id = null;
                     if(!empty($request->status_tugas_id[$id_users]))
                         $status_tugas_id = $request->status_tugas_id[$id_users];
 
-                    $catatan_mom_users = '';
+                    $catatan_mom_users = null;
                     if(!empty($request->catatan_mom_users[$id_users]))
                         $catatan_mom_users = $request->catatan_mom_users[$id_users];
 
@@ -247,8 +247,18 @@ class MomController extends AdminCoreController
                 $pecah_tanggal_moms     = explode(' sampai ',$tanggal_moms);
                 $tanggal_mulai_moms     = $pecah_tanggal_moms[0];
                 $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
+
+                $moms_id = null;
+                if(!empty($request->moms_id))
+                    $moms_id = $request->moms_id;
+    
+                $kategori_moms = 'Internal';
+                if(!empty($request->mom_user_externals))
+                    $kategori_moms = 'External';
     
                 $data = [
+                    'moms_id'                   => $moms_id,
+                    'kategori_moms'             => $kategori_moms,
                     'users_id'                  => Auth::user()->id,
                     'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
                     'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
@@ -265,14 +275,42 @@ class MomController extends AdminCoreController
                 {
                     foreach($request->users_id as $id_users)
                     {
+                        $tugas_mom_users = null;
+                        if(!empty($request->tugas_mom_users[$id_users]))
+                            $tugas_mom_users = $request->tugas_mom_users[$id_users];
+
+                        $status_tugas_id = null;
+                        if(!empty($request->status_tugas_id[$id_users]))
+                            $status_tugas_id = $request->status_tugas_id[$id_users];
+
+                        $catatan_mom_users = null;
+                        if(!empty($request->catatan_mom_users[$id_users]))
+                            $catatan_mom_users = $request->catatan_mom_users[$id_users];
+
                         $mom_users_data = [
                             'moms_id'               => $id_moms,
                             'users_id'              => $id_users,
+                            'tugas_mom_users'       => $tugas_mom_users,
+                            'status_tugas_id'       => $status_tugas_id,
+                            'catatan_mom_users'     => $catatan_mom_users,
                             'status_baca_mom_users' => 0,
                             'created_at'            => date('Y-m-d H:i:s'),
-                            'updated_at'            => date('Y-m-d H:i:s'),
                         ];
                         Mom_user::insert($mom_users_data);
+                    }
+                }
+
+                Mom_user_external::where('moms_id',$id_moms)->delete();
+                if(!empty($request->mom_user_externals))
+                {
+                    foreach($request->mom_user_externals as $mom_user_externals)
+                    {
+                        $mom_user_externals_data = [
+                            'moms_id'               => $id_moms,
+                            'nama_user_externals'   => $mom_user_externals,
+                            'created_at'            => date('Y-m-d H:i:s')
+                        ];
+                        Mom_user_external::insert($mom_user_externals_data);
                     }
                 }
 

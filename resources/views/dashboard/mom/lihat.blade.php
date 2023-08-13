@@ -65,7 +65,7 @@
 					@endif
 
 					@if(General::hakAkses('mom', 'baca') == 'true')
-						<div class="card linkmodal{{$moms->id_moms}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
+						<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
 								<div class="row">
 									<div class="col-sm-12">
@@ -82,6 +82,7 @@
 								<div class="titleeventcard" {{$statusbacacolor}}>{{$moms->judul_moms}}</div>
 								<div class="titlevenuecard text-muted">venue : {{$moms->venue_moms}}</div>
 								<div class="buttoncetakmom">
+									{{General::detailCard($link_mom, $moms->id_moms)}}
 									{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
 									@if($moms->users_id == Auth::user()->id)
 										{{General::editButton($link_mom,'dashboard/mom/edit/'.$moms->id_moms)}}
