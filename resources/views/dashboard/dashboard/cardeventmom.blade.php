@@ -127,7 +127,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											@if(!$lihat_peserta_externals->isEmpty())
+											@if(!$lihat_pesertas->isEmpty())
 												@foreach($lihat_pesertas as $pesertas)
 													@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->name)
 													@if(!empty($pesertas->id_divisis))
