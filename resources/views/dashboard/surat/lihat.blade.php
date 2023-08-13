@@ -65,7 +65,7 @@
 					@endif
 
 					@if(General::hakAkses('surat', 'baca') == 'true')
-						<div class="card linkmodal{{$surats->id_surats}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
+						<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
 								<div class="row">
 									<div class="col-sm-12">
@@ -81,8 +81,9 @@
 								</div>
 								<div class="titleeventcard" {{$statusbacacolor}}>{{$surats->judul_surats}}</div>
 								<div class="buttoncetaksurat">
+									{{General::detailCard($link_surat, $surats->id_surats)}}
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
-									@if( strtotime($surats->tanggal_mulai_surats) > strtotime(date('Y-m-d')) )
+									@if( strtotime($surats->tanggal_mulai_surats) > strtotime(date('Y-m-d')) && $surats->users_id == Auth::user()->id )
 										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
 										{{General::hapusButton($link_surat,'dashboard/surat/hapus/'.$surats->id_surats)}}
 									@endif
@@ -126,7 +127,11 @@
 													<tr>
 														<td width="50px">Tanggal</td>
 														<td width="1px">:</td>
-														<td>{{General::ubahDBKeTanggal($surats->tanggal_asal_surats)}}</td>
+														<td>
+															@if($surats->tanggal_asal_surats != '')
+																{{General::ubahDBKeTanggal($surats->tanggal_asal_surats)}}
+															@endif
+														</td>
 													</tr>
 													<tr>
 														<td>No</td>

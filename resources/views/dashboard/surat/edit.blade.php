@@ -26,7 +26,7 @@
                                         @else
                                             @php($tanggal_surats = $edit_surats->tanggal_surats)
                                         @endif
-                                        <input class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }}" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats') == '' ? General::ubahDBKeTanggal($tanggal_surats) : Request::old('tanggal_asal_surats')}}">
+                                        <input class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }} getDate" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats') == '' ? General::ubahDBKeTanggal($tanggal_surats) : Request::old('tanggal_asal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_asal_surats'))}}
                                     </div>
                                     <div class="form-group">
@@ -123,7 +123,11 @@
                                                         @php($selected = 'selected')
                                                     @endif
                                                 @endif
-                                                <option value="{{$users->id}}" {{ $selected }}>{{$users->name}}</option>
+                                                @php($nama = $users->nama_level_sistems.' - '.$users->name)
+                                                @if(!empty($users->id_divisis))
+                                                    @php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
+                                                @endif
+                                                <option value="{{$users->id}}" {{ $selected }}>{{$nama}}</option>
                                             @endforeach
                                         </select>
                                         {{General::pesanErrorForm($errors->first('users_id'))}}
@@ -165,7 +169,7 @@
                                     <div class="form-group formdropzone">
                                         <label for="lampiran">Lampiran</label>
                                         <div class="needsclick dropzone" id="lampiran-dropzone">
-                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran</span></div>
+                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran (maks 5MB)</span></div>
                                     </div>
                                 </div>
                             </div>

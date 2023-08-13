@@ -80,7 +80,11 @@
                                         <select class="form-control select2" id="users_id" name="users_id">
                                             <option value="" selected disabled="disabled">Silahkan pilih</option>
                                             @foreach($tambah_users as $users)
-                                                <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$users->name}}</option>
+                                                @php($nama = $users->nama_level_sistems.' - '.$users->name)
+                                                @if(!empty($users->id_divisis))
+                                                    @php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
+                                                @endif
+                                                <option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
                                             @endforeach
                                         </select>
                                         {{General::pesanErrorForm($errors->first('users_id'))}}
@@ -115,7 +119,7 @@
                                     <div class="form-group formdropzone">
                                         <label for="lampiran">Lampiran</label>
                                         <div class="needsclick dropzone" id="lampiran-dropzone">
-                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran</span></div>
+                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran (maks 5 MB)</span></div>
                                     </div>
                                 </div>
                             </div>
