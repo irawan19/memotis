@@ -33,7 +33,7 @@
 								<div class="form-group">
 									<label class="form-col-form-label" for="tanggal_moms">Tanggal <b style="color:red">*</b></label>
 									@php($tanggal_moms = General::ubahDBKeTanggalwaktu($edit_moms->tanggal_mulai_moms).' sampai '.General::ubaHDBKeTanggalwaktu($edit_moms->tanggal_selesai_moms))
-									<input readonly class="form-control getStartEndDateTime {{ General::validForm($errors->first('tanggal_moms')) }}" id="tanggal_moms" type="text" name="tanggal_moms" value="{{Request::old('tanggal_moms') == '' ? $tanggal_moms : Request::old('tanggal_moms')}}">
+									<input readonly class="form-control getStartEndDateTimeEdit {{ General::validForm($errors->first('tanggal_moms')) }}" id="tanggal_moms" type="text" name="tanggal_moms" value="{{Request::old('tanggal_moms') == '' ? $tanggal_moms : Request::old('tanggal_moms')}}">
 									{{General::pesanErrorForm($errors->first('tanggal_moms'))}}
 								</div>
 							</div>
@@ -156,6 +156,40 @@
 	
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
+            $('.getStartEndDateTimeEdit').daterangepicker({
+                separator 	: " sampai ",
+                locale: {
+                    monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+                    cancelLabel: "Batal",
+                    fromLabel: "Dari",
+                    toLabel: "Sampai",
+                    customRangeLabel: "Pilih Sendiri",
+                    daysOfWeek: [
+                                    "Mi",
+                                    "Se",
+                                    "Se",
+                                    "Ra",
+                                    "Ka",
+                                    "Ju",
+                                    "Sa"
+                                ],
+                },
+                ranges: {
+                'Hari Ini': [moment(), moment()],
+                'Kemarin': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 Hari Terakhir': [moment().subtract(6, 'days'), moment()],
+                '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
+                'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
+                'Akhir Bulan': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                "showDropdowns": true,
+                timePicker: true,
+                timePickerSeconds: true,
+                timePicker12Hour: false,
+                timePickerIncrement: 1,
+                format      : 'DD MMM YYYY HH:mm:ss'
+            });
+
 			$('#sub_moms_id').on('change', function() {
 				idmoms = $(this).val();
 

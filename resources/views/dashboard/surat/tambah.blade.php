@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="tanggal_surats">Tanggal</label>
-                                        <input class="form-control getStartEndDate {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats') == '' ? General::ubahDBKeTanggal(date('Y-m-d')).' sampai '.General::ubahDBKeTanggal(date('Y-m-d')) : Request::old('tanggal_surats')}}">
+                                        <input class="form-control getStartEndDate {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_surats'))}}
                                     </div>
                                     <div class="form-group">

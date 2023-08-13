@@ -32,7 +32,7 @@ class SuratController extends AdminCoreController
                                                             ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
                                                             ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                             ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
-                                                            ->orderBy('surats.created_at','desc')
+                                                            ->orderBy('surats.tanggal_mulai_surats','desc')
                                                             ->paginate(10);
             }
             else
@@ -45,7 +45,7 @@ class SuratController extends AdminCoreController
                                                         ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                         ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
                                                         ->where('surat_users.users_id',Auth::user()->id)
-                                                        ->orderBy('surats.created_at','desc')
+                                                        ->orderBy('surats.tanggal_mulai_surats','desc')
                                                         ->paginate(10);
             }
             session()->forget('halaman');
@@ -75,7 +75,7 @@ class SuratController extends AdminCoreController
                                                     ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                     ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                     ->where('judul_surats', 'LIKE', '%'.$hasil_kata.'%')
-                                                    ->orderBy('surats.created_at','desc')
+                                                    ->orderBy('surats.tanggal_mulai_surats','desc')
                                                     ->paginate(10);
             }
             else
@@ -91,7 +91,7 @@ class SuratController extends AdminCoreController
                                                         ->where('surat_users.users_id',Auth::user()->id)
                                                         ->orwhere('no_surats', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('surat_users.users_id',Auth::user()->id)
-                                                        ->orderBy('surats.created_at','desc')
+                                                        ->orderBy('surats.tanggal_mulai_surats','desc')
                                                         ->paginate(10);
             }
             session(['halaman'              => $url_sekarang]);

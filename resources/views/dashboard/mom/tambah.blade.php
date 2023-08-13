@@ -26,7 +26,7 @@
 								</div>
 								<div class="form-group">
 									<label class="form-col-form-label" for="tanggal_moms">Tanggal <b style="color:red">*</b></label>
-									<input readonly class="form-control getStartEndDateTime {{ General::validForm($errors->first('tanggal_moms')) }}" id="tanggal_moms" type="text" name="tanggal_moms" value="{{Request::old('tanggal_moms') == '' ? General::ubahDBKeTanggalwaktu(date('Y-m-d H:i:s')).' sampai '.General::ubahDBKeTanggalwaktu(date('Y-m-d H:i:s')) : Request::old('tanggal_moms')}}">
+									<input readonly class="form-control getStartEndDateTime {{ General::validForm($errors->first('tanggal_moms')) }}" id="tanggal_moms" type="text" name="tanggal_moms" value="{{Request::old('tanggal_moms')}}">
 									{{General::pesanErrorForm($errors->first('tanggal_moms'))}}
 								</div>
 							</div>

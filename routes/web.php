@@ -20,6 +20,7 @@ use App\Http\Controllers\Dashboard\KonfigurasiAkunController as DashboardKonfigu
 //Apps
 use App\Http\Controllers\Dashboard\SuratController as DashboardSurat;
 use App\Http\Controllers\Dashboard\MomController as DashboardMom;
+use App\Http\Controllers\Dashboard\EventController as DashboardEvent;
 
 //Konfigurasi Aplikasi
 use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
@@ -109,6 +110,17 @@ Route::middleware([
                 Route::get('/ambilmom/{id}', [DashboardMom::class, 'ambilmom']);
                 Route::get('/momuser/{id}', [DashboardMom::class, 'ambilmomuser']);
                 Route::get('/momexternal/{id}', [DashboardMom::class, 'ambilmomuserexternal']);
+            });
+
+            //Event
+            Route::group(['prefix' => 'event'], function() {
+                Route::get('/', [DashboardEvent::class, 'index']);
+                Route::get('/cari', [DashboardEvent::class, 'cari']);
+                Route::get('/tambah', [DashboardEvent::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardEvent::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardEvent::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardEvent::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardEvent::class, 'hapus']);
             });
 
         //Konfigurasi Aplikasi

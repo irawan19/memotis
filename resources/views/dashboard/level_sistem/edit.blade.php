@@ -41,11 +41,11 @@
 				            	@foreach($edit_divisis as $divisis)
 				                  	@php($selected = '')
 					              	@if(Request::old('level_sistems_id') == '')
-					              		@if($level_sistems->id_level_sistems == $edit_level_sistems->divisis_id)
+					              		@if($divisis->id_divisis == $edit_level_sistems->divisis_id)
 					              			@php($selected = 'selected')
 					              		@endif
 					              	@else
-					              		@if($level_sistems->id_level_sistems == Request::old('level_sistems_id'))
+					              		@if($divisis->id_divisis == Request::old('level_sistems_id'))
 					              			@php($selected = 'selected')
 					              		@endif
 					              	@endif
