@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 13, 2023 at 04:18 PM
+-- Generation Time: Aug 13, 2023 at 06:51 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -967,7 +967,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('OjFs98a6lkJXhobxJNhgCMP4wmqXPDFiJ8mHBaTN', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiREhSaFRRbkpZQWlOQ2dPNDFZa1ZoaUFCM0dzWTkzR3lGTjV1NzEyVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2V2ZW50Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6ODoiaGFsYW1hbjIiO3M6NTY6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21lbnUvc3VibWVudS82IjtzOjc6ImhhbGFtYW4iO3M6NDc6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2V2ZW50Ijt9', 1691936242);
+('OjFs98a6lkJXhobxJNhgCMP4wmqXPDFiJ8mHBaTN', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiREhSaFRRbkpZQWlOQ2dPNDFZa1ZoaUFCM0dzWTkzR3lGTjV1NzEyVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL3N1cmF0L2VkaXQvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjg6ImhhbGFtYW4yIjtzOjU2OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tZW51L3N1Ym1lbnUvNiI7czo3OiJoYWxhbWFuIjtzOjQ3OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9zdXJhdCI7fQ==', 1691945428);
 
 -- --------------------------------------------------------
 
@@ -996,6 +996,13 @@ CREATE TABLE `surats` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `surats`
+--
+
+INSERT INTO `surats` (`id_surats`, `klasifikasi_surats_id`, `derajat_surats_id`, `sifat_surats_id`, `users_id`, `no_surats`, `no_asal_surats`, `asal_surats`, `judul_surats`, `tanggal_asal_surats`, `tanggal_mulai_surats`, `tanggal_selesai_surats`, `perihal_surats`, `ringkasan_surats`, `keterangan_surats`, `status_agendakan_surats`, `created_at`, `updated_at`) VALUES
+(1, 10, 1, 1, 1, 'GYS/0005/08/2023', '', '', 'asd', '2023-08-13', '2023-08-15', '2023-08-15', 'asd', '<p>asd</p>', 'asd', 0, '2023-08-13 15:58:17', '2023-08-13 16:50:21');
+
 -- --------------------------------------------------------
 
 --
@@ -1006,6 +1013,9 @@ CREATE TABLE `surat_lampirans` (
   `id_surat_lampirans` bigint(20) UNSIGNED NOT NULL,
   `surats_id` bigint(20) UNSIGNED DEFAULT NULL,
   `file_surat_lampirans` varchar(255) NOT NULL,
+  `nama_file_surat_lampirans` varchar(255) NOT NULL,
+  `ukuran_file_surat_lampirans` varchar(255) NOT NULL,
+  `tipe_file_surat_lampirans` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1024,6 +1034,13 @@ CREATE TABLE `surat_users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `surat_users`
+--
+
+INSERT INTO `surat_users` (`id_surat_users`, `surats_id`, `users_id`, `status_baca_surat_users`, `created_at`, `updated_at`) VALUES
+(1, 1, 5, 0, '2023-08-13 15:58:17', '2023-08-13 16:50:21');
 
 -- --------------------------------------------------------
 
@@ -1369,19 +1386,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `surats`
 --
 ALTER TABLE `surats`
-  MODIFY `id_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `surat_lampirans`
 --
 ALTER TABLE `surat_lampirans`
-  MODIFY `id_surat_lampirans` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_surat_lampirans` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `surat_users`
 --
 ALTER TABLE `surat_users`
-  MODIFY `id_surat_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_surat_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`

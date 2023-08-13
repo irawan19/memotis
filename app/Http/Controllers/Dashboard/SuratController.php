@@ -201,6 +201,7 @@ class SuratController extends AdminCoreController
                     $nama       = $pecah_file[0];
                     $size       = $pecah_file[1];
                     $type       = $pecah_file[2];
+                    Storage::disk('public')->move('temp/'.$nama, 'lampiran/'.$nama);
                     $surat_lampirans_data = [
                         'surats_id'                     => $id_surats,
                         'file_surat_lampirans'          => 'lampiran/'.$nama,
@@ -229,7 +230,7 @@ class SuratController extends AdminCoreController
         $link_surat = 'surat';
         if(General::hakAkses($link_surat, 'tambah') == 'true')
         {
-            $path = public_path('storage/lampiran');
+            $path = public_path('storage/temp');
 
             $file = $request->file('file');
             $name = uniqid() . '_' . trim($file->getClientOriginalName());
@@ -377,6 +378,7 @@ class SuratController extends AdminCoreController
                         $nama       = $pecah_file[0];
                         $size       = $pecah_file[1];
                         $type       = $pecah_file[2];
+                        Storage::disk('public')->move('temp/'.$nama, 'lampiran/'.$nama);
                         $surat_lampirans_data = [
                             'surats_id'                     => $id_surats,
                             'file_surat_lampirans'          => 'lampiran/'.$nama,
