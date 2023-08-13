@@ -363,4 +363,57 @@ class MomController extends AdminCoreController
             return redirect('dashboard/mom');
     }
 
+    public function ambilmom($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'cetak') == 'true')
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->first();
+            if(!empty($cek_moms))
+            {
+                return response()->json(["data" => $cek_moms, "pesan" => "sukses"], 200);
+            }
+            else
+                return response()->json(["pesan" => "error"], 400);
+        }
+        else
+            return response()->json(["pesan" => "error"], 400);
+    }
+
+    public function ambilmomuser($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'cetak') == 'true')
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->count();
+            if($cek_moms != 0)
+            {
+                $ambil_mom_users = Mom_user::where('moms_id',$id_moms)->get();
+                return response()->json(["data" => $ambil_mom_users, "pesan" => "sukses"], 200);
+            }
+            else
+                return response()->json(["pesan" => "error"], 400);
+        }
+        else
+            return response()->json(["pesan" => "error"], 400);
+    }
+
+    public function ambilmomuserexternal($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'cetak') == 'true')
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->count();
+            if($cek_moms != 0)
+            {
+                $ambil_mom_users = Mom_user_external::where('moms_id',$id_moms)->get();
+                return response()->json(["data" => $ambil_mom_users, "pesan" => "sukses"], 200);
+            }
+            else
+                return response()->json(["pesan" => "error"], 400);
+        }
+        else
+            return response()->json(["pesan" => "error"], 400);
+    }
+
 }

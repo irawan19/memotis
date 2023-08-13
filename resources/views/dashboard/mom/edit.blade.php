@@ -111,10 +111,10 @@
 												{{General::pesanErrorForm($errors->first('users_id.'.$users->id))}}
 											</div>
 											<div class="col-sm-3">
-												<textarea placeholder="Masukkan tugas..." class="form-control {{ General::validForm($errors->first('tugas_mom_users.'.$users->id)) }}" id="tugas_mom_users" name="tugas_mom_users[{{$users->id}}]" rows="5">{{Request::old('tugas_mom_users.'.$users->id) == '' ? $tugas_mom_users : Request::old('tugas_mom_users')}}</textarea>
+												<textarea placeholder="Masukkan tugas..." class="form-control {{ General::validForm($errors->first('tugas_mom_users.'.$users->id)) }}" id="tugas_mom_users{{$users->id}}" name="tugas_mom_users[{{$users->id}}]" rows="5">{{Request::old('tugas_mom_users.'.$users->id) == '' ? $tugas_mom_users : Request::old('tugas_mom_users')}}</textarea>
 											</div>
 											<div class="col-sm-2">
-												<select class="form-control select2" id="status_tugas_id" name="status_tugas_id[{{$users->id}}]">
+												<select class="form-control select2" id="status_tugas_id{{$users->id}}" name="status_tugas_id[{{$users->id}}]">
 													<option value="">-</option>
 													@foreach($edit_status_tugas as $status_tugas)
 														@php($selected = '')
@@ -132,7 +132,7 @@
 												</select>
 											</div>
 											<div class="col-sm-3">
-												<textarea placeholder="Masukkan catatan..." class="form-control {{ General::validForm($errors->first('catatan_mom_users.'.$users->id)) }}" id="catatan_mom_users" name="catatan_mom_users[{{$users->id}}]" rows="5">{{Request::old('catatan_mom_users.'.$users->id) == '' ? $catatan_mom_users : Request::old('catatan_mom_users')}}</textarea>
+												<textarea placeholder="Masukkan catatan..." class="form-control {{ General::validForm($errors->first('catatan_mom_users.'.$users->id)) }}" id="catatan_mom_users{{$users->id}}" name="catatan_mom_users[{{$users->id}}]" rows="5">{{Request::old('catatan_mom_users.'.$users->id) == '' ? $catatan_mom_users : Request::old('catatan_mom_users')}}</textarea>
 											</div>
 										</div>
 									@endforeach
@@ -153,5 +153,77 @@
 			</div>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function () {
+			$('#sub_moms_id').on('change', function() {
+				idmoms = $(this).val();
+
+				var headerRequest = {
+								'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
+							};
+				//get moms
+				$.ajax({
+							url: '{{URL("dashboard/mom/ambilmom")}}/'+idmoms,
+							type: "GET",
+							dataType: 'JSON',
+							headers: headerRequest,
+							success: function(data)
+							{
+								if(data.pesan == 'sukses')
+								{
+									CKEDITOR.instances.editor1.setData(data.data.deskripsi_moms);
+								}
+							},
+							error: function(data) {
+								console.log(data);
+							}
+					});
+
+				//get user internal
+				$.ajax({
+							url: '{{URL("dashboard/mom/momuser")}}/'+idmoms,
+							type: "GET",
+							dataType: 'JSON',
+							headers: headerRequest,
+							success: function(data)
+							{
+								if(data.pesan == 'sukses')
+								{
+									$.each( data.data, function(key, value) {
+										$('#users_id'+value.users_id).prop('checked',true);
+										$('#tugas_mom_users'+value.users_id).val(value.tugas_mom_users);
+										$('#status_tugas_id'+value.users_id).val(value.status_tugas_id).trigger('change');
+										$('#catatan_mom_users'+value.users_id).val(value.catatan_mom_users);
+									});
+								}
+							},
+							error: function(data) {
+								console.log(data);
+							}
+					});
+
+				//get user external
+					$.ajax({
+							url: '{{URL("dashboard/mom/momexternal")}}/'+idmoms,
+							type: "GET",
+							dataType: 'JSON',
+							headers: headerRequest,
+							success: function(data)
+							{
+								if(data.pesan == 'sukses')
+								{
+									$.each( data.data, function(key, value) {
+										$('#nama_user_externals').val(value.nama_user_externals).trigger('change');
+									});
+								}
+							},
+							error: function(data) {
+								console.log(data);
+							}
+					});
+			});
+		});
+	</script>
 
 @endsection

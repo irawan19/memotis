@@ -106,6 +106,9 @@ Route::middleware([
                 Route::post('/prosesedit/{id}', [DashboardMom::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardMom::class, 'hapus']);
                 Route::get('/cetak/{id}', [DashboardMom::class, 'cetak']);
+                Route::get('/ambilmom/{id}', [DashboardMom::class, 'ambilmom']);
+                Route::get('/momuser/{id}', [DashboardMom::class, 'ambilmomuser']);
+                Route::get('/momexternal/{id}', [DashboardMom::class, 'ambilmomuserexternal']);
             });
 
         //Konfigurasi Aplikasi
