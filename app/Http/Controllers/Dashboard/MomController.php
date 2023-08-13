@@ -125,7 +125,7 @@ class MomController extends AdminCoreController
                 $moms_id = $request->moms_id;
 
             $kategori_moms = 'Internal';
-            if(!empty($request->mom_user_externals))
+            if(!empty($request->nama_user_externals))
                 $kategori_moms = 'External';
 
             $data = [
@@ -171,13 +171,13 @@ class MomController extends AdminCoreController
                 }
             }
 
-            if(!empty($request->mom_user_externals))
+            if(!empty($request->nama_user_externals))
             {
-                foreach($request->mom_user_externals as $mom_user_externals)
+                foreach($request->nama_user_externals as $nama_user_externals)
                 {
                     $mom_user_externals_data = [
                         'moms_id'               => $id_moms,
-                        'nama_user_externals'   => $mom_user_externals,
+                        'nama_user_externals'   => $nama_user_externals,
                         'created_at'            => date('Y-m-d H:i:s')
                     ];
                     Mom_user_external::insert($mom_user_externals_data);
@@ -193,12 +193,6 @@ class MomController extends AdminCoreController
         }
         else
             return redirect('dashboard/mom');
-
-        foreach($request->users_id as $users)
-        {
-            echo $users.'<br/>';
-            echo $request->catatan_mom_users[$users];
-        }
     }
     public function edit($id_moms=0)
     {
@@ -216,7 +210,6 @@ class MomController extends AdminCoreController
                                                         ->get();
                 $data['edit_moms']                  = Mom::where('id_moms',$id_moms)
                                                         ->first();
-                $data['edit_mom_user_externals']    = Mom_user_external::get();
                 return view('dashboard.mom.edit',$data);
             }
             else
@@ -253,7 +246,7 @@ class MomController extends AdminCoreController
                     $moms_id = $request->moms_id;
     
                 $kategori_moms = 'Internal';
-                if(!empty($request->mom_user_externals))
+                if(!empty($request->nama_user_externals))
                     $kategori_moms = 'External';
     
                 $data = [
@@ -301,13 +294,13 @@ class MomController extends AdminCoreController
                 }
 
                 Mom_user_external::where('moms_id',$id_moms)->delete();
-                if(!empty($request->mom_user_externals))
+                if(!empty($request->nama_user_externals))
                 {
-                    foreach($request->mom_user_externals as $mom_user_externals)
+                    foreach($request->nama_user_externals as $nama_user_externals)
                     {
                         $mom_user_externals_data = [
                             'moms_id'               => $id_moms,
-                            'nama_user_externals'   => $mom_user_externals,
+                            'nama_user_externals'   => $nama_user_externals,
                             'created_at'            => date('Y-m-d H:i:s')
                         ];
                         Mom_user_external::insert($mom_user_externals_data);

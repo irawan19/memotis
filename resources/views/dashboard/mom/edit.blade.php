@@ -59,18 +59,13 @@
 									<div class="form-group">
 										<label class="form-col-form-label" for="nama_user_externals">External</label>
 										<select class="form-control select2creation" id="nama_user_externals" name="nama_user_externals[]" multiple="multiple">
-											@foreach($edit_mom_user_externals as $mom_user_externals)
-												@if(!empty(Request::old('nama_user_externals')))
-													@if($mom_user_externals->nama_mom_user_externals == $edit_moms->moms_id)
-														@php($selected = 'selected')
-													@endif
-												@else
-													@if($mom_user_externals->nama_mom_user_externals == Request::old('nama_user_externals'))
-														@php($selected = 'selected')
-													@endif
-												@endif
-												<option value="{{$mom_user_externals->nama_mom_user_externals}}" {{ $selected }}>{{$mom_user_externals->nama_user_externals}}</option>
-											@endforeach
+											@php($selected = '')
+											@php($ambil_mom_user_externals = \App\Models\Mom_user_external::where('moms_id',$edit_moms->id_moms)->get())
+											@if(!empty($ambil_mom_user_externals))
+												@foreach($ambil_mom_user_externals as $mom_user_externals)
+													<option value="{{$mom_user_externals->nama_user_externals}}" selected="selected">{{$mom_user_externals->nama_user_externals}}</option>
+												@endforeach
+											@endif
 										</select>
 										{{General::pesanErrorForm($errors->first('nama_user_externals.*'))}}
 									</div>
