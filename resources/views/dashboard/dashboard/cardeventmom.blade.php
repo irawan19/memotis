@@ -37,7 +37,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="titleeventcard" {{$statusbacacolor}}>{{$event_moms->judul_moms}}</div>
+					<div class="titleeventcard" {{$statusbacacolor}}>{{$event_moms->judul_moms.' ('.$event_moms->kategori_moms.')'}}</div>
 					<div class="titlevenuecard text-muted">venue : {{$event_moms->venue_moms}}</div>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 									</button>
 								</div>
 								<div class="col-sm-6">
-									<p class="judulsurat">{{$event_moms->judul_moms}}</p>
+									<p class="judulsurat">{{$event_moms->judul_moms.' ('.$event_moms->kategori_moms.')'}}</p>
 								</div>
 								<div class="col-sm-6 right-align">
 									<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_moms)}}</p>
@@ -184,7 +184,7 @@
 					<div class="text-value-lg">
 						<p class="nosurat">{{$event_moms->no_moms}}</p>
 					</div>
-					<div class="titleeventcard">{{$event_moms->judul_moms}}</div>
+					<div class="titleeventcard">{{$event_moms->judul_moms.' ('.$event_moms->kategori_moms.')'}}</div>
 				</div>
 			</div>
 		@endif
