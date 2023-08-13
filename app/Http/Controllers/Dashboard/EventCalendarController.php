@@ -36,7 +36,7 @@ class EventCalendarController extends AdminCoreController
                 'title'         => $moms->no_moms,
                 'start'         => $moms->tanggal_mulai_moms,
                 'end'           => $moms->tanggal_selesai_moms,
-                'description'   => $moms->judul_moms.' ('.$moms->kategori_moms.')',
+                'description'   => $moms->judul_moms.' ('.$moms->kategori_moms.')<br>venue : '.$moms->venue_moms,
                 'color'         => General::randomWarna(),
             ];
         }

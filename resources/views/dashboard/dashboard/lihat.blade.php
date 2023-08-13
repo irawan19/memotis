@@ -106,8 +106,9 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
+  				initialView: 'timeGridWeek',
 				locale: 'id',
-				height:485,
+				height:'auto',
 				dayMaxEvents: false,
 				businessHours: true,
 				editable: false,
@@ -115,7 +116,7 @@
 				eventClick: function(info) {
 					swal({
 						title: info.event.title,
-						text: info.event.extendedProps.description,
+						html: info.event.extendedProps.description,
 						type: "info",
 					});
 				},
