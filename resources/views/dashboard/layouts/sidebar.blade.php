@@ -43,7 +43,7 @@
             @if($total_sub_menus != 0)
 			  	<li class="c-sidebar-nav-dropdown c-show">
 				  	<a class="c-sidebar-nav-dropdown-toggle" href="#">
-				        <svg class="c-sidebar-nav-icon"  data-toggle="tooltip" data-placement="right" title="" data-original-title="{{$menus->nama_menus}}">
+				        <svg class="c-sidebar-nav-icon">
 				          	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#'.$menus->icon_menus)}}"></use>
 				        </svg> {{$menus->nama_menus}}
 				    </a>
@@ -55,7 +55,7 @@
                             @endif
 				  				<li class="c-sidebar-nav-item">
 				  					<a class="c-sidebar-nav-link {{$active_submenus}}" href="{{URL('dashboard/'.$sub_menus->link_menus)}}">
-				  						<svg class="c-sidebar-nav-icon {{$active_submenus}}" data-toggle="tooltip" data-placement="right" title="" data-original-title="{{$sub_menus->nama_menus}}">
+				  						<svg class="c-sidebar-nav-icon {{$active_submenus}}">
 								          	<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#'.$sub_menus->icon_menus)}}"></use>
 								        </svg> {{$sub_menus->nama_menus}}
 				  					</a>

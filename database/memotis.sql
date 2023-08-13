@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 10, 2023 at 11:38 AM
+-- Generation Time: Aug 13, 2023 at 04:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `memotis`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `events`
+--
+
+CREATE TABLE `events` (
+  `id_events` bigint(20) UNSIGNED NOT NULL,
+  `mulai_events` datetime NOT NULL,
+  `selesai_events` datetime NOT NULL,
+  `nama_events` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id_events`, `mulai_events`, `selesai_events`, `nama_events`, `created_at`, `updated_at`) VALUES
+(1, '2023-08-07 09:00:00', '2023-08-07 10:00:00', 'Business Review Q3 all unit business GYS', '2023-08-13 11:34:10', NULL),
+(2, '2023-08-13 20:46:31', '2023-08-13 21:46:31', 'Testing Event', '2023-08-13 13:46:58', NULL),
+(3, '2023-08-14 04:48:23', '2023-08-14 20:48:23', 'Testing event 2', '2023-08-13 13:48:37', '2023-08-13 14:17:22');
 
 -- --------------------------------------------------------
 
@@ -102,35 +126,6 @@ INSERT INTO `master_akses` (`id_akses`, `level_sistems_id`, `fiturs_id`, `create
 (413, 10, 44, '2023-07-24 05:16:58', '2023-07-24 05:16:58'),
 (414, 10, 48, '2023-07-24 05:16:58', '2023-07-24 05:16:58'),
 (415, 10, 15, '2023-07-24 05:16:58', '2023-07-24 05:16:58'),
-(424, 3, 49, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(425, 3, 51, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(426, 3, 50, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(427, 3, 52, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(428, 3, 53, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(429, 3, 54, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(430, 3, 43, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(431, 3, 45, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(432, 3, 44, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(433, 3, 46, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(434, 3, 47, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(435, 3, 48, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(436, 3, 18, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(437, 3, 19, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(438, 3, 20, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(439, 3, 21, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(440, 3, 22, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(441, 3, 23, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(442, 3, 24, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(443, 3, 25, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(444, 3, 26, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(445, 3, 27, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(446, 3, 28, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(447, 3, 29, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(448, 3, 30, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(449, 3, 31, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(450, 3, 32, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(451, 3, 33, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
-(452, 3, 15, '2023-07-24 06:48:37', '2023-07-24 06:48:37'),
 (453, 4, 49, '2023-07-24 06:48:57', '2023-07-24 06:48:57'),
 (454, 4, 51, '2023-07-24 06:48:57', '2023-07-24 06:48:57'),
 (455, 4, 50, '2023-07-24 06:48:57', '2023-07-24 06:48:57'),
@@ -200,35 +195,6 @@ INSERT INTO `master_akses` (`id_akses`, `level_sistems_id`, `fiturs_id`, `create
 (527, 11, 32, '2023-07-24 06:51:42', '2023-07-24 06:51:42'),
 (528, 11, 33, '2023-07-24 06:51:42', '2023-07-24 06:51:42'),
 (529, 11, 15, '2023-07-24 06:51:42', '2023-07-24 06:51:42'),
-(530, 6, 49, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(531, 6, 51, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(532, 6, 50, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(533, 6, 52, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(534, 6, 53, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(535, 6, 54, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(536, 6, 43, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(537, 6, 45, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(538, 6, 44, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(539, 6, 46, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(540, 6, 47, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(541, 6, 48, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(542, 6, 18, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(543, 6, 19, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(544, 6, 20, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(545, 6, 21, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(546, 6, 22, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(547, 6, 23, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(548, 6, 24, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(549, 6, 25, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(550, 6, 26, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(551, 6, 27, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(552, 6, 28, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(553, 6, 29, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(554, 6, 30, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(555, 6, 31, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(556, 6, 32, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(557, 6, 33, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
-(558, 6, 15, '2023-07-24 06:52:03', '2023-07-24 06:52:03'),
 (559, 7, 49, '2023-07-24 06:52:26', '2023-07-24 06:52:26'),
 (560, 7, 51, '2023-07-24 06:52:26', '2023-07-24 06:52:26'),
 (561, 7, 54, '2023-07-24 06:52:26', '2023-07-24 06:52:26'),
@@ -336,62 +302,132 @@ INSERT INTO `master_akses` (`id_akses`, `level_sistems_id`, `fiturs_id`, `create
 (663, 16, 47, '2023-07-24 07:03:57', '2023-07-24 07:03:57'),
 (664, 16, 48, '2023-07-24 07:03:57', '2023-07-24 07:03:57'),
 (665, 16, 15, '2023-07-24 07:03:57', '2023-07-24 07:03:57'),
-(666, 1, 49, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(667, 1, 51, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(668, 1, 50, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(669, 1, 52, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(670, 1, 53, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(671, 1, 54, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(672, 1, 43, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(673, 1, 45, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(674, 1, 44, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(675, 1, 46, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(676, 1, 47, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(677, 1, 48, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(678, 1, 18, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(679, 1, 19, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(680, 1, 20, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(681, 1, 21, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(682, 1, 22, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(683, 1, 23, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(684, 1, 24, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(685, 1, 25, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(686, 1, 26, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(687, 1, 27, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(688, 1, 28, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(689, 1, 29, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(690, 1, 30, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(691, 1, 31, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(692, 1, 32, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(693, 1, 33, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(694, 1, 2, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(695, 1, 4, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(696, 1, 3, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(697, 1, 5, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(698, 1, 6, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(699, 1, 34, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(700, 1, 35, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(701, 1, 36, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(702, 1, 37, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(703, 1, 7, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(704, 1, 9, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(705, 1, 8, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(706, 1, 10, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(707, 1, 11, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(708, 1, 12, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(709, 1, 14, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(710, 1, 13, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(711, 1, 15, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(712, 1, 16, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(713, 1, 55, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(714, 1, 56, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(715, 1, 57, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(716, 1, 58, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(717, 1, 17, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(718, 1, 59, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(719, 1, 60, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(720, 1, 61, '2023-08-10 04:24:37', '2023-08-10 04:24:37'),
-(721, 1, 62, '2023-08-10 04:24:37', '2023-08-10 04:24:37');
+(722, 1, 49, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(723, 1, 51, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(724, 1, 50, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(725, 1, 52, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(726, 1, 53, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(727, 1, 54, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(728, 1, 43, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(729, 1, 45, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(730, 1, 44, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(731, 1, 46, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(732, 1, 47, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(733, 1, 48, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(734, 1, 63, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(735, 1, 64, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(736, 1, 65, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(737, 1, 66, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(738, 1, 18, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(739, 1, 19, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(740, 1, 20, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(741, 1, 21, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(742, 1, 22, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(743, 1, 23, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(744, 1, 24, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(745, 1, 25, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(746, 1, 26, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(747, 1, 27, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(748, 1, 28, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(749, 1, 29, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(750, 1, 30, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(751, 1, 31, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(752, 1, 32, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(753, 1, 33, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(754, 1, 59, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(755, 1, 60, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(756, 1, 61, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(757, 1, 62, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(758, 1, 2, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(759, 1, 4, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(760, 1, 3, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(761, 1, 5, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(762, 1, 6, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(763, 1, 34, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(764, 1, 35, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(765, 1, 36, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(766, 1, 37, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(767, 1, 7, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(768, 1, 9, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(769, 1, 8, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(770, 1, 10, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(771, 1, 11, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(772, 1, 12, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(773, 1, 14, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(774, 1, 13, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(775, 1, 15, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(776, 1, 16, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(777, 1, 55, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(778, 1, 56, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(779, 1, 57, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(780, 1, 58, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(781, 1, 17, '2023-08-13 12:40:57', '2023-08-13 12:40:57'),
+(815, 3, 49, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(816, 3, 51, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(817, 3, 50, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(818, 3, 52, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(819, 3, 53, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(820, 3, 54, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(821, 3, 43, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(822, 3, 45, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(823, 3, 44, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(824, 3, 46, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(825, 3, 47, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(826, 3, 48, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(827, 3, 63, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(828, 3, 64, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(829, 3, 65, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(830, 3, 66, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(831, 3, 18, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(832, 3, 19, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(833, 3, 20, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(834, 3, 21, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(835, 3, 22, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(836, 3, 23, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(837, 3, 24, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(838, 3, 25, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(839, 3, 26, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(840, 3, 27, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(841, 3, 28, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(842, 3, 29, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(843, 3, 30, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(844, 3, 31, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(845, 3, 32, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(846, 3, 33, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(847, 3, 15, '2023-08-13 12:42:33', '2023-08-13 12:42:33'),
+(848, 6, 49, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(849, 6, 51, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(850, 6, 50, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(851, 6, 52, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(852, 6, 53, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(853, 6, 54, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(854, 6, 43, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(855, 6, 45, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(856, 6, 44, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(857, 6, 46, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(858, 6, 47, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(859, 6, 48, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(860, 6, 63, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(861, 6, 64, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(862, 6, 65, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(863, 6, 66, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(864, 6, 18, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(865, 6, 19, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(866, 6, 20, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(867, 6, 21, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(868, 6, 22, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(869, 6, 23, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(870, 6, 24, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(871, 6, 25, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(872, 6, 26, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(873, 6, 27, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(874, 6, 28, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(875, 6, 29, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(876, 6, 30, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(877, 6, 31, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(878, 6, 32, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(879, 6, 33, '2023-08-13 12:43:57', '2023-08-13 12:43:57'),
+(880, 6, 15, '2023-08-13 12:43:57', '2023-08-13 12:43:57');
 
 -- --------------------------------------------------------
 
@@ -556,7 +592,11 @@ INSERT INTO `master_fiturs` (`id_fiturs`, `menus_id`, `nama_fiturs`, `created_at
 (59, 16, 'lihat', NULL, NULL),
 (60, 16, 'tambah', NULL, NULL),
 (61, 16, 'edit', NULL, NULL),
-(62, 16, 'hapus', NULL, NULL);
+(62, 16, 'hapus', NULL, NULL),
+(63, 17, 'lihat', NULL, NULL),
+(64, 17, 'tambah', NULL, NULL),
+(65, 17, 'edit', NULL, NULL),
+(66, 17, 'hapus', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -640,12 +680,12 @@ CREATE TABLE `master_level_sistems` (
 --
 
 INSERT INTO `master_level_sistems` (`id_level_sistems`, `level_sistems_id`, `divisis_id`, `nama_level_sistems`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, NULL, NULL, 'Developer', '2023-07-19 12:36:53', '2023-08-10 04:24:37', NULL),
+(1, NULL, NULL, 'Developer', '2023-07-19 12:36:53', '2023-08-13 12:40:57', NULL),
 (2, NULL, NULL, 'Direktur', '2023-07-24 02:38:25', '2023-07-24 02:38:25', NULL),
-(3, 2, 2, 'VP Corporate Secretary', '2023-07-24 02:40:12', '2023-07-24 06:48:37', NULL),
+(3, 2, 2, 'VP Corporate Secretary', '2023-07-24 02:40:12', '2023-08-13 12:42:33', NULL),
 (4, 2, 5, 'GM Operation', '2023-07-24 02:41:18', '2023-07-24 06:48:57', NULL),
 (5, 2, 6, 'VP Finance & Compliance', '2023-07-24 02:42:55', '2023-07-24 06:49:27', NULL),
-(6, 3, 2, 'Personal Assistant', '2023-07-24 05:06:53', '2023-07-24 06:52:03', NULL),
+(6, 3, 2, 'Personal Assistant', '2023-07-24 05:06:53', '2023-08-13 12:43:57', NULL),
 (7, 11, 4, 'Corporate Planning', '2023-07-24 05:10:58', '2023-07-24 06:52:26', NULL),
 (8, 11, 4, 'IT & Digitization', '2023-07-24 05:11:43', '2023-07-24 06:53:03', NULL),
 (9, 4, 5, 'Project Design & Planning', '2023-07-24 05:13:08', '2023-07-24 05:13:08', NULL),
@@ -690,10 +730,11 @@ INSERT INTO `master_menus` (`id_menus`, `menus_id`, `nama_menus`, `icon_menus`, 
 (10, 1, 'Derajat Surat', 'cil-tags', 'derajat_surat', 3, '2023-07-20 03:47:44', '2023-08-10 04:26:21'),
 (11, 1, 'Sifat Surat', 'cil-share-alt', 'sifat_surat', 4, '2023-07-20 03:48:04', '2023-08-10 04:26:21'),
 (12, 1, 'Divisi', 'cil-asterisk-circle', 'divisi', 7, '2023-07-20 06:09:35', '2023-08-10 04:26:21'),
-(13, 6, 'Surat', 'cil-envelope-open', 'surat', 1, '2023-07-21 04:34:27', '2023-07-21 04:34:51'),
-(14, 6, 'MOM', 'cil-notes', 'mom', 2, '2023-07-21 04:34:47', '2023-07-21 04:34:47'),
+(13, 6, 'Surat', 'cil-envelope-open', 'surat', 1, '2023-07-21 04:34:27', '2023-08-13 12:40:42'),
+(14, 6, 'MOM', 'cil-notes', 'mom', 2, '2023-07-21 04:34:47', '2023-08-13 12:40:42'),
 (15, 1, 'Sosial Media', 'cil-share-all', 'sosial_media', 10, '2023-07-21 05:39:41', '2023-08-10 04:26:21'),
-(16, 1, 'Status Tugas', 'cil-info', 'status_tugas', 5, '2023-08-10 04:21:12', '2023-08-10 04:26:21');
+(16, 1, 'Status Tugas', 'cil-info', 'status_tugas', 5, '2023-08-10 04:21:12', '2023-08-10 04:26:21'),
+(17, 6, 'Event', 'cil-calendar-check', 'event', 3, '2023-08-13 12:40:33', '2023-08-13 12:40:42');
 
 -- --------------------------------------------------------
 
@@ -797,7 +838,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2023_07_24_224358_create_surat_lampirans_table', 7),
 (22, '2023_08_09_182932_create_mom_user_externals_table', 8),
 (23, '2023_08_09_201113_create_master_status_tugas_table', 9),
-(24, '2023_08_09_201114_create_mom_users_table', 9);
+(24, '2023_08_09_201114_create_mom_users_table', 9),
+(25, '2023_08_13_174943_create_events_table', 10);
 
 -- --------------------------------------------------------
 
@@ -825,7 +867,7 @@ CREATE TABLE `moms` (
 --
 
 INSERT INTO `moms` (`id_moms`, `moms_id`, `users_id`, `kategori_moms`, `no_moms`, `judul_moms`, `tanggal_mulai_moms`, `tanggal_selesai_moms`, `venue_moms`, `deskripsi_moms`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 'Internal', 'MOM/0001/08/2023', 'test', '2023-08-10 15:37:09', '2023-08-10 15:37:09', 'test', '<p>test 123</p>', '2023-08-10 09:14:38', NULL);
+(1, NULL, 1, 'External', 'MOM/0001/08/2023', 'test', '2023-08-10 15:37:09', '2023-08-10 15:37:09', 'test', '<p>test 123</p>', '2023-08-10 09:14:38', '2023-08-13 05:24:28');
 
 -- --------------------------------------------------------
 
@@ -850,8 +892,8 @@ CREATE TABLE `mom_users` (
 --
 
 INSERT INTO `mom_users` (`id_mom_users`, `moms_id`, `users_id`, `status_tugas_id`, `tugas_mom_users`, `catatan_mom_users`, `status_baca_mom_users`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 1, '- test 1\r\n- test 2', '- test 4', 0, '2023-08-10 09:14:38', NULL),
-(2, 1, 5, 2, '- test 3', 'test 5, 6', 0, '2023-08-10 09:14:38', NULL);
+(26, 1, 3, 1, '- tugas 1\r\n- tugas 2', '- catatan 1', 0, '2023-08-13 05:24:28', NULL),
+(27, 1, 5, 2, '- tugas 3', '- catatan 2\r\n- catatan 3', 0, '2023-08-13 05:24:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -866,6 +908,13 @@ CREATE TABLE `mom_user_externals` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mom_user_externals`
+--
+
+INSERT INTO `mom_user_externals` (`id_mom_user_externals`, `moms_id`, `nama_user_externals`, `created_at`, `updated_at`) VALUES
+(5, 1, 'Irawan Agung Nugroho', '2023-08-13 05:24:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -918,18 +967,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('9cddpG8TSiHkBVpAQP9X7G5fqXryGsJ7mhDAoQ2m', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNkxwNmdqV0JRNXp6V0xDSkF4eVhZU1BEV2p6NWJ2bWNTcmZWN3ZIMSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578178),
-('a0NQfmjzIIfXThyhACtyqvsXxq0WnnvlB3kCOZQ9', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiREtGeUt2blBkQjdhbUx3U2Q5WEQ1SWNDQmtkcWlKNklXYnhRTXp4YyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691577396),
-('b1UjaAzghq04ysGpy24FW1c5ohZ67uqYJKZ7RkvF', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiMFBRTE5JY29yRGFSU0d5dlRSNlJrNlVXM0hXUGZIWWtEck1rN3pkQSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTI6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21vbS90YW1iYWgiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjg6ImhhbGFtYW4yIjtzOjU2OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tZW51L3N1Ym1lbnUvMSI7czo3OiJoYWxhbWFuIjtzOjQ1OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20iO30=', 1691645663),
-('CPhfm4GIuPtAxftZUzV1Rx4aFItf6SaadErikilk', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOThKcG5yNnlseHFweXRpTVZOeHg3V0ZGNTY2TmpINDBoV3dsb0VEVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578799),
-('GhQYpq6k54n4BBUCQWE2pH4UWxSQdhNBSWLr9koP', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMFFZa1RIeWgzOEJQcjlBSmNwVmYzUWpqWnVSRjAwRTg3aDBSYW13RiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691579419),
-('MfInwakI4PPEz2YyiqLhnbOus8VBIKeShRY1kaIC', NULL, '103.56.204.42', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoia2xJcm40ZEUwNnFIT0J0SjJITUhZNnpkOXdiMkRrV1NTZWtmMGNhVyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHBzOi8vZ3lzLmFwcC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691576493),
-('OLNGFTBtVKySy53Xj6tuDAX6BViNHMtZu1p2agGE', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiak95ZWZxdFg0U1lUZFg2bzloMmtscmxYdjdRVldnZU9MaVR5RUNPYSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578498),
-('pNGnji8BQkXytKQty3zvljHBuZ8429npCq1Fro8h', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaGZGQWVCOG1tVWpKZ1VQYlVtc0hndFhYM0thZEtNZHRaU3hPZHFmMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578328),
-('QqUIWTYQmO9CnGv3Q3QsgjcEkQbQbK1pBGtf0VoD', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoic2pISk9rc2dvTXNzSkpDaDV4QU12aFI3QXMxZGRGZHZxRUFvSXdMciI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578258),
-('rhMDygLh8BEpfYr7hYGBNAxwkNSb9hQL9k7jBSvK', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoicFNueWlVcHRTSFBvWGh3UjdNSEE3WktyQWxGcmFVZWZSdDFmWEdKOCI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjUyOiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20vdGFtYmFoIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCRFUVNqSWVFcWdldW1QOExoMGs1YUlPNzg4Rjh4MVpaT3QyQmQySlFxUVBXZzdVQ3JLL3JuQyI7czo3OiJoYWxhbWFuIjtzOjQ1OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tb20iO30=', 1691585397),
-('stRdcTONEOynM7A85iUe8FJPHKQkG11Et0G83c7A', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoid3FNNGRWUE1NR2NDUDQyUlNEOFBZMDdUZWVxQzhqYmdaYmlYNENLWSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjEzMzoiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvZXZlbnRjYWxlbmRhcj9lbmQ9MjAyMy0wOS0xMVQwMCUzQTAwJTNBMDAlMkIwNyUzQTAwJnN0YXJ0PTIwMjMtMDctMzFUMDAlM0EwMCUzQTAwJTJCMDclM0EwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6NzoiaGFsYW1hbiI7czo0NToiaHR0cDovL2xvY2FsaG9zdC9tZW1vdGlzL3B1YmxpYy9kYXNoYm9hcmQvbW9tIjt9', 1691659633),
-('YrLcgH7RFCwP0N59Jh87iwatpsyrepe3OzClHJha', NULL, '103.56.204.42', 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/103.0.5060.134 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoib2hxVmsxTE5QM2l3dnVuZVFSTGM3YUtxS3U1VUdQcXBoVm9OQ1d4ZyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTU6Imh0dHBzOi8vZ3lzLmFwcCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1691578207);
+('OjFs98a6lkJXhobxJNhgCMP4wmqXPDFiJ8mHBaTN', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiREhSaFRRbkpZQWlOQ2dPNDFZa1ZoaUFCM0dzWTkzR3lGTjV1NzEyVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2V2ZW50Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6ODoiaGFsYW1hbjIiO3M6NTY6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL21lbnUvc3VibWVudS82IjtzOjc6ImhhbGFtYW4iO3M6NDc6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL2V2ZW50Ijt9', 1691936242);
 
 -- --------------------------------------------------------
 
@@ -1032,6 +1070,12 @@ INSERT INTO `users` (`id`, `level_sistems_id`, `username`, `name`, `email`, `ema
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id_events`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -1208,6 +1252,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `id_events` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -1217,7 +1267,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `master_akses`
 --
 ALTER TABLE `master_akses`
-  MODIFY `id_akses` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=722;
+  MODIFY `id_akses` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=881;
 
 --
 -- AUTO_INCREMENT for table `master_derajat_surats`
@@ -1241,7 +1291,7 @@ ALTER TABLE `master_divisis`
 -- AUTO_INCREMENT for table `master_fiturs`
 --
 ALTER TABLE `master_fiturs`
-  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id_fiturs` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `master_klasifikasi_surats`
@@ -1265,7 +1315,7 @@ ALTER TABLE `master_level_sistems`
 -- AUTO_INCREMENT for table `master_menus`
 --
 ALTER TABLE `master_menus`
-  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_menus` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `master_sifat_surats`
@@ -1289,7 +1339,7 @@ ALTER TABLE `master_status_tugas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `moms`
@@ -1301,13 +1351,13 @@ ALTER TABLE `moms`
 -- AUTO_INCREMENT for table `mom_users`
 --
 ALTER TABLE `mom_users`
-  MODIFY `id_mom_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_mom_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `mom_user_externals`
 --
 ALTER TABLE `mom_user_externals`
-  MODIFY `id_mom_user_externals` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mom_user_externals` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
