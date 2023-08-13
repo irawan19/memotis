@@ -62,7 +62,7 @@ class SuratController extends AdminCoreController
         $link_surat = 'surat';
         if(General::hakAkses($link_surat,'lihat') == 'true')
         {
-            $data['link_surat']           = $link_surat;
+            $data['link_surat']          = $link_surat;
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
@@ -197,10 +197,17 @@ class SuratController extends AdminCoreController
             if(!empty($request->lampiran))
             {
                 foreach($request->input('lampiran', []) as $file) {
+                    $pecah_file = explode('-/-',$file);
+                    $nama       = $pecah_file[0];
+                    $size       = $pecah_file[1];
+                    $type       = $pecah_file[2];
                     $surat_lampirans_data = [
-                        'surats_id'             => $id_surats,
-                        'file_surat_lampirans'  => 'lampiran/'.$file,
-                        'created_at'            => date('Y-m-d H:i:s'),
+                        'surats_id'                     => $id_surats,
+                        'file_surat_lampirans'          => 'lampiran/'.$nama,
+                        'nama_file_surat_lampirans'     => $nama,
+                        'ukuran_file_surat_lampirans'   => $size,
+                        'tipe_file_surat_lampirans'     => $type,
+                        'created_at'                    => date('Y-m-d H:i:s'),
                     ];
                     Surat_lampiran::insert($surat_lampirans_data);
                 }
@@ -226,10 +233,12 @@ class SuratController extends AdminCoreController
 
             $file = $request->file('file');
             $name = uniqid() . '_' . trim($file->getClientOriginalName());
+            $size = $file->getSize();
+            $type = $file->getClientOriginalExtension();
             $file->move($path, $name);
 
             return response()->json([
-                'name'          => $name,
+                'name'          => $name.'-/-'.$size.'-/-'.$type,
                 'original_name' => $file->getClientOriginalName(),
             ],200);
         }
@@ -242,7 +251,10 @@ class SuratController extends AdminCoreController
         $link_surat = 'surat';
         if(General::hakAkses($link_surat, 'tambah') == 'true')
         {
-            Storage::disk('public')->delete('lampiran/'.$request->file);
+            $file = $request->file;
+            $pecah_file = explode('-/-',$file);
+            $nama = $pecah_file[0];
+            Storage::disk('public')->delete('lampiran/'.$nama);
 
             return response()->json([
                 'success' => 'success'
@@ -361,10 +373,17 @@ class SuratController extends AdminCoreController
                 if(!empty($request->lampiran))
                 {
                     foreach($request->input('lampiran', []) as $file) {
+                        $pecah_file = explode('-/-',$file);
+                        $nama       = $pecah_file[0];
+                        $size       = $pecah_file[1];
+                        $type       = $pecah_file[2];
                         $surat_lampirans_data = [
-                            'surats_id'             => $id_surats,
-                            'file_surat_lampirans'  => 'lampiran/'.$file,
-                            'created_at'            => date('Y-m-d H:i:s'),
+                            'surats_id'                     => $id_surats,
+                            'file_surat_lampirans'          => 'lampiran/'.$nama,
+                            'nama_file_surat_lampirans'     => $nama,
+                            'ukuran_file_surat_lampirans'   => $size,
+                            'tipe_file_surat_lampirans'     => $type,
+                            'created_at'                    => date('Y-m-d H:i:s'),
                         ];
                         Surat_lampiran::insert($surat_lampirans_data);
                     }

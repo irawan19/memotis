@@ -90,8 +90,8 @@
                                         {{General::pesanErrorForm($errors->first('users_id'))}}
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="tanggal_surats">Tanggal</label>
-                                        <input class="form-control getStartEndDate {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats')}}">
+                                        <label class="form-col-form-label" for="tanggal_surats">Tanggal <b style="color:red">*</b></label>
+                                        <input readonly class="form-control getStartEndDate {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_surats'))}}
                                     </div>
                                     <div class="form-group">
@@ -181,18 +181,6 @@
                     }
                 })
             },
-            init: function () {
-            @if(isset($project) && $project->lampiran)
-                var files =
-                {!! json_encode($project->lampiran) !!}
-                for (var i in files) {
-                var file = files[i]
-                this.options.addedfile.call(this, file)
-                file.previewElement.classList.add('dz-complete')
-                $('formdropzone').append('<input type="hidden" name="lampiran[]" value="' + file.file_name + '">')
-                }
-            @endif
-            }
         }
     </script>
 

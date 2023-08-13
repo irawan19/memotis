@@ -115,11 +115,14 @@
                                             @foreach($edit_users as $users)
                                                 @php($selected = '')
                                                 @if(Request::old('users_id') == '')
-                                                    @if($users->id_users == $edit_surats->users_id)
+                                                    @php($ambil_surat_users = \App\Models\Surat_user::where('surats_id',$edit_surats->id_surats)
+                                                                                                    ->orderBy('id_surat_users','asc')
+                                                                                                    ->first())
+                                                    @if($users->id == $ambil_surat_users->users_id)
                                                         @php($selected = 'selected')
                                                     @endif
                                                 @else
-                                                    @if($users->id_users == Request::old('users_id'))
+                                                    @if($users->id == Request::old('users_id'))
                                                         @php($selected = 'selected')
                                                     @endif
                                                 @endif
@@ -211,8 +214,11 @@
                 var name = ''
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
-                } else {
+                } else if(uploadedDocumentMap[file.name] !== undefined) {
                     name = uploadedDocumentMap[file.name]
+                }
+                else {
+                    name = uploadedDocumentMap['file.name']
                 }
                 $.ajax({
                     url: "{{ url('dashboard/surat/lampiran/hapus') }}",
@@ -232,16 +238,18 @@
                 })
             },
             init: function () {
-            @if(isset($project) && $project->lampiran)
-                var files =
-                {!! json_encode($project->lampiran) !!}
-                for (var i in files) {
-                var file = files[i]
-                this.options.addedfile.call(this, file)
-                file.previewElement.classList.add('dz-complete')
-                $('formdropzone').append('<input type="hidden" name="lampiran[]" value="' + file.file_name + '">')
-                }
-            @endif
+                myDropzone = this;
+                var files = {!! $edit_surat_lampirans !!}
+                $.each(files, function (key, value) {
+                    var mockFile = { name: value.nama_file_surat_lampirans, size: value.ukuran_file_surat_lampirans};
+                    let callback = null;
+                    let crossOrigin = null;
+                    let resizeThumbnail = true;
+                    myDropzone.displayExistingFile(mockFile, "{{URL::asset('storage')}}/"+value.file_surat_lampirans, callback, crossOrigin, resizeThumbnail);
+                    var file = files
+                    $('.formdropzone').append('<input type="hidden" name="lampiran[]" value="' + value.nama_file_surat_lampirans + '-/-'+value.ukuran_file_surat_lampirans + '-/-' + value.tipe_file_surat_lampirans +'">')
+                    uploadedDocumentMap['file.name'] = value.nama_file_surat_lampirans+'-/-'+value.ukuran_file_surat_lampirans+'-/-'+value.tipe_file_surat_lampirans
+                });
             }
         }
 
