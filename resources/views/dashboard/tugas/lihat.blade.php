@@ -20,8 +20,8 @@
 				    			@if(!$lihat_tugas->isEmpty())
 		            				@foreach($lihat_tugas as $tugas)
 								    	<tr>
-								    		<td class="nowrap">{!! $tugas->nama_tugas !!}</td>
-								    		<td class="nowrap">{!! $tugas->catatan_tugas !!}</td>
+								    		<td class="nowrap">{!! nl2br($tugas->tugas_mom_users) !!}</td>
+								    		<td class="nowrap">{!! nl2br($tugas->catatan_mom_users) !!}</td>
 								    	</tr>
 								    @endforeach
 								@else
