@@ -82,9 +82,17 @@
 								<div class="titleeventcard" {{$statusbacacolor}}>{{$surats->judul_surats}}</div>
 								<div class="buttoncetaksurat">
 									{{General::detailCard($link_surat, $surats->id_surats)}}
-									@if($surats->status_selesai_surats == 0)
-										{{General::disposisi($link_surat,'dashboard/surat/disposisi/'.$surats->id_surats)}}
-										{{General::selesai($link_surat,'dashboard/surat/selesai/'.$surats->id_surats)}}
+									@if(!empty($ambil_surat_users))
+										@if($ambil_surat_users->status_selesai_surat_users == 0)
+											@php($cek_level_users = \App\Models\User::join('master_level_sistems','level_sistems_id','=','master_level_sistems.id_level_sistems')
+																					->join('master_divisis','divisis_id','=','master_divisis.id_divisis')
+																					->where('level_sistems_id',Auth::user()->level_sistems_id)
+																					->count())
+											@if($cek_level_users != 0)
+												{{General::disposisi($link_surat,'dashboard/surat/disposisi/'.$surats->id_surats)}}
+											@endif
+											{{General::selesai($link_surat,'dashboard/surat/selesai/'.$surats->id_surats)}}
+										@endif
 									@endif
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
 									@if( strtotime($surats->tanggal_mulai_surats) > strtotime(date('Y-m-d')) && $surats->users_id == Auth::user()->id )

@@ -532,8 +532,10 @@ class SuratController extends AdminCoreController
             if(!empty($cek_surats))
             {
                 $aturan = [
-                    'disposisi_surats_id.*'     => 'required',
-                    'users_id.*'                => 'required'
+                    'disposisi_surats_id'       => 'required|array|min:1',
+                    'disposisi_surats_id.*'     => 'required|string|distinct|min:1',
+                    'users_id'                  => 'required|array|min:1',
+                    'users_id.*'                => 'required|string|distinct|min:1',
                 ];
                 $this->validate($request, $aturan);
 
@@ -552,7 +554,7 @@ class SuratController extends AdminCoreController
                                 'users_id'                          => $users_id,
                                 'status_disposisi_surat_users'      => 1,
                                 'status_selesai_surat_users'        => 0,
-                                'status_baca_surats_users'          => 0,
+                                'status_baca_surat_users'          => 0,
                                 'created_at'                        => date('Y-m-d H:i:s'),
                             ];
                             $id_surat_users = Surat_user::insertGetId($surat_users_data);

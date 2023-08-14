@@ -137,10 +137,14 @@
 										@if(!empty($users->id_divisis))
 											@php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
 										@endif
+										@php($checked = '')
+										@if(Request::old('users_id.'.$users->id) == $users->id)
+											@php($checked = 'checked')
+										@endif
                                         <div class="form-group">
                                             <div class="form-check checkbox">
-                                                <input class="form-check-input" id="users_id" type="checkbox" name="users_id[]" value="{{$users->id}}">
-                                                <label class="form-check-label" for="users_id">{{$nama}}</label>
+                                                <input {{$checked}} class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
+                                                <label class="form-check-label" for="users_id{{$users->id}}">{{$nama}}</label>
                                             </div>
                                         </div>
                                     @endforeach
@@ -148,10 +152,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                     @foreach($lihat_disposisi_surats as $disposisi_surats)
+										@php($checked = '')
+										@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == $disposisi_surats->id_disposisi_surats)
+											@php($checked = 'checked')
+										@endif
                                         <div class="form-group">
                                             <div class="form-check checkbox">
-                                                <input class="form-check-input" id="disposisi_surats_id" type="checkbox" name="disposisi_surats_id[]" value="{{$disposisi_surats->id_disposisi_surats}}">
-                                                <label class="form-check-label" for="disposisi_surats_id">{{$disposisi_surats->nama_disposisi_surats}}</label>
+                                                <input {{$checked}} class="form-check-input" id="disposisi_surats_id{{$disposisi_surats->id_disposisi_surats}}" type="checkbox" name="disposisi_surats_id[{{$disposisi_surats->id_disposisi_surats}}]" value="{{$disposisi_surats->id_disposisi_surats}}">
+                                                <label class="form-check-label" for="disposisi_surats_id{{$disposisi_surats->id_disposisi_surats}}">{{$disposisi_surats->nama_disposisi_surats}}</label>
                                             </div>
                                         </div>
                                     @endforeach
