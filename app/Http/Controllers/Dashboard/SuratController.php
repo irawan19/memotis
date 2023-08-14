@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Master_disposisi_surat;
+use App\Models\Master_level_sistem;
 use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Surat;
@@ -453,7 +455,6 @@ class SuratController extends AdminCoreController
         else
             return redirect('dashboard/surat');
     }
-
     public function hapus($id_surats=0)
     {
         $link_surat = 'surat';
@@ -472,6 +473,56 @@ class SuratController extends AdminCoreController
                 Surat::where('id_surats',$id_surats)
                     ->delete();
                 return response()->json(["sukses" => "sukses"], 200);
+            }
+            else
+                return redirect('dashboard/surat');
+        }
+        else
+            return redirect('dashboard/surat');
+    }
+
+    public function disposisi($id_surats=0)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'hapus') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->first();
+            if(!empty($cek_surats))
+            {
+                $data['link_surat']             = $link_surat;
+                $data['lihat_surats']           = Surat::selectRaw('*,
+                                                                surats.created_at as tanggal_surats')
+                                                        ->join('users','surats.users_id','=','users.id')
+                                                        ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                        ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                        ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
+                                                        ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
+                                                        ->where('surat_users.users_id',Auth::user()->id)
+                                                        ->where('surats.id_surats',$id_surats)
+                                                        ->first();
+                $data['lihat_users']            = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                        ->join('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                        ->where('master_level_sistems.level_sistems_id',Auth::user()->level_sistems_id)
+                                                        ->get();
+                $data['lihat_disposisi_surats'] = Master_disposisi_surat::get();
+                return view('dashboard.surat.disposisi',$data);
+            }
+            else
+                return redirect('dashboard/surat');
+        }
+        else
+            return redirect('dashboard/surat');
+    }
+
+    public function prosesdisposisi($id_surats=0)
+    {
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'hapus') == 'true')
+        {
+            $cek_surats = Surat::where('id_surats',$id_surats)->first();
+            if(!empty($cek_surats))
+            {
+                
             }
             else
                 return redirect('dashboard/surat');

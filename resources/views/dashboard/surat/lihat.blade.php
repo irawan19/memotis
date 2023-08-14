@@ -82,6 +82,12 @@
 								<div class="titleeventcard" {{$statusbacacolor}}>{{$surats->judul_surats}}</div>
 								<div class="buttoncetaksurat">
 									{{General::detailCard($link_surat, $surats->id_surats)}}
+									@php($cek_divisi = \App\Models\User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+																		->where('users.id',Auth::user()->id)
+																		->first())
+									@if($cek_divisi->divisis_id == null)
+										{{General::disposisi($link_surat,'dashboard/surat/disposisi/'.$surats->id_surats)}}
+									@endif
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
 									@if( strtotime($surats->tanggal_mulai_surats) > strtotime(date('Y-m-d')) && $surats->users_id == Auth::user()->id )
 										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}

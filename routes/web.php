@@ -103,6 +103,8 @@ Route::middleware([
                     Route::post('/upload', [DashboardSurat::class, 'uploadlampiran']);
                     Route::post('/hapus', [DashboardSurat::class, 'hapuslampiran']);
                 });
+                Route::get('/disposisi/{id}', [DashboardSurat::class, 'disposisi']);
+                Route::post('/prosesdisposisi/{id}', [DashboardSurat::class, 'prosesdisposisi']);
             });
 
             //Mom

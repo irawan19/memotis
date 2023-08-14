@@ -338,6 +338,28 @@ class General
 			}
 		}
 
+		public static function disposisi($link_menus = '', $link = '')
+		{
+			if (General::hakAkses($link_menus, 'edit') == 'true') {
+				echo '<a href="' . URL($link) . '" class="btn btn-sm btn-secondary">
+						<svg class="c-icon" style="margin-right:5px;">
+							<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-sync') . '"></use>
+						</svg> Disposisi
+					</a>';
+			}
+		}
+
+		public static function prosesdisposisi($link_menus = '')
+		{
+			if (General::hakAkses($link_menus, 'edit') == 'true') {
+				echo '<button type="submit" class="btn btn-sm btn-secondary">
+						<svg class="c-icon" style="margin-right:5px;">
+							<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-sync') . '"></use>
+						</svg> Proses Disposisi
+					</button>';
+			}
+		}
+
 		public static function cetaklist($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'cetak') == 'true') {

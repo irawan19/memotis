@@ -10,8 +10,7 @@
 						<strong>Edit Surat</strong>
 					</div>
 					<div class="card-body">
-
-                    <div class="col-sm-12">
+                        <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
