@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Models\Master_disposisi_surat;
 use App\Models\Master_level_sistem;
 use App\Models\Surat_disposisi;
+use App\Models\Surat_selesai;
 use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Surat;
@@ -554,7 +555,7 @@ class SuratController extends AdminCoreController
                                 'users_id'                          => $users_id,
                                 'status_disposisi_surat_users'      => 1,
                                 'status_selesai_surat_users'        => 0,
-                                'status_baca_surat_users'          => 0,
+                                'status_baca_surat_users'           => 0,
                                 'created_at'                        => date('Y-m-d H:i:s'),
                             ];
                             $id_surat_users = Surat_user::insertGetId($surat_users_data);
@@ -636,6 +637,44 @@ class SuratController extends AdminCoreController
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
             {
+                $aturan = [
+                    'keterangan_surat_selesais'     => 'required',
+                ];
+                $this->validate($request, $aturan);
+
+                if(!empty($request->lampiran))
+                {
+                    $ambil_surat_users  = Surat_user::where('surats_id',$id_surats)
+                                                    ->where('users_id',Auth::user()->id)
+                                                    ->first();
+                    $id_surat_users     = $ambil_surat_users->id_surat_users;
+
+                    foreach($request->input('lampiran', []) as $file) {
+                        $pecah_file = explode('-/-',$file);
+                        $nama       = $pecah_file[0];
+                        $size       = $pecah_file[1];
+                        $type       = $pecah_file[2];
+                        Storage::disk('public')->move('temp/'.$nama, 'selesai/'.$nama);
+
+                        $surat_selesais_data = [
+                            'surat_users_id'                => $id_surat_users,
+                            'file_surat_selesais'           => 'selesai/'.$nama,
+                            'nama_file_surat_selesais'      => $nama,
+                            'ukuran_file_surat_selesais'    => $size,
+                            'tipe_file_surat_selesais'      => $type,
+                            'keterangan_surat_selesais'     => $request->keterangan_surat_selesais,
+                            'created_at'                    => date('Y-m-d H:i:s'),
+                        ];
+                        Surat_selesai::insert($surat_selesais_data);
+
+                        $surat_users_data = [
+                            'status_selesai_surat_users'    => 1
+                        ];
+                        Surat_user::where('id_surat_users',$id_surat_users)
+                                    ->update($surat_users_data);
+                    }
+                }
+
                 return redirect('dashboard/surat');
             }
             else

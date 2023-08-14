@@ -132,13 +132,17 @@
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    
+                                    <div class="form-group formdropzone">
+                                        <label for="lampiran">Lampiran</label>
+                                        <div class="needsclick dropzone" id="lampiran-dropzone">
+                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran (maks 5MB)</span></div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="keterangan_selesai_surats">Keterangan <b style="color:red">*</b></label>
-                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_selesai_surats')) }}" id="keterangan_selesai_surats" name="keterangan_selesai_surats" rows="5">{{Request::old('keterangan_selesai_surats')}}</textarea>
-                                        {{General::pesanErrorForm($errors->first('keterangan_selesai_surats'))}}
+                                        <label class="form-col-form-label" for="keterangan_surat_selesais">Keterangan <b style="color:red">*</b></label>
+                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_surat_selesais')) }}" id="keterangan_surat_selesais" name="keterangan_surat_selesais" rows="5">{{Request::old('keterangan_surat_selesais')}}</textarea>
+                                        {{General::pesanErrorForm($errors->first('keterangan_surat_selesais'))}}
                                     </div>
                                 </div>
                             </div>
@@ -157,5 +161,53 @@
 			</div>
 		</div>
 	</div>
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    <script>
+        var uploadedDocumentMap = {}
+        Dropzone.options.lampiranDropzone = {
+            url: "{{ url('dashboard/surat/lampiran/upload') }}",
+            maxFilesize: 5, // MB
+            addRemoveLinks: true,
+            type:"POST",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function (file, response) {
+                $('.formdropzone').append('<input type="hidden" name="lampiran[]" value="' + response.name + '">')
+                uploadedDocumentMap[file.name] = response.name
+            },
+            removedfile: function (file) {
+                file.previewElement.remove();
+                var name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else if(uploadedDocumentMap[file.name] !== undefined) {
+                    name = uploadedDocumentMap[file.name]
+                }
+                else {
+                    name = uploadedDocumentMap['file.name']
+                }
+                $.ajax({
+                    url: "{{ url('dashboard/surat/lampiran/hapus') }}",
+                    data: {'file' : name },
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    dataType: 'JSON',
+                    success: function(data)
+                    {
+                        $('.formdropzone').find('input[name="lampiran[]"][value="' + name + '"]').remove();
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                })
+            }
+        }
+    </script>
 
 @endsection
