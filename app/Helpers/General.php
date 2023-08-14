@@ -338,6 +338,17 @@ class General
 			}
 		}
 
+		public static function selesai($link_menus = '', $link = '')
+		{
+			if (General::hakAkses($link_menus, 'edit') == 'true') {
+				echo '<a href="' . URL($link) . '" class="btn btn-sm btn-primary">
+						<svg class="c-icon" style="margin-right:5px;">
+							<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-check') . '"></use>
+						</svg> Selesai
+					</a>';
+			}
+		}
+
 		public static function disposisi($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'edit') == 'true') {

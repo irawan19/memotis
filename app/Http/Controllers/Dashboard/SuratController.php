@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Master_disposisi_surat;
 use App\Models\Master_level_sistem;
+use App\Models\Surat_disposisi;
 use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Surat;
@@ -184,6 +185,7 @@ class SuratController extends AdminCoreController
                 'ringkasan_surats'          => $request->ringkasan_surats,
                 'keterangan_surats'         => $keterangan_surats,
                 'status_agendakan_surats'   => $request->status_agendakan_surats,
+                'status_selesai_surats'     => 0,
                 'created_at'                => date('Y-m-d H:i:s'),
             ];
             $id_surats = Surat::insertGetId($surats_data);
@@ -489,6 +491,13 @@ class SuratController extends AdminCoreController
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
             {
+                $status_baca_data = [
+                    'status_baca_surat_users' => 1,
+                ];
+                Surat_user::where('surats_id',$id_surats)
+                        ->where('users_id',Auth::user()->id)
+                        ->update($status_baca_data);
+                        
                 $data['link_surat']             = $link_surat;
                 $data['lihat_surats']           = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
@@ -514,7 +523,7 @@ class SuratController extends AdminCoreController
             return redirect('dashboard/surat');
     }
 
-    public function prosesdisposisi($id_surats=0)
+    public function prosesdisposisi(Request $request, $id_surats=0)
     {
         $link_surat = 'surat';
         if(General::hakAkses($link_surat,'hapus') == 'true')
@@ -522,7 +531,46 @@ class SuratController extends AdminCoreController
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
             {
-                
+                $aturan = [
+                    'disposisi_surats_id.*'     => 'required',
+                    'users_id.*'                => 'required'
+                ];
+                $this->validate($request, $aturan);
+
+                $keterangan_surat_disposisis = '';
+                if(!empty($request->keterangan_surat_disposisis))
+                    $keterangan_surat_disposisis = $request->keterangan_surat_disposisis;
+
+                if(!empty($request->users_id))
+                {
+                    if(!empty($request->disposisi_surats_id))
+                    {
+                        foreach($request->users_id as $users_id)
+                        {
+                            $surat_users_data = [
+                                'surats_id'                         => $id_surats,
+                                'users_id'                          => $users_id,
+                                'status_disposisi_surat_users'      => 1,
+                                'status_selesai_surat_users'        => 0,
+                                'status_baca_surats_users'          => 0,
+                                'created_at'                        => date('Y-m-d H:i:s'),
+                            ];
+                            $id_surat_users = Surat_user::insertGetId($surat_users_data);
+
+                            foreach($request->disposisi_surats_id as $disposisi_surats_id)
+                            {
+                                $surat_disposisis_data = [
+                                    'surat_users_id'                => $id_surat_users,
+                                    'surat_disposisis_id'           => $disposisi_surats_id,
+                                    'keterangan_surat_disposisis'   => $keterangan_surat_disposisis,
+                                    'created_at'                    => date('Y-m-d H:i:s'),
+                                ];
+                                Surat_disposisi::insert($surat_disposisis_data);
+                            }
+                        }
+                    }
+                }
+                return redirect('dashboard/surat');
             }
             else
                 return redirect('dashboard/surat');

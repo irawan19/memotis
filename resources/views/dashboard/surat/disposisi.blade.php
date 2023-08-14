@@ -144,7 +144,7 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    {{General::pesanErrorForm($errors->first('disposisi_surats_id'))}}
+                                    {{General::pesanErrorForm($errors->first('users_id'))}}
                                 </div>
                                 <div class="col-sm-6">
                                     @foreach($lihat_disposisi_surats as $disposisi_surats)

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('surats_id')->references('id_surats')->on('surats')->onUpdate('set null')->onDelete('set null');
             $table->bigInteger('users_id')->unsigned()->index()->nullable();
             $table->foreign('users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
+            $table->boolean('status_selesai_surat_users')->default(0);
+            $table->boolean('status_disposisi_surat_users')->default(0);
             $table->boolean('status_baca_surat_users')->default(0);
             $table->timestamps();
         });

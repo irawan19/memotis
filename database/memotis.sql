@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 13, 2023 at 06:51 PM
+-- Generation Time: Aug 14, 2023 at 11:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -839,7 +839,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2023_08_09_182932_create_mom_user_externals_table', 8),
 (23, '2023_08_09_201113_create_master_status_tugas_table', 9),
 (24, '2023_08_09_201114_create_mom_users_table', 9),
-(25, '2023_08_13_174943_create_events_table', 10);
+(25, '2023_08_13_174943_create_events_table', 10),
+(26, '2023_08_14_151514_create_surat_disposisis_table', 11),
+(27, '2023_08_14_155927_create_surat_selesais_table', 12);
 
 -- --------------------------------------------------------
 
@@ -867,7 +869,8 @@ CREATE TABLE `moms` (
 --
 
 INSERT INTO `moms` (`id_moms`, `moms_id`, `users_id`, `kategori_moms`, `no_moms`, `judul_moms`, `tanggal_mulai_moms`, `tanggal_selesai_moms`, `venue_moms`, `deskripsi_moms`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 'External', 'MOM/0001/08/2023', 'test', '2023-08-10 15:37:09', '2023-08-10 15:37:09', 'test', '<p>test 123</p>', '2023-08-10 09:14:38', '2023-08-13 05:24:28');
+(1, NULL, 1, 'External', 'MOM/0001/08/2023', 'test', '2023-08-10 15:37:09', '2023-08-10 15:37:09', 'test', '<p>test 123</p>', '2023-08-10 09:14:38', '2023-08-13 05:24:28'),
+(2, NULL, 1, 'Internal', 'MOM/0002/08/2023', 'asdasd', '2023-08-16 08:58:24', '2023-08-18 08:58:24', 'zxczc', '<p>test 123</p>', '2023-08-14 01:58:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -893,7 +896,9 @@ CREATE TABLE `mom_users` (
 
 INSERT INTO `mom_users` (`id_mom_users`, `moms_id`, `users_id`, `status_tugas_id`, `tugas_mom_users`, `catatan_mom_users`, `status_baca_mom_users`, `created_at`, `updated_at`) VALUES
 (26, 1, 3, 1, '- tugas 1\r\n- tugas 2', '- catatan 1', 0, '2023-08-13 05:24:28', NULL),
-(27, 1, 5, 2, '- tugas 3', '- catatan 2\r\n- catatan 3', 0, '2023-08-13 05:24:28', NULL);
+(27, 1, 5, 2, '- tugas 3', '- catatan 2\r\n- catatan 3', 0, '2023-08-13 05:24:28', NULL),
+(28, 2, 3, 1, '- tugas 1\r\n- tugas 2', '- catatan 1', 0, '2023-08-14 01:58:36', NULL),
+(29, 2, 5, 2, '- tugas 3', '- catatan 2\r\n- catatan 3', 0, '2023-08-14 01:58:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -967,7 +972,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('OjFs98a6lkJXhobxJNhgCMP4wmqXPDFiJ8mHBaTN', 1, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo4OntzOjY6Il90b2tlbiI7czo0MDoiREhSaFRRbkpZQWlOQ2dPNDFZa1ZoaUFCM0dzWTkzR3lGTjV1NzEyVSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9sb2NhbGhvc3QvbWVtb3Rpcy9wdWJsaWMvZGFzaGJvYXJkL3N1cmF0L2VkaXQvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJEVRU2pJZUVxZ2V1bVA4TGgwazVhSU83ODhGOHgxWlpPdDJCZDJKUXFRUFdnN1VDcksvcm5DIjtzOjg6ImhhbGFtYW4yIjtzOjU2OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9tZW51L3N1Ym1lbnUvNiI7czo3OiJoYWxhbWFuIjtzOjQ3OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9zdXJhdCI7fQ==', 1691945428);
+('NosLnIt4NHcE85OhbavKoOoQdzzCKX2v7u8DFwxk', 2, '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidEdpM0ZSeFVkNUh0bEZsWFpHbWNvRTlWaUN1eUl0VThYQVRtVUJ2ZSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkRVFTakllRXFnZXVtUDhMaDBrNWFJTzc4OEY4eDFaWk90MkJkMkpRcVFQV2c3VUNySy9ybkMiO3M6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjU5OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9zdXJhdC9kaXNwb3Npc2kvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czo3OiJoYWxhbWFuIjtzOjQ3OiJodHRwOi8vbG9jYWxob3N0L21lbW90aXMvcHVibGljL2Rhc2hib2FyZC9zdXJhdCI7fQ==', 1692000897);
 
 -- --------------------------------------------------------
 
@@ -991,7 +996,8 @@ CREATE TABLE `surats` (
   `perihal_surats` varchar(255) NOT NULL,
   `ringkasan_surats` longtext NOT NULL,
   `keterangan_surats` longtext NOT NULL,
-  `status_agendakan_surats` double NOT NULL DEFAULT 0,
+  `status_agendakan_surats` tinyint(1) NOT NULL DEFAULT 0,
+  `status_selesai_surats` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1000,8 +1006,23 @@ CREATE TABLE `surats` (
 -- Dumping data for table `surats`
 --
 
-INSERT INTO `surats` (`id_surats`, `klasifikasi_surats_id`, `derajat_surats_id`, `sifat_surats_id`, `users_id`, `no_surats`, `no_asal_surats`, `asal_surats`, `judul_surats`, `tanggal_asal_surats`, `tanggal_mulai_surats`, `tanggal_selesai_surats`, `perihal_surats`, `ringkasan_surats`, `keterangan_surats`, `status_agendakan_surats`, `created_at`, `updated_at`) VALUES
-(1, 10, 1, 1, 1, 'GYS/0005/08/2023', '', '', 'asd', '2023-08-13', '2023-08-15', '2023-08-15', 'asd', '<p>asd</p>', 'asd', 0, '2023-08-13 15:58:17', '2023-08-13 16:50:21');
+INSERT INTO `surats` (`id_surats`, `klasifikasi_surats_id`, `derajat_surats_id`, `sifat_surats_id`, `users_id`, `no_surats`, `no_asal_surats`, `asal_surats`, `judul_surats`, `tanggal_asal_surats`, `tanggal_mulai_surats`, `tanggal_selesai_surats`, `perihal_surats`, `ringkasan_surats`, `keterangan_surats`, `status_agendakan_surats`, `status_selesai_surats`, `created_at`, `updated_at`) VALUES
+(1, 10, 1, 1, 1, 'GYS/0009/08/2023', '', '', 'asd', '2023-08-14', '2023-08-15', '2023-08-17', 'asd', '<p>asd</p>', 'asd', 0, 0, '2023-08-13 15:58:17', '2023-08-14 04:35:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surat_disposisis`
+--
+
+CREATE TABLE `surat_disposisis` (
+  `id_surat_disposisis` bigint(20) UNSIGNED NOT NULL,
+  `surat_users_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `surat_disposisis_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `keterangan_surat_disposisis` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1020,6 +1041,31 @@ CREATE TABLE `surat_lampirans` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `surat_lampirans`
+--
+
+INSERT INTO `surat_lampirans` (`id_surat_lampirans`, `surats_id`, `file_surat_lampirans`, `nama_file_surat_lampirans`, `ukuran_file_surat_lampirans`, `tipe_file_surat_lampirans`, `created_at`, `updated_at`) VALUES
+(8, 1, 'lampiran/64d90de5311e0_CI-CD-Settings-·-CI-CD-·-Settings-·-spectrum-frontend-·-GitLab.png', '64d90de5311e0_CI-CD-Settings-·-CI-CD-·-Settings-·-spectrum-frontend-·-GitLab.png', '636052', 'png', '2023-08-14 04:35:45', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surat_selesais`
+--
+
+CREATE TABLE `surat_selesais` (
+  `id_surat_selesais` bigint(20) UNSIGNED NOT NULL,
+  `surat_users_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `file_surat_selesais` varchar(255) NOT NULL,
+  `nama_file_surat_selesais` varchar(255) NOT NULL,
+  `ukuran_file_surat_selesais` varchar(255) NOT NULL,
+  `type_file_surat_selesais` varchar(255) NOT NULL,
+  `keterangan_surat_selesais` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -1030,6 +1076,8 @@ CREATE TABLE `surat_users` (
   `id_surat_users` bigint(20) UNSIGNED NOT NULL,
   `surats_id` bigint(20) UNSIGNED DEFAULT NULL,
   `users_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `status_disposisi_surat_users` tinyint(1) NOT NULL DEFAULT 0,
+  `status_selesai_surat_users` tinyint(1) NOT NULL DEFAULT 0,
   `status_baca_surat_users` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1039,8 +1087,8 @@ CREATE TABLE `surat_users` (
 -- Dumping data for table `surat_users`
 --
 
-INSERT INTO `surat_users` (`id_surat_users`, `surats_id`, `users_id`, `status_baca_surat_users`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 0, '2023-08-13 15:58:17', '2023-08-13 16:50:21');
+INSERT INTO `surat_users` (`id_surat_users`, `surats_id`, `users_id`, `status_disposisi_surat_users`, `status_selesai_surat_users`, `status_baca_surat_users`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 0, 0, 1, '2023-08-13 15:58:17', '2023-08-14 04:51:36');
 
 -- --------------------------------------------------------
 
@@ -1072,11 +1120,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `level_sistems_id`, `username`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'developer', 'Developer', 'developer@memotis.com', NULL, '$2y$10$EQSjIeEqgeumP8Lh0k5aIO788F8x1ZZOt2Bd2JQqQPWg7UCrK/rnC', NULL, NULL, NULL, '', NULL, NULL, '2023-07-19 12:37:07', '2023-07-24 09:07:20', NULL),
-(2, 2, 'aribudayana', 'IGB Ari Budayana', 'aribudayana@gys.app', NULL, '$2y$10$U.l6BzPBxxG7ROEHdDX7d.xiJkBJBOTgy5nfSJdysbYHSI6S.n4AO', NULL, NULL, NULL, 'MUMejt0ZGgngIPnBXzk6COjRCYT6Ef7ESTHsNRFibCVW3LUIYrwBD19Fp5TY9LbsBn0px7MICizbiHKh6GSs9bodgNkvFochOZ4T', NULL, NULL, '2023-07-24 07:05:22', '2023-07-24 07:06:21', NULL),
+(1, 1, 'developer', 'Developer', 'developer@memotis.com', NULL, '$2y$10$EQSjIeEqgeumP8Lh0k5aIO788F8x1ZZOt2Bd2JQqQPWg7UCrK/rnC', NULL, NULL, NULL, '', NULL, NULL, '2023-07-19 12:37:07', '2023-08-14 08:14:40', NULL),
+(2, 2, 'aribudayana', 'IGB Ari Budayana', 'aribudayana@gys.app', NULL, '$2y$10$EQSjIeEqgeumP8Lh0k5aIO788F8x1ZZOt2Bd2JQqQPWg7UCrK/rnC', NULL, NULL, NULL, 'MUMejt0ZGgngIPnBXzk6COjRCYT6Ef7ESTHsNRFibCVW3LUIYrwBD19Fp5TY9LbsBn0px7MICizbiHKh6GSs9bodgNkvFochOZ4T', NULL, NULL, '2023-07-24 07:05:22', '2023-07-24 07:06:21', NULL),
 (3, 3, 'eryashari', 'Erie Ashari', 'ery@gys.app', NULL, '$2y$10$lLrnI.oIdIPP.zb1klWWs.AMQu1EVxzcnEDj36n7RyRPuDNwcEDBG', NULL, NULL, NULL, 'U6ewUd3JbL7WH0RUBEhsfklyblM95JaZYOWqxEQifdqBnMPX4KnqwgSKDV4qo6lOPk9xfv9WCf6wVy99IBHIANhCv0ufgAiAjR7i', NULL, NULL, '2023-07-24 07:07:36', '2023-07-24 07:38:42', NULL),
 (4, 5, 'wisnu', 'Wisnu Andhika', 'wisnu@gys.app', NULL, '$2y$10$793OFs7WiXDcmPAgL59EuuJUnhKY5pBWjfOFbP4ADvlzsIFTPsEim', NULL, NULL, NULL, 'amNyPEYyufV871ZVIR7Kvx326muux6l422kfnw1SqyJav7slczvJxAPo6uyfS4sqKiftXE8j51593hxU62B92zGn3uZyFboynqmW', NULL, NULL, '2023-07-24 07:09:44', '2023-07-24 07:39:06', NULL),
-(5, 8, 'hasby', 'Hasby Syadzali', 'hasby@gys.app', NULL, '$2y$10$SeTzlC6VhrOagVF88lS5wubHiFS5rUbZCYoel0UaLK8.49LBvcGcq', NULL, NULL, NULL, 'IyAh6K63J6SUYQix6LItgxfCfq5J6RxMdTinRw4bQPJUwQEibrZ0A7oSdjtsFLMUcNPTjDRW2egLl64jYAtro5c3SKbkgf7f05sU', NULL, NULL, '2023-07-24 07:10:44', '2023-08-04 09:14:10', NULL),
+(5, 8, 'hasby', 'Hasby Syadzali', 'hasby@gys.app', NULL, '$2y$10$EQSjIeEqgeumP8Lh0k5aIO788F8x1ZZOt2Bd2JQqQPWg7UCrK/rnC', NULL, NULL, NULL, '', NULL, NULL, '2023-07-24 07:10:44', '2023-08-14 04:35:26', NULL),
 (6, 10, 'bimo', 'Bimo Sandoro', 'bimo@gys.app', NULL, '$2y$10$bBGyd1FLfH7OOtimrtTyIOVwYoe6u3iIH6Y6xS8IYU7zFCTqCKrAW', NULL, NULL, NULL, '6igV4VHq9zMuyYiMUlTWzhTUWvBxb75bMX7E7iskyEMWEbawdodx1QCNaMDz9zG687u05vqCZW6mUYHormGBjjucJcnN1o72v9Kg', NULL, NULL, '2023-07-24 07:12:26', '2023-07-24 07:37:35', NULL),
 (7, 12, 'monica', 'Monica Septi Andriyani', 'monica@gys.app', NULL, '$2y$10$nRe8NOrw7Ph9SEoMq1JIdeLu0qSr0fCEU4ejYnk/ZhEM/0i.kKIAO', NULL, NULL, NULL, 'h2IekLhlsp0Je0QPHgbQC7vROOvlaQ13ICsU1sd6giraXbFfJiM4Yn7AyhpFLj3KM0DHEshzPuq4MGY4tKRe0xjjos5x7dxaA583', NULL, NULL, '2023-07-24 07:13:37', '2023-07-24 07:38:01', NULL),
 (8, 14, 'dadang', 'Dadang Darmawan', 'dadang@gys.app', NULL, '$2y$10$uV3Ph7Ttb1TqIzcYRfVAR.XNx.NJ28Mf3TAS1oOBFMCdXhddhP/cy', NULL, NULL, NULL, 'ErDDlrZfhIHXKJ4n3hVzg9Boy3Kk1jjEmwe36mVNTTNcqfPe7DO1pXJilSRzQgyemtcqqJY0Nl7nAAnwsmmU0YxxU5OSpStaYhpi', NULL, NULL, '2023-07-24 07:14:02', '2023-07-24 07:38:21', NULL),
@@ -1242,11 +1290,26 @@ ALTER TABLE `surats`
   ADD KEY `surats_users_id_index` (`users_id`);
 
 --
+-- Indexes for table `surat_disposisis`
+--
+ALTER TABLE `surat_disposisis`
+  ADD PRIMARY KEY (`id_surat_disposisis`),
+  ADD KEY `surat_disposisis_surat_users_id_index` (`surat_users_id`),
+  ADD KEY `surat_disposisis_surat_disposisis_id_index` (`surat_disposisis_id`);
+
+--
 -- Indexes for table `surat_lampirans`
 --
 ALTER TABLE `surat_lampirans`
   ADD PRIMARY KEY (`id_surat_lampirans`),
   ADD KEY `surat_lampirans_surats_id_index` (`surats_id`);
+
+--
+-- Indexes for table `surat_selesais`
+--
+ALTER TABLE `surat_selesais`
+  ADD PRIMARY KEY (`id_surat_selesais`),
+  ADD KEY `surat_selesais_surat_users_id_index` (`surat_users_id`);
 
 --
 -- Indexes for table `surat_users`
@@ -1356,19 +1419,19 @@ ALTER TABLE `master_status_tugas`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `moms`
 --
 ALTER TABLE `moms`
-  MODIFY `id_moms` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_moms` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `mom_users`
 --
 ALTER TABLE `mom_users`
-  MODIFY `id_mom_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_mom_users` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `mom_user_externals`
@@ -1389,10 +1452,22 @@ ALTER TABLE `surats`
   MODIFY `id_surats` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `surat_disposisis`
+--
+ALTER TABLE `surat_disposisis`
+  MODIFY `id_surat_disposisis` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `surat_lampirans`
 --
 ALTER TABLE `surat_lampirans`
-  MODIFY `id_surat_lampirans` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_surat_lampirans` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `surat_selesais`
+--
+ALTER TABLE `surat_selesais`
+  MODIFY `id_surat_selesais` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `surat_users`
@@ -1467,10 +1542,23 @@ ALTER TABLE `surats`
   ADD CONSTRAINT `surats_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
+-- Constraints for table `surat_disposisis`
+--
+ALTER TABLE `surat_disposisis`
+  ADD CONSTRAINT `surat_disposisis_surat_disposisis_id_foreign` FOREIGN KEY (`surat_disposisis_id`) REFERENCES `master_disposisi_surats` (`id_disposisi_surats`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `surat_disposisis_surat_users_id_foreign` FOREIGN KEY (`surat_users_id`) REFERENCES `surat_users` (`id_surat_users`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
 -- Constraints for table `surat_lampirans`
 --
 ALTER TABLE `surat_lampirans`
   ADD CONSTRAINT `surat_lampirans_surats_id_foreign` FOREIGN KEY (`surats_id`) REFERENCES `surats` (`id_surats`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `surat_selesais`
+--
+ALTER TABLE `surat_selesais`
+  ADD CONSTRAINT `surat_selesais_surat_users_id_foreign` FOREIGN KEY (`surat_users_id`) REFERENCES `surat_users` (`id_surat_users`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `surat_users`

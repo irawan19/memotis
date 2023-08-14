@@ -31,7 +31,8 @@ return new class extends Migration
             $table->string('perihal_surats');
             $table->longtext('ringkasan_surats');
             $table->longtext('keterangan_surats');
-            $table->double('status_agendakan_surats')->default(0);
+            $table->boolean('status_agendakan_surats')->default(0);
+            $table->boolean('status_selesai_surats')->default(0);
             $table->timestamps();
         });
     }
