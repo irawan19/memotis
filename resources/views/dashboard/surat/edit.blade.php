@@ -137,7 +137,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="tanggal_surats">Tanggal <b style="color:red">*</b></label>
-                                        <input readonly class="form-control getStartEndDateTimeEdit {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats') == '' ? General::ubahDBKeTanggal($edit_surats->tanggal_mulai_surats).' sampai '.General::ubahDBKeTanggal($edit_surats->tanggal_selesai_surats) : Request::old('tanggal_surats')}}">
+                                        <input readonly class="form-control getStartEndDateEdit {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats') == '' ? General::ubahDBKeTanggal($edit_surats->tanggal_mulai_surats).' sampai '.General::ubahDBKeTanggal($edit_surats->tanggal_selesai_surats) : Request::old('tanggal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_surats'))}}
                                     </div>
                                     <div class="form-group">
@@ -253,9 +253,8 @@
             }
         }
 
-
         jQuery(document).ready(function () {
-            $('.getStartEndDateTimeEdit').daterangepicker({
+            $('.getStartEndDateEdit').daterangepicker({
                 separator 	: " sampai ",
                 locale: {
                     monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
@@ -282,11 +281,11 @@
                 'Akhir Bulan': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
                 "showDropdowns": true,
-                timePicker: true,
-                timePickerSeconds: true,
+                timePicker: false,
+                timePickerSeconds: false,
                 timePicker12Hour: false,
                 timePickerIncrement: 1,
-                format      : 'DD MMM YYYY HH:mm:ss'
+                format      : 'DD MMM YYYY'
             });
         });
     </script>

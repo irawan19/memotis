@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="tanggal_surats">Tanggal <b style="color:red">*</b></label>
-                                        <input readonly class="form-control getStartEndDate {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats')}}">
+                                        <input readonly class="form-control getStartEndDateEdit {{ General::validForm($errors->first('tanggal_surats')) }}" id="tanggal_surats" type="text" name="tanggal_surats" value="{{Request::old('tanggal_surats')}}">
                                         {{General::pesanErrorForm($errors->first('tanggal_surats'))}}
                                     </div>
                                     <div class="form-group">
@@ -182,6 +182,42 @@
                 })
             },
         }
+
+        jQuery(document).ready(function () {
+            $('.getStartEndDateEdit').daterangepicker({
+                separator 	: " sampai ",
+                locale: {
+                    monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+                    cancelLabel: "Batal",
+                    fromLabel: "Dari",
+                    toLabel: "Sampai",
+                    customRangeLabel: "Pilih Sendiri",
+                    daysOfWeek: [
+                                    "Mi",
+                                    "Se",
+                                    "Se",
+                                    "Ra",
+                                    "Ka",
+                                    "Ju",
+                                    "Sa"
+                                ],
+                },
+                ranges: {
+                'Hari Ini': [moment(), moment()],
+                'Kemarin': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 Hari Terakhir': [moment().subtract(6, 'days'), moment()],
+                '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
+                'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
+                'Akhir Bulan': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                "showDropdowns": true,
+                timePicker: false,
+                timePickerSeconds: false,
+                timePicker12Hour: false,
+                timePickerIncrement: 1,
+                format      : 'DD MMM YYYY'
+            });
+        });
     </script>
 
 @endsection
