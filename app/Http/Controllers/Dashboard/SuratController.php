@@ -675,6 +675,18 @@ class SuratController extends AdminCoreController
                     }
                 }
 
+                $cek_selesai = Surat_user::where('surats_id',$id_surats)
+                                        ->where('status_selesai_surats',0)
+                                        ->count();
+                if($cek_selesai == 0)
+                {
+                    $update_surats_data = [
+                        'status_selesai_surats' => 1,
+                    ];
+                    Surat::where('id_surats',$id_surats)
+                        ->update($update_surats_data);
+                }
+
                 return redirect('dashboard/surat');
             }
             else
