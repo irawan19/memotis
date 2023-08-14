@@ -11,6 +11,9 @@ use App\Http\Controllers\Dashboard\DashboardController as Dashboard;
 //Event Calendar
 use App\Http\Controllers\Dashboard\EventCalendarController as DashboardEventCalendar;
 
+//Tugas
+use App\Http\Controllers\Dashboard\TugasController as DashboardTugas;
+
 //Konfigurasi Profil
 use App\Http\Controllers\Dashboard\KonfigurasiProfilController as DashboardKonfigurasiProfil;
 
@@ -63,7 +66,7 @@ Route::middleware([
         //Event Calendar
         Route::group(['prefix' => 'eventcalendar'], function() {
             Route::get('/', [DashboardEventCalendar::class, 'index']);
-            Route::get('/mom/card/{bulan}/{tahun}', [DashboardEventCalendar::class, 'mom']);
+            Route::get('/mom/card/{tanggal}', [DashboardEventCalendar::class, 'mom']);
             Route::get('/mom/detail/{id}', [DashboardEventCalendar::class, 'detail']);
         });
 
@@ -77,6 +80,11 @@ Route::middleware([
         Route::group(['prefix' => 'konfigurasi_akun'], function() {
             Route::get('/', [DashboardKonfigurasiAkun::class, 'index']);
             Route::post('/prosesedit', [DashboardKonfigurasiAkun::class, 'prosesedit']);
+        });
+
+        //Tugas
+        Route::group(['prefix' => 'tugas'], function() {
+            Route::get('/{id_status_tugas}', [DashboardTugas::class, 'index']);
         });
 
         //Apps

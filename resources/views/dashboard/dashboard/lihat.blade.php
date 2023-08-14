@@ -85,7 +85,30 @@
 			</div>
 
 			<div class="col-sm-5">
+
 				<div class="row">
+					@foreach($lihat_status_tugas as $status_tugas)
+						@php($ambil_mom_users = \App\Models\Mom_user::where('status_tugas_id',$status_tugas->id_status_tugas)
+																	->where('users_id',Auth::user()->id)
+																	->count())
+						<div class="col-sm-6">
+							<a href="{{URL('dashboard/tugas/'.$status_tugas->id_status_tugas)}}" class="nonstyle">
+								<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+									<div class="card-body pb-0">
+										<div class="btn-group float-right">
+											<svg class="c-icon">
+												<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-task')}}"></use>
+											</svg>
+										</div>
+					                	<div class="text-value-lg">{{General::konversiNilai($ambil_mom_users)}} <span>{{General::konversiNilaiString($ambil_mom_users)}}</span></div>
+										<div class="textnotifberanda">{{$status_tugas->nama_status_tugas}}</div>
+									</div>
+									<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+								</div>
+							</a>
+						</div>
+					@endforeach
+
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-body">
@@ -94,6 +117,7 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -131,30 +155,26 @@
 			calendar.render();
 
 			var date = calendar.getDate();
-         	var year = date.getFullYear();
-         	var month = date.getMonth();
-			$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
+			var formatdate = moment(date).format('YYYY-MM-DD');
+			$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+formatdate);
 
 
 			$('body').on('click', 'button.fc-prev-button', function () {
 				var date = calendar.getDate();
-                var year = date.getFullYear();
-                var month = date.getMonth();
-				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
+				var formatdate = moment(date).format('YYYY-MM-DD');
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+formatdate);
             });
 
 			$('body').on('click', 'button.fc-next-button', function () {
 				var date = calendar.getDate();
-                var year = date.getFullYear();
-                var month = date.getMonth();
-				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
+				var formatdate = moment(date).format('YYYY-MM-DD');
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+formatdate);
             });
 
 			$('body').on('click', 'button.fc-today-button', function () {
 				var date = calendar.getDate();
-				var year = date.getFullYear();
-				var month = date.getMonth();
-				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+month+'/'+year);
+				var formatdate = moment(date).format('YYYY-MM-DD');
+				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+formatdate);
 			});
 		});
 

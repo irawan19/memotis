@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Master_status_tugas;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Session;
@@ -30,6 +31,7 @@ class DashboardController extends AdminCoreController
     public function index()
     {
         $data['lihat_konfigurasi_aplikasis']    = Master_konfigurasi_aplikasi::first();
+        $data['lihat_status_tugas']             = Master_status_tugas::get();
         return view('dashboard.dashboard.lihat',$data);
     }
 

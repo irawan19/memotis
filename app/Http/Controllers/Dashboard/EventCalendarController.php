@@ -71,15 +71,15 @@ class EventCalendarController extends AdminCoreController
         return json_encode($calendar_data);
     }
 
-    public function mom($bulan=0, $tahun=0)
+    public function mom($tanggal_mulai='')
     {
-        $konversi_bulan = $bulan + 1;
+        $tanggal_selesai = date("Y-m-d", strtotime($tanggal_mulai.' + 6 day'));
         if(General::hakAkses('mom','tambah') == 'true')
         {
             $lihat_moms = Mom::selectRaw('*,
                                 moms.created_at as tanggal_moms')
-                                ->whereRaw('MONTH(tanggal_mulai_moms) = "'.$konversi_bulan.'"')
-                                ->whereRaw('YEAR(tanggal_selesai_moms) = "'.$tahun.'"')
+                                ->whereRaw('tanggal_mulai_moms >= "'.$tanggal_mulai.'"')
+                                ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
                                 ->orderBy('tanggal_mulai_moms','asc')
                                 ->get();
         }
@@ -88,8 +88,8 @@ class EventCalendarController extends AdminCoreController
             $lihat_moms = Mom::selectRaw('*,
                                 moms.created_at as tanggal_moms')
                                 ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
-                                ->whereRaw('MONTH(tanggal_mulai_moms) = "'.$konversi_bulan.'"')
-                                ->whereRaw('YEAR(tanggal_selesai_moms) = "'.$tahun.'"')
+                                ->whereRaw('tanggal_mulai_moms >= "'.$tanggal_mulai.'"')
+                                ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
                                 ->where('mom_users.users_id',Auth::user()->id)
                                 ->orderBy('tanggal_mulai_moms','asc')
                                 ->get();
