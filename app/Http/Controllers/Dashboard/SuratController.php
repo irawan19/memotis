@@ -419,7 +419,8 @@ class SuratController extends AdminCoreController
             if($cek_surats != 0)
             {
                 $status_baca_data = [
-                    'status_baca_surat_users' => 1,
+                    'status_baca_surat_users'   => 1,
+                    'updated_at'                => date('Y-m-d H:i:s'),
                 ];
                 Surat_user::where('surats_id',$id_surats)
                         ->where('users_id',Auth::user()->id)
@@ -493,7 +494,8 @@ class SuratController extends AdminCoreController
             if(!empty($cek_surats))
             {
                 $status_baca_data = [
-                    'status_baca_surat_users' => 1,
+                    'status_baca_surat_users'   => 1,
+                    'updated_at'                => date('Y-m-d H:i:s'),
                 ];
                 Surat_user::where('surats_id',$id_surats)
                         ->where('users_id',Auth::user()->id)
@@ -575,7 +577,8 @@ class SuratController extends AdminCoreController
                 }
 
                 $status_selesai_data = [
-                    'status_selesai_surat_users' => 1,
+                    'status_selesai_surat_users'    => 1,
+                    'updated_at'                    => date('Y-m-d H:i:s'),
                 ];
                 Surat_user::where('surats_id',$id_surats)
                         ->where('users_id',Auth::user()->id)
@@ -599,7 +602,8 @@ class SuratController extends AdminCoreController
             if(!empty($cek_surats))
             {
                 $status_baca_data = [
-                    'status_baca_surat_users' => 1,
+                    'status_baca_surat_users'   => 1,
+                    'updated_at'                => date('Y-m-d H:i:s'),
                 ];
                 Surat_user::where('surats_id',$id_surats)
                         ->where('users_id',Auth::user()->id)
@@ -668,7 +672,8 @@ class SuratController extends AdminCoreController
                         Surat_selesai::insert($surat_selesais_data);
 
                         $surat_users_data = [
-                            'status_selesai_surat_users'    => 1
+                            'status_selesai_surat_users'    => 1,
+                            'updated_at'                => date('Y-m-d H:i:s'),
                         ];
                         Surat_user::where('id_surat_users',$id_surat_users)
                                     ->update($surat_users_data);
@@ -682,6 +687,7 @@ class SuratController extends AdminCoreController
                 {
                     $update_surats_data = [
                         'status_selesai_surats' => 1,
+                        'updated_at'                => date('Y-m-d H:i:s'),
                     ];
                     Surat::where('id_surats',$id_surats)
                         ->update($update_surats_data);

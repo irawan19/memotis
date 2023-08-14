@@ -107,7 +107,8 @@ class EventCalendarController extends AdminCoreController
             if($cek_moms != 0)
             {
                 $status_baca_data = [
-                    'status_baca_mom_users' => 1,
+                    'status_baca_mom_users'     => 1,
+                    'updated_at'                => date('Y-m-d H:i:s'),
                 ];
                 Mom_user::where('moms_id',$id_moms)
                         ->where('users_id',Auth::user()->id)
