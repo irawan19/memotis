@@ -497,7 +497,7 @@ class SuratController extends AdminCoreController
                 Surat_user::where('surats_id',$id_surats)
                         ->where('users_id',Auth::user()->id)
                         ->update($status_baca_data);
-                        
+
                 $data['link_surat']             = $link_surat;
                 $data['lihat_surats']           = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
@@ -570,6 +570,14 @@ class SuratController extends AdminCoreController
                         }
                     }
                 }
+
+                $status_selesai_data = [
+                    'status_selesai_surat_users' => 1,
+                ];
+                Surat_user::where('surats_id',$id_surats)
+                        ->where('users_id',Auth::user()->id)
+                        ->update($status_selesai_data);
+                        
                 return redirect('dashboard/surat');
             }
             else
