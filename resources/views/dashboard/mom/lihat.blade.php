@@ -48,15 +48,9 @@
 						@php($backcolor = '#c5fcb6')
 					@endif
 
-					@if(General::hakAkses('mom','tambah') == 'true')
-						@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
-																	->first())
-					@else
-						@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
-																	->where('users_id',Auth::user()->id)
-																	->first())
-					@endif
-					
+					@php($ambil_mom_users = \App\Models\Mom_user::where('moms_id',$moms->id_moms)
+																->where('users_id',Auth::user()->id)
+																->first())
 					@php($statusbacacolor = 'style=color:black;font-weight:bold')
 					@if(!empty($ambil_mom_users))
 						@if($ambil_mom_users->status_baca_mom_users == 1)

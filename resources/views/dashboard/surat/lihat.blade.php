@@ -48,15 +48,9 @@
 						@php($backcolor = '#c5fcb6')
 					@endif
 
-					@if(General::hakAkses('surat','tambah') == 'true')
-						@php($ambil_surat_users = \App\Models\Surat_user::where('surats_id',$surats->id_surats)
-																	->first())
-					@else
-						@php($ambil_surat_users = \App\Models\Surat_user::where('surats_id',$surats->id_surats)
-																	->where('users_id',Auth::user()->id)
-																	->first())
-					@endif
-					
+					@php($ambil_surat_users = \App\Models\Surat_user::where('surats_id',$surats->id_surats)
+																->where('users_id',Auth::user()->id)
+																->first())
 					@php($statusbacacolor = 'style=color:black;font-weight:bold')
 					@if(!empty($ambil_surat_users))
 						@if($ambil_surat_users->status_baca_surat_users == 1)
@@ -84,9 +78,8 @@
 									{{General::detailCard($link_surat, $surats->id_surats)}}
 									@if(!empty($ambil_surat_users))
 										@if($ambil_surat_users->status_selesai_surat_users == 0)
-											@php($cek_level_users = \App\Models\User::join('master_level_sistems','level_sistems_id','=','master_level_sistems.id_level_sistems')
-																					->join('master_divisis','divisis_id','=','master_divisis.id_divisis')
-																					->where('level_sistems_id',Auth::user()->level_sistems_id)
+											@php($cek_level_users = \App\Models\User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+																					->where('master_level_sistems.level_sistems_id',Auth::user()->level_sistems_id)
 																					->count())
 											@if($cek_level_users != 0)
 												{{General::disposisi($link_surat,'dashboard/surat/disposisi/'.$surats->id_surats)}}

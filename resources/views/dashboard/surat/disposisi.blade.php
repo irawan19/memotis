@@ -152,9 +152,23 @@
                                 </div>
                                 <div class="col-sm-6">
                                     @foreach($lihat_disposisi_surats as $disposisi_surats)
+										@php($cek_surat_disposisis = \App\Models\Surat_disposisi::join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+																								->where('users_id',Auth::user()->id)
+																								->where('surat_disposisis_id',$disposisi_surats->id_disposisi_surats)
+																								->first())
 										@php($checked = '')
-										@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == $disposisi_surats->id_disposisi_surats)
-											@php($checked = 'checked')
+										@if(!empty($cek_surat_disposisis))
+											@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == '')
+												@php($checked = 'checked')
+											@else
+												@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == $disposisi_surats->id_disposisi_surats)
+													@php($checked = 'checked')
+												@endif
+											@endif
+										@else
+											@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == $disposisi_surats->id_disposisi_surats)
+												@php($checked = 'checked')
+											@endif
 										@endif
                                         <div class="form-group">
                                             <div class="form-check checkbox">
