@@ -349,6 +349,17 @@ class General
 			}
 		}
 
+		public static function prosesselesai($link_menus = '')
+		{
+			if (General::hakAkses($link_menus, 'edit') == 'true') {
+				echo '<button type="submit" class="btn btn-sm btn-primary">
+						<svg class="c-icon" style="margin-right:5px;">
+							<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-check') . '"></use>
+						</svg> Selesai
+					</button>';
+			}
+		}
+
 		public static function disposisi($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'edit') == 'true') {

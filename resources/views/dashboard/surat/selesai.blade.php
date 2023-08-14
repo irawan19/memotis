@@ -123,74 +123,29 @@
 		</div>
         <div class="col-sm-6">
 			<div class="card">
-				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/surat/prosesdisposisi/'.$lihat_surats->id_surats) }}" method="POST">
+				<form class="form-horizontal m-t-40" action="{{ URL('dashboard/surat/prosesselesai/'.$lihat_surats->id_surats) }}" method="POST">
 					{{ csrf_field() }}
                     <div class="card-header">
-                        <strong>Disposisi</strong>
+                        <strong>Selesai</strong>
                     </div>
                     <div class="card-body">
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    @foreach($lihat_users as $users)
-										@php($nama = $users->nama_level_sistems.' - '.$users->name)
-										@if(!empty($users->id_divisis))
-											@php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
-										@endif
-										@php($checked = '')
-										@if(Request::old('users_id.'.$users->id) == $users->id)
-											@php($checked = 'checked')
-										@endif
-                                        <div class="form-group">
-                                            <div class="form-check checkbox">
-                                                <input {{$checked}} class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
-                                                <label class="form-check-label" for="users_id{{$users->id}}">{{$nama}}</label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    {{General::pesanErrorForm($errors->first('users_id'))}}
-                                </div>
-                                <div class="col-sm-6">
-                                    @foreach($lihat_disposisi_surats as $disposisi_surats)
-										@php($cek_surat_disposisis = \App\Models\Surat_disposisi::join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
-																								->where('users_id',Auth::user()->id)
-																								->where('surat_disposisis_id',$disposisi_surats->id_disposisi_surats)
-																								->first())
-										@php($checked = '')
-										@if(!empty($cek_surat_disposisis))
-											@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == '')
-												@php($checked = 'checked')
-											@else
-												@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == $disposisi_surats->id_disposisi_surats)
-													@php($checked = 'checked')
-												@endif
-											@endif
-										@else
-											@if(Request::old('disposisi_surats_id.'.$disposisi_surats->id_disposisi_surats) == $disposisi_surats->id_disposisi_surats)
-												@php($checked = 'checked')
-											@endif
-										@endif
-                                        <div class="form-group">
-                                            <div class="form-check checkbox">
-                                                <input {{$checked}} class="form-check-input" id="disposisi_surats_id{{$disposisi_surats->id_disposisi_surats}}" type="checkbox" name="disposisi_surats_id[{{$disposisi_surats->id_disposisi_surats}}]" value="{{$disposisi_surats->id_disposisi_surats}}">
-                                                <label class="form-check-label" for="disposisi_surats_id{{$disposisi_surats->id_disposisi_surats}}">{{$disposisi_surats->nama_disposisi_surats}}</label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    {{General::pesanErrorForm($errors->first('disposisi_surats_id'))}}
+                                <div class="col-sm-12">
+                                    
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="keterangan_disposisi_surats">Keterangan </label>
-                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_disposisi_surats')) }}" id="keterangan_disposisi_surats" name="keterangan_disposisi_surats" rows="5">{{Request::old('keterangan_disposisi_surats')}}</textarea>
-                                        {{General::pesanErrorForm($errors->first('keterangan_disposisi_surats'))}}
+                                        <label class="form-col-form-label" for="keterangan_selesai_surats">Keterangan <b style="color:red">*</b></label>
+                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_selesai_surats')) }}" id="keterangan_selesai_surats" name="keterangan_selesai_surats" rows="5">{{Request::old('keterangan_selesai_surats')}}</textarea>
+                                        {{General::pesanErrorForm($errors->first('keterangan_selesai_surats'))}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer right-align">
-                        {{General::prosesdisposisi($link_surat)}}
+                        {{General::prosesselesai($link_surat)}}
                         @if(request()->session()->get('halaman') != '')
                             @php($ambil_kembali = request()->session()->get('halaman'))
                         @else

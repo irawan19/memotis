@@ -105,6 +105,8 @@ Route::middleware([
                 });
                 Route::get('/disposisi/{id}', [DashboardSurat::class, 'disposisi']);
                 Route::post('/prosesdisposisi/{id}', [DashboardSurat::class, 'prosesdisposisi']);
+                Route::get('/selesai/{id}', [DashboardSurat::class, 'selesai']);
+                Route::post('/prosesselesai/{id}', [DashboardSurat::class, 'prosesselesai']);
             });
 
             //Mom
