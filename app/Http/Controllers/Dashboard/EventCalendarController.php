@@ -16,7 +16,7 @@ class EventCalendarController extends AdminCoreController
         $mulai          = date('Y-m-d', strtotime($request->start));
         $selesai        = date('Y-m-d', strtotime($request->end));
         $lihat_events   = Event::selectRaw('"event" as type,
-                                            "event" as title,
+                                            nama_events as title,
                                             mulai_events as start,
                                             selesai_events as end,
                                             nama_events as description')
