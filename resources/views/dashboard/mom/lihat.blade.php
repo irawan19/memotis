@@ -80,6 +80,7 @@
 									{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
 									@if($moms->users_id == Auth::user()->id)
 										{{General::editButton($link_mom,'dashboard/mom/edit/'.$moms->id_moms)}}
+										{{General::editTugasButton($link_mom, 'dashboard/mom/tugas/'.$moms->id_moms)}}
 										{{General::hapusButton($link_mom,'dashboard/mom/hapus/'.$moms->id_moms)}}
 									@endif
 								</div>

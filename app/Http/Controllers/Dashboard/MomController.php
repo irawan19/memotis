@@ -90,10 +90,6 @@ class MomController extends AdminCoreController
         {
             $data['tambah_sub_moms']            = Mom::orderBy('no_moms')->get();
             $data['tambah_status_tugas']        = Master_status_tugas::get();
-            $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                        ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                        ->where('id','!=',1)
-                                                        ->get();
             $data['tambah_mom_user_externals']  = Mom_user_external::get();
             return view('dashboard.mom.tambah',$data);
         }
@@ -111,7 +107,6 @@ class MomController extends AdminCoreController
                 'tanggal_moms'              => 'required',
                 'venue_moms'                => 'required',
                 'deskripsi_moms'            => 'required',
-                'users_id.*'                => 'required',
             ];
             $this->validate($request, $aturan);
 
@@ -142,35 +137,6 @@ class MomController extends AdminCoreController
             ];
             $id_moms = Mom::insertGetId($data);
 
-            if(!empty($request->users_id))
-            {
-                foreach($request->users_id as $id_users)
-                {
-                    $tugas_mom_users = null;
-                    if(!empty($request->tugas_mom_users[$id_users]))
-                        $tugas_mom_users = $request->tugas_mom_users[$id_users];
-
-                    $status_tugas_id = null;
-                    if(!empty($request->status_tugas_id[$id_users]))
-                        $status_tugas_id = $request->status_tugas_id[$id_users];
-
-                    $catatan_mom_users = null;
-                    if(!empty($request->catatan_mom_users[$id_users]))
-                        $catatan_mom_users = $request->catatan_mom_users[$id_users];
-
-                    $mom_users_data = [
-                        'moms_id'               => $id_moms,
-                        'users_id'              => $id_users,
-                        'tugas_mom_users'       => $tugas_mom_users,
-                        'status_tugas_id'       => $status_tugas_id,
-                        'catatan_mom_users'     => $catatan_mom_users,
-                        'status_baca_mom_users' => 0,
-                        'created_at'            => date('Y-m-d H:i:s'),
-                    ];
-                    Mom_user::insert($mom_users_data);
-                }
-            }
-
             if(!empty($request->nama_user_externals))
             {
                 foreach($request->nama_user_externals as $nama_user_externals)
@@ -183,17 +149,98 @@ class MomController extends AdminCoreController
                     Mom_user_external::insert($mom_user_externals_data);
                 }
             }
-            
-            if(request()->session()->get('halaman') != '')
-                $redirect_halaman  = request()->session()->get('halaman');
-            else
-                $redirect_halaman  = 'dashboard/mom';
-
-            return redirect($redirect_halaman);
+            return redirect('dashboard/mom/tambahtugas/'.$id_moms);
         }
         else
             return redirect('dashboard/mom');
     }
+
+    public function tugas($id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->first();
+            if(!empty($cek_moms))
+            {
+                $data['lihat_moms']                 = $cek_moms;
+                $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+                                                                ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                                ->where('moms_id',$id_moms)
+                                                                ->get();
+                $data['tambah_status_tugas']        = Master_status_tugas::get();
+                $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                            ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                            ->where('id','!=',1)
+                                                            ->get();
+                return view('dashboard.mom.tugas',$data);
+            }
+            else
+                return redirect('dashboard/mom');
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
+    public function prosestambahtugas(Request $request, $id_moms=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        {
+            $cek_moms = Mom::where('id_moms',$id_moms)->count();
+            if($cek_moms != 0)
+            {
+                $aturan = [
+                    'users_id'              => 'required',
+                    'tugas_mom_users'       => 'required',
+                    'status_tugas_id'       => 'required',
+                    'catatan_mom_users'     => 'required',
+                    
+                ];
+                $this->validate($request, $aturan);
+    
+                $data = [
+                    'moms_id'               => $id_moms,
+                    'users_id'              => $request->users_id,
+                    'tugas_mom_users'       => $request->tugas_mom_users,
+                    'status_tugas_id'       => $request->status_tugas_id,
+                    'catatan_mom_users'     => $request->catatan_mom_users,
+                    'created_at'            => date('Y-m-d H:i:s'),
+                ];
+                Mom_user::insert($data);
+                
+                $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
+    
+                return redirect($redirect_halaman);
+            }
+            else
+                return redirect('dashboard/mom');
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
+    public function proseshapustugas($id_mom_users=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        {
+            $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+            if(!empty($cek_mom_users))
+            {
+                Mom_user::where('id_mom_users',$id_mom_users)
+                                ->delete();
+                return response()->json(["sukses" => "sukses"], 200);
+            }
+            else
+                return redirect('dashboard/mom');
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
     public function edit($id_moms=0)
     {
         $link_mom = 'mom';

@@ -59,48 +59,11 @@
 										{{General::pesanErrorForm($errors->first('nama_user_externals.*'))}}
 									</div>
 								</div>
-								<div class="form-group">
-									<label class="form-col-form-label" for="users_id">Peserta <b style="color:red">*</b></label>
-									@foreach($tambah_users as $users)
-										@php($nama = $users->nama_level_sistems.' - '.$users->name)
-										@if(!empty($users->id_divisis))
-											@php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
-										@endif
-										<div class="row" style="margin-bottom:10px">
-											<div class="col-sm-4">
-												@if(Request::old('users_id.'.$users->id) == $users->id)
-													@php($checked = 'checked')
-												@else
-													@php($checked = '')
-												@endif
-												<div class="form-check checkbox">
-													<input {{$checked}} class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
-													<label class="form-check-label" for="users_id{{$users->id}}">{{$nama}}</label>
-												</div>
-												{{General::pesanErrorForm($errors->first('users_id.'.$users->id))}}
-											</div>
-											<div class="col-sm-3">
-												<textarea placeholder="Masukkan tugas..." class="form-control {{ General::validForm($errors->first('tugas_mom_users.'.$users->id)) }}" id="tugas_mom_users{{$users->id}}" name="tugas_mom_users[{{$users->id}}]" rows="5">{{Request::old('tugas_mom_users.'.$users->id)}}</textarea>
-											</div>
-											<div class="col-sm-2">
-												<select class="form-control select2" id="status_tugas_id{{$users->id}}" name="status_tugas_id[{{$users->id}}]">
-													<option value="">-</option>
-													@foreach($tambah_status_tugas as $status_tugas)
-														<option value="{{$status_tugas->id_status_tugas}}" {{ Request::old('status_tugas_id.'.$users->id) == $status_tugas->id_status_tugas ? $select='selected' : $select='' }}>{{$status_tugas->nama_status_tugas}}</option>
-													@endforeach
-												</select>
-											</div>
-											<div class="col-sm-3">
-												<textarea placeholder="Masukkan catatan..." class="form-control {{ General::validForm($errors->first('catatan_mom_users.'.$users->id)) }}" id="catatan_mom_users{{$users->id}}" name="catatan_mom_users[{{$users->id}}]" rows="5">{{Request::old('catatan_mom_users.'.$users->id)}}</textarea>
-											</div>
-										</div>
-									@endforeach
-								</div>
 							</div>
 						</div>
 					</div>
 			        <div class="card-footer right-align">
-						{{General::kirim()}}
+						{{General::lanjutkan()}}
 			          	@if(request()->session()->get('halaman') != '')
 		            		@php($ambil_kembali = request()->session()->get('halaman'))
 	                    @else
@@ -132,29 +95,6 @@
 								if(data.pesan == 'sukses')
 								{
 									CKEDITOR.instances.editor1.setData(data.data.deskripsi_moms);
-								}
-							},
-							error: function(data) {
-								console.log(data);
-							}
-					});
-
-				//get user internal
-				$.ajax({
-							url: '{{URL("dashboard/mom/momuser")}}/'+idmoms,
-							type: "GET",
-							dataType: 'JSON',
-							headers: headerRequest,
-							success: function(data)
-							{
-								if(data.pesan == 'sukses')
-								{
-									$.each( data.data, function(key, value) {
-										$('#users_id'+value.users_id).prop('checked',true);
-										$('#tugas_mom_users'+value.users_id).val(value.tugas_mom_users);
-										$('#status_tugas_id'+value.users_id).val(value.status_tugas_id).trigger('change');
-										$('#catatan_mom_users'+value.users_id).val(value.catatan_mom_users);
-									});
 								}
 							},
 							error: function(data) {

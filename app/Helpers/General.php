@@ -173,6 +173,13 @@ class General
 				</button>';
 		}
 
+		public static function lanjutkan()
+		{
+			echo '<button class="btn btn-sm btn-success" type="submit" name="kirim" value="kirim">
+					<i class="c-icon cil-arrow-right"></i> Lanjutkan
+				</button>';
+		}
+
 		public static function kirim()
 		{
 			echo '<button class="btn btn-sm btn-success" type="submit" name="kirim" value="kirim">
@@ -415,6 +422,17 @@ class General
 			}
 		}
 
+		public static function editTugasButton($link_menus = '', $link = '')
+		{
+			if (General::hakAkses($link_menus, 'edit') == 'true') {
+				echo 	'<a class="btn btn-sm btn-light" href="' . URL($link) . '">
+							<svg class="c-icon" style="margin-right:5px;">
+								<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-pencil') . '"></use>
+							</svg> Edit Tugas
+						</a>';
+			}
+		}
+
 		public static function aktif($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'edit') == 'true') {
@@ -457,6 +475,15 @@ class General
 								</svg> Hapus
 							</button>';
 			}
+		}
+
+		public static function hapusButtonTanpaAkses($link = '', $label = '')
+		{
+			echo 	'<button data-link="' . URL($link) . '" data-nama="' . $label . '" class="btn btn-sm btn-danger showModalHapus">
+								<svg class="c-icon" style="margin-right:5px;">
+									<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-trash') . '"></use>
+								</svg> Hapus
+							</button>';
 		}
 
 		public static function publikasi($link_menus = '', $link = '')

@@ -115,16 +115,14 @@ Route::middleware([
                 Route::get('/cari', [DashboardMom::class, 'cari']);
                 Route::get('/tambah', [DashboardMom::class, 'tambah']);
                 Route::post('/prosestambah', [DashboardMom::class, 'prosestambah']);
-                Route::get('/tambahtugas', [DashboardMom::class, 'tambahtugas']);
-                Route::post('/prosestambahtugas', [DashboardMom::class, 'prosestambahtugas']);
+                Route::get('/tugas/{id}', [DashboardMom::class, 'tugas']);
+                Route::post('/prosestambahtugas/{id}', [DashboardMom::class, 'prosestambahtugas']);
+                Route::get('/proseshapustugas/{id}', [DashboardMom::class, 'proseshapustugas']);
                 Route::get('/edit/{id}', [DashboardMom::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardMom::class, 'prosesedit']);
-                Route::get('/edittugas/{id}', [DashboardMom::class, 'edittugas']);
-                Route::post('/prosesedittugas/{id}', [DashboardMom::class, 'prosesedittugas']);
                 Route::get('/hapus/{id}', [DashboardMom::class, 'hapus']);
                 Route::get('/cetak/{id}', [DashboardMom::class, 'cetak']);
                 Route::get('/ambilmom/{id}', [DashboardMom::class, 'ambilmom']);
-                Route::get('/momuser/{id}', [DashboardMom::class, 'ambilmomuser']);
                 Route::get('/momexternal/{id}', [DashboardMom::class, 'ambilmomuserexternal']);
             });
 
