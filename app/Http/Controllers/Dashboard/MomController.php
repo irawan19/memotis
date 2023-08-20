@@ -251,10 +251,6 @@ class MomController extends AdminCoreController
             {
                 $data['edit_sub_moms']              = Mom::orderBy('no_moms')->where('id_moms','!=',$id_moms)->get();
                 $data['edit_status_tugas']          = Master_status_tugas::get();
-                $data['edit_users']                 = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                        ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                        ->where('id','!=',1)
-                                                        ->get();
                 $data['edit_moms']                  = Mom::where('id_moms',$id_moms)
                                                         ->first();
                 return view('dashboard.mom.edit',$data);
@@ -279,7 +275,6 @@ class MomController extends AdminCoreController
                     'tanggal_moms'              => 'required',
                     'venue_moms'                => 'required',
                     'deskripsi_moms'            => 'required',
-                    'users_id.*'                => 'required',
                 ];
                 $this->validate($request, $aturan);
     
@@ -309,36 +304,6 @@ class MomController extends AdminCoreController
                 ];
                 Mom::where('id_moms', $id_moms)
                     ->update($data);
-
-                Mom_user::where('moms_id',$id_moms)->delete();
-                if(!empty($request->users_id))
-                {
-                    foreach($request->users_id as $id_users)
-                    {
-                        $tugas_mom_users = null;
-                        if(!empty($request->tugas_mom_users[$id_users]))
-                            $tugas_mom_users = $request->tugas_mom_users[$id_users];
-
-                        $status_tugas_id = null;
-                        if(!empty($request->status_tugas_id[$id_users]))
-                            $status_tugas_id = $request->status_tugas_id[$id_users];
-
-                        $catatan_mom_users = null;
-                        if(!empty($request->catatan_mom_users[$id_users]))
-                            $catatan_mom_users = $request->catatan_mom_users[$id_users];
-
-                        $mom_users_data = [
-                            'moms_id'               => $id_moms,
-                            'users_id'              => $id_users,
-                            'tugas_mom_users'       => $tugas_mom_users,
-                            'status_tugas_id'       => $status_tugas_id,
-                            'catatan_mom_users'     => $catatan_mom_users,
-                            'status_baca_mom_users' => 0,
-                            'created_at'            => date('Y-m-d H:i:s'),
-                        ];
-                        Mom_user::insert($mom_users_data);
-                    }
-                }
 
                 Mom_user_external::where('moms_id',$id_moms)->delete();
                 if(!empty($request->nama_user_externals))
