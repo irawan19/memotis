@@ -33,7 +33,7 @@
         <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-6">
-                    <p class="judulsurat">{{$lihat_moms->judul_moms.' ('.$moms->kategori_moms.')'}}</p>
+                    <p class="judulsurat">{{$lihat_moms->judul_moms.' ('.$lihat_moms->kategori_moms.')'}}</p>
                 </div>
                 <div class="col-sm-6 right-align">
                     <p class="judultanggal">{{General::ubahDBKeTanggalwaktu($lihat_moms->tanggal_moms)}}</p>
