@@ -14,9 +14,10 @@ class TugasController extends AdminCoreController
         if(!empty($cek_status_tugas))
         {
             $data['lihat_status_tugas'] = $cek_status_tugas;
-            $data['lihat_tugas']        = Mom_user::where('status_tugas_id',$id_status_tugas)
-                                            ->where('users_id',Auth::user()->id)
-                                            ->get();
+            $data['lihat_tugas']        = Mom_user::join('moms','mom_users.moms_id','=','moms.id_moms')
+                                                ->where('status_tugas_id',$id_status_tugas)
+                                                ->where('mom_users.users_id',Auth::user()->id)
+                                                ->get();
             return view('dashboard.tugas.lihat',$data);
         }
         else
