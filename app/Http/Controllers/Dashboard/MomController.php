@@ -329,6 +329,8 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
+                Mom_user_external::where('moms_id',$id_moms)
+                                ->delete();
                 Mom_user::where('moms_id',$id_moms)
                         ->delete();
                 Mom::where('id_moms',$id_moms)
