@@ -433,6 +433,15 @@ class General
 			}
 		}
 
+		public static function editButtonTanpaAkses($link = '')
+		{
+			echo 	'<a class="btn btn-sm btn-primary" href="' . URL($link) . '">
+						<svg class="c-icon" style="margin-right:5px;">
+							<use xlink:href="' . URL::asset('template/back/assets/icons/coreui/free.svg#cil-pencil') . '"></use>
+						</svg> Edit
+					</a>';
+		}
+
 		public static function aktif($link_menus = '', $link = '')
 		{
 			if (General::hakAkses($link_menus, 'edit') == 'true') {

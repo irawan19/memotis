@@ -161,6 +161,7 @@ class MomController extends AdminCoreController
                         'users_id'              => $mom_users->users_id,
                         'status_tugas_id'       => $mom_users->status_tugas_id,
                         'tugas_mom_users'       => $mom_users->tugas_mom_users,
+                        'catatan_mom_users'     => $mom_users->catatan_mom_users,
                         'status_baca_mom_users' => 0,
                         'created_at'            => date('Y-m-d H:i:s'),
                     ];
@@ -249,7 +250,22 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                
+                $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+                $data['lihat_moms']                 = $ambil_moms;
+                $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+                                                                ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                                ->where('moms_id',$ambil_moms->id_moms)
+                                                                ->get();
+                $data['edit_status_tugas']          = Master_status_tugas::get();
+                $data['edit_mom_users']             = Mom_user::join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                ->join('users','mom_users.users_id','=','users.id')
+                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                                ->where('id_mom_users',$id_mom_users)
+                                                                ->first();
+                return view('dashboard.mom.tugas',$data);
             }
             else
                 return redirect('dashboard/mom');
@@ -258,7 +274,7 @@ class MomController extends AdminCoreController
             return redirect('dashboard/mom');
     }
 
-    public function prosesedittugas($id_mom_users=0)
+    public function prosesedittugas(Request $request, $id_mom_users=0)
     {
         $link_mom = 'mom';
         if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
@@ -266,7 +282,24 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                
+                $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+                $aturan = [
+                    'status_tugas_id'   => 'required',
+                    'tugas_mom_users'   => 'required',
+                    'catatan_mom_users' => 'required',
+                ];
+                $this->validate($request, $aturan);
+
+                $data = [
+                    'tugas_mom_users'   => $request->tugas_mom_users,
+		        	'status_tugas_id'	=> $request->status_tugas_id,
+                    'catatan_mom_users' => $request->catatan_mom_users,
+                    'updated_at'        => date('Y-m-d H:i:s')
+                ];
+                Mom_user::where('id_mom_users', $id_mom_users)
+                        ->update($data);
+
+                return redirect('dashboard/mom/tugas/'.$ambil_moms->id_moms);
             }
             else
                 return redirect('dashboard/mom');
