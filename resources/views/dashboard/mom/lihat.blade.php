@@ -59,7 +59,7 @@
 					@endif
 
 					@if(General::hakAkses('mom', 'baca') == 'true')
-						<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
+						<div class="card" style="height: auto; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
 								<div class="row">
 									<div class="col-sm-12">
@@ -221,7 +221,7 @@
 							});
 						</script>
 					@else
-						<div class="card" style="height: 150px; background-color: {{$backcolor}}; color: #000;">
+						<div class="card" style="height: auto; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
 								<div class="btn-group float-right">
 									<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($moms->tanggal_moms)}}</p>
