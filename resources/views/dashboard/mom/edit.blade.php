@@ -61,7 +61,7 @@
 										<label class="form-col-form-label" for="nama_user_externals">External</label>
 										<select class="form-control select2creation" id="nama_user_externals" name="nama_user_externals[]" multiple="multiple">
 											@php($selected = '')
-											@php($ambil_mom_user_externals = \App\Models\Mom_user_external::where('moms_id',$edit_moms->id_moms)->get())
+											@php($ambil_mom_user_externals = \App\Models\Mom_user_external::where('moms_id',$edit_moms->id_moms)->groupBy('nama_user_externals')->get())
 											@if(!empty($ambil_mom_user_externals))
 												@foreach($ambil_mom_user_externals as $mom_user_externals)
 													<option value="{{$mom_user_externals->nama_user_externals}}" selected="selected">{{$mom_user_externals->nama_user_externals}}</option>

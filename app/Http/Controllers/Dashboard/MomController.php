@@ -90,7 +90,8 @@ class MomController extends AdminCoreController
         {
             $data['tambah_sub_moms']            = Mom::orderBy('no_moms')->get();
             $data['tambah_status_tugas']        = Master_status_tugas::get();
-            $data['tambah_mom_user_externals']  = Mom_user_external::get();
+            $data['tambah_mom_user_externals']  = Mom_user_external::groupBy('nama_user_externals')
+                                                                    ->get();
             return view('dashboard.mom.tambah',$data);
         }
         else
@@ -421,24 +422,6 @@ class MomController extends AdminCoreController
             if(!empty($cek_moms))
             {
                 return response()->json(["data" => $cek_moms, "pesan" => "sukses"], 200);
-            }
-            else
-                return response()->json(["pesan" => "error"], 400);
-        }
-        else
-            return response()->json(["pesan" => "error"], 400);
-    }
-
-    public function ambilmomuser($id_moms=0)
-    {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'cetak') == 'true')
-        {
-            $cek_moms = Mom::where('id_moms',$id_moms)->count();
-            if($cek_moms != 0)
-            {
-                $ambil_mom_users = Mom_user::where('moms_id',$id_moms)->get();
-                return response()->json(["data" => $ambil_mom_users, "pesan" => "sukses"], 200);
             }
             else
                 return response()->json(["pesan" => "error"], 400);
