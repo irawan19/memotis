@@ -117,6 +117,8 @@ Route::middleware([
                 Route::post('/prosestambah', [DashboardMom::class, 'prosestambah']);
                 Route::get('/tugas/{id}', [DashboardMom::class, 'tugas']);
                 Route::post('/prosestambahtugas/{id}', [DashboardMom::class, 'prosestambahtugas']);
+                Route::get('/edittugas/{id}', [DashboardMom::class, 'edittugas']);
+                Route::post('/prosesedittugas/{id}', [DashboardMom::class, 'prosesedittugas']);
                 Route::get('/proseshapustugas/{id}', [DashboardMom::class, 'proseshapustugas']);
                 Route::get('/edit/{id}', [DashboardMom::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardMom::class, 'prosesedit']);

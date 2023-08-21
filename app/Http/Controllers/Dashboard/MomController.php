@@ -150,7 +150,7 @@ class MomController extends AdminCoreController
                 }
             }
 
-            if($moms_id != 0)
+            if($moms_id != null)
             {
                 $ambil_mom_users = Mom_user::where('moms_id',$moms_id)->get();
                 foreach($ambil_mom_users as $mom_users)
@@ -232,6 +232,23 @@ class MomController extends AdminCoreController
                 $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
     
                 return redirect($redirect_halaman);
+            }
+            else
+                return redirect('dashboard/mom');
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
+    public function edittugas($id_mom_users=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        {
+            $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+            if(!empty($cek_mom_users))
+            {
+                
             }
             else
                 return redirect('dashboard/mom');
