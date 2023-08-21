@@ -149,7 +149,25 @@ class MomController extends AdminCoreController
                     Mom_user_external::insert($mom_user_externals_data);
                 }
             }
-            return redirect('dashboard/mom/tambahtugas/'.$id_moms);
+
+            if($moms_id != 0)
+            {
+                $ambil_mom_users = Mom_user::where('moms_id',$moms_id)->get();
+                foreach($ambil_mom_users as $mom_users)
+                {
+                    $mom_users_data = [
+                        'moms_id'               => $id_moms,
+                        'users_id'              => $mom_users->users_id,
+                        'status_tugas_id'       => $mom_users->status_tugas_id,
+                        'tugas_mom_users'       => $mom_users->tugas_mom_users,
+                        'status_baca_mom_users' => 0,
+                        'created_at'            => date('Y-m-d H:i:s'),
+                    ];
+                    Mom_user::insert($mom_users_data);
+                }
+            }
+
+            return redirect('dashboard/mom/tugas/'.$id_moms);
         }
         else
             return redirect('dashboard/mom');
