@@ -117,8 +117,8 @@ class MomController extends AdminCoreController
             $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
 
             $moms_id = null;
-            if(!empty($request->moms_id))
-                $moms_id = $request->moms_id;
+            if(!empty($request->sub_moms_id))
+                $moms_id = $request->sub_moms_id;
 
             $kategori_moms = 'Internal';
             if(!empty($request->nama_user_externals))
@@ -258,6 +258,23 @@ class MomController extends AdminCoreController
             return redirect('dashboard/mom');
     }
 
+    public function prosesedittugas($id_mom_users=0)
+    {
+        $link_mom = 'mom';
+        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        {
+            $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+            if(!empty($cek_mom_users))
+            {
+                
+            }
+            else
+                return redirect('dashboard/mom');
+        }
+        else
+            return redirect('dashboard/mom');
+    }
+
     public function proseshapustugas($id_mom_users=0)
     {
         $link_mom = 'mom';
@@ -320,8 +337,8 @@ class MomController extends AdminCoreController
                 $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
 
                 $moms_id = null;
-                if(!empty($request->moms_id))
-                    $moms_id = $request->moms_id;
+                if(!empty($request->sub_moms_id))
+                    $moms_id = $request->sub_moms_id;
     
                 $kategori_moms = 'Internal';
                 if(!empty($request->nama_user_externals))
