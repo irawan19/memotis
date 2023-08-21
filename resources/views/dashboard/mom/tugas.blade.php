@@ -168,7 +168,7 @@
 	                @else
 	                	@php($ambil_kembali = URL('dashboard/mom'))
 	                @endif
-					{{General::batal($ambil_kembali)}}
+					{{General::kembali($ambil_kembali)}}
 			    </div>
 			</div>
 		</div>
