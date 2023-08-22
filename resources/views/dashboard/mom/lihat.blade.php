@@ -88,7 +88,7 @@
 						</div>
 
 						<div id="modaldetailmoms{{$moms->id_moms}}" class="modal" tabindex="-1">
-							<div class="modal-dialog modal-xl">
+							<div class="modal-dialog modal-xl" style="max-width:1400px !important">
 								<div class="modal-content">
 									<div class="card-body">
 										<div class="row">
@@ -149,7 +149,7 @@
 																									->get())
 												@if(!$lihat_peserta_externals->isEmpty())
 													@foreach($lihat_peserta_externals as $peserta_externals)
-														- {{$peserta_externals->nama_user_externals}}
+														- {{$peserta_externals->nama_user_externals}}<br/>
 													@endforeach
 												@endif
 											</div>
