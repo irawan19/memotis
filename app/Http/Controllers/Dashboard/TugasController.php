@@ -24,6 +24,7 @@ class TugasController extends AdminCoreController
                                                     ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                     ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                                     ->where('status_tugas_id',$id_status_tugas)
+                                                    ->orderBy('mom_users.created_at','desc')
                                                     ->get();
             }
             else
@@ -31,6 +32,7 @@ class TugasController extends AdminCoreController
                 $data['lihat_tugas']        = Mom_user::join('moms','mom_users.moms_id','=','moms.id_moms')
                                                     ->where('status_tugas_id',$id_status_tugas)
                                                     ->where('mom_users.users_id',Auth::user()->id)
+                                                    ->orderBy('mom_users.created_at','desc')
                                                     ->get();
             }
             return view('dashboard.tugas.lihat',$data);
