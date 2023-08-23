@@ -88,9 +88,16 @@
 
 				<div class="row">
 					@foreach($lihat_status_tugas as $status_tugas)
-						@php($ambil_mom_users = \App\Models\Mom_user::where('status_tugas_id',$status_tugas->id_status_tugas)
-																	->where('users_id',Auth::user()->id)
-																	->count())
+						@php($ambil_divisis = \App\Models\Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
+																			->first())
+						@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
+							@php($ambil_mom_users = \App\Models\Mom_user::where('status_tugas_id',$status_tugas->id_status_tugas)
+																		->count())
+						@else
+							@php($ambil_mom_users = \App\Models\Mom_user::where('status_tugas_id',$status_tugas->id_status_tugas)
+																		->where('users_id',Auth::user()->id)
+																		->count())
+						@endif
 						<div class="col-sm-6">
 							<a href="{{URL('dashboard/tugas/'.$status_tugas->id_status_tugas)}}" class="nonstyle">
 								<div class="card" style="height: 106px; background-color: #fff; color: #000;">
