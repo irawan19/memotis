@@ -71,6 +71,7 @@
 														->leftJoin('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
 														->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
 														->where('moms_id',$lihat_moms->id_moms)
+													    ->groupBy('mom_users.users_id')
 														->orderBy('users.name')
 														->get())
 			@if(!$lihat_pesertas->isEmpty())
