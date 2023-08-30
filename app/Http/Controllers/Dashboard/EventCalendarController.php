@@ -19,7 +19,7 @@ class EventCalendarController extends AdminCoreController
                                             nama_events as title,
                                             mulai_events as start,
                                             selesai_events as end,
-                                            CONCAT(mulai_events," - ",selesai_events,". ",nama_events) as description')
+                                            CONCAT(mulai_events," sampai ",selesai_events,". ",nama_events) as description')
                                 ->whereRaw('DATE(mulai_events) >= "'.$mulai.'"')
                                 ->whereRaw('DATE(selesai_events) <= "'.$selesai.'"');
         if(General::hakAkses('mom','tambah') == 'true')
