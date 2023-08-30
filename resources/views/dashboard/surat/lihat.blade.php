@@ -88,7 +88,7 @@
 										@endif
 									@endif
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
-									@if( strtotime($surats->tanggal_mulai_surats) > strtotime(date('Y-m-d')) && $surats->users_id == Auth::user()->id )
+									@if( $surats->users_id == Auth::user()->id )
 										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
 										{{General::hapusButton($link_surat,'dashboard/surat/hapus/'.$surats->id_surats)}}
 									@endif
