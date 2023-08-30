@@ -61,7 +61,11 @@
 				<tr>
 					<td width="50px">Tanggal</td>
 					<td width="1px">:</td>
-					<td>{{General::ubahDBKeTanggal($lihat_surats->tanggal_asal_surats)}}</td>
+					<td>
+						@if($lihat_surats->tanggal_asal_surats != null)
+							{{General::ubahDBKeTanggal($lihat_surats->tanggal_asal_surats)}}
+						@endif					
+					</td>
 				</tr>
 				<tr>
 					<td>No</td>
@@ -126,6 +130,51 @@
 					<td>:</td>
 					<td>{{$lihat_surats->nama_sifat_surats}}</td>
 				</tr>
+			</table>
+		</div>
+		<div class="col-sm-12">
+			<hr/>
+		</div>
+		<div class="col-sm-12">
+			<h4>Disposisi</h4>
+			<br/>
+			<table width="100%">
+				<tr>
+					<th>Nama</th>
+					<th>Status</th>
+					<th>Keterangan</th>
+				</tr>
+				@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+																		->join('surats','surat_users.surats_id','=','surats.id_surats')
+																		->join('users','surat_users.users_id','=','users.id')
+																		->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+																		->leftJoin('master_divisis','master_level_sistems.divisis_id','=','master_divisis.id_divisis')
+																		->where('surats.id_surats',$lihat_surats->id_surats)
+																		->groupBy('users.id')
+																		->get())
+				@php($no = 1)
+				@foreach($ambil_disposisi_surats as $disposisi_surats)
+					@php($nama = $disposisi_surats->nama_level_sistems.' - '.$disposisi_surats->name)
+					@if(!empty($disposisi_surats->id_divisis))
+						@php($nama = $disposisi_surats->nama_level_sistems.' - '.$disposisi_surats->nama_divisis.' - '.$disposisi_surats->name)
+					@endif
+					@if($disposisi_surats->status_selesai_surat_users == 0)
+						@php($status = 'belum selesai')
+					@else
+						@php($status = 'selesai')
+					@endif
+					<tr>
+						<td>{{$nama}}</td>
+						<td>{{$status}}</td>
+						<td>
+							@php($ambil_keterangan_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
+																				->first())
+							@if(!empty($ambil_keterangan_selesai))
+								{!! nl2br($ambil_keterangan_selesai->keterangan_surat_selesais) !!}
+							@endif
+						</td>
+					</tr>
+				@endforeach
 			</table>
 		</div>
 	</div>
