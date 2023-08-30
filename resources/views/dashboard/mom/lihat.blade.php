@@ -162,34 +162,36 @@
 												<br/>
 												{!! $moms->deskripsi_moms !!}	
 											</div>
-											<div class="col-sm-12">
-												<table class="table table-responsive-sm table-bordered table-striped table-sm">
-													<thead>
-														<tr>
-															<th>Nama</th>
-															<th>Tugas</th>
-															<th>Status</th>
-															<th>Catatan</th>
-														</tr>
-													</thead>
-													<tbody>
-														@if(!$lihat_pesertas->isEmpty())
-															@foreach($lihat_pesertas as $pesertas)
-																@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->name)
-																@if(!empty($pesertas->id_divisis))
-																	@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->nama_divisis.' - '.$pesertas->name)
-																@endif
-																<tr>
-																	<td>{{$nama}}</td>
-																	<td>{!! nl2br($pesertas->tugas_mom_users) !!}</td>
-																	<td>{{$pesertas->nama_status_tugas}}</td>
-																	<td>{!! nl2br($pesertas->catatan_mom_users) !!}</td>
-																</tr>
-															@endforeach
-														@endif
-													</tbody>
-												</table>
-											</div>
+											@if(!empty($lihat_pesertas))
+												<div class="col-sm-12">
+													<table class="table table-responsive-sm table-bordered table-striped table-sm">
+														<thead>
+															<tr>
+																<th>Nama</th>
+																<th>Tugas</th>
+																<th>Status</th>
+																<th>Catatan</th>
+															</tr>
+														</thead>
+														<tbody>
+															@if(!$lihat_pesertas->isEmpty())
+																@foreach($lihat_pesertas as $pesertas)
+																	@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->name)
+																	@if(!empty($pesertas->id_divisis))
+																		@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->nama_divisis.' - '.$pesertas->name)
+																	@endif
+																	<tr>
+																		<td>{{$nama}}</td>
+																		<td>{!! nl2br($pesertas->tugas_mom_users) !!}</td>
+																		<td>{{$pesertas->nama_status_tugas}}</td>
+																		<td>{!! nl2br($pesertas->catatan_mom_users) !!}</td>
+																	</tr>
+																@endforeach
+															@endif
+														</tbody>
+													</table>
+												</div>
+											@endif
 										</div>
 									</div>
 								</div>
