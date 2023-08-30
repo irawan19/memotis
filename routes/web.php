@@ -55,6 +55,7 @@ Route::get(
         Artisan::call( 'down', [
             '--secret' => '3KjKdhG+e6xR3p3+R3G/JQE4Lfti0C9oRkS8yMU6b4c=',
         ] );
+        return redirect('/');
     }
 );
 
@@ -62,6 +63,7 @@ Route::get(
     '/disable-maintenance-mode',
     function () {
         Artisan::call( 'up' );
+        return redirect('/');
     }
 );
 
