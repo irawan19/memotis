@@ -62,6 +62,18 @@
 						<div class="card" style="height: auto; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
 								<div class="row">
+									<div class="col-sm-12" style="margin-bottom:10px">
+										@if($surats->status_selesai_surats == 0)
+											@php($statuscss = 'statusbelumselesai')
+											@php($status_selesai_surats = 'Belum Selesai')
+										@else
+											@php($statuscss = 'statusselesai')
+											@php($status_selesai_surats = 'Selesai')
+										@endif
+										<div class="titleeventcard {{$statuscss}}">
+											{{$status_selesai_surats}}
+										</div>
+									</div>
 									<div class="col-sm-12">
 										<div class="row">
 											<div class="col-sm-6 left-align">

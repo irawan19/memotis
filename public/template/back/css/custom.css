@@ -256,3 +256,29 @@ not all {
     text-align: center;
     font-size: 16px;
 }
+
+.statusselesai{
+    height: 20px;
+    padding: 0px 8px 0px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    float: right;
+    line-height: 24px;
+    border-radius: 16px;
+    width: 126px;
+    background-color: #EBF6FF;
+    color: red;
+}
+
+.statusbelumselesai{
+    height: 20px;
+    padding: 0px 8px 0px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    float: right;
+    line-height: 24px;
+    border-radius: 16px;
+    width: 126px;
+    background-color: #EBF6FF;
+    color: green;
+}
