@@ -214,6 +214,33 @@
 													</tr>
 												</table>
 											</div>
+											<div class="col-sm-12">
+												<hr/>
+											</div>
+											<div class="col-sm-12">
+												<h4>Disposisi</h4>
+												<br/>
+												@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+																										->join('surats','surat_users.surats_id','=','surats.id_surats')
+																										->join('users','surat_users.users_id','=','users.id')
+																										->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+																										->leftJoin('master_divisis','master_level_sistems.divisis_id','=','master_divisis.id_divisis')
+																										->groupBy('users.id')
+																										->get())
+												@php($no = 1)
+												@foreach($ambil_disposisi_surats as $disposisi_surats)
+													@php($nama = $disposisi_surats->nama_level_sistems.' - '.$disposisi_surats->name)
+													@if(!empty($disposisi_surats->id_divisis))
+														@php($nama = $disposisi_surats->nama_level_sistems.' - '.$disposisi_surats->nama_divisis.' - '.$disposisi_surats->name)
+													@endif
+													@if($disposisi_surats->status_selesai_surat_users == 0)
+														@php($status = 'belum selesai')
+													@else
+														@php($status = 'selesai')
+													@endif
+													{{$no++.'. '.$nama.' ( '.$status.' )'}}<br/>
+												@endforeach
+											</div>
 										</div>
 									</div>
 								</div>

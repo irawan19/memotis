@@ -488,7 +488,7 @@ class SuratController extends AdminCoreController
     public function disposisi($id_surats=0)
     {
         $link_surat = 'surat';
-        if(General::hakAkses($link_surat,'hapus') == 'true')
+        if(General::hakAkses($link_surat,'edit') == 'true')
         {
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
@@ -529,7 +529,7 @@ class SuratController extends AdminCoreController
     public function prosesdisposisi(Request $request, $id_surats=0)
     {
         $link_surat = 'surat';
-        if(General::hakAkses($link_surat,'hapus') == 'true')
+        if(General::hakAkses($link_surat,'edit') == 'true')
         {
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
@@ -596,7 +596,7 @@ class SuratController extends AdminCoreController
     public function selesai(Request $request, $id_surats=0)
     {
         $link_surat = 'surat';
-        if(General::hakAkses($link_surat,'hapus') == 'true')
+        if(General::hakAkses($link_surat,'edit') == 'true')
         {
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
@@ -636,7 +636,7 @@ class SuratController extends AdminCoreController
     public function prosesselesai(Request $request, $id_surats=0)
     {
         $link_surat = 'surat';
-        if(General::hakAkses($link_surat,'hapus') == 'true')
+        if(General::hakAkses($link_surat,'edit') == 'true')
         {
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
