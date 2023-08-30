@@ -60,6 +60,8 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::group(['prefix' => 'dashboard'], function (){
+        Route::post('upload-ckeditor', [Dashboard::class, 'uploadckeditor'])->name('image.upload');
+
         //Dashboard
         Route::get('/', [Dashboard::class, 'index'])->name('dashboard');
 

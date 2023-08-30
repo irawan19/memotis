@@ -45,7 +45,7 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label class="form-col-form-label" for="deskripsi_moms">Deskripsi <b style="color:red">*</b></label>
-									<textarea class="form-control deskripsi_moms {{ General::validForm($errors->first('deskripsi_moms')) }}" id="editor1" name="deskripsi_moms" rows="5">{{Request::old('deskripsi_moms')}}</textarea>
+									<textarea class="form-control deskripsi_moms {{ General::validForm($errors->first('deskripsi_moms')) }}" id="editor1" name="deskripsi_moms" rows="10">{{Request::old('deskripsi_moms')}}</textarea>
 									{{General::pesanErrorForm($errors->first('deskripsi_moms'))}}
 								</div>
 								<div class="form-group">
@@ -94,7 +94,7 @@
 							{
 								if(data.pesan == 'sukses')
 								{
-									CKEDITOR.instances.editor1.setData(data.data.deskripsi_moms);
+									// CKEDITOR.instances.editor1.setData(data.data.deskripsi_moms);
 								}
 							},
 							error: function(data) {

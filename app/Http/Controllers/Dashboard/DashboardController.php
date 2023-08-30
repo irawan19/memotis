@@ -8,6 +8,7 @@ use Auth;
 use App\Models\Session;
 use App\Models\User;
 use App\Models\Master_konfigurasi_aplikasi;
+use Storage;
 
 class DashboardController extends AdminCoreController
 {
@@ -33,6 +34,18 @@ class DashboardController extends AdminCoreController
         $data['lihat_konfigurasi_aplikasis']    = Master_konfigurasi_aplikasi::first();
         $data['lihat_status_tugas']             = Master_status_tugas::get();
         return view('dashboard.dashboard.lihat',$data);
+    }
+
+    public function uploadckeditor(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+
+            $nama_media = date('Ymd').date('His').str_replace(')','',str_replace('(','',str_replace(' ','-',$request->file('upload')->getClientOriginalName())));
+            $path_media = 'media/';
+            Storage::disk('public')->put($path_media.$nama_media, file_get_contents($request->file('upload')));
+            $url = asset('storage/media/' . $nama_media);
+            return response()->json(['fileName' => $nama_media, 'uploaded'=> 1, 'url' => $url]);
+        }
     }
 
 }

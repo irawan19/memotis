@@ -72,7 +72,7 @@
 	<script type="text/javascript" src="{{{ URL::asset('template/back/vendors/daterangepicker/daterangepicker.js')}}}"></script>
 	<script type="text/javascript" src="{{ URL::asset('template/back/vendors/datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('template/back/vendors/select2/dist/js/select2.full.min.js') }}"></script>
-	<script type="text/javascript" src="{{ URL::asset('template/back/vendors/templateEditor/ckeditor/ckeditor.js') }} "></script>
+	<script type="text/javascript" src="{{ URL::asset('template/back/vendors/ckeditor/ckeditor.js') }} "></script>
 	<script type="text/javascript" src="{{ URL::asset('template/back/vendors/datatables.net/js/jquery.dataTables.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('template/back/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{URL::asset('template/back/js/tooltips.js')}}"></script>
@@ -316,42 +316,15 @@
 	            });
 
 	        //CKeditor
-	            for (no = 1; no <= 10; no++) {
-	                if ($('#editor' + no).attr('class') != undefined) {
-	                    CKEDITOR.replace('editor' + no,
-	                        {
-	                            extraPlugins: 'divarea',
-	                            on: {
-	                                instanceReady: function () {
-	                                    this.editable().setStyle('background-color', '#ffffff');
-	                                }
-	                            },
-	                            filebrowserBrowseUrl: '{{ URL("/") }}/template/back/vendors/templateEditor/kcfinder/browse.php?opener=ckeditor&type=files',
-	                            filebrowserImageBrowseUrl: '{{ URL("/") }}/template/back/vendors/templateEditor/kcfinder/browse.php?opener=ckeditor&type=images',
-	                            filebrowserFlashBrowseUrl: '{{ URL("/") }}/template/back/vendors/templateEditor/kcfinder/browse.php?opener=ckeditor&type=flash',
-
-	                            filebrowserUploadUrl: '{{ URL("/") }}/template/back/vendors/templateEditor/kcfinder/upload.php?opener=ckeditor&type=files',
-	                            filebrowserImageUploadUrl: '{{ URL("/") }}/template/back/vendors/templateEditor/kcfinder/upload.php?opener=ckeditor&type=images',
-	                            filebrowserFlashUploadUrl: '{{ URL("/") }}/template/back/vendors/templateEditor/kcfinder/upload.php?opener=ckeditor&type=flash',
-	                            font_names: 'Arial/Arial, Helvetica, sans-serif;' +
-	                                'Comic Sans MS/Comic Sans MS, cursive;' +
-	                                'Courier New/Courier New, Courier, monospace;' +
-	                                'Georgia/Georgia, serif;' +
-	                                'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
-	                                'Tahoma/Tahoma, Geneva, sans-serif;' +
-	                                'Times New Roman/Times New Roman, Times, serif;' +
-	                                'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
-	                                'Verdana/Verdana, Geneva, sans-serif',
-	                        });
-	                }
-	                CKEDITOR.on('dialogDefinition', function (ev) {
-	                    var dialogName = ev.data.name,
-	                        dialogDefinition = ev.data.definition;
-	                    if (dialogName === 'image') {
-	                        dialogDefinition.removeContents('Upload');
-	                    }
-	                });
-	            }
+				ClassicEditor
+				.create( document.querySelector( '#editor1' ),{
+                ckfinder: {
+                    uploadUrl: '{{route('image.upload').'?_token='.csrf_token()}}',
+				}
+        		})
+				.catch( error => {
+					// console.error( error );
+				} );
 
 	        //Fitur Sub Menu
 	        @if (Request:: segment(3) == 'tambah_submenu' || Request:: segment(3) == 'edit_submenu')
