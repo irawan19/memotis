@@ -101,17 +101,17 @@
             {!! $lihat_moms->deskripsi_moms !!}	
         </div>
         <div class="col-sm-12">
-			<table class="table table-responsive-sm table-bordered table-striped table-sm">
-				<thead>
-					<tr>
-						<th>Nama</th>
-						<th>Tugas</th>
-						<th>Status</th>
-						<th>Catatan</th>
-					</tr>
-				</thead>
-				<tbody>
-					@if(!$lihat_pesertas->isEmpty())
+            @if(!$lihat_pesertas->isEmpty())
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Tugas</th>
+                            <th>Status</th>
+                            <th>Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 						@foreach($lihat_pesertas as $pesertas)
 							@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->name)
 							@if(!empty($pesertas->id_divisis))
@@ -124,9 +124,9 @@
 								<td>{!! nl2br($pesertas->catatan_mom_users) !!}</td>
 							</tr>
 						@endforeach
-					@endif
-				</tbody>
-			</table>
+                    </tbody>
+                </table>
+		    @endif
 		</div>
     </div>
 </div>
