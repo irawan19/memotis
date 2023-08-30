@@ -27,13 +27,21 @@
     .right-align{
         text-align:right;
     }
+	.statuscss{
+		float:right;
+	}
 </style>
 <div class="card-body">
 	<div class="row">
-		<div class="col-sm-12 right-align">
-			<button class="btn-close" type="button" data-coreui-dismiss="modal" aria-label="Close" style="all:unset; cursor:pointer;">
-				<i class="icon icon-2xl mt-5 mb-2 cil-x"></i>
-			</button>
+		<div class="col-sm-12" style="margin-bottom:10px">
+			@if($lihat_surats->status_selesai_surats == 0)
+				@php($status_selesai_surats = 'Belum Selesai')
+			@else
+				@php($status_selesai_surats = 'Selesai')
+			@endif
+			<div class="titleeventcard statuscss">
+				{{$status_selesai_surats}}
+			</div>
 		</div>
 		<div class="col-sm-6">
 			<p class="judulsurat">{{$lihat_surats->judul_surats}}</p>
