@@ -122,8 +122,11 @@
 										<table class="table table-responsive-sm table-bordered table-striped table-sm">
 											<thead>
 												<tr>
-													<th>Nama</th>
+													<th>Proyek</th>
 													<th>Tugas</th>
+													<th>Ditugaskan</th>
+													<th>Tenggat Waktu</th>
+													<th>Dikirimkan</th>
 													<th>Status</th>
 													<th>Catatan</th>
 												</tr>
@@ -135,8 +138,15 @@
 														@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->nama_divisis.' - '.$pesertas->name)
 													@endif
 													<tr>
-														<td>{{$nama}}</td>
+														<td>{!! nl2br($pesertas->proyek_mom_users) !!}</td>
 														<td>{!! nl2br($pesertas->tugas_mom_users) !!}</td>
+														<td>{{$nama}}</td>
+														<td>
+															@if($pesertas->tenggat_waktu_mom_users != null)
+																{{General::ubahDBKeTanggal($pesertas->tenggat_waktu_mom_users)}}
+															@endif
+														</td>
+														<td>{{$pesertas->dikirimkan_mom_users}}</td>
 														<td>{{$pesertas->nama_status_tugas}}</td>
 														<td>{!! nl2br($pesertas->catatan_mom_users) !!}</td>
 													</tr>

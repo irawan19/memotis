@@ -28,10 +28,25 @@
 								{{General::pesanErrorForm($errors->first('status_tugas_id'))}}
 							</div>
 							<div class="form-group">
+								<label class="form-col-form-label" for="proyek_mom_users">Proyek <b style="color:red">*</b></label>
+								<textarea class="form-control {{ General::validForm($errors->first('proyek_mom_users')) }}" id="proyek_mom_users" name="proyek_mom_users" rows="5">{{Request::old('proyek_mom_users')}}</textarea>
+								{{General::pesanErrorForm($errors->first('proyek_mom_users'))}}
+							</div>
+							<div class="form-group">
 								<label class="form-col-form-label" for="tugas_mom_users">Tugas <b style="color:red">*</b></label>
 								<textarea class="form-control {{ General::validForm($errors->first('tugas_mom_users')) }}" id="tugas_mom_users" name="tugas_mom_users" rows="5">{{Request::old('tugas_mom_users')}}</textarea>
 								{{General::pesanErrorForm($errors->first('tugas_mom_users'))}}
 							</div>
+							<div class="form-group">
+                                <label class="form-col-form-label" for="tenggat_waktu_mom_users">Tenggat Waktu</label>
+                                <input class="form-control getDate {{ General::validForm($errors->first('tenggat_waktu_mom_users')) }}" id="tenggat_waktu_mom_users" type="text" name="tenggat_waktu_mom_users" value="{{Request::old('tenggat_waktu_mom_users')}}">
+                                {{General::pesanErrorForm($errors->first('tenggat_waktu_mom_users'))}}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dikirimkan_mom_users">Dikirimkan</label>
+                                <input class="form-control {{ General::validForm($errors->first('dikirimkan_mom_users')) }}" id="dikirimkan_mom_users" type="text" name="dikirimkan_mom_users" value="{{Request::old('dikirimkan_mom_users')}}">
+                                {{General::pesanErrorForm($errors->first('dikirimkan_mom_users'))}}
+                            </div>
 							<div class="form-group">
 								<label class="form-col-form-label" for="status_tugas_id">Status <b style="color:red">*</b></label>
 								<select class="form-control select2" id="status_tugas_id" name="status_tugas_id">
@@ -70,10 +85,29 @@
 								<input readonly class="form-control {{ General::validForm($errors->first('users_id')) }}" id="users_id" type="text" name="users_id" value="{{$nama}}">
 							</div>
 							<div class="form-group">
+								<label class="form-col-form-label" for="proyek_mom_users">Proyek <b style="color:red">*</b></label>
+								<textarea class="form-control {{ General::validForm($errors->first('proyek_mom_users')) }}" id="proyek_mom_users" name="proyek_mom_users" rows="5">{{Request::old('proyek_mom_users') == '' ? $edit_mom_users->proyek_mom_users : Request::old('proyek_mom_users')}}</textarea>
+								{{General::pesanErrorForm($errors->first('proyek_mom_users'))}}
+							</div>
+							<div class="form-group">
 								<label class="form-col-form-label" for="tugas_mom_users">Tugas <b style="color:red">*</b></label>
 								<textarea class="form-control {{ General::validForm($errors->first('tugas_mom_users')) }}" id="tugas_mom_users" name="tugas_mom_users" rows="5">{{Request::old('tugas_mom_users') == '' ? $edit_mom_users->tugas_mom_users : Request::old('tugas_mom_users')}}</textarea>
 								{{General::pesanErrorForm($errors->first('tugas_mom_users'))}}
 							</div>
+							<div class="form-group">
+                                <label class="form-col-form-label" for="tenggat_waktu_mom_users">Tenggat Waktu</label>
+								@php($tenggat_waktu_mom_users = '')
+								@if($edit_mom_users->tenggat_waktu_mom_users != null)
+									@php($tenggat_waktu_mom_users = General::ubahDBKeTanggal($edit_mom_users->tenggat_waktu_mom_users))
+								@endif
+                                <input class="form-control getDate {{ General::validForm($errors->first('tenggat_waktu_mom_users')) }}" id="tenggat_waktu_mom_users" type="text" name="tenggat_waktu_mom_users" value="{{Request::old('tenggat_waktu_mom_users') == '' ? $tenggat_waktu_mom_users : Request::old('tenggat_waktu_mom_users')}}">
+                                {{General::pesanErrorForm($errors->first('tenggat_waktu_mom_users'))}}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dikirimkan_mom_users">Dikirimkan</label>
+                                <input class="form-control {{ General::validForm($errors->first('dikirimkan_mom_users')) }}" id="dikirimkan_mom_users" type="text" name="dikirimkan_mom_users" value="{{Request::old('dikirimkan_mom_users') == '' ? $edit_mom_users->dikirimkan_mom_users : Request::old('dikirimkan_mom_users')}}">
+                                {{General::pesanErrorForm($errors->first('dikirimkan_mom_users'))}}
+                            </div>
 							<div class="form-group">
 								<label class="form-col-form-label" for="status_tugas_id">Status <b style="color:red">*</b></label>
 								<select class="form-control select2" id="status_tugas_id" name="status_tugas_id">
@@ -120,8 +154,11 @@
 				    		<thead>
 				    			<tr>
 				    				<th class="nowrap" width="5px">No</th>
-				    				<th class="nowrap">Nama</th>
+				    				<th class="nowrap">Proyek</th>
 				    				<th class="nowrap">Tugas</th>
+				    				<th class="nowrap">Ditugaskan</th>
+				    				<th class="nowrap">Tenggat Waktu</th>
+				    				<th class="nowrap">Dikirimkan</th>
 				    				<th class="nowrap">Status</th>
 				    				<th class="nowrap">Catatan</th>
 				    				<th class="nowrap"></th>
@@ -137,8 +174,15 @@
 												@php($nama = $mom_users->nama_level_sistems.' - '.$mom_users->nama_divisis.' - '.$mom_users->name)
 											@endif
 								    		<td class="nowrap">{{$no}}</td>
-								    		<td class="nowrap">{{$nama}}</td>
+								    		<td class="nowrap">{!! nl2br($mom_users->proyek_mom_users) !!}</td>
 								    		<td class="nowrap">{!! nl2br($mom_users->tugas_mom_users) !!}</td>
+								    		<td class="nowrap">{{$nama}}</td>
+								    		<td class="nowrap">
+												@if($mom_users->tenggat_waktu_mom_users != null)
+													{{General::ubahDBKeTanggal($mom_users->tenggat_waktu_mom_users)}}
+												@endif
+											</td>
+								    		<td class="nowrap">{{$mom_users->dikirimkan_mom_users}}</td>
 								    		<td class="nowrap">{{$mom_users->nama_status_tugas}}</td>
 								    		<td class="nowrap">{!! nl2br($mom_users->catatan_mom_users) !!}</td>
                                             <td>

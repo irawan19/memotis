@@ -161,7 +161,6 @@
 						<th>Status</th>
 						<th>Keterangan</th>
 					</tr>
-					@php($no = 1)
 					@foreach($ambil_disposisi_surats as $disposisi_surats)
 						@php($nama = $disposisi_surats->nama_level_sistems.' - '.$disposisi_surats->name)
 						@if(!empty($disposisi_surats->id_divisis))

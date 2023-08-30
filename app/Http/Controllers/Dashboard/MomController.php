@@ -160,6 +160,9 @@ class MomController extends AdminCoreController
                         'moms_id'               => $id_moms,
                         'users_id'              => $mom_users->users_id,
                         'status_tugas_id'       => $mom_users->status_tugas_id,
+                        'proyek_mom_users'      => $mom_users->proyek_mom_users,
+                        'tenggat_waktu_mom_users'=> $mom_users->tenggat_waktu_mom_users,
+                        'dikirimkan_mom_users'  => $mom_users->dikirimkan_mom_users,
                         'tugas_mom_users'       => $mom_users->tugas_mom_users,
                         'catatan_mom_users'     => $mom_users->catatan_mom_users,
                         'status_baca_mom_users' => 0,
@@ -214,16 +217,28 @@ class MomController extends AdminCoreController
             {
                 $aturan = [
                     'users_id'              => 'required',
+                    'proyek_mom_users'      => 'required',
                     'tugas_mom_users'       => 'required',
                     'status_tugas_id'       => 'required',
                     'catatan_mom_users'     => 'required',
                     
                 ];
                 $this->validate($request, $aturan);
+
+                $tenggat_waktu_mom_users = null;
+                if(!empty($request->tenggat_waktu_mom_users))
+                    $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
+
+                $dikirimkan_mom_users = '';
+                if(!empty($request->dikirimkan_mom_users))
+                    $dikirimkan_mom_users = $request->dikirimkan_mom_users;
     
                 $data = [
                     'moms_id'               => $id_moms,
                     'users_id'              => $request->users_id,
+                    'proyek_mom_users'      => $request->proyek_mom_users,
+                    'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
+                    'dikirimkan_mom_users'  => $dikirimkan_mom_users,
                     'tugas_mom_users'       => $request->tugas_mom_users,
                     'status_tugas_id'       => $request->status_tugas_id,
                     'catatan_mom_users'     => $request->catatan_mom_users,
@@ -284,17 +299,30 @@ class MomController extends AdminCoreController
             {
                 $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
                 $aturan = [
-                    'status_tugas_id'   => 'required',
-                    'tugas_mom_users'   => 'required',
-                    'catatan_mom_users' => 'required',
+                    'proyek_mom_users'      => 'required',
+                    'tugas_mom_users'       => 'required',
+                    'status_tugas_id'       => 'required',
+                    'catatan_mom_users'     => 'required',
+                    
                 ];
                 $this->validate($request, $aturan);
 
+                $tenggat_waktu_mom_users = null;
+                if(!empty($request->tenggat_waktu_mom_users))
+                    $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
+
+                $dikirimkan_mom_users = '';
+                if(!empty($request->dikirimkan_mom_users))
+                    $dikirimkan_mom_users = $request->dikirimkan_mom_users;
+    
                 $data = [
-                    'tugas_mom_users'   => $request->tugas_mom_users,
-		        	'status_tugas_id'	=> $request->status_tugas_id,
-                    'catatan_mom_users' => $request->catatan_mom_users,
-                    'updated_at'        => date('Y-m-d H:i:s')
+                    'proyek_mom_users'      => $request->proyek_mom_users,
+                    'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
+                    'dikirimkan_mom_users'  => $dikirimkan_mom_users,
+                    'tugas_mom_users'       => $request->tugas_mom_users,
+                    'status_tugas_id'       => $request->status_tugas_id,
+                    'catatan_mom_users'     => $request->catatan_mom_users,
+                    'updated_at'            => date('Y-m-d H:i:s'),
                 ];
                 Mom_user::where('id_mom_users', $id_mom_users)
                         ->update($data);

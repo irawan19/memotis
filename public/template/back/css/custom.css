@@ -267,6 +267,7 @@ not all {
     border-radius: 16px;
     width: 126px;
     background-color: #EBF6FF;
+    text-align: center;
     color: green;
 }
 
@@ -280,5 +281,6 @@ not all {
     border-radius: 16px;
     width: 126px;
     background-color: #ffebeb;
+    text-align: center;
     color: red;
 }
