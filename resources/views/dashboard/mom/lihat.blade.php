@@ -160,7 +160,7 @@
 											<div class="col-sm-12">
 												<h4>Deskripsi</h4>
 												<br/>
-												{!! $moms->deskripsi_moms !!}	
+												<div id="ckeditor5konten">{!! $moms->deskripsi_moms !!}</div>
 											</div>
 											@php($lihat_tugas = \App\Models\Mom_user::join('users','users_id','=','users.id')
 																							->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')

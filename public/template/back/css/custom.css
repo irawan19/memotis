@@ -288,3 +288,7 @@ not all {
 .btn{
     margin-top:10px;
 }
+
+#ckeditor5konten img{
+    width: 100% !important;
+}
