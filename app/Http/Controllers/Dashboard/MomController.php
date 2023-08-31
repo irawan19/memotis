@@ -192,6 +192,7 @@ class MomController extends AdminCoreController
                                                                 ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                 ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                                                 ->where('moms_id',$id_moms)
+                                                                ->orderBy('proyek_mom_users','asc')
                                                                 ->get();
                 $data['tambah_status_tugas']        = Master_status_tugas::get();
                 $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')

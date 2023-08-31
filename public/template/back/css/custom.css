@@ -284,3 +284,7 @@ not all {
     text-align: center;
     color: red;
 }
+
+.btn{
+    margin-top:10px;
+}

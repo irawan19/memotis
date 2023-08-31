@@ -117,7 +117,15 @@
 									<br/>
 									{!! $event_moms->deskripsi_moms !!}	
 								</div>
-								@if(!$lihat_pesertas->isEmpty())
+								@php($lihat_tugas = \App\Models\Mom_user::join('users','users_id','=','users.id')
+																				->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+																				->leftJoin('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+																				->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+																				->where('moms_id',$event_moms->id_moms)
+																				->orderBy('proyek_mom_users')
+																				->orderBy('users.name')
+																				->get())
+								@if(!$lihat_tugas->isEmpty())
 									<div class="col-sm-12">
 										<table class="table table-responsive-sm table-bordered table-striped table-sm">
 											<thead>
@@ -132,23 +140,23 @@
 												</tr>
 											</thead>
 											<tbody>
-												@foreach($lihat_pesertas as $pesertas)
-													@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->name)
-													@if(!empty($pesertas->id_divisis))
-														@php($nama = $pesertas->nama_level_sistems.' - '.$pesertas->nama_divisis.' - '.$pesertas->name)
+												@foreach($lihat_tugas as $tugas)
+													@php($nama = $tugas->nama_level_sistems.' - '.$tugas->name)
+													@if(!empty($tugas->id_divisis))
+														@php($nama = $tugas->nama_level_sistems.' - '.$tugas->nama_divisis.' - '.$tugas->name)
 													@endif
 													<tr>
-														<td>{!! nl2br($pesertas->proyek_mom_users) !!}</td>
-														<td>{!! nl2br($pesertas->tugas_mom_users) !!}</td>
+														<td>{!! nl2br($tugas->proyek_mom_users) !!}</td>
+														<td>{!! nl2br($tugas->tugas_mom_users) !!}</td>
 														<td>{{$nama}}</td>
 														<td>
-															@if($pesertas->tenggat_waktu_mom_users != null)
-																{{General::ubahDBKeTanggal($pesertas->tenggat_waktu_mom_users)}}
+															@if($tugas->tenggat_waktu_mom_users != null)
+																{{General::ubahDBKeTanggal($tugas->tenggat_waktu_mom_users)}}
 															@endif
 														</td>
-														<td>{{$pesertas->dikirimkan_mom_users}}</td>
-														<td>{{$pesertas->nama_status_tugas}}</td>
-														<td>{!! nl2br($pesertas->catatan_mom_users) !!}</td>
+														<td>{{$tugas->dikirimkan_mom_users}}</td>
+														<td>{{$tugas->nama_status_tugas}}</td>
+														<td>{!! nl2br($tugas->catatan_mom_users) !!}</td>
 													</tr>
 												@endforeach
 											</tbody>

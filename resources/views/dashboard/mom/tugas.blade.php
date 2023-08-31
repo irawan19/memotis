@@ -185,7 +185,7 @@
 								    		<td class="nowrap">{{$mom_users->dikirimkan_mom_users}}</td>
 								    		<td class="nowrap">{{$mom_users->nama_status_tugas}}</td>
 								    		<td class="nowrap">{!! nl2br($mom_users->catatan_mom_users) !!}</td>
-                                            <td>
+                                            <td class="nowrap">
 												{{General::editButtonTanpaAkses('dashboard/mom/edittugas/'.$mom_users->id_mom_users)}}
                                                 {{General::hapusButtonTanpaAkses('dashboard/mom/proseshapustugas/'.$mom_users->id_mom_users, 'Tugas no '.$no)}}
                                             </td>
