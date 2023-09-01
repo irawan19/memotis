@@ -681,7 +681,7 @@ class SuratController extends AdminCoreController
                 }
 
                 $cek_selesai = Surat_user::where('surats_id',$id_surats)
-                                        ->where('status_selesai_surats',0)
+                                        ->where('status_selesai_surat_users',0)
                                         ->count();
                 if($cek_selesai == 0)
                 {
