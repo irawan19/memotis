@@ -94,7 +94,9 @@
 							{
 								if(data.pesan == 'sukses')
 								{
-									// CKEDITOR.instances.editor1.setData(data.data.deskripsi_moms);
+									const domEditableElement = document.querySelector( '.ck-editor__editable' );
+									const editorInstance = domEditableElement.ckeditorInstance;
+									editorInstance.setData(data.data.deskripsi_moms);
 								}
 							},
 							error: function(data) {
