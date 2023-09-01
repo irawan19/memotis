@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('file_surat_selesais');
             $table->string('nama_file_surat_selesais');
             $table->string('ukuran_file_surat_selesais');
-            $table->string('type_file_surat_selesais');
+            $table->string('tipe_file_surat_selesais');
             $table->longtext('keterangan_surat_selesais');
             $table->timestamps();
         });

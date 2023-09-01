@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('file_surat_lampirans');
             $table->string('nama_file_surat_lampirans');
             $table->string('ukuran_file_surat_lampirans');
-            $table->string('type_file_surat_lampirans');
+            $table->string('tipe_file_surat_lampirans');
             $table->timestamps();
         });
     }
