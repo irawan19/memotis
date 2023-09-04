@@ -76,21 +76,62 @@ class EventCalendarController extends AdminCoreController
         $tanggal_selesai = date("Y-m-d", strtotime($tanggal_mulai.' + 6 day'));
         if(General::hakAkses('mom','tambah') == 'true')
         {
-            $lihat_moms = Mom::selectRaw('*,
-                                moms.created_at as tanggal_moms')
-                                ->whereRaw('tanggal_mulai_moms >= "'.$tanggal_mulai.'"')
-                                ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
-                                ->orderBy('tanggal_mulai_moms','asc')
-                                ->get();
+            $lihat_moms = Mom::selectRaw('id_moms,
+                                                moms.moms_id as sub_moms_id,
+                                                moms.users_id as created_users,
+                                                kategori_moms,
+                                                no_moms,
+                                                judul_moms,
+                                                tanggal_mulai_moms,
+                                                tanggal_selesai_moms,
+                                                venue_moms,
+                                                deskripsi_moms,
+                                                moms.created_at as tanggal_moms,
+                                                mom_users.moms_id as moms_id,
+                                                mom_users.users_id as users_id,
+                                                status_tugas_id,
+                                                proyek_mom_users,
+                                                tenggat_waktu_mom_users,
+                                                dikirimkan_mom_users,
+                                                tugas_mom_users,
+                                                catatan_mom_users,
+                                                status_baca_mom_users
+                                                ')
+                                        ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
+                                        ->whereRaw('tanggal_mulai_moms >= "'.$tanggal_mulai.'"')
+                                        ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
+                                        ->groupBy('id_moms')
+                                        ->orderBy('tanggal_mulai_moms','asc')
+                                        ->get();
         }
         else
         {
-            $lihat_moms = Mom::selectRaw('*,
-                                moms.created_at as tanggal_moms')
+            $lihat_moms = Mom::selectRaw('id_moms,
+                                        moms.moms_id as sub_moms_id,
+                                        moms.users_id as created_users,
+                                        kategori_moms,
+                                        no_moms,
+                                        judul_moms,
+                                        tanggal_mulai_moms,
+                                        tanggal_selesai_moms,
+                                        venue_moms,
+                                        deskripsi_moms,
+                                        moms.created_at as tanggal_moms,
+                                        mom_users.moms_id as moms_id,
+                                        mom_users.users_id as users_id,
+                                        status_tugas_id,
+                                        proyek_mom_users,
+                                        tenggat_waktu_mom_users,
+                                        dikirimkan_mom_users,
+                                        tugas_mom_users,
+                                        catatan_mom_users,
+                                        status_baca_mom_users
+                                        ')
                                 ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                 ->whereRaw('tanggal_mulai_moms >= "'.$tanggal_mulai.'"')
                                 ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
                                 ->where('mom_users.users_id',Auth::user()->id)
+                                ->groupBy('id_moms')
                                 ->orderBy('tanggal_mulai_moms','asc')
                                 ->get();
         }
