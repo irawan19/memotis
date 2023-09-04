@@ -23,17 +23,57 @@ class MomController extends AdminCoreController
             $url_sekarang                   = $request->fullUrl();
             if(General::hakAkses($link_mom,'tambah') == 'true')
             {
-                $data['lihat_moms']    	        = Mom::selectRaw('*,
-                                                                moms.created_at as tanggal_moms')
+                $data['lihat_moms']    	        = Mom::selectRaw('id_moms,
+                                                                moms.moms_id as sub_moms_id,
+                                                                moms.users_id as created_users,
+                                                                kategori_moms,
+                                                                no_moms,
+                                                                judul_moms,
+                                                                tanggal_mulai_moms,
+                                                                tanggal_selesai_moms,
+                                                                venue_moms,
+                                                                deskripsi_moms,
+                                                                moms.created_at as tanggal_moms,
+                                                                mom_users.moms_id as moms_id,
+                                                                mom_users.users_id as users_id,
+                                                                status_tugas_id,
+                                                                proyek_mom_users,
+                                                                tenggat_waktu_mom_users,
+                                                                dikirimkan_mom_users,
+                                                                tugas_mom_users,
+                                                                catatan_mom_users,
+                                                                status_baca_mom_users
+                                                                ')
                                                         ->orderBy('moms.tanggal_mulai_moms','desc')
+                                                        ->groupBy('id_moms')
                                                         ->paginate(10);
             }
             else
             {
-                $data['lihat_moms']    	        = Mom::selectRaw('*,
-                                                                moms.created_at as tanggal_moms')
+                $data['lihat_moms']    	        = Mom::selectRaw('id_moms,
+                                                                moms.moms_id as sub_moms_id,
+                                                                moms.users_id as created_users,
+                                                                kategori_moms,
+                                                                no_moms,
+                                                                judul_moms,
+                                                                tanggal_mulai_moms,
+                                                                tanggal_selesai_moms,
+                                                                venue_moms,
+                                                                deskripsi_moms,
+                                                                moms.created_at as tanggal_moms,
+                                                                mom_users.moms_id as moms_id,
+                                                                mom_users.users_id as users_id,
+                                                                status_tugas_id,
+                                                                proyek_mom_users,
+                                                                tenggat_waktu_mom_users,
+                                                                dikirimkan_mom_users,
+                                                                tugas_mom_users,
+                                                                catatan_mom_users,
+                                                                status_baca_mom_users
+                                                                ')
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->groupBy('moms.id_moms')
                                                         ->orderBy('moms.tanggal_mulai_moms','desc')
                                                         ->paginate(10);
             }
@@ -57,21 +97,61 @@ class MomController extends AdminCoreController
             $data['hasil_kata']         = $hasil_kata;
             if(General::hakAkses($link_mom,'tambah') == 'true')
             {
-                $data['lihat_moms']         = Mom::selectRaw('*,
-                                                    moms.created_at as tanggal_moms')
+                $data['lihat_moms']         = Mom::selectRaw('id_moms,
+                                                                    moms.moms_id as sub_moms_id,
+                                                                    moms.users_id as created_users,
+                                                                    kategori_moms,
+                                                                    no_moms,
+                                                                    judul_moms,
+                                                                    tanggal_mulai_moms,
+                                                                    tanggal_selesai_moms,
+                                                                    venue_moms,
+                                                                    deskripsi_moms,
+                                                                    moms.created_at as tanggal_moms,
+                                                                    mom_users.moms_id as moms_id,
+                                                                    mom_users.users_id as users_id,
+                                                                    status_tugas_id,
+                                                                    proyek_mom_users,
+                                                                    tenggat_waktu_mom_users,
+                                                                    dikirimkan_mom_users,
+                                                                    tugas_mom_users,
+                                                                    catatan_mom_users,
+                                                                    status_baca_mom_users
+                                                                    ')
                                                     ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
+                                                    ->groupBy('id_moms')
                                                     ->orderBy('moms.tanggal_mulai_moms','desc')
                                                     ->paginate(10);
             }
             else
             {
-                $data['lihat_moms']    	        = Mom::selectRaw('*,
-                                                                moms.created_at as tanggal_moms')
+                $data['lihat_moms']    	        = Mom::selectRaw('id_moms,
+                                                                    moms.moms_id as sub_moms_id,
+                                                                    moms.users_id as created_users,
+                                                                    kategori_moms,
+                                                                    no_moms,
+                                                                    judul_moms,
+                                                                    tanggal_mulai_moms,
+                                                                    tanggal_selesai_moms,
+                                                                    venue_moms,
+                                                                    deskripsi_moms,
+                                                                    moms.created_at as tanggal_moms,
+                                                                    mom_users.moms_id as moms_id,
+                                                                    mom_users.users_id as users_id,
+                                                                    status_tugas_id,
+                                                                    proyek_mom_users,
+                                                                    tenggat_waktu_mom_users,
+                                                                    dikirimkan_mom_users,
+                                                                    tugas_mom_users,
+                                                                    catatan_mom_users,
+                                                                    status_baca_mom_users
+                                                                    ')
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
                                                         ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->groupBy('id_moms')
                                                         ->orderBy('moms.tanggal_mulai_moms','desc')
                                                         ->paginate(10);
             }
