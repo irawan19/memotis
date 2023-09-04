@@ -51,12 +51,18 @@
 								@else
 									<tr>
 										@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
-											<td colspan="4" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="7" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@else
-											<td colspan="3" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="6" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@endif

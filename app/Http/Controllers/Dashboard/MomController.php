@@ -327,7 +327,12 @@ class MomController extends AdminCoreController
                     'catatan_mom_users'     => $request->catatan_mom_users,
                     'created_at'            => date('Y-m-d H:i:s'),
                 ];
-                Mom_user::insert($data);
+                $id_mom_users = Mom_user::insertGetId($data);
+
+                $cek_tugas_sebelumnya = Mom_user::where('users_id',$request->users_id)
+                                                ->where('tugas_mom_users',$request->tugas_mom_users)
+                                                ->where('id_mom_users','!=',$id_mom_users)
+                                                ->get();
                 
                 $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
     
