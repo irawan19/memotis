@@ -44,6 +44,7 @@ class MomController extends AdminCoreController
                                                                 catatan_mom_users,
                                                                 status_baca_mom_users
                                                                 ')
+                                                        ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->orderBy('moms.tanggal_mulai_moms','desc')
                                                         ->groupBy('id_moms')
                                                         ->paginate(10);
@@ -118,6 +119,7 @@ class MomController extends AdminCoreController
                                                                     catatan_mom_users,
                                                                     status_baca_mom_users
                                                                     ')
+                                                    ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                     ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->groupBy('id_moms')
                                                     ->orderBy('moms.tanggal_mulai_moms','desc')
