@@ -679,6 +679,31 @@ class SuratController extends AdminCoreController
                                     ->update($surat_users_data);
                     }
                 }
+                else
+                {
+                    $ambil_surat_users  = Surat_user::where('surats_id',$id_surats)
+                                                    ->where('users_id',Auth::user()->id)
+                                                    ->first();
+                    $id_surat_users     = $ambil_surat_users->id_surat_users;
+                    
+                    $surat_selesais_data = [
+                        'surat_users_id'                => $id_surat_users,
+                        'file_surat_selesais'           => '',
+                        'nama_file_surat_selesais'      => '',
+                        'ukuran_file_surat_selesais'    => '',
+                        'tipe_file_surat_selesais'      => '',
+                        'keterangan_surat_selesais'     => $request->keterangan_surat_selesais,
+                        'created_at'                    => date('Y-m-d H:i:s'),
+                    ];
+                    Surat_selesai::insert($surat_selesais_data);
+
+                    $surat_users_data = [
+                        'status_selesai_surat_users'    => 1,
+                        'updated_at'                => date('Y-m-d H:i:s'),
+                    ];
+                    Surat_user::where('id_surat_users',$id_surat_users)
+                                ->update($surat_users_data);
+                }
 
                 $cek_selesai = Surat_user::where('surats_id',$id_surats)
                                         ->where('status_selesai_surat_users',0)
