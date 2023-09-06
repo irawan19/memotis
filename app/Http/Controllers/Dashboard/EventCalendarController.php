@@ -104,7 +104,7 @@ class EventCalendarController extends AdminCoreController
                                         ->whereRaw('tanggal_mulai_moms >= "'.$tanggal_mulai.'"')
                                         ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
                                         ->groupBy('id_moms')
-                                        ->orderBy('tanggal_mulai_moms','asc')
+                                        ->orderBy('tanggal_mulai_moms','desc')
                                         ->get();
         }
         else
@@ -135,7 +135,7 @@ class EventCalendarController extends AdminCoreController
                                 ->whereRaw('tanggal_selesai_moms <= "'.$tanggal_selesai.'"')
                                 ->where('mom_users.users_id',Auth::user()->id)
                                 ->groupBy('id_moms')
-                                ->orderBy('tanggal_mulai_moms','asc')
+                                ->orderBy('tanggal_mulai_moms','desc')
                                 ->get();
         }
         $data['lihat_event_moms']   = $lihat_moms;
