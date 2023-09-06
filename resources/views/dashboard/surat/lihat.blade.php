@@ -101,7 +101,12 @@
 									@endif
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
 									@if( $surats->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
+										@php($cek_disposisi = \App\Models\Surat_disposisi::join('surat_users','surat_users.id_surat_users','=','surat_disposisis.surat_users_id')
+																				->where('surat_users.surats_id',$surats->id_surats)
+																				->count())
+										@if($cek_disposisi == 0 || $surats->status_selesai_surats == 0)
+											{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
+										@endif
 										{{General::hapusButton($link_surat,'dashboard/surat/hapus/'.$surats->id_surats)}}
 									@endif
 								</div>
