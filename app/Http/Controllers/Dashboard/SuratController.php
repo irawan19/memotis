@@ -467,6 +467,14 @@ class SuratController extends AdminCoreController
             $cek_surats = Surat::where('id_surats',$id_surats)->first();
             if(!empty($cek_surats))
             {
+                $ambil_surat_users = Surat_user::where('surats_id',$id_surats)->get();
+                foreach($ambil_surat_users as $surat_users)
+                {
+                    Surat_selesai::where('surat_users_id',$surat_users->id_surat_users)->delete();
+                    Surat_disposisi::where('surat_users_id',$surat_users->id_surat_users)->delete();
+                }
+                Surat_user::where('surats_id',$id_surats)->delete();
+
                 $ambil_surat_lampirans = Surat_lampiran::where('surats_id',$id_surats)->get();
                 foreach($ambil_surat_lampirans as $surat_lampirans)
                 {
