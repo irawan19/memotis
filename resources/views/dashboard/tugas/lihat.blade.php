@@ -74,7 +74,7 @@
 				</div>
 				<div class="card-footer right-align">
 	                    @php($ambil_kembali = URL('dashboard'))
-						{{General::batal($ambil_kembali)}}
+						{{General::kembali($ambil_kembali)}}
 			        </div>
 			</div>
 		</div>
