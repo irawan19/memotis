@@ -244,7 +244,15 @@
                     let callback = null;
                     let crossOrigin = null;
                     let resizeThumbnail = true;
-                    myDropzone.displayExistingFile(mockFile, "{{URL::asset('storage')}}/"+value.file_surat_lampirans, callback, crossOrigin, resizeThumbnail);
+                    if (value.tipe_file_surat_lampirans === 'png' || value.tipe_file_surat_lampirans === 'jpg' || value.tipe_file_surat_lampirans === 'jpeg' || value.tipe_file_surat_lampirans === 'svg')
+                    {
+                        var thumbnail = "{{URL::asset('storage')}}/"+value.file_surat_lampirans;
+                    }
+                    else
+                    {
+                        var thumbnail = "{{URL::asset('template/back/assets/img/file.png')}}";
+                    }
+                    myDropzone.displayExistingFile(mockFile, thumbnail, callback, crossOrigin, resizeThumbnail);
                     var file = files
                     $('.formdropzone').append('<input type="hidden" name="lampiran[]" value="' + value.nama_file_surat_lampirans + '-/-'+value.ukuran_file_surat_lampirans + '-/-' + value.tipe_file_surat_lampirans +'">')
                     uploadedDocumentMap['file.name'] = value.nama_file_surat_lampirans+'-/-'+value.ukuran_file_surat_lampirans+'-/-'+value.tipe_file_surat_lampirans
