@@ -98,7 +98,7 @@
 																		->where('users_id',Auth::user()->id)
 																		->count())
 						@endif
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<a href="{{URL('dashboard/tugas/'.$status_tugas->id_status_tugas)}}" class="nonstyle">
 								<div class="card" style="height: 106px; background-color: #fff; color: #000;">
 									<div class="card-body pb-0">
