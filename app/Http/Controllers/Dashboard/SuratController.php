@@ -696,6 +696,13 @@ class SuratController extends AdminCoreController
                         'created_at'                    => date('Y-m-d H:i:s'),
                     ];
                     Surat_selesai::insert($surat_selesais_data);
+
+                    $surat_users_data = [
+                        'status_selesai_surat_users'    => 1,
+                        'updated_at'                => date('Y-m-d H:i:s'),
+                    ];
+                    Surat_user::where('id_surat_users',$id_surat_users)
+                                ->update($surat_users_data);
                 }
 
                 $cek_selesai = Surat_user::where('surats_id',$id_surats)
