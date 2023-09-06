@@ -78,7 +78,7 @@
 								<div class="buttoncetakmom">
 									{{General::detailCard($link_mom, $moms->id_moms)}}
 									{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
-									@if($moms->created_users == Auth::user()->id)
+									@if($moms->created_users == Auth::user()->id || $moms->level_sistems_id == 1)
 										{{General::editButton($link_mom,'dashboard/mom/edit/'.$moms->id_moms)}}
 										{{General::editTugasButton($link_mom, 'dashboard/mom/tugas/'.$moms->id_moms)}}
 										{{General::hapusButton($link_mom,'dashboard/mom/hapus/'.$moms->id_moms)}}

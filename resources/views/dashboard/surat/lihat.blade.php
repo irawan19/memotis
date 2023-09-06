@@ -100,7 +100,7 @@
 										@endif
 									@endif
 									{{General::cetak($link_surat,'dashboard/surat/cetak/'.$surats->id_surats)}}
-									@if( $surats->users_id == Auth::user()->id )
+									@if($moms->created_users == Auth::user()->id || $moms->level_sistems_id == 1)
 										{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
 										{{General::hapusButton($link_surat,'dashboard/surat/hapus/'.$surats->id_surats)}}
 									@endif
