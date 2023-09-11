@@ -20,21 +20,38 @@ class TugasController extends AdminCoreController
                                                 ->first();
             if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
             {
-                $data['lihat_tugas']        = Mom_user::join('moms','mom_users.moms_id','=','moms.id_moms')
+                $data['lihat_tugas']        = Mom_user::selectRaw('max(mom_users.moms_id),
+                                                                    no_moms,
+                                                                    proyek_mom_users,
+                                                                    tugas_mom_users,
+                                                                    tenggat_waktu_mom_users,
+                                                                    dikirimkan_mom_users,
+                                                                    catatan_mom_users,
+                                                                    nama_level_sistems,
+                                                                    name,
+                                                                    nama_divisis')
+                                                    ->join('moms','mom_users.moms_id','=','moms.id_moms')
                                                     ->join('users','mom_users.users_id','=','users.id')
                                                     ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                     ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                    ->whereRaw('moms.id_moms IN (SELECT max(id_moms) FROM moms JOIN mom_users ON mom_users.moms_id=moms.id_moms WHERE status_tugas_id = '.$id_status_tugas.' GROUP BY tugas_mom_users)')
                                                     ->where('status_tugas_id',$id_status_tugas)
+                                                    ->groupBy('tugas_mom_users')
                                                     ->orderBy('moms.created_at','desc')
                                                     ->get();
             }
             else
             {
-                $data['lihat_tugas']        = Mom_user::join('moms','mom_users.moms_id','=','moms.id_moms')
-                                                    ->whereRaw('moms.id_moms IN (SELECT max(id_moms) FROM moms JOIN mom_users ON mom_users.moms_id=moms.id_moms WHERE status_tugas_id = '.$id_status_tugas.' AND mom_users.users_id = '.Auth::user()->id.' GROUP BY tugas_mom_users)')
+                $data['lihat_tugas']        = Mom_user::selectRaw('max(mom_users.moms_id),
+                                                                no_moms,
+                                                                proyek_mom_users,
+                                                                tugas_mom_users,
+                                                                tenggat_waktu_mom_users,
+                                                                dikirimkan_mom_users,
+                                                                catatan_mom_users')
+                                                    ->join('moms','mom_users.moms_id','=','moms.id_moms')
                                                     ->where('status_tugas_id',$id_status_tugas)
                                                     ->where('mom_users.users_id',Auth::user()->id)
+                                                    ->groupBy('tugas_mom_users')
                                                     ->orderBy('moms.created_at','desc')
                                                     ->get();
             }

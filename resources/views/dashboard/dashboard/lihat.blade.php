@@ -91,21 +91,24 @@
 						@php($ambil_divisis = \App\Models\Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
 																			->first())
 						@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
-							@php($ambil_mom_users = \App\Models\Mom_user::join('moms','mom_users.moms_id','=','moms.id_moms')
-																		->join('users','mom_users.users_id','=','users.id')
-																		->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-																		->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-																		->whereRaw('moms.id_moms IN (SELECT max(id_moms) FROM moms JOIN mom_users ON mom_users.moms_id=moms.id_moms WHERE status_tugas_id = '.$status_tugas->id_status_tugas.' GROUP BY tugas_mom_users)')
-																		->where('status_tugas_id',$status_tugas->id_status_tugas)
-																		->orderBy('moms.created_at','desc')
-																		->count())
+						@php($ambil_mom_users = DB::select("SELECT COUNT(*) as total
+																FROM (
+																	SELECT MAX(mom_users.moms_id)
+																	FROM mom_users
+																	WHERE status_tugas_id = ".$status_tugas->id_status_tugas."
+																	GROUP BY tugas_mom_users
+																) as total_tugas
+															"))
 						@else
-							@php($ambil_mom_users = \App\Models\Mom_user::join('moms','mom_users.moms_id','=','moms.id_moms')
-																		->whereRaw('moms.id_moms IN (SELECT max(id_moms) FROM moms JOIN mom_users ON mom_users.moms_id=moms.id_moms WHERE status_tugas_id = '.$status_tugas->id_status_tugas.' AND mom_users.users_id = '.Auth::user()->id.' GROUP BY tugas_mom_users)')
-																		->where('status_tugas_id',$status_tugas->id_status_tugas)
-																		->where('mom_users.users_id',Auth::user()->id)
-																		->orderBy('moms.created_at','desc')
-																		->count())
+							@php($ambil_mom_users = DB::select("SELECT COUNT(*) as total
+																FROM (
+																	SELECT MAX(mom_users.moms_id)
+																	FROM mom_users
+																	WHERE status_tugas_id = ".$status_tugas->id_status_tugas."
+																	AND mom_users.users_id= ".Auth::user()->id."
+																	GROUP BY tugas_mom_users
+																) as total_tugas
+															"))
 						@endif
 						<div class="col-sm-4">
 							<a href="{{URL('dashboard/tugas/'.$status_tugas->id_status_tugas)}}" class="nonstyle">
@@ -116,7 +119,7 @@
 												<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-task')}}"></use>
 											</svg>
 										</div>
-					                	<div class="text-value-lg">{{General::konversiNilai($ambil_mom_users)}} <span>{{General::konversiNilaiString($ambil_mom_users)}}</span></div>
+										<div class="text-value-lg">{{General::konversiNilai($ambil_mom_users[0]->total)}} <span>{{General::konversiNilaiString($ambil_mom_users[0]->total)}}</span></div>
 										<div class="textnotifberanda">{{$status_tugas->nama_status_tugas}}</div>
 									</div>
 									<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
@@ -124,7 +127,6 @@
 							</a>
 						</div>
 					@endforeach
-
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-body">

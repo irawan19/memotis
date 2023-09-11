@@ -265,7 +265,6 @@ class LevelSistemController extends AdminCoreController
             {
                 if($id_level_sistems != 1)
                 {
-                    
                     Master_level_sistem::where('id_level_sistems',$id_level_sistems)->delete();
                     return response()->json(["sukses" => "sukses"], 200);
                 }
