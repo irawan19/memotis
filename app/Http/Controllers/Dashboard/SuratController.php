@@ -28,9 +28,7 @@ class SuratController extends AdminCoreController
             $data['link_surat']               = $link_surat;
             $data['hasil_kata']             = '';
             $url_sekarang                   = $request->fullUrl();
-            $ambil_divisis = Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
-                                                ->first();
-            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
+            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
@@ -72,9 +70,7 @@ class SuratController extends AdminCoreController
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
-            $ambil_divisis = Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
-                                                ->first();
-            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
+            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
             {
                 $data['lihat_surats']         = Surat::selectRaw('*,
                                                         surats.created_at as tanggal_surats')
