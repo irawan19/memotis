@@ -312,6 +312,9 @@
 																											->get())
 										@if(!$ambil_master_surat_disposisi->isEmpty())
 											<div class="col-sm-12">
+												<hr/>
+											</div>
+											<div class="col-sm-12">
 												<h4>Keterangan Disposisi</h4>
 												<br/>
 												@foreach($ambil_master_surat_disposisi as $master_surat_disposisi)
