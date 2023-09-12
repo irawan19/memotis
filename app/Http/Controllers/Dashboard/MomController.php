@@ -268,20 +268,25 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
-                $data['lihat_moms']                 = $cek_moms;
-                $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
-                                                                ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    $data['lihat_moms']                 = $cek_moms;
+                    $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+                                                                    ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                    ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                                    ->where('moms_id',$id_moms)
+                                                                    ->orderBy('proyek_mom_users','asc')
+                                                                    ->get();
+                    $data['tambah_status_tugas']        = Master_status_tugas::get();
+                    $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                 ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                ->where('moms_id',$id_moms)
-                                                                ->orderBy('proyek_mom_users','asc')
+                                                                ->where('id','!=',1)
                                                                 ->get();
-                $data['tambah_status_tugas']        = Master_status_tugas::get();
-                $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                            ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                            ->where('id','!=',1)
-                                                            ->get();
-                return view('dashboard.mom.tugas',$data);
+                    return view('dashboard.mom.tugas',$data);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -298,45 +303,50 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->count();
             if($cek_moms != 0)
             {
-                $aturan = [
-                    'users_id'              => 'required',
-                    'proyek_mom_users'      => 'required',
-                    'tugas_mom_users'       => 'required',
-                    'status_tugas_id'       => 'required',
-                    'catatan_mom_users'     => 'required',
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    $aturan = [
+                        'users_id'              => 'required',
+                        'proyek_mom_users'      => 'required',
+                        'tugas_mom_users'       => 'required',
+                        'status_tugas_id'       => 'required',
+                        'catatan_mom_users'     => 'required',
+                        
+                    ];
+                    $this->validate($request, $aturan);
+
+                    $tenggat_waktu_mom_users = null;
+                    if(!empty($request->tenggat_waktu_mom_users))
+                        $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
+
+                    $dikirimkan_mom_users = '';
+                    if(!empty($request->dikirimkan_mom_users))
+                        $dikirimkan_mom_users = $request->dikirimkan_mom_users;
+        
+                    $data = [
+                        'moms_id'               => $id_moms,
+                        'users_id'              => $request->users_id,
+                        'proyek_mom_users'      => $request->proyek_mom_users,
+                        'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
+                        'dikirimkan_mom_users'  => $dikirimkan_mom_users,
+                        'tugas_mom_users'       => $request->tugas_mom_users,
+                        'status_tugas_id'       => $request->status_tugas_id,
+                        'catatan_mom_users'     => $request->catatan_mom_users,
+                        'created_at'            => date('Y-m-d H:i:s'),
+                    ];
+                    $id_mom_users = Mom_user::insertGetId($data);
+
+                    $cek_tugas_sebelumnya = Mom_user::where('users_id',$request->users_id)
+                                                    ->where('tugas_mom_users',$request->tugas_mom_users)
+                                                    ->where('id_mom_users','!=',$id_mom_users)
+                                                    ->get();
                     
-                ];
-                $this->validate($request, $aturan);
-
-                $tenggat_waktu_mom_users = null;
-                if(!empty($request->tenggat_waktu_mom_users))
-                    $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
-
-                $dikirimkan_mom_users = '';
-                if(!empty($request->dikirimkan_mom_users))
-                    $dikirimkan_mom_users = $request->dikirimkan_mom_users;
-    
-                $data = [
-                    'moms_id'               => $id_moms,
-                    'users_id'              => $request->users_id,
-                    'proyek_mom_users'      => $request->proyek_mom_users,
-                    'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
-                    'dikirimkan_mom_users'  => $dikirimkan_mom_users,
-                    'tugas_mom_users'       => $request->tugas_mom_users,
-                    'status_tugas_id'       => $request->status_tugas_id,
-                    'catatan_mom_users'     => $request->catatan_mom_users,
-                    'created_at'            => date('Y-m-d H:i:s'),
-                ];
-                $id_mom_users = Mom_user::insertGetId($data);
-
-                $cek_tugas_sebelumnya = Mom_user::where('users_id',$request->users_id)
-                                                ->where('tugas_mom_users',$request->tugas_mom_users)
-                                                ->where('id_mom_users','!=',$id_mom_users)
-                                                ->get();
-                
-                $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
-    
-                return redirect($redirect_halaman);
+                    $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
+        
+                    return redirect($redirect_halaman);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -353,22 +363,28 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-                $data['lihat_moms']                 = $ambil_moms;
-                $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
-                                                                ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                ->where('moms_id',$ambil_moms->id_moms)
-                                                                ->get();
-                $data['edit_status_tugas']          = Master_status_tugas::get();
-                $data['edit_mom_users']             = Mom_user::join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                ->join('users','mom_users.users_id','=','users.id')
-                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                ->where('id_mom_users',$id_mom_users)
-                                                                ->first();
-                return view('dashboard.mom.tugas',$data);
+                $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+                    $data['lihat_moms']                 = $ambil_moms;
+                    $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+                                                                    ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                    ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                                    ->where('moms_id',$ambil_moms->id_moms)
+                                                                    ->get();
+                    $data['edit_status_tugas']          = Master_status_tugas::get();
+                    $data['edit_mom_users']             = Mom_user::join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                    ->join('users','mom_users.users_id','=','users.id')
+                                                                    ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                                    ->where('id_mom_users',$id_mom_users)
+                                                                    ->first();
+                    return view('dashboard.mom.tugas',$data);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -385,37 +401,43 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-                $aturan = [
-                    'proyek_mom_users'      => 'required',
-                    'tugas_mom_users'       => 'required',
-                    'status_tugas_id'       => 'required',
-                    'catatan_mom_users'     => 'required',
-                    
-                ];
-                $this->validate($request, $aturan);
+                $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+                    $aturan = [
+                        'proyek_mom_users'      => 'required',
+                        'tugas_mom_users'       => 'required',
+                        'status_tugas_id'       => 'required',
+                        'catatan_mom_users'     => 'required',
+                        
+                    ];
+                    $this->validate($request, $aturan);
 
-                $tenggat_waktu_mom_users = null;
-                if(!empty($request->tenggat_waktu_mom_users))
-                    $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
+                    $tenggat_waktu_mom_users = null;
+                    if(!empty($request->tenggat_waktu_mom_users))
+                        $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
 
-                $dikirimkan_mom_users = '';
-                if(!empty($request->dikirimkan_mom_users))
-                    $dikirimkan_mom_users = $request->dikirimkan_mom_users;
-    
-                $data = [
-                    'proyek_mom_users'      => $request->proyek_mom_users,
-                    'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
-                    'dikirimkan_mom_users'  => $dikirimkan_mom_users,
-                    'tugas_mom_users'       => $request->tugas_mom_users,
-                    'status_tugas_id'       => $request->status_tugas_id,
-                    'catatan_mom_users'     => $request->catatan_mom_users,
-                    'updated_at'            => date('Y-m-d H:i:s'),
-                ];
-                Mom_user::where('id_mom_users', $id_mom_users)
-                        ->update($data);
+                    $dikirimkan_mom_users = '';
+                    if(!empty($request->dikirimkan_mom_users))
+                        $dikirimkan_mom_users = $request->dikirimkan_mom_users;
+        
+                    $data = [
+                        'proyek_mom_users'      => $request->proyek_mom_users,
+                        'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
+                        'dikirimkan_mom_users'  => $dikirimkan_mom_users,
+                        'tugas_mom_users'       => $request->tugas_mom_users,
+                        'status_tugas_id'       => $request->status_tugas_id,
+                        'catatan_mom_users'     => $request->catatan_mom_users,
+                        'updated_at'            => date('Y-m-d H:i:s'),
+                    ];
+                    Mom_user::where('id_mom_users', $id_mom_users)
+                            ->update($data);
 
-                return redirect('dashboard/mom/tugas/'.$ambil_moms->id_moms);
+                    return redirect('dashboard/mom/tugas/'.$ambil_moms->id_moms);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -432,9 +454,15 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                Mom_user::where('id_mom_users',$id_mom_users)
-                                ->delete();
-                return response()->json(["sukses" => "sukses"], 200);
+                $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    Mom_user::where('id_mom_users',$id_mom_users)
+                                    ->delete();
+                    return response()->json(["sukses" => "sukses"], 200);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -448,14 +476,19 @@ class MomController extends AdminCoreController
         $link_mom = 'mom';
         if(General::hakAkses($link_mom,'edit') == 'true')
         {
-            $cek_moms = Mom::where('id_moms',$id_moms)->count();
-            if($cek_moms != 0)
+            $cek_moms = Mom::where('id_moms',$id_moms)->first();
+            if(!empty($cek_moms))
             {
-                $data['edit_sub_moms']              = Mom::orderBy('no_moms')->where('id_moms','!=',$id_moms)->get();
-                $data['edit_status_tugas']          = Master_status_tugas::get();
-                $data['edit_moms']                  = Mom::where('id_moms',$id_moms)
-                                                        ->first();
-                return view('dashboard.mom.edit',$data);
+                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    $data['edit_sub_moms']              = Mom::orderBy('no_moms')->where('id_moms','!=',$id_moms)->get();
+                    $data['edit_status_tugas']          = Master_status_tugas::get();
+                    $data['edit_moms']                  = Mom::where('id_moms',$id_moms)
+                                                            ->first();
+                    return view('dashboard.mom.edit',$data);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -472,61 +505,66 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
-                $aturan = [
-                    'judul_moms'                => 'required',
-                    'tanggal_moms'              => 'required',
-                    'venue_moms'                => 'required',
-                    'deskripsi_moms'            => 'required',
-                ];
-                $this->validate($request, $aturan);
-    
-                $tanggal_moms           = $request->tanggal_moms;
-                $pecah_tanggal_moms     = explode(' sampai ',$tanggal_moms);
-                $tanggal_mulai_moms     = $pecah_tanggal_moms[0];
-                $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
-
-                $moms_id = null;
-                if(!empty($request->sub_moms_id))
-                    $moms_id = $request->sub_moms_id;
-    
-                $kategori_moms = 'Internal';
-                if(!empty($request->nama_user_externals))
-                    $kategori_moms = 'External';
-    
-                $data = [
-                    'moms_id'                   => $moms_id,
-                    'kategori_moms'             => $kategori_moms,
-                    'users_id'                  => Auth::user()->id,
-                    'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
-                    'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
-                    'venue_moms'                => $request->venue_moms,
-                    'judul_moms'                => $request->judul_moms,
-                    'deskripsi_moms'            => $request->deskripsi_moms,
-                    'updated_at'                => date('Y-m-d H:i:s'),
-                ];
-                Mom::where('id_moms', $id_moms)
-                    ->update($data);
-
-                Mom_user_external::where('moms_id',$id_moms)->delete();
-                if(!empty($request->nama_user_externals))
+                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
-                    foreach($request->nama_user_externals as $nama_user_externals)
-                    {
-                        $mom_user_externals_data = [
-                            'moms_id'               => $id_moms,
-                            'nama_user_externals'   => $nama_user_externals,
-                            'created_at'            => date('Y-m-d H:i:s')
-                        ];
-                        Mom_user_external::insert($mom_user_externals_data);
-                    }
-                }
+                    $aturan = [
+                        'judul_moms'                => 'required',
+                        'tanggal_moms'              => 'required',
+                        'venue_moms'                => 'required',
+                        'deskripsi_moms'            => 'required',
+                    ];
+                    $this->validate($request, $aturan);
+        
+                    $tanggal_moms           = $request->tanggal_moms;
+                    $pecah_tanggal_moms     = explode(' sampai ',$tanggal_moms);
+                    $tanggal_mulai_moms     = $pecah_tanggal_moms[0];
+                    $tanggal_selesai_moms   = $pecah_tanggal_moms[1];
 
-                if(request()->session()->get('halaman') != '')
-                    $redirect_halaman    = request()->session()->get('halaman');
+                    $moms_id = null;
+                    if(!empty($request->sub_moms_id))
+                        $moms_id = $request->sub_moms_id;
+        
+                    $kategori_moms = 'Internal';
+                    if(!empty($request->nama_user_externals))
+                        $kategori_moms = 'External';
+        
+                    $data = [
+                        'moms_id'                   => $moms_id,
+                        'kategori_moms'             => $kategori_moms,
+                        'users_id'                  => Auth::user()->id,
+                        'tanggal_mulai_moms'        => General::ubahTanggalwaktuKeDB($tanggal_mulai_moms),
+                        'tanggal_selesai_moms'      => General::ubahTanggalwaktuKeDB($tanggal_selesai_moms),
+                        'venue_moms'                => $request->venue_moms,
+                        'judul_moms'                => $request->judul_moms,
+                        'deskripsi_moms'            => $request->deskripsi_moms,
+                        'updated_at'                => date('Y-m-d H:i:s'),
+                    ];
+                    Mom::where('id_moms', $id_moms)
+                        ->update($data);
+
+                    Mom_user_external::where('moms_id',$id_moms)->delete();
+                    if(!empty($request->nama_user_externals))
+                    {
+                        foreach($request->nama_user_externals as $nama_user_externals)
+                        {
+                            $mom_user_externals_data = [
+                                'moms_id'               => $id_moms,
+                                'nama_user_externals'   => $nama_user_externals,
+                                'created_at'            => date('Y-m-d H:i:s')
+                            ];
+                            Mom_user_external::insert($mom_user_externals_data);
+                        }
+                    }
+
+                    if(request()->session()->get('halaman') != '')
+                        $redirect_halaman    = request()->session()->get('halaman');
+                    else
+                        $redirect_halaman  = 'dashboard/mom';
+                    
+                    return redirect($redirect_halaman);
+                }
                 else
-                    $redirect_halaman  = 'dashboard/mom';
-                
-                return redirect($redirect_halaman);
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -543,13 +581,18 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
-                Mom_user_external::where('moms_id',$id_moms)
-                                ->delete();
-                Mom_user::where('moms_id',$id_moms)
+                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                {
+                    Mom_user_external::where('moms_id',$id_moms)
+                                    ->delete();
+                    Mom_user::where('moms_id',$id_moms)
+                            ->delete();
+                    Mom::where('id_moms',$id_moms)
                         ->delete();
-                Mom::where('id_moms',$id_moms)
-                    ->delete();
-                return response()->json(["sukses" => "sukses"], 200);
+                    return response()->json(["sukses" => "sukses"], 200);
+                }
+                else
+                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');

@@ -105,7 +105,9 @@
 																				->where('surat_users.surats_id',$surats->id_surats)
 																				->count())
 										@if($cek_disposisi == 0 || $surats->status_selesai_surats == 0)
-											{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
+											@if($surats->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+												{{General::editButton($link_surat,'dashboard/surat/edit/'.$surats->id_surats)}}
+											@endif
 										@endif
 										{{General::hapusButton($link_surat,'dashboard/surat/hapus/'.$surats->id_surats)}}
 									@endif
