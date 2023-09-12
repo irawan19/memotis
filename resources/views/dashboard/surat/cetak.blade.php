@@ -230,7 +230,6 @@
 			{{$ambil_master_surat_disposisi[0]->keterangan_surat_disposisis}}
 		</div>
 	@endif
-	</div>
 </div>
 <script type="text/javascript">
 	window.onload=function(){
