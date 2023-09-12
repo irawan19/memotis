@@ -61,6 +61,12 @@
 					@if(General::hakAkses('surat', 'baca') == 'true')
 						<div class="card" style="height: auto; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
+								@if(!empty($ambil_surat_users))
+									@if($ambil_surat_users->status_baca_surat_users == 1)
+										<span class="badge me-1 bg-danger" style="color:#fff">Baru</span>
+									@endif
+								@endif
+
 								<div class="row">
 									<div class="col-sm-12" style="margin-bottom:10px">
 										@if($surats->status_selesai_surats == 0)

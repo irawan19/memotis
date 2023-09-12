@@ -61,6 +61,11 @@
 					@if(General::hakAkses('mom', 'baca') == 'true')
 						<div class="card" style="height: auto; background-color: {{$backcolor}}; color: #000;">
 							<div class="card-body pb-0">
+								@if(!empty($ambil_mom_users))
+									@if($ambil_mom_users->status_baca_mom_users == 1)
+										<span class="badge me-1 bg-danger" style="color:#fff">Baru</span>
+									@endif
+								@endif
 								<div class="row">
 									<div class="col-sm-12">
 										<div class="row">
