@@ -67,7 +67,7 @@ class General
 			$ambil_surats = Surat::select('no_surats')
 									->whereRaw('MONTH(created_at) = "'.date('m').'"')
 									->whereRaw('YEAR(created_at) = "'.date('Y').'"')
-									->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(no_surats,"-",2),"-",-1) AS SIGNED) desc')
+									->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(no_surats,"/",2),"/",-1) AS SIGNED) desc')
 									->first();
 			if(!empty($ambil_surats))
 			{
@@ -93,7 +93,7 @@ class General
 			$ambil_moms = MOM::select('no_moms')
 									->whereRaw('MONTH(created_at) = "'.date('m').'"')
 									->whereRaw('YEAR(created_at) = "'.date('Y').'"')
-									->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(no_moms,"-",2),"-",-1) AS SIGNED) desc')
+									->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(no_moms,"/",2),"/",-1) AS SIGNED) desc')
 									->first();
 			if(!empty($ambil_moms))
 			{
