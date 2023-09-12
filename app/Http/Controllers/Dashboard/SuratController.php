@@ -69,6 +69,7 @@ class SuratController extends AdminCoreController
             $data['link_surat']          = $link_surat;
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
+            echo $hasil_kata;
             $data['hasil_kata']         = $hasil_kata;
             if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
             {
@@ -79,6 +80,7 @@ class SuratController extends AdminCoreController
                                                     ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
                                                     ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                     ->where('judul_surats', 'LIKE', '%'.$hasil_kata.'%')
+                                                    ->orwhere('no_surats', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->orderBy('surats.tanggal_mulai_surats','desc')
                                                     ->paginate(10);
             }

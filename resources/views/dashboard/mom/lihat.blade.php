@@ -257,7 +257,7 @@
 			@else
 				<div class="card" style="height: 65px; background-color: #fac8ec; color: #000;">
 					<div class="card-body pb-0">
-						<div class="titleeventcardempty">Tidak ada MOM di bulan ini</div>
+						<div class="titleeventcardempty">Tidak ada MOM</div>
 					</div>
 				</div>
 			@endif

@@ -121,6 +121,7 @@ class MomController extends AdminCoreController
                                                                     ')
                                                     ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                     ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
+                                                    ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->groupBy('id_moms')
                                                     ->orderBy('moms.tanggal_mulai_moms','desc')
                                                     ->paginate(10);

@@ -369,7 +369,7 @@
 			@else
 				<div class="card" style="height: 65px; background-color: #fac8ec; color: #000;">
 					<div class="card-body pb-0">
-						<div class="titleeventcardempty">Tidak ada Surat di bulan ini</div>
+						<div class="titleeventcardempty">Tidak ada Surat</div>
 					</div>
 				</div>
 			@endif
