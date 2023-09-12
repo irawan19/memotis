@@ -45,7 +45,7 @@ class MomController extends AdminCoreController
                                                                 status_baca_mom_users
                                                                 ')
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
-                                                        ->orderBy('moms.tanggal_mulai_moms','desc')
+                                                        ->orderBy('moms.created_at','desc')
                                                         ->groupBy('id_moms')
                                                         ->paginate(10);
             }
@@ -75,7 +75,7 @@ class MomController extends AdminCoreController
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('mom_users.users_id',Auth::user()->id)
                                                         ->groupBy('moms.id_moms')
-                                                        ->orderBy('moms.tanggal_mulai_moms','desc')
+                                                        ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
             }
             session()->forget('halaman');
@@ -123,7 +123,7 @@ class MomController extends AdminCoreController
                                                     ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->groupBy('id_moms')
-                                                    ->orderBy('moms.tanggal_mulai_moms','desc')
+                                                    ->orderBy('moms.created_at','desc')
                                                     ->paginate(10);
             }
             else
@@ -155,7 +155,7 @@ class MomController extends AdminCoreController
                                                         ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
                                                         ->groupBy('id_moms')
-                                                        ->orderBy('moms.tanggal_mulai_moms','desc')
+                                                        ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
             }
             session(['halaman'              => $url_sekarang]);
