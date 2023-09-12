@@ -26,7 +26,7 @@
 			<div class="card linkmodal{{$event_moms->id_moms}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
 				<div class="card-body pb-0">
 					@if(!empty($ambil_mom_users))
-						@if($ambil_mom_users->status_baca_mom_users == 1)
+						@if($ambil_mom_users->status_baca_mom_users == 0)
 							<span class="badge me-1 bg-danger" style="color:#fff">Baru</span>
 						@endif
 					@endif
