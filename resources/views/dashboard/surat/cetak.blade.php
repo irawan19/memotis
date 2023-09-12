@@ -192,7 +192,9 @@
 								@if(!$ambil_surat_selesai->isEmpty())
 									@php($noselesai = 1)
 									@foreach($ambil_surat_selesai as $surat_selesai)
-										{{$noselesai++}} <a href="{{URL::asset('storage/'.$surat_selesai->file_surat_selesais)}}" target="_blank">Klik Disini</a><br/>
+										@if(!empty($surat_selesai->file_surat_selesais))
+											{{$noselesai++}} <a href="{{URL::asset('storage/'.$surat_selesai->file_surat_selesais)}}" target="_blank">Klik Disini</a><br/>
+										@endif
 									@endforeach
 								@endif
 							</td>
