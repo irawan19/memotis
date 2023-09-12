@@ -140,7 +140,8 @@
 				</tr>
 			</table>
 		</div>
-		@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+		@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::selectRaw('*, surat_disposisis.created_at as tanggal_disposisi')
+																		->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
 																		->join('surats','surat_users.surats_id','=','surats.id_surats')
 																		->join('users','surat_users.users_id','=','users.id')
 																		->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
@@ -155,10 +156,12 @@
 			<div class="col-sm-12">
 				<h4>Disposisi</h4>
 				<br/>
-				<table width="100%">
+				<table class="table table-responsive-sm table-bordered table-striped table-sm">
 					<tr>
+						<th>Tanggal</th>
 						<th>Nama</th>
 						<th>Status</th>
+						<th>Lampiran</th>
 						<th>Keterangan</th>
 					</tr>
 					@foreach($ambil_disposisi_surats as $disposisi_surats)
@@ -172,8 +175,19 @@
 							@php($status = 'selesai')
 						@endif
 						<tr>
+							<td>{{ General::ubahDBKeTanggalwaktu($disposisi_surats->tanggal_disposisi) }}</td>
 							<td>{{$nama}}</td>
 							<td>{{$status}}</td>
+							<td>
+								@php($ambil_surat_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
+																				->get())
+								@if(!$ambil_surat_selesai->isEmpty())
+									@php($noselesai = 1)
+									@foreach($ambil_surat_selesai as $surat_selesai)
+										{{$noselesai++}} <a href="{{URL::asset('storage/'.$surat_selesai->file_surat_selesais)}}" target="_blank">Klik Disini</a><br/>
+									@endforeach
+								@endif
+							</td>
 							<td>
 								@php($ambil_keterangan_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
 																					->first())
@@ -186,6 +200,25 @@
 				</table>
 			</div>
 		@endif
+	</div>
+	
+	@php($ambil_master_surat_disposisi = \App\Models\Surat_disposisi::join('master_disposisi_surats','surat_disposisis.surat_disposisis_id','=','master_disposisi_surats.id_disposisi_surats')
+																		->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+																		->join('surats','surat_users.surats_id','=','surats.id_surats')
+																		->where('surats.id_surats',$lihat_surats->id_surats)
+																		->groupBy('id_surat_disposisis')
+																		->get())
+	@if(!$ambil_master_surat_disposisi->isEmpty())
+		<div class="col-sm-12">
+			<h4>Keterangan Disposisi</h4>
+			<br/>
+			@foreach($ambil_master_surat_disposisi as $master_surat_disposisi)
+				- {{$master_surat_disposisi->nama_disposisi_surats}}<br/>
+			@endforeach
+			<br/>
+			{{$ambil_master_surat_disposisi[0]->keterangan_surat_disposisis}}
+		</div>
+	@endif
 	</div>
 </div>
 <script type="text/javascript">

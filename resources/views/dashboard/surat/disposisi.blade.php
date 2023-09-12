@@ -181,9 +181,9 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-col-form-label" for="keterangan_disposisi_surats">Keterangan </label>
-                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_disposisi_surats')) }}" id="keterangan_disposisi_surats" name="keterangan_disposisi_surats" rows="5">{{Request::old('keterangan_disposisi_surats')}}</textarea>
-                                        {{General::pesanErrorForm($errors->first('keterangan_disposisi_surats'))}}
+                                        <label class="form-col-form-label" for="keterangan_surat_disposisis">Keterangan </label>
+                                        <textarea class="form-control {{ General::validForm($errors->first('keterangan_surat_disposisis')) }}" id="keterangan_surat_disposisis" name="keterangan_surat_disposisis" rows="5">{{Request::old('keterangan_surat_disposisis')}}</textarea>
+                                        {{General::pesanErrorForm($errors->first('keterangan_surat_disposisis'))}}
                                     </div>
                                 </div>
                             </div>

@@ -234,7 +234,8 @@
 												</table>
 											</div>
 
-											@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+											@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::selectRaw('*, surat_disposisis.created_at as tanggal_disposisi')
+																											->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
 																											->join('surats','surat_users.surats_id','=','surats.id_surats')
 																											->join('users','surat_users.users_id','=','users.id')
 																											->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
@@ -251,6 +252,7 @@
 													<br/>
 													<table class="table table-responsive-sm table-bordered table-striped table-sm">
 														<tr>
+															<th>Tanggal</th>
 															<th>Nama</th>
 															<th>Status</th>
 															<th>Lampiran</th>
@@ -267,6 +269,7 @@
 																@php($status = 'selesai')
 															@endif
 															<tr>
+																<td>{{ General::ubahDBKeTanggalwaktu($disposisi_surats->tanggal_disposisi) }}</td>
 																<td>{{$nama}}</td>
 																<td>{{$status}}</td>
 																<td>
@@ -292,6 +295,24 @@
 												</div>
 											@endif
 										</div>
+
+										@php($ambil_master_surat_disposisi = \App\Models\Surat_disposisi::join('master_disposisi_surats','surat_disposisis.surat_disposisis_id','=','master_disposisi_surats.id_disposisi_surats')
+																											->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+																											->join('surats','surat_users.surats_id','=','surats.id_surats')
+																											->where('surats.id_surats',$surats->id_surats)
+																											->groupBy('id_surat_disposisis')
+																											->get())
+										@if(!$ambil_master_surat_disposisi->isEmpty())
+											<div class="col-sm-12">
+												<h4>Keterangan Disposisi</h4>
+												<br/>
+												@foreach($ambil_master_surat_disposisi as $master_surat_disposisi)
+													- {{$master_surat_disposisi->nama_disposisi_surats}}<br/>
+												@endforeach
+												<br/>
+												{{$ambil_master_surat_disposisi[0]->keterangan_surat_disposisis}}
+											</div>
+										@endif
 									</div>
 								</div>
 							</div>
