@@ -454,7 +454,7 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+                $cek_moms = Mom_user::where('id_mom_users',$id_mom_users)->first();
                 if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
                     Mom_user::where('id_mom_users',$id_mom_users)
