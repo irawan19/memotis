@@ -303,28 +303,27 @@
 												</div>
 											@endif
 										</div>
-
-										@php($ambil_master_surat_disposisi = \App\Models\Surat_disposisi::join('master_disposisi_surats','surat_disposisis.surat_disposisis_id','=','master_disposisi_surats.id_disposisi_surats')
-																											->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
-																											->join('surats','surat_users.surats_id','=','surats.id_surats')
-																											->where('surats.id_surats',$surats->id_surats)
-																											->groupBy('id_surat_disposisis')
-																											->get())
-										@if(!$ambil_master_surat_disposisi->isEmpty())
-											<div class="col-sm-12">
-												<hr/>
-											</div>
-											<div class="col-sm-12">
-												<h4>Keterangan Disposisi</h4>
-												<br/>
-												@foreach($ambil_master_surat_disposisi as $master_surat_disposisi)
-													- {{$master_surat_disposisi->nama_disposisi_surats}}<br/>
-												@endforeach
-												<br/>
-												{{$ambil_master_surat_disposisi[0]->keterangan_surat_disposisis}}
-											</div>
-										@endif
 									</div>
+									@php($ambil_master_surat_disposisi = \App\Models\Surat_disposisi::join('master_disposisi_surats','surat_disposisis.surat_disposisis_id','=','master_disposisi_surats.id_disposisi_surats')
+																										->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
+																										->join('surats','surat_users.surats_id','=','surats.id_surats')
+																										->where('surats.id_surats',$surats->id_surats)
+																										->groupBy('id_surat_disposisis')
+																										->get())
+									@if(!$ambil_master_surat_disposisi->isEmpty())
+										<div class="col-sm-12">
+											<hr/>
+										</div>
+										<div class="col-sm-12">
+											<h4>Keterangan Disposisi</h4>
+											<br/>
+											@foreach($ambil_master_surat_disposisi as $master_surat_disposisi)
+												- {{$master_surat_disposisi->nama_disposisi_surats}}<br/>
+											@endforeach
+											<br/>
+											{{$ambil_master_surat_disposisi[0]->keterangan_surat_disposisis}}
+										</div>
+									@endif
 								</div>
 							</div>
 						</div>
