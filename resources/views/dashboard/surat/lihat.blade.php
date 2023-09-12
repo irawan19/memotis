@@ -255,6 +255,7 @@
 															<th>Tanggal</th>
 															<th>Nama</th>
 															<th>Status</th>
+															<th>Tanggal Selesai</th>
 															<th>Lampiran</th>
 															<th>Keterangan</th>
 														</tr>
@@ -272,6 +273,13 @@
 																<td>{{ General::ubahDBKeTanggalwaktu($disposisi_surats->tanggal_disposisi) }}</td>
 																<td>{{$nama}}</td>
 																<td>{{$status}}</td>
+																@php($ambil_keterangan_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
+																													->first())
+																<td>
+																	@if(!empty($ambil_keterangan_selesai))
+																		{{ General::ubahDBKeTanggalwaktu($ambil_keterangan_selesai->created_at) }}
+																	@endif
+																</td>
 																<td>
 																	@php($ambil_surat_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
 																													->get())
@@ -283,8 +291,6 @@
 																	@endif
 																</td>
 																<td>
-																	@php($ambil_keterangan_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
-																														->first())
 																	@if(!empty($ambil_keterangan_selesai))
 																		{!! nl2br($ambil_keterangan_selesai->keterangan_surat_selesais) !!}
 																	@endif
