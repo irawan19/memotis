@@ -69,7 +69,6 @@ class SuratController extends AdminCoreController
             $data['link_surat']          = $link_surat;
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
-            echo $hasil_kata;
             $data['hasil_kata']         = $hasil_kata;
             if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
             {
