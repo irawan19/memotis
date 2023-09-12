@@ -22,44 +22,43 @@ class SuratController extends AdminCoreController
 
     public function index(Request $request)
     {
-        echo General::generateNoSurat();
-        // $link_surat = 'surat';
-        // if(General::hakAkses($link_surat,'lihat') == 'true')
-        // {
-        //     $data['link_surat']               = $link_surat;
-        //     $data['hasil_kata']             = '';
-        //     $url_sekarang                   = $request->fullUrl();
-        //     if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
-        //     {
-        //         $data['lihat_surats']    	        = Surat::selectRaw('*,
-        //                                                         surats.created_at as tanggal_surats')
-        //                                                     ->join('users','surats.users_id','=','users.id')
-        //                                                     ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
-        //                                                     ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
-        //                                                     ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
-        //                                                     ->orderBy('surats.tanggal_mulai_surats','desc')
-        //                                                     ->paginate(10);
-        //     }
-        //     else
-        //     {
-        //         $data['lihat_surats']    	        = Surat::selectRaw('*,
-        //                                                         surats.created_at as tanggal_surats')
-        //                                                 ->join('users','surats.users_id','=','users.id')
-        //                                                 ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
-        //                                                 ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
-        //                                                 ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
-        //                                                 ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
-        //                                                 ->where('surat_users.users_id',Auth::user()->id)
-        //                                                 ->orderBy('surats.tanggal_mulai_surats','desc')
-        //                                                 ->paginate(10);
-        //     }
-        //     session()->forget('halaman');
-        //     session()->forget('hasil_kata');
-        //     session(['halaman'              => $url_sekarang]);
-        // 	return view('dashboard.surat.lihat', $data);
-        // }
-        // else
-        //     return redirect('dashboard');
+        $link_surat = 'surat';
+        if(General::hakAkses($link_surat,'lihat') == 'true')
+        {
+            $data['link_surat']               = $link_surat;
+            $data['hasil_kata']             = '';
+            $url_sekarang                   = $request->fullUrl();
+            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
+            {
+                $data['lihat_surats']    	        = Surat::selectRaw('*,
+                                                                surats.created_at as tanggal_surats')
+                                                            ->join('users','surats.users_id','=','users.id')
+                                                            ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                            ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                            ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
+                                                            ->orderBy('surats.tanggal_mulai_surats','desc')
+                                                            ->paginate(10);
+            }
+            else
+            {
+                $data['lihat_surats']    	        = Surat::selectRaw('*,
+                                                                surats.created_at as tanggal_surats')
+                                                        ->join('users','surats.users_id','=','users.id')
+                                                        ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
+                                                        ->join('master_derajat_surats','derajat_surats_id','=','master_derajat_surats.id_derajat_surats')
+                                                        ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
+                                                        ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
+                                                        ->where('surat_users.users_id',Auth::user()->id)
+                                                        ->orderBy('surats.tanggal_mulai_surats','desc')
+                                                        ->paginate(10);
+            }
+            session()->forget('halaman');
+            session()->forget('hasil_kata');
+            session(['halaman'              => $url_sekarang]);
+        	return view('dashboard.surat.lihat', $data);
+        }
+        else
+            return redirect('dashboard');
     }
 
     public function cari(Request $request)
