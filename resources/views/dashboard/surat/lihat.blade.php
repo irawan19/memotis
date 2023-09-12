@@ -145,7 +145,9 @@
 																										->where('surats_id',$surats->id_surats)
 																										->orderBy('id_surat_users','asc')
 																										->first())
-															{{$surat_users->name}}
+															@if(!empty($surat_users))
+																{{$surat_users->name}}
+															@endif
 														</td>
 													</tr>
 													<tr>
