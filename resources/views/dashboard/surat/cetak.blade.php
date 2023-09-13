@@ -212,13 +212,13 @@
 																			->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
 																			->join('surats','surat_users.surats_id','=','surats.id_surats')
 																			->where('surats.id_surats',$lihat_surats->id_surats)
-																			->groupBy('id_surat_disposisis')
+																			->groupBy('surat_disposisis_id')
 																			->get())
 		@if(!$ambil_master_surat_disposisi->isEmpty())
 			<div class="col-sm-12">
 				<hr/>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-12 mb-5">
 				<h4>Keterangan Disposisi</h4>
 				<br/>
 				@foreach($ambil_master_surat_disposisi as $master_surat_disposisi)
