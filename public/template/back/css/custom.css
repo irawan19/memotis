@@ -292,3 +292,6 @@ not all {
 #ckeditor5konten img{
     width: 100% !important;
 }
+.image img{
+    width: 100% !important;
+}
