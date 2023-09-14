@@ -74,9 +74,11 @@ class EventCalendarController extends AdminCoreController
     public function mom($tanggal_mulai='')
     {
         if(strtotime($tanggal_mulai) === strtotime(date('Y-m-d'))) {
-            $tanggal_mulai = date("Y-m-d", strtotime($tanggal_mulai.' - 2 day'));
+            $awal_minggu = date('Y-m-d', strtotime('-'.date('w').' days'));
+            $tanggal_mulai = date('Y-m-d', strtotime($awal_minggu.' 1 day'));
         }
         $tanggal_selesai = date("Y-m-d", strtotime($tanggal_mulai.' + 6 day'));
+
         if(General::hakAkses('mom','tambah') == 'true')
         {
             $lihat_moms = Mom::selectRaw('id_moms,
