@@ -151,7 +151,7 @@
 																										->where('surats_id',$surats->id_surats)
 																										->orderBy('id_surat_users','asc')
 																										->first())
-															{{$surat_users->name}}
+																{{$surat_users->name}}
 														</td>
 													</tr>
 													<tr>
