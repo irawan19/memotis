@@ -455,8 +455,8 @@ class MomController extends AdminCoreController
             $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
             if(!empty($cek_mom_users))
             {
-                $cek_moms = Mom_user::where('id_mom_users',$id_mom_users)->first();
-                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                $cek_moms = Mom::where('id_mom_users',$id_mom_users)->first();
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
                     Mom_user::where('id_mom_users',$id_mom_users)
                                     ->delete();
@@ -480,7 +480,7 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
-                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
                     $data['edit_sub_moms']              = Mom::orderBy('no_moms')->where('id_moms','!=',$id_moms)->get();
                     $data['edit_status_tugas']          = Master_status_tugas::get();
@@ -506,7 +506,7 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
-                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
                     $aturan = [
                         'judul_moms'                => 'required',
@@ -582,7 +582,7 @@ class MomController extends AdminCoreController
             $cek_moms = Mom::where('id_moms',$id_moms)->first();
             if(!empty($cek_moms))
             {
-                if($cek_moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
                     Mom_user_external::where('moms_id',$id_moms)
                                     ->delete();
