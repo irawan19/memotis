@@ -143,7 +143,7 @@
 										@endif
                                         <div class="form-group">
                                             <div class="form-check checkbox">
-                                                <input {{$checked}} class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[{{$users->id}}]" value="{{$users->id}}">
+                                                <input {{$checked}} class="form-check-input" id="users_id{{$users->id}}" type="checkbox" name="users_id[]" value="{{$users->id}}">
                                                 <label class="form-check-label" for="users_id{{$users->id}}">{{$nama}}</label>
                                             </div>
                                         </div>
