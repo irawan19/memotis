@@ -288,7 +288,7 @@ class SuratController extends AdminCoreController
 																				->count();
                 if($cek_disposisi == 0 || $cek_surats->status_selesai_surats == 0)
                 {
-                    if($cek_surats->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                    if($cek_surats->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                     {
                         $data['edit_surats']                = $cek_surats;
                         $data['edit_klasifikasi_surats']    = Master_klasifikasi_surat::orderBy('nama_klasifikasi_surats')->get();
@@ -327,7 +327,7 @@ class SuratController extends AdminCoreController
 																				->count();
                 if($cek_disposisi == 0 || $cek_surats->status_selesai_surats == 0)
                 {
-                    if($cek_surats->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+                    if($cek_surats->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                     {
                         $aturan = [
                             'klasifikasi_surats_id'     => 'required',
