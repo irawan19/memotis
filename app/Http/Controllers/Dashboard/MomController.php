@@ -263,31 +263,25 @@ class MomController extends AdminCoreController
 
     public function tugas($id_moms=0)
     {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        $cek_moms = Mom::where('id_moms',$id_moms)->first();
+        if(!empty($cek_moms))
         {
-            $cek_moms = Mom::where('id_moms',$id_moms)->first();
-            if(!empty($cek_moms))
+            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
             {
-                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-                {
-                    $data['lihat_moms']                 = $cek_moms;
-                    $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
-                                                                    ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                    ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                    ->where('moms_id',$id_moms)
-                                                                    ->orderBy('proyek_mom_users','asc')
-                                                                    ->get();
-                    $data['tambah_status_tugas']        = Master_status_tugas::get();
-                    $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                $data['lihat_moms']                 = $cek_moms;
+                $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+                                                                ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                 ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                ->where('id','!=',1)
+                                                                ->where('moms_id',$id_moms)
+                                                                ->orderBy('proyek_mom_users','asc')
                                                                 ->get();
-                    return view('dashboard.mom.tugas',$data);
-                }
-                else
-                    return redirect('dashboard/mom');
+                $data['tambah_status_tugas']        = Master_status_tugas::get();
+                $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                            ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+                                                            ->where('id','!=',1)
+                                                            ->get();
+                return view('dashboard.mom.tugas',$data);
             }
             else
                 return redirect('dashboard/mom');
@@ -298,14 +292,11 @@ class MomController extends AdminCoreController
 
     public function prosestambahtugas(Request $request, $id_moms=0)
     {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        $cek_moms = Mom::where('id_moms',$id_moms)->count();
+        if($cek_moms != 0)
         {
-            $cek_moms = Mom::where('id_moms',$id_moms)->count();
-            if($cek_moms != 0)
+            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
             {
-                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-                {
                     $aturan = [
                         'users_id'              => 'required',
                         'proyek_mom_users'      => 'required',
@@ -345,9 +336,6 @@ class MomController extends AdminCoreController
                     $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
         
                     return redirect($redirect_halaman);
-                }
-                else
-                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -358,15 +346,12 @@ class MomController extends AdminCoreController
 
     public function edittugas($id_mom_users=0)
     {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+        if(!empty($cek_mom_users))
         {
-            $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
-            if(!empty($cek_mom_users))
+            $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
             {
-                $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-                {
                     $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
                     $data['lihat_moms']                 = $ambil_moms;
                     $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
@@ -383,9 +368,6 @@ class MomController extends AdminCoreController
                                                                     ->where('id_mom_users',$id_mom_users)
                                                                     ->first();
                     return view('dashboard.mom.tugas',$data);
-                }
-                else
-                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -396,15 +378,12 @@ class MomController extends AdminCoreController
 
     public function prosesedittugas(Request $request, $id_mom_users=0)
     {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+        if(!empty($cek_mom_users))
         {
-            $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
-            if(!empty($cek_mom_users))
+            $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
             {
-                $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-                {
                     $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
                     $aturan = [
                         'proyek_mom_users'      => 'required',
@@ -436,9 +415,6 @@ class MomController extends AdminCoreController
                             ->update($data);
 
                     return redirect('dashboard/mom/tugas/'.$ambil_moms->id_moms);
-                }
-                else
-                    return redirect('dashboard/mom');
             }
             else
                 return redirect('dashboard/mom');
@@ -449,21 +425,15 @@ class MomController extends AdminCoreController
 
     public function proseshapustugas($id_mom_users=0)
     {
-        $link_mom = 'mom';
-        if(General::hakAkses($link_mom,'tambah') == 'true' || General::hakAkses($link_mom,'edit' == 'true'))
+        $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+        if(!empty($cek_mom_users))
         {
-            $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
-            if(!empty($cek_mom_users))
+            $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
             {
-                $cek_moms = Mom::where('id_mom_users',$id_mom_users)->first();
-                if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-                {
-                    Mom_user::where('id_mom_users',$id_mom_users)
-                                    ->delete();
-                    return response()->json(["sukses" => "sukses"], 200);
-                }
-                else
-                    return redirect('dashboard/mom');
+                Mom_user::where('id_mom_users',$id_mom_users)
+                                ->delete();
+                return response()->json(["sukses" => "sukses"], 200);
             }
             else
                 return redirect('dashboard/mom');

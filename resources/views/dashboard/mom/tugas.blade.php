@@ -194,7 +194,10 @@
 								    @endforeach
 								@else
 									<tr>
-										<td colspan="6" class="center-align">Tidak ada data ditampilkan</td>
+										<td colspan="9" class="center-align">Tidak ada data ditampilkan</td>
+										<td style="display:none"></td>
+										<td style="display:none"></td>
+										<td style="display:none"></td>
 										<td style="display:none"></td>
 										<td style="display:none"></td>
 										<td style="display:none"></td>
