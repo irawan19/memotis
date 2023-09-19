@@ -507,9 +507,11 @@ class SuratController extends AdminCoreController
                 Surat_user::where('surats_id',$id_surats)->delete();
 
                 $ambil_surat_lampirans = Surat_lampiran::where('surats_id',$id_surats)->get();
-                foreach($ambil_surat_lampirans as $surat_lampirans)
-                {
-                    Storage::disk('public')->delete($surat_lampirans->file_lampirans);
+                if(!$ambil_surat_lampirans->isEmpty()) {
+                    foreach($ambil_surat_lampirans as $surat_lampirans)
+                    {
+                        Storage::disk('public')->delete($surat_lampirans->file_lampirans);
+                    }
                 }
                 Surat_lampiran::where('surats_id',$id_surats)
                                 ->delete();
