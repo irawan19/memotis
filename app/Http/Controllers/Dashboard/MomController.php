@@ -292,8 +292,8 @@ class MomController extends AdminCoreController
 
     public function prosestambahtugas(Request $request, $id_moms=0)
     {
-        $cek_moms = Mom::where('id_moms',$id_moms)->count();
-        if($cek_moms != 0)
+        $cek_moms = Mom::where('id_moms',$id_moms)->first();
+        if(!empty($cek_moms))
         {
             if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
             {
