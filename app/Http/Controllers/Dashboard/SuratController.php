@@ -510,7 +510,7 @@ class SuratController extends AdminCoreController
                 if(!$ambil_surat_lampirans->isEmpty()) {
                     foreach($ambil_surat_lampirans as $surat_lampirans)
                     {
-                        Storage::disk('public')->delete($surat_lampirans->file_lampirans);
+                        Storage::disk('public')->delete($surat_lampirans->file_surat_lampirans);
                     }
                 }
                 Surat_lampiran::where('surats_id',$id_surats)
