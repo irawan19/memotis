@@ -87,6 +87,14 @@
 											</div>
 											<div class="col-sm-6 right-align">
 												<p class="judultanggal">{{General::ubahDBKeTanggalwaktu($surats->tanggal_surats)}}</p>
+
+												@php($surat_users = \App\Models\Surat_user::join('users','users_id','=','users.id')
+																							->where('surats_id',$surats->id_surats)
+																							->orderBy('id_surat_users','asc')
+																							->first())
+												@if(!empty($surat_users))
+													<p>{{$surat_users->name}}</p>
+												@endif
 											</div>
 										</div>
 									</div>
@@ -147,11 +155,9 @@
 													<tr>
 														<td colspan="3">{{$surats->asal_surats}}</td>
 														<td colspan="3" class="right-align">
-															@php($surat_users = \App\Models\Surat_user::join('users','users_id','=','users.id')
-																										->where('surats_id',$surats->id_surats)
-																										->orderBy('id_surat_users','asc')
-																										->first())
-															{{$surat_users->name}}
+															@if(!empty($surat_users))
+																{{$surat_users->name}}
+															@endif
 														</td>
 													</tr>
 													<tr>
