@@ -292,17 +292,17 @@
 															@if($disposisi_surats->status_selesai_surat_users == 0)
 																@php($status = 'belum selesai')
 															@else
-																@php($status = 'selesai')
+																@if($disposisi_surats->status_disposisi_surat_users == 0)
+																	@php($status = 'selesai')
+																@else
+																	@php($status = 'selesai mendisposisikan surat')
+																@endif
 															@endif
 															<tr>
 																<td>{{ General::ubahDBKeTanggalwaktu($disposisi_surats->tanggal_disposisi) }}</td>
 																<td>{{$nama}}</td>
 																<td>
-																	@if($disposisi_surats->status_disposisi_surat_users == 0)
-																		{{$status}} mendisposisikan surat
-																	@else
-																		{{$status}}
-																	@endif
+																	{{$status}}
 																</td>
 																@php($ambil_keterangan_selesai = \App\Models\Surat_selesai::where('surat_users_id',$disposisi_surats->id_surat_users)
 																													->first())
