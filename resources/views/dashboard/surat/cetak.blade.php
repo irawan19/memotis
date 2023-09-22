@@ -140,15 +140,21 @@
 				</tr>
 			</table>
 		</div>
-		@php($ambil_disposisi_surats = \App\Models\Surat_disposisi::selectRaw('*, surat_disposisis.created_at as tanggal_disposisi')
-																		->join('surat_users','surat_disposisis.surat_users_id','=','surat_users.id_surat_users')
-																		->join('surats','surat_users.surats_id','=','surats.id_surats')
-																		->join('users','surat_users.users_id','=','users.id')
-																		->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-																		->leftJoin('master_divisis','master_level_sistems.divisis_id','=','master_divisis.id_divisis')
-																		->where('surats.id_surats',$lihat_surats->id_surats)
-																		->groupBy('users.id')
-																		->get())
+		@php($ambil_disposisi_surats = \App\Models\Surat_user::selectRaw('surats.created_at as tanggal_disposisi,
+																												master_level_sistems.nama_level_sistems,
+																												users.name,
+																												master_divisis.nama_divisis,
+																												surat_users.id_surat_users,
+																												surat_users.status_selesai_surat_users,
+																												surat_users.status_disposisi_surat_users
+																												')
+																									->join('surats','surat_users.surats_id','=','surats.id_surats')
+																									->join('users','surat_users.users_id','=','users.id')
+																									->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+																									->leftJoin('master_divisis','master_level_sistems.divisis_id','=','master_divisis.id_divisis')
+																									->where('surats.id_surats',$lihat_surats->id_surats)
+																									->groupBy('users.id')
+																									->get())
 		@if(!$ambil_disposisi_surats->isEmpty())
 			<div class="col-sm-12">
 				<hr/>
@@ -173,7 +179,11 @@
 						@if($disposisi_surats->status_selesai_surat_users == 0)
 							@php($status = 'belum selesai')
 						@else
-							@php($status = 'selesai')
+							@if($disposisi_surats->status_disposisi_surat_users == 0)
+								@php($status = 'selesai')
+							@else
+								@php($status = 'selesai mendisposisikan surat')
+							@endif
 						@endif
 						<tr>
 							<td>{{ General::ubahDBKeTanggalwaktu($disposisi_surats->tanggal_disposisi) }}</td>
