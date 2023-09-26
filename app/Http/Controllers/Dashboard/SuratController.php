@@ -237,42 +237,30 @@ class SuratController extends AdminCoreController
 
     public function uploadlampiran(Request $request)
     {
-        $link_surat = 'surat';
-        if(General::hakAkses($link_surat, 'tambah') == 'true')
-        {
-            $path = public_path('storage/temp');
+        $path = public_path('storage/temp');
 
-            $file = $request->file('file');
-            $name = uniqid() . '_' . trim($file->getClientOriginalName());
-            $size = $file->getSize();
-            $type = $file->getClientOriginalExtension();
-            $file->move($path, $name);
+        $file = $request->file('file');
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $size = $file->getSize();
+        $type = $file->getClientOriginalExtension();
+        $file->move($path, $name);
 
-            return response()->json([
-                'name'          => $name.'-/-'.$size.'-/-'.$type,
-                'original_name' => $file->getClientOriginalName(),
-            ],200);
-        }
-        else
-            return response()->json(['error' => 'error'], 400);
+        return response()->json([
+            'name'          => $name.'-/-'.$size.'-/-'.$type,
+            'original_name' => $file->getClientOriginalName(),
+        ],200);
     }
 
     public function hapuslampiran(Request $request)
     {
-        $link_surat = 'surat';
-        if(General::hakAkses($link_surat, 'tambah') == 'true')
-        {
-            $file = $request->file;
-            $pecah_file = explode('-/-',$file);
-            $nama = $pecah_file[0];
-            Storage::disk('public')->delete('lampiran/'.$nama);
+        $file = $request->file;
+        $pecah_file = explode('-/-',$file);
+        $nama = $pecah_file[0];
+        Storage::disk('public')->delete('lampiran/'.$nama);
 
-            return response()->json([
-                'success' => 'success'
-            ],200);
-        }
-        else
-            return response()->json(['error' => 'error'], 400);
+        return response()->json([
+            'success' => 'success'
+        ],200);
     }
 
     public function edit($id_surats=0)
