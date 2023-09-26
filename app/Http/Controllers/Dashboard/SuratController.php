@@ -206,7 +206,7 @@ class SuratController extends AdminCoreController
 
             if(!empty($request->lampiran))
             {
-                foreach($request->input('lampiran', []) as $file) {
+                foreach($request->lampiran as $file) {
                     $pecah_file = explode('-/-',$file);
                     $nama       = $pecah_file[0];
                     $size       = $pecah_file[1];
@@ -403,7 +403,7 @@ class SuratController extends AdminCoreController
             
                         if(!empty($request->lampiran))
                         {
-                            foreach($request->input('lampiran', []) as $file) {
+                            foreach($request->lampiran as $file) {
                                 $pecah_file = explode('-/-',$file);
                                 $nama       = $pecah_file[0];
                                 $size       = $pecah_file[1];
@@ -694,7 +694,7 @@ class SuratController extends AdminCoreController
                                                     ->first();
                     $id_surat_users     = $ambil_surat_users->id_surat_users;
 
-                    foreach($request->input('lampiran', []) as $file) {
+                    foreach($request->lampiran as $file) {
                         $pecah_file = explode('-/-',$file);
                         $nama       = $pecah_file[0];
                         $size       = $pecah_file[1];

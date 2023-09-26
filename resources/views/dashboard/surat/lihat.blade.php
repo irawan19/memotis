@@ -212,7 +212,7 @@
 												<br/>
 												@php($ambil_surat_lampirans = \App\Models\Surat_lampiran::where('surats_id',$surats->id_surats)->get())
 												@foreach($ambil_surat_lampirans as $surat_lampirans)
-													<a href="{{URL::asset('storage/'.$surat_lampirans->file_surat_lampirans)}}" target="_blank">Klik Disini</a>
+													<a href="{{URL::asset('storage/'.$surat_lampirans->file_surat_lampirans)}}" target="_blank">Klik Disini</a><br/>
 												@endforeach
 											</div>
 											<div class="col-sm-12">

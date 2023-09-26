@@ -99,6 +99,17 @@
 			<hr/>
 		</div>
 		<div class="col-sm-12">
+			<h4>Lampiran</h4>
+			<br/>
+			@php($ambil_surat_lampirans = \App\Models\Surat_lampiran::where('surats_id',$lihat_surats->id_surats)->get())
+			@foreach($ambil_surat_lampirans as $surat_lampirans)
+				<a href="{{URL::asset('storage/'.$surat_lampirans->file_surat_lampirans)}}" target="_blank">Klik Disini</a><br/>
+			@endforeach
+		</div>
+		<div class="col-sm-12">
+			<hr/>
+		</div>
+		<div class="col-sm-12">
 			<h4>Keterangan</h4>
 			<br/>
 			{!! $lihat_surats->keterangan_surats !!}	
