@@ -293,9 +293,9 @@
 																@php($status = 'belum selesai')
 															@else
 																@if($disposisi_surats->status_disposisi_surat_users == 0)
-																	@php($status = 'selesai')
-																@else
 																	@php($status = 'selesai mendisposisikan surat')
+																@else
+																	@php($status = 'selesai')
 																@endif
 															@endif
 															<tr>
