@@ -24,6 +24,7 @@ use App\Http\Controllers\Dashboard\KonfigurasiAkunController as DashboardKonfigu
 use App\Http\Controllers\Dashboard\SuratController as DashboardSurat;
 use App\Http\Controllers\Dashboard\MomController as DashboardMom;
 use App\Http\Controllers\Dashboard\EventController as DashboardEvent;
+use App\Http\Controllers\Dashboard\FileManagerController as DashboardFileManager;
 
 //Konfigurasi Aplikasi
 use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
@@ -157,6 +158,11 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardEvent::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardEvent::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardEvent::class, 'hapus']);
+            });
+
+            //File Manager
+            Route::group(['prefix' => 'file_manager'], function() {
+                Route::get('/', [DashboardFileManager::class, 'index']);
             });
 
         //Konfigurasi Aplikasi
