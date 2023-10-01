@@ -87,7 +87,7 @@
 			<div class="col-sm-5">
 
 				<div class="row">
-					@foreach($lihat_status_tugas as $status_tugas)
+					{{-- @foreach($lihat_status_tugas as $status_tugas)
 						@php($ambil_divisis = \App\Models\Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
 																			->first())
 						@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
@@ -126,7 +126,76 @@
 								</div>
 							</a>
 						</div>
-					@endforeach
+					@endforeach --}}
+
+					<div class="col-sm-6">
+						<a href="{{URL('dashboard/surat')}}" class="nonstyle">
+							<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+								<div class="card-body pb-0">
+									<div class="btn-group float-right">
+										<svg class="c-icon">
+											<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-open')}}"></use>
+										</svg>
+									</div>
+									<div class="text-value-lg">{{General::konversiNilai($total_surats)}} <span>{{General::konversiNilaiString($total_surats)}}</span></div>
+									<div class="textnotifberanda">Surat</div>
+								</div>
+								<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-sm-6">
+						<a href="{{URL('dashboard/surat')}}" class="nonstyle">
+							<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+								<div class="card-body pb-0">
+									<div class="btn-group float-right">
+										<svg class="c-icon">
+											<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-open')}}"></use>
+										</svg>
+									</div>
+									<div class="text-value-lg">{{General::konversiNilai($total_surat_selesais)}} <span>{{General::konversiNilaiString($total_surat_selesais)}}</span></div>
+									<div class="textnotifberanda">Surat Selesai</div>
+								</div>
+								<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-sm-6">
+						<a href="{{URL('dashboard/surat')}}" class="nonstyle">
+							<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+								<div class="card-body pb-0">
+									<div class="btn-group float-right">
+										<svg class="c-icon">
+											<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-envelope-open')}}"></use>
+										</svg>
+									</div>
+									<div class="text-value-lg">{{General::konversiNilai($total_surat_belum_selesais)}} <span>{{General::konversiNilaiString($total_surat_belum_selesais)}}</span></div>
+									<div class="textnotifberanda">Surat Belum Selesai</div>
+								</div>
+								<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-sm-6">
+						<a href="{{URL('dashboard/mom')}}" class="nonstyle">
+							<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+								<div class="card-body pb-0">
+									<div class="btn-group float-right">
+										<svg class="c-icon">
+											<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-notes')}}"></use>
+										</svg>
+									</div>
+									<div class="text-value-lg">{{General::konversiNilai($total_moms)}} <span>{{General::konversiNilaiString($total_moms)}}</span></div>
+									<div class="textnotifberanda">MOM</div>
+								</div>
+								<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+							</div>
+						</a>
+					</div>
+
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-body">

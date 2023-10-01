@@ -25,10 +25,10 @@ class SuratController extends AdminCoreController
         $link_surat = 'surat';
         if(General::hakAkses($link_surat,'lihat') == 'true')
         {
-            $data['link_surat']               = $link_surat;
+            $data['link_surat']             = $link_surat;
             $data['hasil_kata']             = '';
             $url_sekarang                   = $request->fullUrl();
-            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
+            if(Auth::user()->level_sistems_id == 1)
             {
                 $data['lihat_surats']    	        = Surat::selectRaw('*,
                                                                 surats.created_at as tanggal_surats')
@@ -66,13 +66,13 @@ class SuratController extends AdminCoreController
     public function cari(Request $request)
     {
         $link_surat = 'surat';
-        if(General::hakAkses($link_surat,'lihat') == 'true' || Auth::user()->level_sistesm_id == 1)
+        if(Auth::user()->level_sistesm_id == 1)
         {
             $data['link_surat']          = $link_surat;
             $url_sekarang               = $request->fullUrl();
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
-            if(General::hakAkses($link_surat,'tambah') == 'true' || Auth::user()->level_sistems_id == 1)
+            if(Auth::user()->level_sistems_id == 1)
             {
                 $data['lihat_surats']         = Surat::selectRaw('*,
                                                         surats.created_at as tanggal_surats')

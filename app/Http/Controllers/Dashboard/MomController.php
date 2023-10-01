@@ -21,7 +21,7 @@ class MomController extends AdminCoreController
             $data['link_mom']               = $link_mom;
             $data['hasil_kata']             = '';
             $url_sekarang                   = $request->fullUrl();
-            if(General::hakAkses($link_mom,'tambah') == 'true')
+            if(Auth::user()->level_sistems_id == 1)
             {
                 $data['lihat_moms']    	        = Mom::selectRaw('id_moms,
                                                                 moms.moms_id as sub_moms_id,
@@ -255,192 +255,193 @@ class MomController extends AdminCoreController
                 }
             }
 
-            return redirect('dashboard/mom/tugas/'.$id_moms);
+            return redirect('dashboard/mom');
+            // return redirect('dashboard/mom/tugas/'.$id_moms);
         }
         else
             return redirect('dashboard/mom');
     }
 
-    public function tugas($id_moms=0)
-    {
-        $cek_moms = Mom::where('id_moms',$id_moms)->first();
-        if(!empty($cek_moms))
-        {
-            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-            {
-                $data['lihat_moms']                 = $cek_moms;
-                $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
-                                                                ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                ->where('moms_id',$id_moms)
-                                                                ->orderBy('proyek_mom_users','asc')
-                                                                ->get();
-                $data['tambah_status_tugas']        = Master_status_tugas::get();
-                $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                            ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                            ->where('id','!=',1)
-                                                            ->get();
-                return view('dashboard.mom.tugas',$data);
-            }
-            else
-                return redirect('dashboard/mom');
-        }
-        else
-            return redirect('dashboard/mom');
-    }
+    // public function tugas($id_moms=0)
+    // {
+    //     $cek_moms = Mom::where('id_moms',$id_moms)->first();
+    //     if(!empty($cek_moms))
+    //     {
+    //         if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+    //         {
+    //             $data['lihat_moms']                 = $cek_moms;
+    //             $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+    //                                                             ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+    //                                                             ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+    //                                                             ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+    //                                                             ->where('moms_id',$id_moms)
+    //                                                             ->orderBy('proyek_mom_users','asc')
+    //                                                             ->get();
+    //             $data['tambah_status_tugas']        = Master_status_tugas::get();
+    //             $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+    //                                                         ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+    //                                                         ->where('id','!=',1)
+    //                                                         ->get();
+    //             return view('dashboard.mom.tugas',$data);
+    //         }
+    //         else
+    //             return redirect('dashboard/mom');
+    //     }
+    //     else
+    //         return redirect('dashboard/mom');
+    // }
 
-    public function prosestambahtugas(Request $request, $id_moms=0)
-    {
-        $cek_moms = Mom::where('id_moms',$id_moms)->first();
-        if(!empty($cek_moms))
-        {
-            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-            {
-                    $aturan = [
-                        'users_id'              => 'required',
-                        'proyek_mom_users'      => 'required',
-                        'tugas_mom_users'       => 'required',
-                        'status_tugas_id'       => 'required',
-                        'catatan_mom_users'     => 'required',
+    // public function prosestambahtugas(Request $request, $id_moms=0)
+    // {
+    //     $cek_moms = Mom::where('id_moms',$id_moms)->first();
+    //     if(!empty($cek_moms))
+    //     {
+    //         if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+    //         {
+    //                 $aturan = [
+    //                     'users_id'              => 'required',
+    //                     'proyek_mom_users'      => 'required',
+    //                     'tugas_mom_users'       => 'required',
+    //                     'status_tugas_id'       => 'required',
+    //                     'catatan_mom_users'     => 'required',
                         
-                    ];
-                    $this->validate($request, $aturan);
+    //                 ];
+    //                 $this->validate($request, $aturan);
 
-                    $tenggat_waktu_mom_users = null;
-                    if(!empty($request->tenggat_waktu_mom_users))
-                        $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
+    //                 $tenggat_waktu_mom_users = null;
+    //                 if(!empty($request->tenggat_waktu_mom_users))
+    //                     $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
 
-                    $dikirimkan_mom_users = '';
-                    if(!empty($request->dikirimkan_mom_users))
-                        $dikirimkan_mom_users = $request->dikirimkan_mom_users;
+    //                 $dikirimkan_mom_users = '';
+    //                 if(!empty($request->dikirimkan_mom_users))
+    //                     $dikirimkan_mom_users = $request->dikirimkan_mom_users;
         
-                    $data = [
-                        'moms_id'               => $id_moms,
-                        'users_id'              => $request->users_id,
-                        'proyek_mom_users'      => $request->proyek_mom_users,
-                        'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
-                        'dikirimkan_mom_users'  => $dikirimkan_mom_users,
-                        'tugas_mom_users'       => $request->tugas_mom_users,
-                        'status_tugas_id'       => $request->status_tugas_id,
-                        'catatan_mom_users'     => $request->catatan_mom_users,
-                        'created_at'            => date('Y-m-d H:i:s'),
-                    ];
-                    $id_mom_users = Mom_user::insertGetId($data);
+    //                 $data = [
+    //                     'moms_id'               => $id_moms,
+    //                     'users_id'              => $request->users_id,
+    //                     'proyek_mom_users'      => $request->proyek_mom_users,
+    //                     'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
+    //                     'dikirimkan_mom_users'  => $dikirimkan_mom_users,
+    //                     'tugas_mom_users'       => $request->tugas_mom_users,
+    //                     'status_tugas_id'       => $request->status_tugas_id,
+    //                     'catatan_mom_users'     => $request->catatan_mom_users,
+    //                     'created_at'            => date('Y-m-d H:i:s'),
+    //                 ];
+    //                 $id_mom_users = Mom_user::insertGetId($data);
 
-                    $cek_tugas_sebelumnya = Mom_user::where('users_id',$request->users_id)
-                                                    ->where('tugas_mom_users',$request->tugas_mom_users)
-                                                    ->where('id_mom_users','!=',$id_mom_users)
-                                                    ->get();
+    //                 $cek_tugas_sebelumnya = Mom_user::where('users_id',$request->users_id)
+    //                                                 ->where('tugas_mom_users',$request->tugas_mom_users)
+    //                                                 ->where('id_mom_users','!=',$id_mom_users)
+    //                                                 ->get();
                     
-                    $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
+    //                 $redirect_halaman  = 'dashboard/mom/tugas/'.$id_moms;
         
-                    return redirect($redirect_halaman);
-            }
-            else
-                return redirect('dashboard/mom');
-        }
-        else
-            return redirect('dashboard/mom');
-    }
+    //                 return redirect($redirect_halaman);
+    //         }
+    //         else
+    //             return redirect('dashboard/mom');
+    //     }
+    //     else
+    //         return redirect('dashboard/mom');
+    // }
 
-    public function edittugas($id_mom_users=0)
-    {
-        $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
-        if(!empty($cek_mom_users))
-        {
-            $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-            {
-                    $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-                    $data['lihat_moms']                 = $ambil_moms;
-                    $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
-                                                                    ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                    ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                    ->where('moms_id',$ambil_moms->id_moms)
-                                                                    ->get();
-                    $data['edit_status_tugas']          = Master_status_tugas::get();
-                    $data['edit_mom_users']             = Mom_user::join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
-                                                                    ->join('users','mom_users.users_id','=','users.id')
-                                                                    ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                                                                    ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
-                                                                    ->where('id_mom_users',$id_mom_users)
-                                                                    ->first();
-                    return view('dashboard.mom.tugas',$data);
-            }
-            else
-                return redirect('dashboard/mom');
-        }
-        else
-            return redirect('dashboard/mom');
-    }
+    // public function edittugas($id_mom_users=0)
+    // {
+    //     $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+    //     if(!empty($cek_mom_users))
+    //     {
+    //         $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+    //         if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+    //         {
+    //                 $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+    //                 $data['lihat_moms']                 = $ambil_moms;
+    //                 $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
+    //                                                                 ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+    //                                                                 ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+    //                                                                 ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+    //                                                                 ->where('moms_id',$ambil_moms->id_moms)
+    //                                                                 ->get();
+    //                 $data['edit_status_tugas']          = Master_status_tugas::get();
+    //                 $data['edit_mom_users']             = Mom_user::join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+    //                                                                 ->join('users','mom_users.users_id','=','users.id')
+    //                                                                 ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+    //                                                                 ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
+    //                                                                 ->where('id_mom_users',$id_mom_users)
+    //                                                                 ->first();
+    //                 return view('dashboard.mom.tugas',$data);
+    //         }
+    //         else
+    //             return redirect('dashboard/mom');
+    //     }
+    //     else
+    //         return redirect('dashboard/mom');
+    // }
 
-    public function prosesedittugas(Request $request, $id_mom_users=0)
-    {
-        $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
-        if(!empty($cek_mom_users))
-        {
-            $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-            {
-                    $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-                    $aturan = [
-                        'proyek_mom_users'      => 'required',
-                        'tugas_mom_users'       => 'required',
-                        'status_tugas_id'       => 'required',
-                        'catatan_mom_users'     => 'required',
+    // public function prosesedittugas(Request $request, $id_mom_users=0)
+    // {
+    //     $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+    //     if(!empty($cek_mom_users))
+    //     {
+    //         $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+    //         if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+    //         {
+    //                 $ambil_moms                         = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+    //                 $aturan = [
+    //                     'proyek_mom_users'      => 'required',
+    //                     'tugas_mom_users'       => 'required',
+    //                     'status_tugas_id'       => 'required',
+    //                     'catatan_mom_users'     => 'required',
                         
-                    ];
-                    $this->validate($request, $aturan);
+    //                 ];
+    //                 $this->validate($request, $aturan);
 
-                    $tenggat_waktu_mom_users = null;
-                    if(!empty($request->tenggat_waktu_mom_users))
-                        $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
+    //                 $tenggat_waktu_mom_users = null;
+    //                 if(!empty($request->tenggat_waktu_mom_users))
+    //                     $tenggat_waktu_mom_users = General::ubahTanggalKeDB($request->tenggat_waktu_mom_users);
 
-                    $dikirimkan_mom_users = '';
-                    if(!empty($request->dikirimkan_mom_users))
-                        $dikirimkan_mom_users = $request->dikirimkan_mom_users;
+    //                 $dikirimkan_mom_users = '';
+    //                 if(!empty($request->dikirimkan_mom_users))
+    //                     $dikirimkan_mom_users = $request->dikirimkan_mom_users;
         
-                    $data = [
-                        'proyek_mom_users'      => $request->proyek_mom_users,
-                        'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
-                        'dikirimkan_mom_users'  => $dikirimkan_mom_users,
-                        'tugas_mom_users'       => $request->tugas_mom_users,
-                        'status_tugas_id'       => $request->status_tugas_id,
-                        'catatan_mom_users'     => $request->catatan_mom_users,
-                        'updated_at'            => date('Y-m-d H:i:s'),
-                    ];
-                    Mom_user::where('id_mom_users', $id_mom_users)
-                            ->update($data);
+    //                 $data = [
+    //                     'proyek_mom_users'      => $request->proyek_mom_users,
+    //                     'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
+    //                     'dikirimkan_mom_users'  => $dikirimkan_mom_users,
+    //                     'tugas_mom_users'       => $request->tugas_mom_users,
+    //                     'status_tugas_id'       => $request->status_tugas_id,
+    //                     'catatan_mom_users'     => $request->catatan_mom_users,
+    //                     'updated_at'            => date('Y-m-d H:i:s'),
+    //                 ];
+    //                 Mom_user::where('id_mom_users', $id_mom_users)
+    //                         ->update($data);
 
-                    return redirect('dashboard/mom/tugas/'.$ambil_moms->id_moms);
-            }
-            else
-                return redirect('dashboard/mom');
-        }
-        else
-            return redirect('dashboard/mom');
-    }
+    //                 return redirect('dashboard/mom/tugas/'.$ambil_moms->id_moms);
+    //         }
+    //         else
+    //             return redirect('dashboard/mom');
+    //     }
+    //     else
+    //         return redirect('dashboard/mom');
+    // }
 
-    public function proseshapustugas($id_mom_users=0)
-    {
-        $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
-        if(!empty($cek_mom_users))
-        {
-            $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
-            if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
-            {
-                Mom_user::where('id_mom_users',$id_mom_users)
-                                ->delete();
-                return response()->json(["sukses" => "sukses"], 200);
-            }
-            else
-                return redirect('dashboard/mom');
-        }
-        else
-            return redirect('dashboard/mom');
-    }
+    // public function proseshapustugas($id_mom_users=0)
+    // {
+    //     $cek_mom_users = Mom_user::where('id_mom_users',$id_mom_users)->first();
+    //     if(!empty($cek_mom_users))
+    //     {
+    //         $cek_moms = Mom::where('id_moms',$cek_mom_users->moms_id)->first();
+    //         if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
+    //         {
+    //             Mom_user::where('id_mom_users',$id_mom_users)
+    //                             ->delete();
+    //             return response()->json(["sukses" => "sukses"], 200);
+    //         }
+    //         else
+    //             return redirect('dashboard/mom');
+    //     }
+    //     else
+    //         return redirect('dashboard/mom');
+    // }
 
     public function edit($id_moms=0)
     {

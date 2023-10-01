@@ -25,6 +25,7 @@ use App\Http\Controllers\Dashboard\SuratController as DashboardSurat;
 use App\Http\Controllers\Dashboard\MomController as DashboardMom;
 use App\Http\Controllers\Dashboard\EventController as DashboardEvent;
 use App\Http\Controllers\Dashboard\FileManagerController as DashboardFileManager;
+use App\Http\Controllers\Dashboard\KaryawanController as DashboardKaryawan;
 
 //Konfigurasi Aplikasi
 use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
@@ -33,6 +34,8 @@ use App\Http\Controllers\Dashboard\DerajatSuratController as DashboardDerajatSur
 use App\Http\Controllers\Dashboard\SifatSuratController as DashboardSifatSurat;
 use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
 use App\Http\Controllers\Dashboard\DivisiController as DashboardDivisi;
+use App\Http\Controllers\Dashboard\UnitKerjaController as DashboardUnitKerja;
+use App\Http\Controllers\Dashboard\JabatanController as DashboardJabatan;
 use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
@@ -104,9 +107,9 @@ Route::middleware([
         });
 
         //Tugas
-        Route::group(['prefix' => 'tugas'], function() {
-            Route::get('/{id_status_tugas}', [DashboardTugas::class, 'index']);
-        });
+        // Route::group(['prefix' => 'tugas'], function() {
+        //     Route::get('/{id_status_tugas}', [DashboardTugas::class, 'index']);
+        // });
 
         //Apps
             //Surat
@@ -136,11 +139,11 @@ Route::middleware([
                 Route::get('/cari', [DashboardMom::class, 'cari']);
                 Route::get('/tambah', [DashboardMom::class, 'tambah']);
                 Route::post('/prosestambah', [DashboardMom::class, 'prosestambah']);
-                Route::get('/tugas/{id}', [DashboardMom::class, 'tugas']);
-                Route::post('/prosestambahtugas/{id}', [DashboardMom::class, 'prosestambahtugas']);
-                Route::get('/edittugas/{id}', [DashboardMom::class, 'edittugas']);
-                Route::post('/prosesedittugas/{id}', [DashboardMom::class, 'prosesedittugas']);
-                Route::get('/proseshapustugas/{id}', [DashboardMom::class, 'proseshapustugas']);
+                // Route::get('/tugas/{id}', [DashboardMom::class, 'tugas']);
+                // Route::post('/prosestambahtugas/{id}', [DashboardMom::class, 'prosestambahtugas']);
+                // Route::get('/edittugas/{id}', [DashboardMom::class, 'edittugas']);
+                // Route::post('/prosesedittugas/{id}', [DashboardMom::class, 'prosesedittugas']);
+                // Route::get('/proseshapustugas/{id}', [DashboardMom::class, 'proseshapustugas']);
                 Route::get('/edit/{id}', [DashboardMom::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardMom::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardMom::class, 'hapus']);
@@ -163,6 +166,18 @@ Route::middleware([
             //File Manager
             Route::group(['prefix' => 'file_manager'], function() {
                 Route::get('/', [DashboardFileManager::class, 'index']);
+            });
+            
+            //Karyawan
+            Route::group(['prefix' => 'karyawan'], function() {
+                Route::get('/', [DashboardKaryawan::class, 'index']);
+                Route::get('/cari', [DashboardKaryawan::class, 'cari']);
+                Route::get('/tambah', [DashboardKaryawan::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardKaryawan::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardKaryawan::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardKaryawan::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardKaryawan::class, 'hapus']);
+                Route::get('/cetakexcel', [DashboardKaryawan::class, 'cetakexcel']);
             });
 
         //Konfigurasi Aplikasi
@@ -253,6 +268,28 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardDivisi::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardDivisi::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardDivisi::class, 'hapus']);
+            });
+
+            //Unit Kerja
+            Route::group(['prefix' => 'unit_kerja'], function() {
+                Route::get('/', [DashboardUnitKerja::class, 'index']);
+                Route::get('/cari', [DashboardUnitKerja::class, 'cari']);
+                Route::get('/tambah', [DashboardUnitKerja::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardUnitKerja::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardUnitKerja::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardUnitKerja::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardUnitKerja::class, 'hapus']);
+            });
+
+            //Jabatan
+            Route::group(['prefix' => 'jabatan'], function() {
+                Route::get('/', [DashboardJabatan::class, 'index']);
+                Route::get('/cari', [DashboardJabatan::class, 'cari']);
+                Route::get('/tambah', [DashboardJabatan::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardJabatan::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardJabatan::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardJabatan::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardJabatan::class, 'hapus']);
             });
 
             //Level Sistem
