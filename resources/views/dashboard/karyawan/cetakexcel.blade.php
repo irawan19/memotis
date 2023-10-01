@@ -1,6 +1,7 @@
 <table>
     <tr>
-        <td colspan="24" style="font-weight: bold; text-align: center">Karyawan</td>
+        <td colspan="25" style="font-weight: bold; text-align: center">Karyawan</td>
+        <td style="display:none"></td>
         <td style="display:none"></td>
         <td style="display:none"></td>
         <td style="display:none"></td>
@@ -121,7 +122,8 @@
             @endforeach
             @else
             <tr>
-                <td colspan="24" align="right-align">Tidak ada data ditampilkan</td>
+                <td colspan="25" align="right-align">Tidak ada data ditampilkan</td>
+                <td style="display:none"></td>
                 <td style="display:none"></td>
                 <td style="display:none"></td>
                 <td style="display:none"></td>

@@ -159,7 +159,8 @@
 								@else
 									<tr>
 										@if(General::totalHakAkses($link_karyawan) != 0)
-											<td colspan="24" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="25" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
@@ -184,7 +185,8 @@
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@else
-											<td colspan="23" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="24" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
