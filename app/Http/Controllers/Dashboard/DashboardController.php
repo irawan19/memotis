@@ -37,10 +37,10 @@ class DashboardController extends AdminCoreController
         // $data['lihat_status_tugas']             = Master_status_tugas::get();
         if(Auth::user()->level_sistems_id == 1)
         {
-            $data['total_surats']    	    = Surat::count();
-            $data['total_surat_selesais']   = Surat::where('status_selesai_surats',1)->count();
-            $data['total_belum_selesais']   = Surat::where('status_selesai_surats',0)->count();
-            $data['total_moms']    	        = Mom::count();
+            $data['total_surats']    	            = Surat::count();
+            $data['total_surat_selesais']           = Surat::where('status_selesai_surats',1)->count();
+            $data['total_surat_belum_selesais']     = Surat::where('status_selesai_surats',0)->count();
+            $data['total_moms']    	                = Mom::count();
         }
         else
         {
