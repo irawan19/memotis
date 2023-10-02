@@ -171,6 +171,10 @@ not all {
     margin-top: 2px;
 }
 
+.input-group-append{
+    margin-top: -11px;
+}
+
 .scrolltable {
     overflow-x: auto;
     min-height: 250px;
