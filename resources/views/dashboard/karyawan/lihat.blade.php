@@ -20,12 +20,36 @@
 				<div class="card-body">
 					<form method="GET" action="{{ URL('dashboard/karyawan/cari') }}">
 						@csrf
-	                	<div class="input-group">
-	                		<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
-	                		<span class="input-group-append">
-	                		  	<button class="btn btn-primary" type="submit"> Cari</button>
-	                		</span>
-	                	</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<select class="form-control select2" id="cari_unit_kerja" name="cari_unit_kerja">
+										<option value="" selected>Semua Unit Kerja</option>
+										@foreach($lihat_unit_kerjas as $unit_kerjas)
+											@php($selected = '')
+											@if(!empty($hasil_unit_kerja))
+												@if($unit_kerjas->id_unit_kerjas == $hasil_unit_kerja)
+													@php($selected = 'selected')
+												@endif
+											@else
+												@if($unit_kerjas->id_unit_kerjas == Request::old('cari_unit_kerja'))
+													@php($selected = 'selected')
+												@endif
+											@endif
+											<option value="{{$unit_kerjas->id_unit_kerjas}}" {{ $selected }}>{{$unit_kerjas->nama_unit_kerjas}}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-9">
+								<div class="input-group">
+									<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
+									<span class="input-group-append">
+										<button class="btn btn-primary" type="submit"> Cari</button>
+									</span>
+								</div>
+							</div>
+						</div>
 	                </form>
 	            	<br/>
 	            	<div class="scrolltable">
