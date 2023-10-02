@@ -46,6 +46,7 @@
                                         <option value="{{$jabatans->id_jabatans}}" {{ $selected }}>{{$jabatans->nama_jabatans}}</option>
                                     @endforeach
                                 </select>
+						        {{General::pesanErrorForm($errors->first('jabatans_id'))}}
                             </div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="unit_kerjas_id">Unit Kerja <b style="color:red">*</b></label>
@@ -64,6 +65,7 @@
                                         <option value="{{$unit_kerjas->id_unit_kerjas}}" {{ $selected }}>{{$unit_kerjas->nama_unit_kerjas}}</option>
                                     @endforeach
                                 </select>
+						        {{General::pesanErrorForm($errors->first('unit_kerjas_id'))}}
                             </div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="nik_gys_karyawans">NIK GYS</label>
@@ -132,6 +134,7 @@
                                         <option value="{{$jenis_kelamins->id_jenis_kelamins}}" {{ $selected }}>{{$jenis_kelamins->nama_jenis_kelamins}}</option>
                                     @endforeach
                                 </select>
+						        {{General::pesanErrorForm($errors->first('jenis_kelamins_id'))}}
                             </div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="agamas_id">Agama <b style="color:red">*</b></label>
@@ -150,6 +153,7 @@
                                         <option value="{{$agamas->id_agamas}}" {{ $selected }}>{{$agamas->nama_agamas}}</option>
                                     @endforeach
                                 </select>
+						        {{General::pesanErrorForm($errors->first('agamas_id'))}}
                             </div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="alamat_rumah_karyawans">Alamat Rumah</label>
@@ -173,6 +177,7 @@
                                         <option value="{{$status_kawins->id_status_kawins}}" {{ $selected }}>{{$status_kawins->nama_status_kawins}}</option>
                                     @endforeach
                                 </select>
+						        {{General::pesanErrorForm($errors->first('status_kawins_id'))}}
                             </div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="pendidikans_id">Pendidikan <b style="color:red">*</b></label>
@@ -191,6 +196,7 @@
                                         <option value="{{$pendidikans->id_pendidikans}}" {{ $selected }}>{{$pendidikans->nama_pendidikans}}</option>
                                     @endforeach
                                 </select>
+						        {{General::pesanErrorForm($errors->first('pendidikans_id'))}}
                             </div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="institusi_karyawans">Nama Institusi</label>
