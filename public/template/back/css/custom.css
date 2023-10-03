@@ -299,3 +299,16 @@ not all {
 .image img{
     width: 100% !important;
 }
+
+@media(max-width:938px) {
+    .fc-toolbar-chunk{
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    button.fc-today-button.fc-button.fc-button-primary{
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+}

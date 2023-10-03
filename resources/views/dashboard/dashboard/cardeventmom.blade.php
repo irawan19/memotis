@@ -23,7 +23,7 @@
 		@endif
 
 		@if(General::hakAkses('mom', 'baca') == 'true')
-			<div class="card linkmodal{{$event_moms->id_moms}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer">
+			<div class="card linkmodal{{$event_moms->id_moms}}" style="height: 150px; background-color: {{$backcolor}}; color: #000; cursor: pointer; height:100%; padding-bottom:20px;">
 				<div class="card-body pb-0">
 					@if(!empty($ambil_mom_users))
 						@if($ambil_mom_users->status_baca_mom_users == 0)
