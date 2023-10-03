@@ -74,6 +74,7 @@ class MomController extends AdminCoreController
                                                                 ')
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->orWhere('moms.users_id',Auth::user()->id)
                                                         ->groupBy('moms.id_moms')
                                                         ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
@@ -152,8 +153,11 @@ class MomController extends AdminCoreController
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->where('judul_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->orWhere('moms.users_id',Auth::user()->id)
+                                                        
                                                         ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->where('mom_users.users_id',Auth::user()->id)
+                                                        ->orWhere('moms.users_id',Auth::user()->id)
                                                         ->groupBy('id_moms')
                                                         ->orderBy('moms.created_at','desc')
                                                         ->paginate(10);
