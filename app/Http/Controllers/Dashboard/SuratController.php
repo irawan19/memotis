@@ -67,7 +67,7 @@ class SuratController extends AdminCoreController
     public function cari(Request $request)
     {
         $link_surat = 'surat';
-        if(Auth::user()->level_sistesm_id == 1)
+        if(General::hakAkses($link_surat,'lihat') == 'true')
         {
             $data['link_surat']          = $link_surat;
             $url_sekarang               = $request->fullUrl();
