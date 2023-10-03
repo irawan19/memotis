@@ -87,7 +87,7 @@
 			<div class="col-sm-5">
 
 				<div class="row">
-					{{-- @foreach($lihat_status_tugas as $status_tugas)
+					@foreach($lihat_status_tugas as $status_tugas)
 						@php($ambil_divisis = \App\Models\Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
 																			->first())
 						@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
@@ -126,9 +126,9 @@
 								</div>
 							</a>
 						</div>
-					@endforeach --}}
+					@endforeach
 
-					<div class="col-sm-6">
+					{{-- <div class="col-sm-6">
 						<a href="{{URL('dashboard/surat')}}" class="nonstyle">
 							<div class="card" style="height: 106px; background-color: #fff; color: #000;">
 								<div class="card-body pb-0">
@@ -194,7 +194,7 @@
 								<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
 							</div>
 						</a>
-					</div>
+					</div> --}}
 
 					<div class="col-sm-12">
 						<div class="card">

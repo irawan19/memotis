@@ -85,7 +85,7 @@
 									{{General::cetak($link_mom,'dashboard/mom/cetak/'.$moms->id_moms)}}
 									@if($moms->created_users == Auth::user()->id || Auth::user()->level_sistems_id == 1)
 										{{General::editButton($link_mom,'dashboard/mom/edit/'.$moms->id_moms)}}
-										{{-- {{General::editTugasButton($link_mom, 'dashboard/mom/tugas/'.$moms->id_moms)}} --}}
+										{{General::editTugasButton($link_mom, 'dashboard/mom/tugas/'.$moms->id_moms)}}
 										{{General::hapusButton($link_mom,'dashboard/mom/hapus/'.$moms->id_moms)}}
 									@endif
 								</div>

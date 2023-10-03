@@ -107,9 +107,9 @@ Route::middleware([
         });
 
         //Tugas
-        // Route::group(['prefix' => 'tugas'], function() {
-        //     Route::get('/{id_status_tugas}', [DashboardTugas::class, 'index']);
-        // });
+        Route::group(['prefix' => 'tugas'], function() {
+            Route::get('/{id_status_tugas}', [DashboardTugas::class, 'index']);
+        });
 
         //Apps
             //Surat
@@ -139,11 +139,11 @@ Route::middleware([
                 Route::get('/cari', [DashboardMom::class, 'cari']);
                 Route::get('/tambah', [DashboardMom::class, 'tambah']);
                 Route::post('/prosestambah', [DashboardMom::class, 'prosestambah']);
-                // Route::get('/tugas/{id}', [DashboardMom::class, 'tugas']);
-                // Route::post('/prosestambahtugas/{id}', [DashboardMom::class, 'prosestambahtugas']);
-                // Route::get('/edittugas/{id}', [DashboardMom::class, 'edittugas']);
-                // Route::post('/prosesedittugas/{id}', [DashboardMom::class, 'prosesedittugas']);
-                // Route::get('/proseshapustugas/{id}', [DashboardMom::class, 'proseshapustugas']);
+                Route::get('/tugas/{id}', [DashboardMom::class, 'tugas']);
+                Route::post('/prosestambahtugas/{id}', [DashboardMom::class, 'prosestambahtugas']);
+                Route::get('/edittugas/{id}', [DashboardMom::class, 'edittugas']);
+                Route::post('/prosesedittugas/{id}', [DashboardMom::class, 'prosesedittugas']);
+                Route::get('/proseshapustugas/{id}', [DashboardMom::class, 'proseshapustugas']);
                 Route::get('/edit/{id}', [DashboardMom::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardMom::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardMom::class, 'hapus']);
