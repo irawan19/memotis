@@ -79,8 +79,8 @@
                 <td>{{$karyawans->nama_jabatans}}</td>
                 <td>{{$karyawans->nama_unit_kerjas}}</td>
                 <td>{!! nl2br($karyawans->lokasi_unit_kerjas) !!}</td>
-                <td>`{{$karyawans->nik_gys_karyawans}}</td>
-                <td>`{{$karyawans->nik_tg_karyawans}}</td>
+                <td>'{{$karyawans->nik_gys_karyawans}}</td>
+                <td>'{{$karyawans->nik_tg_karyawans}}</td>
                 <td>{{$karyawans->band_posisi_karyawans}}</td>
                 <td>
                     @if(!empty($karyawans->tanggal_bergabung_karyawans))
@@ -97,8 +97,8 @@
                     @endif
                 </td>
                 <td>{{$karyawans->nama_status_karyawans}}</td>
-                <td>`{{$karyawans->npwp_karyawans}}</td>
-                <td>`{{$karyawans->ktp_karyawans}}</td>
+                <td>'{{$karyawans->npwp_karyawans}}</td>
+                <td>'{{$karyawans->ktp_karyawans}}</td>
                 <td>
                     @if(!empty($karyawans->tanggal_lahir_karyawans))
                     {{General::ubaHDBkeTanggal($karyawans->tanggal_lahir_karyawans)}}
