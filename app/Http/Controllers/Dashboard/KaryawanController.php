@@ -301,7 +301,7 @@ class KaryawanController extends AdminCoreController
                     'no_hp_karyawans'               => $no_hp_karyawans,
                     'email_karyawans'               => $email_karyawans,
                     'ktp_karyawans'                 => $request->ktp_karyawans,
-                    'npwp_karyawans'                => $request->npwp_karyawans,
+                    'npwp_karyawans'                => $npwp_karyawans,
                     'created_at'                    => date('Y-m-d H:i:s'),
                 ];
             }
@@ -498,7 +498,7 @@ class KaryawanController extends AdminCoreController
                         'no_hp_karyawans'               => $no_hp_karyawans,
                         'email_karyawans'               => $email_karyawans,
                         'ktp_karyawans'                 => $request->ktp_karyawans,
-                        'npwp_karyawans'                => $request->npwp_karyawans,
+                        'npwp_karyawans'                => $npwp_karyawans,
                         'created_at'                    => date('Y-m-d H:i:s'),
                     ];
                 }
