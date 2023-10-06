@@ -5,20 +5,34 @@
 		<div class="col-sm-12">
 			<div class="row">
 				@foreach($lihat_unit_kerjas as $unit_kerjas)
-					@php($total_karyawans = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)->count())
+					@php($tanggal_sekarang = date('Y-m-d'))
+					@php($total_karyawans_aktif = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
+																	->whereRaw('tanggal_keluar_karyawans IS NULL')
+																	->orWhereRaw('tanggal_keluar_karyawans > "'.$tanggal_sekarang.'"')
+																	->count())
+					@php($total_karyawans_tidak_aktif = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
+																	->WhereRaw('tanggal_keluar_karyawans < "'.$tanggal_sekarang.'"')
+																	->count())
 					<div class="col-sm-4">
-						<div class="card" style="height: 150px; background-color: #fff; color: #000;">
-							<div class="card-body pb-0">
-								<div class="btn-group float-right">
-									<svg class="c-icon">
-										<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-user')}}"></use>
-									</svg>
+						<div class="card">
+							<div class="card-header content-center" style="background-color:#000">
+								<div class="text-white" style="padding-top:20px; padding-bottom:20px;">
+									<b style="font-size:18px">{{$unit_kerjas->nama_unit_kerjas}}</b>
+									<br/>
+									{{$unit_kerjas->lokasi_unit_kerjas}}
 								</div>
-								<div class="text-value-lg">{{General::konversiNilai($total_karyawans)}} <span>{{General::konversiNilaiString($total_karyawans)}}</span></div>
-								<div class="textnotifberanda">{{$unit_kerjas->nama_unit_kerjas}}</div>
-								<div class="textnotifberanda">{{$unit_kerjas->lokasi_unit_kerjas}}</div>
 							</div>
-							<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+							<div class="card-body row text-center">
+								<div class="col">
+									<div class="text-value-xl">{{General::konversiNilai($total_karyawans_aktif). ' ' .General::konversiNilaiString($total_karyawans_aktif)}}</div>
+									<div class="text-uppercase text-muted small" style="color:green !important">Aktif</div>
+								</div>
+								<div class="c-vr"></div>
+								<div class="col">
+									<div class="text-value-xl">{{General::konversiNilai($total_karyawans_tidak_aktif). ' ' .General::konversiNilaiString($total_karyawans_tidak_aktif)}}</div>
+									<div class="text-uppercase text-muted small" style="color:red !important">Tidak Aktif</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				@endforeach
