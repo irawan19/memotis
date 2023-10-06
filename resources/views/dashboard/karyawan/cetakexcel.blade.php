@@ -1,6 +1,8 @@
 <table>
     <tr>
-        <td colspan="25" style="font-weight: bold; text-align: center">Karyawan</td>
+        <td colspan="27" style="font-weight: bold; text-align: center">Karyawan</td>
+        <td style="display:none"></td>
+        <td style="display:none"></td>
         <td style="display:none"></td>
         <td style="display:none"></td>
         <td style="display:none"></td>
@@ -36,17 +38,20 @@
             <th>Nama</th>
             <th>Jabatan</th>
             <th>Unit Kerja</th>
+            <th>Lokasi Kerja</th>
             <th>NIK GYS</th>
             <th>NIK TG</th>
-            <th>Band Posisi</th>
             <th>Tanggal Bergabung</th>
+            <th>Band Posisi</th>
             <th>Tanggal Keluar</th>
+            <th>Status Karyawan</th>
+            <th>Nomor NPWP</th>
             <th>Nomor Identitas (KTP)</th>
             <th>Tanggal Lahir</th>
             <th>Tempat Lahir</th>
             <th>Jenis Kelamin</th>
             <th>Agama</th>
-            <th>Alamat Rumah</th>
+            <th>Alamat Domisili</th>
             <th>Status Perkawinan</th>
             <th>Pedidikan Terakhir</th>
             <th>Nama Institusi</th>
@@ -61,7 +66,7 @@
         @php($no = 1)
         @foreach($lihat_karyawans as $karyawans)
         @if(!empty($karyawans->tanggal_keluar_karyawans))
-        @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d'))) @php($color='color:red' ) @else @php($color='' ) @endif @else @php($color='' ) @endif @php($no=1))
+        @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d'))) @php($color='color:red' ) @else @php($color='' ) @endif @else @php($color='' ) @endif @php($no=1)
             <tr {{$color}}>
                 <td>{{$no}}</td>
                 <td>
@@ -73,6 +78,7 @@
                 <td>{{$karyawans->nama_karyawans}}</td>
                 <td>{{$karyawans->nama_jabatans}}</td>
                 <td>{{$karyawans->nama_unit_kerjas}}</td>
+                <td>{!! nl2br($karyawans->lokasi_unit_kerjas) !!}</td>
                 <td>{{$karyawans->nik_gys_karyawans}}</td>
                 <td>{{$karyawans->nik_tg_karyawans}}</td>
                 <td>{{$karyawans->band_posisi_karyawans}}</td>
@@ -90,6 +96,8 @@
                     -
                     @endif
                 </td>
+                <td>{{$karyawans->nama_status_karyawans}}</td>
+                <td>{{$karyawans->npwp_karyawans}}</td>
                 <td>{{$karyawans->ktp_karyawans}}</td>
                 <td>
                     @if(!empty($karyawans->tanggal_lahir_karyawans))
@@ -101,7 +109,7 @@
                 <td>{{$karyawans->tempat_lahir_karyawans}}</td>
                 <td>{{$karyawans->nama_jenis_kelamins}}</td>
                 <td>{{$karyawans->nama_agamas}}</td>
-                <td>{!! nl2br($karyawans->alamat_rumah_karyawans) !!}</td>
+                <td>{!! nl2br($karyawans->alamat_domisili_karyawans) !!}</td>
                 <td>{{$karyawans->nama_status_kawins}}</td>
                 <td>{{$karyawans->nama_pendidikans}}</td>
                 <td>{{$karyawans->institusi_karyawans}}</td>
@@ -122,7 +130,9 @@
             @endforeach
             @else
             <tr>
-                <td colspan="25" align="right-align">Tidak ada data ditampilkan</td>
+                <td colspan="27" align="right-align">Tidak ada data ditampilkan</td>
+                <td style="display:none"></td>
+                <td style="display:none"></td>
                 <td style="display:none"></td>
                 <td style="display:none"></td>
                 <td style="display:none"></td>

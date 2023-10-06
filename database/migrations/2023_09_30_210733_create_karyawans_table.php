@@ -27,6 +27,8 @@ return new class extends Migration
             $table->foreign('status_kawins_id')->references('id_status_kawins')->on('master_status_kawins')->onUpdate('set null')->onDelete('set null');
             $table->bigInteger('pendidikans_id')->unsigned()->index()->nullable();
             $table->foreign('pendidikans_id')->references('id_pendidikans')->on('master_pendidikans')->onUpdate('set null')->onDelete('set null');
+            $table->bigInteger('status_karyawans_id')->unsigned()->index()->nullable();
+            $table->foreign('status_karyawans_id')->references('id_status_karyawans')->on('master_status_karyawans')->onUpdate('set null')->onDelete('set null');
             $table->string('foto_karyawans');
             $table->string('nama_karyawans');
             $table->string('nik_gys_karyawans');
@@ -36,13 +38,14 @@ return new class extends Migration
             $table->date('tanggal_keluar_karyawans')->nullable();
             $table->date('tanggal_lahir_karyawans');
             $table->string('tempat_lahir_karyawans');
-            $table->longtext('alamat_rumah_karyawans');
+            $table->longtext('alamat_domisili_karyawans');
             $table->longtext('institusi_karyawans');
             $table->longtext('hobi_karyawans');
             $table->longtext('keahlian_khusus_karyawans');
             $table->string('no_hp_karyawans');
             $table->string('email_karyawans');
             $table->string('ktp_karyawans');
+            $table->string('npwp_karyawans');
             $table->timestamps();
         });
     }

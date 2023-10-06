@@ -46,6 +46,25 @@ class UnitKerjaController extends AdminCoreController
             return redirect('dashboard/unit_kerja');
     }
 
+    public function lokasi($id_unit_kerjas=0) {
+        $link_unit_kerja = 'unit_kerja';
+        if(General::hakAkses($link_unit_kerja,'edit') == 'true')
+        {
+            $cek_unit_kerjas = Master_unit_kerja::where('id_unit_kerjas',$id_unit_kerjas)->first();
+            if(!empty($cek_unit_kerjas))
+            {
+                $lokasi_unit_kerjas = [
+                    $cek_unit_kerjas->lokasi_unit_kerjas,
+                ];
+                return json_encode($lokasi_unit_kerjas);
+            }
+            else
+                return redirect('dashboard/unit_kerja');
+        }
+        else
+            return redirect('dashboard/unit_kerja');
+    }
+
     public function tambah()
     {
         $link_unit_kerja = 'unit_kerja';

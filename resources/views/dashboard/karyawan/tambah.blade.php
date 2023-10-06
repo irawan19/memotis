@@ -35,6 +35,15 @@
 									{{General::pesanErrorForm($errors->first('jabatans_id'))}}
 		                      	</div>
 								<div class="form-group">
+									<label class="form-col-form-label" for="status_karyawans_id">Status Karyawan <b style="color:red">*</b></label>
+				                    <select class="form-control select2" id="status_karyawans_id" name="status_karyawans_id">
+				                    	@foreach($tambah_status_karyawans as $status_karyawans)
+										    <option value="{{$status_karyawans->id_status_karyawans}}" {{ Request::old('status_karyawans_id') == $status_karyawans->id_status_karyawans ? $select='selected' : $select='' }}>{{$status_karyawans->nama_status_karyawans}}</option>
+				                    	@endforeach
+				                    </select>
+									{{General::pesanErrorForm($errors->first('status_karyawans_id'))}}
+		                      	</div>
+								<div class="form-group">
 									<label class="form-col-form-label" for="unit_kerjas_id">Unit Kerja <b style="color:red">*</b></label>
 				                    <select class="form-control select2" id="unit_kerjas_id" name="unit_kerjas_id">
 				                    	@foreach($tambah_unit_kerjas as $unit_kerjas)
@@ -43,6 +52,11 @@
 				                    </select>
 									{{General::pesanErrorForm($errors->first('unit_kerjas_id'))}}
 		                      	</div>
+								<div class="form-group">
+									<label class="form-col-form-label" for="lokasi_unit_kerjas">Lokasi Kerja</label>
+									<textarea readonly class="form-control {{ General::validForm($errors->first('lokasi_unit_kerjas')) }}" id="lokasi_unit_kerjas" name="lokasi_unit_kerjas" rows="5">{{Request::old('lokasi_unit_kerjas')}}</textarea>
+									{{General::pesanErrorForm($errors->first('lokasi_unit_kerjas'))}}
+								</div>
 								<div class="form-group">
 									<label class="form-col-form-label" for="nik_gys_karyawans">NIK GYS</label>
 									<input class="form-control {{ General::validForm($errors->first('nik_gys_karyawans')) }}" id="nik_gys_karyawans" type="text" name="nik_gys_karyawans" value="{{Request::old('nik_gys_karyawans')}}">
@@ -74,6 +88,18 @@
 									{{General::pesanErrorForm($errors->first('ktp_karyawans'))}}
 								</div>
 								<div class="form-group">
+									<label class="form-col-form-label" for="npwp_karyawans">Nomor NPWP</label>
+									<input class="form-control {{ General::validForm($errors->first('npwp_karyawans')) }}" id="npwp_karyawans" type="text" name="npwp_karyawans" value="{{Request::old('npwp_karyawans')}}">
+									{{General::pesanErrorForm($errors->first('npwp_karyawans'))}}
+								</div>
+								<div class="form-group">
+									<label class="form-col-form-label" for="email_karyawans">Email</label>
+									<input class="form-control {{ General::validForm($errors->first('email_karyawans')) }}" id="email_karyawans" type="email" name="email_karyawans" value="{{Request::old('email_karyawans')}}">
+									{{General::pesanErrorForm($errors->first('email_karyawans'))}}
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
 									<label class="form-col-form-label" for="tanggal_lahir_karyawans">Tanggal Lahir</label>
 									<input class="form-control {{ General::validForm($errors->first('tanggal_lahir_karyawans')) }} getDate" id="tanggal_lahir_karyawans" type="text" name="tanggal_lahir_karyawans" value="{{Request::old('tanggal_lahir_karyawans')}}">
 									{{General::pesanErrorForm($errors->first('tanggal_lahir_karyawans'))}}
@@ -83,8 +109,6 @@
 									<input class="form-control {{ General::validForm($errors->first('tempat_lahir_karyawans')) }}" id="tempat_lahir_karyawans" type="text" name="tempat_lahir_karyawans" value="{{Request::old('tempat_lahir_karyawans')}}">
 									{{General::pesanErrorForm($errors->first('tempat_lahir_karyawans'))}}
 								</div>
-							</div>
-							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="form-col-form-label" for="jenis_kelamins_id">Jenis Kelamin <b style="color:red">*</b></label>
 				                    <select class="form-control select2" id="jenis_kelamins_id" name="jenis_kelamins_id">
@@ -103,9 +127,9 @@
 									{{General::pesanErrorForm($errors->first('agamas_id'))}}
 		                      	</div>
                                 <div class="form-group">
-                                    <label class="form-col-form-label" for="alamat_rumah_karyawans">Alamat Rumah</label>
-                                    <textarea class="form-control {{ General::validForm($errors->first('alamat_rumah_karyawans')) }}" id="alamat_rumah_karyawans" name="alamat_rumah_karyawans" rows="5">{{Request::old('alamat_rumah_karyawans')}}</textarea>
-                                    {{General::pesanErrorForm($errors->first('alamat_rumah_karyawans'))}}
+                                    <label class="form-col-form-label" for="alamat_domisili_karyawans">Alamat Domisili</label>
+                                    <textarea class="form-control {{ General::validForm($errors->first('alamat_domisili_karyawans')) }}" id="alamat_domisili_karyawans" name="alamat_domisili_karyawans" rows="5">{{Request::old('alamat_domisili_karyawans')}}</textarea>
+                                    {{General::pesanErrorForm($errors->first('alamat_domisili_karyawans'))}}
                                 </div>
 								<div class="form-group">
 									<label class="form-col-form-label" for="status_kawins_id">Status Kawin <b style="color:red">*</b></label>
@@ -145,11 +169,6 @@
 									<input class="form-control {{ General::validForm($errors->first('no_hp_karyawans')) }}" id="no_hp_karyawans" type="text" name="no_hp_karyawans" value="{{Request::old('no_hp_karyawans')}}">
 									{{General::pesanErrorForm($errors->first('no_hp_karyawans'))}}
 								</div>
-								<div class="form-group">
-									<label class="form-col-form-label" for="email_karyawans">Email</label>
-									<input class="form-control {{ General::validForm($errors->first('email_karyawans')) }}" id="email_karyawans" type="email" name="email_karyawans" value="{{Request::old('email_karyawans')}}">
-									{{General::pesanErrorForm($errors->first('email_karyawans'))}}
-								</div>
 							</div>
 						</div>
 					</div>
@@ -167,5 +186,48 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+        $(document).ready(function(){
+			var idunitkerja = $(this).find(':selected').val();
+			var headerRequest = {
+							'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
+						};
+			$.ajax({
+					url: '{{URL("dashboard/unit_kerja/lokasi")}}/'+idunitkerja,
+					type: "GET",
+					dataType: 'JSON',
+					headers: headerRequest,
+					success: function(data)
+					{
+						$('#lokasi_unit_kerjas').val(data);
+					},
+					error: function(data) {
+						console.log(data);
+					}
+			});
+
+            $('#unit_kerjas_id').on('change',function(){
+				var idunitkerja = $(this).find(':selected').val();
+				var headerRequest = {
+								'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
+							};
+				$.ajax({
+						url: '{{URL("dashboard/unit_kerja/lokasi")}}/'+idunitkerja,
+						type: "GET",
+						dataType: 'JSON',
+						headers: headerRequest,
+						success: function(data)
+						{
+							$('#lokasi_unit_kerjas').val(data);
+						},
+						error: function(data) {
+							console.log(data);
+						}
+				});
+
+            });
+        });
+    </script>
 
 @endsection

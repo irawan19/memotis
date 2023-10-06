@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Master_status_karyawan;
 use Illuminate\Http\Request;
 use App\Helpers\General;
 use App\Models\Karyawan;
@@ -33,6 +34,7 @@ class KaryawanController extends AdminCoreController
                                                         ->join('master_agamas','karyawans.agamas_id','=','master_agamas.id_agamas')
                                                         ->join('master_status_kawins','karyawans.status_kawins_id','=','master_status_kawins.id_status_kawins')
                                                         ->join('master_pendidikans','karyawans.pendidikans_id','=','master_pendidikans.id_pendidikans')
+                                                        ->join('master_status_karyawans','karyawans.status_karyawans_id','=','master_status_karyawans.id_status_karyawans')
                                                         ->orderBy('nama_karyawans')
                                                         ->paginate(25);
             session()->forget('halaman');
@@ -65,15 +67,18 @@ class KaryawanController extends AdminCoreController
                                                             ->join('master_agamas','karyawans.agamas_id','=','master_agamas.id_agamas')
                                                             ->join('master_status_kawins','karyawans.status_kawins_id','=','master_status_kawins.id_status_kawins')
                                                             ->join('master_pendidikans','karyawans.pendidikans_id','=','master_pendidikans.id_pendidikans')
-                                                            ->where('nama_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->join('master_status_karyawans','karyawans.status_karyawans_id','=','master_status_karyawans.id_status_karyawans')
+                                                            ->where('nama_jabatans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->orWhere('nama_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('nik_gys_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('nik_tg_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('band_posisi_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->orWhere('npwp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('ktp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('tempat_lahir_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('nama_jenis_kelamins', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('nama_agamas', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->orWhere('alamat_rumah_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->orWhere('alamat_domisili_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('nama_status_kawins', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('nama_pendidikans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->orWhere('institusi_karyawans', 'LIKE', '%'.$hasil_kata.'%')
@@ -92,13 +97,19 @@ class KaryawanController extends AdminCoreController
                                                             ->join('master_agamas','karyawans.agamas_id','=','master_agamas.id_agamas')
                                                             ->join('master_status_kawins','karyawans.status_kawins_id','=','master_status_kawins.id_status_kawins')
                                                             ->join('master_pendidikans','karyawans.pendidikans_id','=','master_pendidikans.id_pendidikans')
-                                                            ->where('nama_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->join('master_status_karyawans','karyawans.status_karyawans_id','=','master_status_karyawans.id_status_karyawans')
+                                                            ->where('nama_jabatans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->orWhere('nama_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('nik_gys_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('nik_tg_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('band_posisi_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->orWhere('npwp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('ktp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('tempat_lahir_karyawans', 'LIKE', '%'.$hasil_kata.'%')
@@ -107,7 +118,7 @@ class KaryawanController extends AdminCoreController
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('nama_agamas', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
-                                                            ->orWhere('alamat_rumah_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->orWhere('alamat_domisili_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('nama_status_kawins', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
@@ -122,7 +133,6 @@ class KaryawanController extends AdminCoreController
                                                             ->orWhere('no_hp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
                                                             ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orWhere('email_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
                                                             ->orderBy('nama_karyawans')
                                                             ->paginate(25);
             }
@@ -146,6 +156,7 @@ class KaryawanController extends AdminCoreController
             $data['tambah_agamas']          = Master_agama::orderBy('nama_agamas')->get();
             $data['tambah_status_kawins']   = Master_status_kawin::orderBy('nama_status_kawins')->get();
             $data['tambah_pendidikans']     = Master_pendidikan::orderBy('nama_pendidikans')->get();
+            $data['tambah_status_karyawans']= Master_status_karyawan::orderBy('nama_status_karyawans')->get();
             return view('dashboard.karyawan.tambah',$data);
         }
         else
@@ -163,7 +174,8 @@ class KaryawanController extends AdminCoreController
                 'jenis_kelamins_id'             => 'required',
                 'agamas_id'                     => 'required',
                 'status_kawins_id'              => 'required',
-                'pendidikans_id'                => 'required', 
+                'pendidikans_id'                => 'required',
+                'status_karyawans_id'           => 'required', 
                 'nama_karyawans'                => 'required',
                 'ktp_karyawans'                 => 'required',
                 'tanggal_bergabung_karyawans'   => 'required',
@@ -194,9 +206,9 @@ class KaryawanController extends AdminCoreController
             if(!empty($request->tempat_lahir_karyawans))
                 $tempat_lahir_karyawans = $request->tempat_lahir_karyawans;
 
-            $alamat_rumah_karyawans = '';
-            if(!empty($request->alamat_rumah_karyawans))
-                $alamat_rumah_karyawans = $request->alamat_rumah_karyawans;
+            $alamat_domisili_karyawans = '';
+            if(!empty($request->alamat_domisili_karyawans))
+                $alamat_domisili_karyawans = $request->alamat_domisili_karyawans;
 
             $institusi_karyawans = '';
             if(!empty($request->institusi_karyawans))
@@ -218,6 +230,10 @@ class KaryawanController extends AdminCoreController
             if(!empty($request->email_karyawans))
                 $email_karyawans = $request->email_karyawans;
 
+            $npwp_karyawans = '';
+            if(!empty($request->npwp_karyawans))
+                $npwp_karyawans = $request->npwp_karyawans;
+
             if(!empty($request->userfile_foto_karyawan))
             {
                 $aturan = [
@@ -237,6 +253,7 @@ class KaryawanController extends AdminCoreController
                     'agamas_id'                     => $request->agamas_id,
                     'status_kawins_id'              => $request->status_kawins_id,
                     'pendidikans_id'                => $request->pendidikans_id,
+                    'status_karyawans_id'           => $request->status_karyawans_id,
                     'nama_karyawans'                => $request->nama_karyawans,
                     'foto_karyawans'                => $path_foto_karyawan.$nama_foto_karyawan,
                     'nik_gys_karyawans'             => $nik_gys_karyawans,
@@ -246,13 +263,14 @@ class KaryawanController extends AdminCoreController
                     'tanggal_keluar_karyawans'      => $tanggal_keluar_karyawans,
                     'tanggal_lahir_karyawans'       => $tanggal_lahir_karyawans,
                     'tempat_lahir_karyawans'        => $tempat_lahir_karyawans,
-                    'alamat_rumah_karyawans'        => $alamat_rumah_karyawans,
+                    'alamat_domisili_karyawans'        => $alamat_domisili_karyawans,
                     'institusi_karyawans'           => $institusi_karyawans,
                     'hobi_karyawans'                => $hobi_karyawans,
                     'keahlian_khusus_karyawans'     => $keahlian_khusus_karyawans,
                     'no_hp_karyawans'               => $no_hp_karyawans,
                     'email_karyawans'               => $email_karyawans,
                     'ktp_karyawans'                 => $request->ktp_karyawans,
+                    'npwp_karyawans'                => $npwp_karyawans,
                     'created_at'                    => date('Y-m-d H:i:s'),
                 ];
             }
@@ -266,6 +284,7 @@ class KaryawanController extends AdminCoreController
                     'agamas_id'                     => $request->agamas_id,
                     'status_kawins_id'              => $request->status_kawins_id,
                     'pendidikans_id'                => $request->pendidikans_id,
+                    'status_karyawans_id'           => $request->status_karyawans_id,
                     'nama_karyawans'                => $request->nama_karyawans,
                     'foto_karyawans'                => 'karyawan/default/default.png',
                     'nik_gys_karyawans'             => $nik_gys_karyawans,
@@ -275,13 +294,14 @@ class KaryawanController extends AdminCoreController
                     'tanggal_keluar_karyawans'      => $tanggal_keluar_karyawans,
                     'tanggal_lahir_karyawans'       => $tanggal_lahir_karyawans,
                     'tempat_lahir_karyawans'        => $tempat_lahir_karyawans,
-                    'alamat_rumah_karyawans'        => $alamat_rumah_karyawans,
+                    'alamat_domisili_karyawans'        => $alamat_domisili_karyawans,
                     'institusi_karyawans'           => $institusi_karyawans,
                     'hobi_karyawans'                => $hobi_karyawans,
                     'keahlian_khusus_karyawans'     => $keahlian_khusus_karyawans,
                     'no_hp_karyawans'               => $no_hp_karyawans,
                     'email_karyawans'               => $email_karyawans,
                     'ktp_karyawans'                 => $request->ktp_karyawans,
+                    'npwp_karyawans'                => $request->npwp_karyawans,
                     'created_at'                    => date('Y-m-d H:i:s'),
                 ];
             }
@@ -325,6 +345,7 @@ class KaryawanController extends AdminCoreController
                 $data['edit_agamas']            = Master_agama::orderBy('nama_agamas')->get();
                 $data['edit_status_kawins']     = Master_status_kawin::orderBy('nama_status_kawins')->get();
                 $data['edit_pendidikans']       = Master_pendidikan::orderBy('nama_pendidikans')->get();
+                $data['edit_status_karyawans']  = Master_status_karyawan::orderBy('nama_status_karyawans')->get();
                 $data['edit_karyawans']         = Karyawan::where('id_karyawans',$id_karyawans)
                                                             ->first();
                 return view('dashboard.karyawan.edit',$data);
@@ -350,7 +371,8 @@ class KaryawanController extends AdminCoreController
                     'jenis_kelamins_id'             => 'required',
                     'agamas_id'                     => 'required',
                     'status_kawins_id'              => 'required',
-                    'pendidikans_id'                => 'required', 
+                    'pendidikans_id'                => 'required',
+                    'status_karyawans_id'           => 'required', 
                     'nama_karyawans'                => 'required',
                     'ktp_karyawans'                 => 'required',
                     'tanggal_bergabung_karyawans'   => 'required',
@@ -381,9 +403,9 @@ class KaryawanController extends AdminCoreController
                 if(!empty($request->tempat_lahir_karyawans))
                     $tempat_lahir_karyawans = $request->tempat_lahir_karyawans;
     
-                $alamat_rumah_karyawans = '';
-                if(!empty($request->alamat_rumah_karyawans))
-                    $alamat_rumah_karyawans = $request->alamat_rumah_karyawans;
+                $alamat_domisili_karyawans = '';
+                if(!empty($request->alamat_domisili_karyawans))
+                    $alamat_domisili_karyawans = $request->alamat_domisili_karyawans;
     
                 $institusi_karyawans = '';
                 if(!empty($request->institusi_karyawans))
@@ -405,6 +427,10 @@ class KaryawanController extends AdminCoreController
                 if(!empty($request->email_karyawans))
                     $email_karyawans = $request->email_karyawans;
     
+                $npwp_karyawans = '';
+                if(!empty($request->npwp_karyawans))
+                    $npwp_karyawans = $request->npwp_karyawans;
+    
                 if(!empty($request->userfile_foto_karyawan))
                 {
                     $aturan = [
@@ -424,6 +450,7 @@ class KaryawanController extends AdminCoreController
                         'agamas_id'                     => $request->agamas_id,
                         'status_kawins_id'              => $request->status_kawins_id,
                         'pendidikans_id'                => $request->pendidikans_id,
+                        'status_karyawans_id'           => $request->status_karyawans_id,
                         'nama_karyawans'                => $request->nama_karyawans,
                         'foto_karyawans'                => $path_foto_karyawan.$nama_foto_karyawan,
                         'nik_gys_karyawans'             => $nik_gys_karyawans,
@@ -433,14 +460,15 @@ class KaryawanController extends AdminCoreController
                         'tanggal_keluar_karyawans'      => $tanggal_keluar_karyawans,
                         'tanggal_lahir_karyawans'       => $tanggal_lahir_karyawans,
                         'tempat_lahir_karyawans'        => $tempat_lahir_karyawans,
-                        'alamat_rumah_karyawans'        => $alamat_rumah_karyawans,
+                        'alamat_domisili_karyawans'        => $alamat_domisili_karyawans,
                         'institusi_karyawans'           => $institusi_karyawans,
                         'hobi_karyawans'                => $hobi_karyawans,
                         'keahlian_khusus_karyawans'     => $keahlian_khusus_karyawans,
                         'no_hp_karyawans'               => $no_hp_karyawans,
                         'email_karyawans'               => $email_karyawans,
                         'ktp_karyawans'                 => $request->ktp_karyawans,
-                        'updated_at'                    => date('Y-m-d H:i:s'),
+                        'npwp_karyawans'                => $npwp_karyawans,
+                        'created_at'                    => date('Y-m-d H:i:s'),
                     ];
                 }
                 else
@@ -453,26 +481,29 @@ class KaryawanController extends AdminCoreController
                         'agamas_id'                     => $request->agamas_id,
                         'status_kawins_id'              => $request->status_kawins_id,
                         'pendidikans_id'                => $request->pendidikans_id,
+                        'status_karyawans_id'           => $request->status_karyawans_id,
                         'nama_karyawans'                => $request->nama_karyawans,
                         'foto_karyawans'                => 'karyawan/default/default.png',
                         'nik_gys_karyawans'             => $nik_gys_karyawans,
                         'nik_tg_karyawans'              => $nik_tg_karyawans,
                         'band_posisi_karyawans'         => $band_posisi_karyawans,
+                        'tanggal_bergabung_karyawans'   => General::ubahTanggalKeDB($request->tanggal_bergabung_karyawans),
                         'tanggal_keluar_karyawans'      => $tanggal_keluar_karyawans,
                         'tanggal_lahir_karyawans'       => $tanggal_lahir_karyawans,
                         'tempat_lahir_karyawans'        => $tempat_lahir_karyawans,
-                        'alamat_rumah_karyawans'        => $alamat_rumah_karyawans,
+                        'alamat_domisili_karyawans'        => $alamat_domisili_karyawans,
                         'institusi_karyawans'           => $institusi_karyawans,
                         'hobi_karyawans'                => $hobi_karyawans,
                         'keahlian_khusus_karyawans'     => $keahlian_khusus_karyawans,
                         'no_hp_karyawans'               => $no_hp_karyawans,
                         'email_karyawans'               => $email_karyawans,
                         'ktp_karyawans'                 => $request->ktp_karyawans,
-                        'updated_at'                    => date('Y-m-d H:i:s'),
+                        'npwp_karyawans'                => $request->npwp_karyawans,
+                        'created_at'                    => date('Y-m-d H:i:s'),
                     ];
                 }
                 Karyawan::where('id_karyawans', $id_karyawans)
-                                        ->update($data);
+                        ->update($data);
 
                 if(request()->session()->get('halaman') != '')
                     $redirect_halaman    = request()->session()->get('halaman');

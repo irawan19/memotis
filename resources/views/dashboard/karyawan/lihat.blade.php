@@ -65,17 +65,20 @@
 				    				<th class="nowrap">Nama</th>
 				    				<th class="nowrap">Jabatan</th>
 				    				<th class="nowrap">Unit Kerja</th>
+				    				<th class="nowrap">Lokasi Kerja</th>
 				    				<th class="nowrap">NIK GYS</th>
 				    				<th class="nowrap">NIK TG</th>
-				    				<th class="nowrap">Band Posisi</th>
 				    				<th class="nowrap">Tanggal Bergabung</th>
+				    				<th class="nowrap">Band Posisi</th>
 				    				<th class="nowrap">Tanggal Keluar</th>
+				    				<th class="nowrap">Status Karyawan</th>
+				    				<th class="nowrap">Nomor NPWP</th>
 				    				<th class="nowrap">Nomor Identitas (KTP)</th>
 				    				<th class="nowrap">Tanggal Lahir</th>
 				    				<th class="nowrap">Tempat Lahir</th>
 				    				<th class="nowrap">Jenis Kelamin</th>
 				    				<th class="nowrap">Agama</th>
-				    				<th class="nowrap">Alamat Rumah</th>
+				    				<th class="nowrap">Alamat Domisili</th>
 				    				<th class="nowrap">Status Perkawinan</th>
 				    				<th class="nowrap">Pedidikan Terakhir</th>
 				    				<th class="nowrap">Nama Institusi</th>
@@ -133,6 +136,7 @@
 								    		<td class="nowrap">{{$karyawans->nama_karyawans}}</td>
 								    		<td class="nowrap">{{$karyawans->nama_jabatans}}</td>
 								    		<td class="nowrap">{{$karyawans->nama_unit_kerjas}}</td>
+								    		<td class="nowrap">{!! nl2br($karyawans->lokasi_unit_kerjas) !!}</td>
 								    		<td class="nowrap">{{$karyawans->nik_gys_karyawans}}</td>
 								    		<td class="nowrap">{{$karyawans->nik_tg_karyawans}}</td>
 								    		<td class="nowrap">{{$karyawans->band_posisi_karyawans}}</td>
@@ -150,6 +154,8 @@
                                                     -
                                                 @endif
                                             </td>
+								    		<td class="nowrap">{{$karyawans->nama_status_karyawans}}</td>
+								    		<td class="nowrap">{{$karyawans->npwp_karyawans}}</td>
 								    		<td class="nowrap">{{$karyawans->ktp_karyawans}}</td>
 								    		<td class="nowrap">
 												@if(!empty($karyawans->tanggal_lahir_karyawans))
@@ -161,7 +167,7 @@
 								    		<td class="nowrap">{{$karyawans->tempat_lahir_karyawans}}</td>
 								    		<td class="nowrap">{{$karyawans->nama_jenis_kelamins}}</td>
 								    		<td class="nowrap">{{$karyawans->nama_agamas}}</td>
-								    		<td class="nowrap">{!! nl2br($karyawans->alamat_rumah_karyawans) !!}</td>
+								    		<td class="nowrap">{!! nl2br($karyawans->alamat_domisili_karyawans) !!}</td>
 								    		<td class="nowrap">{{$karyawans->nama_status_kawins}}</td>
 								    		<td class="nowrap">{{$karyawans->nama_pendidikans}}</td>
 								    		<td class="nowrap">{{$karyawans->institusi_karyawans}}</td>
@@ -183,7 +189,10 @@
 								@else
 									<tr>
 										@if(General::totalHakAkses($link_karyawan) != 0)
-											<td colspan="25" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="28" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
@@ -209,7 +218,10 @@
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@else
-											<td colspan="24" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="27" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>

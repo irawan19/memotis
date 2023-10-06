@@ -36,6 +36,7 @@ use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
 use App\Http\Controllers\Dashboard\DivisiController as DashboardDivisi;
 use App\Http\Controllers\Dashboard\UnitKerjaController as DashboardUnitKerja;
 use App\Http\Controllers\Dashboard\JabatanController as DashboardJabatan;
+use App\Http\Controllers\Dashboard\StatusKaryawanController as DashboardStatusKaryawan;
 use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
@@ -274,6 +275,7 @@ Route::middleware([
             Route::group(['prefix' => 'unit_kerja'], function() {
                 Route::get('/', [DashboardUnitKerja::class, 'index']);
                 Route::get('/cari', [DashboardUnitKerja::class, 'cari']);
+                Route::get('/lokasi/{id}', [DashboardUnitKerja::class, 'lokasi']);
                 Route::get('/tambah', [DashboardUnitKerja::class, 'tambah']);
                 Route::post('/prosestambah', [DashboardUnitKerja::class, 'prosestambah']);
                 Route::get('/edit/{id}', [DashboardUnitKerja::class, 'edit']);
@@ -290,6 +292,17 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardJabatan::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardJabatan::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardJabatan::class, 'hapus']);
+            });
+
+            //Status Karyawan
+            Route::group(['prefix' => 'status_karyawan'], function() {
+                Route::get('/', [DashboardStatusKaryawan::class, 'index']);
+                Route::get('/cari', [DashboardStatusKaryawan::class, 'cari']);
+                Route::get('/tambah', [DashboardStatusKaryawan::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardStatusKaryawan::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardStatusKaryawan::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardStatusKaryawan::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardStatusKaryawan::class, 'hapus']);
             });
 
             //Level Sistem
