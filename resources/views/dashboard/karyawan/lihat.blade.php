@@ -3,6 +3,30 @@
 
 	<div class="row">
 		<div class="col-sm-12">
+			<div class="row">
+				@foreach($lihat_unit_kerjas as $unit_kerjas)
+					@php($total_karyawans = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas)->count())
+					<div class="col-sm-4">
+						<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+							<div class="card-body pb-0">
+								<div class="btn-group float-right">
+									<svg class="c-icon">
+										<use xlink:href="{{URL::asset('template/back/assets/icons/coreui/free.svg#cil-user')}}"></use>
+									</svg>
+								</div>
+								<div class="text-value-lg">{{General::konversiNilai($total_karyawans)}} <span>{{General::konversiNilaiString($total_karyawans)}}</span></div>
+								<div class="textnotifberanda">{{$unit_kerjas->nama_unit_kerjas}}</div>
+								<div class="textnotifberanda">{{$unit_kerjas->lokasi_unit_kerjas}}</div>
+							</div>
+							<div class="c-chart-wrapper mt-3 mx-3" style="height:70px;"></div>
+						</div>
+					</div>
+				@endforeach
+			</div>
+			
+		</div>
+
+		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
 					<div class="row">
