@@ -7,7 +7,7 @@
 				@foreach($lihat_unit_kerjas as $unit_kerjas)
 					@php($total_karyawans = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas)->count())
 					<div class="col-sm-4">
-						<div class="card" style="height: 106px; background-color: #fff; color: #000;">
+						<div class="card" style="height: 150px; background-color: #fff; color: #000;">
 							<div class="card-body pb-0">
 								<div class="btn-group float-right">
 									<svg class="c-icon">
