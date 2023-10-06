@@ -17,7 +17,7 @@ class EventController extends AdminCoreController
             $data['hasil_kata']         = '';
             $url_sekarang               = $request->fullUrl();
         	$data['lihat_events']    	= Event::orderBy('mulai_events','desc')
-                                                ->get();
+                                                ->paginate(25);
             session()->forget('halaman');
             session()->forget('hasil_kata');
             session(['halaman'              => $url_sekarang]);
@@ -38,7 +38,7 @@ class EventController extends AdminCoreController
             $data['hasil_kata']         = $hasil_kata;
             $data['lihat_events']       = Event::where('nama_events', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orderBy('mulai_events','desc')
-                                                ->get();
+                                                ->paginate(25);
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);
             return view('dashboard.event.lihat', $data);

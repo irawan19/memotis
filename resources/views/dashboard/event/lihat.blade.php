@@ -78,6 +78,9 @@
                             @endif
                         </tbody>
                     </table>
+					<div class="col-sm-12">
+						{{ $lihat_events->appends(Request::except('page'))->links('vendor.pagination.custom') }}
+					</div>
                 </div>
             </div>
         </div>
