@@ -13,13 +13,13 @@ class UnitKerjaController extends AdminCoreController
         $link_unit_kerja = 'unit_kerja';
         if(General::hakAkses($link_unit_kerja,'lihat') == 'true')
         {
-            $data['link_unit_kerja']         = $link_unit_kerja;
-            $data['hasil_kata']                     = '';
-            $url_sekarang                           = $request->fullUrl();
-        	$data['lihat_unit_kerjas']    	= Master_unit_kerja::get();
+            $data['link_unit_kerja']            = $link_unit_kerja;
+            $data['hasil_kata']                 = '';
+            $url_sekarang                       = $request->fullUrl();
+        	$data['lihat_unit_kerjas']    	    = Master_unit_kerja::get();
             session()->forget('halaman');
             session()->forget('hasil_kata');
-            session(['halaman'              => $url_sekarang]);
+            session(['halaman'                  => $url_sekarang]);
         	return view('dashboard.unit_kerja.lihat', $data);
         }
         else
@@ -32,11 +32,12 @@ class UnitKerjaController extends AdminCoreController
         if(General::hakAkses($link_unit_kerja,'lihat') == 'true')
         {
             $data['link_unit_kerja']         = $link_unit_kerja;
-            $url_sekarang                           = $request->fullUrl();
-            $hasil_kata                             = $request->cari_kata;
-            $data['hasil_kata']                     = $hasil_kata;
+            $url_sekarang                    = $request->fullUrl();
+            $hasil_kata                      = $request->cari_kata;
+            $data['hasil_kata']              = $hasil_kata;
             $data['lihat_unit_kerjas']       = Master_unit_kerja::where('nama_unit_kerjas', 'LIKE', '%'.$hasil_kata.'%')
-                                                                            ->get();
+                                                                ->orWhere('lokasi_unit_kerjas', 'LIKE', '%'.$hasil_kata.'%')
+                                                                ->get();
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);
             return view('dashboard.unit_kerja.lihat', $data);
@@ -60,13 +61,15 @@ class UnitKerjaController extends AdminCoreController
         if(General::hakAkses($link_unit_kerja,'tambah') == 'true')
         {
             $aturan = [
-                'nama_unit_kerjas'               => 'required',
+                'nama_unit_kerjas'              => 'required',
+                'lokasi_unit_kerjas'            => 'required',
             ];
             $this->validate($request, $aturan);
 
             $data = [
                 'nama_unit_kerjas'               => $request->nama_unit_kerjas,
-                'created_at'                            => date('Y-m-d H:i:s'),
+                'lokasi_unit_kerjas'             => $request->lokasi_unit_kerjas,
+                'created_at'                     => date('Y-m-d H:i:s'),
             ];
             Master_unit_kerja::insert($data);
 
@@ -103,7 +106,7 @@ class UnitKerjaController extends AdminCoreController
             if($cek_unit_kerjas != 0)
             {
                 $data['edit_unit_kerjas']         = Master_unit_kerja::where('id_unit_kerjas',$id_unit_kerjas)
-                                                                                                    ->first();
+                                                                    ->first();
                 return view('dashboard.unit_kerja.edit',$data);
             }
             else
@@ -122,16 +125,18 @@ class UnitKerjaController extends AdminCoreController
             if(!empty($cek_unit_kerjas))
             {
                 $aturan = [
-                    'nama_unit_kerjas'    => 'required',
+                    'nama_unit_kerjas'      => 'required',
+                    'lokasi_unit_kerjas'    => 'required',
                 ];
                 $this->validate($request, $aturan);
 
                 $data = [
-		        	'nama_unit_kerjas'	=> $request->nama_unit_kerjas,
+		        	'nama_unit_kerjas'	        => $request->nama_unit_kerjas,
+                    'lokasi_unit_kerjas'        => $request->lokasi_unit_kerjas,
                     'updated_at'                => date('Y-m-d H:i:s')
                 ];
                 Master_unit_kerja::where('id_unit_kerjas', $id_unit_kerjas)
-                                        ->update($data);
+                                ->update($data);
 
                 if(request()->session()->get('halaman') != '')
                     $redirect_halaman    = request()->session()->get('halaman');

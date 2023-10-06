@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('master_unit_kerjas', function (Blueprint $table) {
             $table->id('id_unit_kerjas');
             $table->string('nama_unit_kerjas');
+            $table->longtext('lokasi_unit_kerjas');
             $table->timestamps();
             $table->softDeletes();
         });

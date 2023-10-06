@@ -35,6 +35,7 @@
 						    			<th width="5px"></th>
 						    		@endif
 				    				<th class="nowrap">Nama</th>
+				    				<th class="nowrap">Lokasi</th>
 				    			</tr>
 				    		</thead>
 				    		<tbody>
@@ -54,15 +55,18 @@
 											    </td>
 								    		@endif
 								    		<td class="nowrap">{{$unit_kerjas->nama_unit_kerjas}}</td>
+								    		<td class="nowrap">{!! nl2br($unit_kerjas->lokasi_unit_kerjas) !!}</td>
 								    	</tr>
 								    @endforeach
 								@else
 									<tr>
 										@if(General::totalHakAkses($link_unit_kerja) != 0)
-											<td colspan="2" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="3" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@else
-											<td class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="2" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
 										@endif
 									</tr>
 								@endif
