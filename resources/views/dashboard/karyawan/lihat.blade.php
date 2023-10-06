@@ -16,7 +16,7 @@
 					<div class="col-sm-4">
 						<div class="card">
 							<div class="card-header content-center" style="background-color:#423c3b">
-								<div class="text-white" style="padding-top:20px; padding-bottom:20px;">
+								<div class="text-white" style="padding-top:20px; padding-bottom:20px; padding-right:10px; padding-left: 10px">
 									<b style="font-size:18px">{{$unit_kerjas->nama_unit_kerjas}}</b>
 									<br/>
 									{{$unit_kerjas->lokasi_unit_kerjas}}
