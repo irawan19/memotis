@@ -20,13 +20,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="tanggal_asal_surats">Tanggal Asal Surat</label>
-                                        @if($edit_surats->tanggal_surats == null)
-                                            @php($tanggal_surats = date('Y-m-d'))
-                                        @else
-                                            @php($tanggal_surats = $edit_surats->tanggal_surats)
-                                        @endif
-                                        <input class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }} getDate" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats') == '' ? General::ubahDBKeTanggal($tanggal_surats) : Request::old('tanggal_asal_surats')}}">
-                                        {{General::pesanErrorForm($errors->first('tanggal_asal_surats'))}}
+                                        <div class="input-group">
+                                            @php($tanggal_asal_surats = '')
+                                            @if(!empty($edit_surats->tanggal_asal_surats))
+                                                @php($tanggal_asal_surats = General::ubahDBKeTanggal($edit_surats->tanggal_asal_surats))
+                                            @endif
+                                            <input readonly class="form-control {{ General::validForm($errors->first('tanggal_asal_surats')) }} getDate" id="tanggal_asal_surats" type="text" name="tanggal_asal_surats" value="{{Request::old('tanggal_asal_surats') == '' ? $tanggal_asal_surats : Request::old('tanggal_asal_surats')}}">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-danger" type="button" onclick="$('#tanggal_asal_surats').val('')"> Kosongkan</button>
+                                            </span>
+                                            {{General::pesanErrorForm($errors->first('tanggal_asal_surats'))}}
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="asal_surats">Asal Surat</label>

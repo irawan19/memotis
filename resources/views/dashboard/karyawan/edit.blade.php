@@ -111,15 +111,20 @@
                                 <input readonly class="form-control {{ General::validForm($errors->first('tanggal_bergabung_karyawans')) }} getDate" id="tanggal_bergabung_karyawans" type="text" name="tanggal_bergabung_karyawans" value="{{Request::old('tanggal_bergabung_karyawans') == '' ? General::ubahDBKeTanggal(date($edit_karyawans->tanggal_bergabung_karyawans)) : Request::old('tanggal_bergabung_karyawans')}}">
                                 {{General::pesanErrorForm($errors->first('tanggal_bergabung_karyawans'))}}
                             </div>
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="tanggal_keluar_karyawans">Tanggal Keluar</label>
-                                @php($tanggal_keluar_karyawans = '')
-                                @if(!empty($edit_karyawans->tanggal_keluar_karyawans))
-                                @php($tanggal_keluar_karyawans = General::ubahDBKeTanggal($edit_karyawans->tanggal_keluar_karyawans))
-                                @endif
-                                <input class="form-control {{ General::validForm($errors->first('tanggal_keluar_karyawans')) }} getDate" id="tanggal_keluar_karyawans" type="text" name="tanggal_keluar_karyawans" value="{{Request::old('tanggal_keluar_karyawans') == '' ? $tanggal_keluar_karyawans : Request::old('tanggal_keluar_karyawans')}}">
-                                {{General::pesanErrorForm($errors->first('tanggal_keluar_karyawans'))}}
-                            </div>
+							<div class="form-group">
+								<label class="form-col-form-label" for="tanggal_keluar_karyawans">Tanggal Keluar</label>
+								<div class="input-group">
+                                    @php($tanggal_keluar_karyawans = '')
+                                    @if(!empty($edit_karyawans->tanggal_keluar_karyawans))
+                                        @php($tanggal_keluar_karyawans = General::ubahDBKeTanggal($edit_karyawans->tanggal_keluar_karyawans))
+                                    @endif
+									<input readonly class="form-control {{ General::validForm($errors->first('tanggal_keluar_karyawans')) }} getDate" id="tanggal_keluar_karyawans" type="text" name="tanggal_keluar_karyawans" value="{{Request::old('tanggal_keluar_karyawans') == '' ? $tanggal_keluar_karyawans : Request::old('tanggal_keluar_karyawans')}}">
+									<span class="input-group-append">
+										<button class="btn btn-danger" type="button" onclick="$('#tanggal_keluar_karyawans').val('')"> Kosongkan</button>
+									</span>
+									{{General::pesanErrorForm($errors->first('tanggal_keluar_karyawans'))}}
+								</div>
+							</div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="ktp_karyawans">No Identitas (KTP) <b style="color:red">*</b></label>
                                 <input class="form-control {{ General::validForm($errors->first('ktp_karyawans')) }}" id="ktp_karyawans" type="text" name="ktp_karyawans" value="{{Request::old('ktp_karyawans') == '' ? $edit_karyawans->ktp_karyawans : Request::old('ktp_karyawans')}}">
@@ -137,15 +142,20 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="tanggal_lahir_karyawans">Tanggal Lahir</label>
-                                @php($tanggal_lahir_karyawans = '')
-                                @if(!empty($edit_karyawans->tanggal_lahir_karyawans))
-                                @php($tanggal_lahir_karyawans = General::ubahDBKeTanggal($edit_karyawans->tanggal_lahir_karyawans))
-                                @endif
-                                <input class="form-control {{ General::validForm($errors->first('tanggal_lahir_karyawans')) }} getDate" id="tanggal_lahir_karyawans" type="text" name="tanggal_lahir_karyawans" value="{{Request::old('tanggal_lahir_karyawans') == '' ? $tanggal_lahir_karyawans : Request::old('tanggal_lahir_karyawans')}}">
-                                {{General::pesanErrorForm($errors->first('tanggal_lahir_karyawans'))}}
-                            </div>
+							<div class="form-group">
+								<label class="form-col-form-label" for="tanggal_lahir_karyawans">Tanggal Lahir</label>
+								<div class="input-group">
+                                    @php($tanggal_lahir_karyawans = '')
+                                    @if(!empty($edit_karyawans->tanggal_lahir_karyawans))
+                                        @php($tanggal_lahir_karyawans = General::ubahDBKeTanggal($edit_karyawans->tanggal_lahir_karyawans))
+                                    @endif
+									<input readonly class="form-control {{ General::validForm($errors->first('tanggal_lahir_karyawans')) }} getDate" id="tanggal_lahir_karyawans" type="text" name="tanggal_lahir_karyawans" value="{{Request::old('tanggal_lahir_karyawans') == '' ? $tanggal_lahir_karyawans : Request::old('tanggal_lahir_karyawans')}}">
+									<span class="input-group-append">
+										<button class="btn btn-danger" type="button" onclick="$('#tanggal_lahir_karyawans').val('')"> Kosongkan</button>
+									</span>
+									{{General::pesanErrorForm($errors->first('tanggal_lahir_karyawans'))}}
+								</div>
+							</div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="tempat_lahir_karyawans">Tempat Lahir</label>
                                 <input class="form-control {{ General::validForm($errors->first('tempat_lahir_karyawans')) }}" id="tempat_lahir_karyawans" type="text" name="tempat_lahir_karyawans" value="{{Request::old('tempat_lahir_karyawans') == '' ? $edit_karyawans->tempat_lahir_karyawans : Request::old('tempat_lahir_karyawans')}}">

@@ -38,10 +38,15 @@
 								{{General::pesanErrorForm($errors->first('tugas_mom_users'))}}
 							</div>
 							<div class="form-group">
-                                <label class="form-col-form-label" for="tenggat_waktu_mom_users">Tenggat Waktu</label>
-                                <input class="form-control getDate {{ General::validForm($errors->first('tenggat_waktu_mom_users')) }}" id="tenggat_waktu_mom_users" type="text" name="tenggat_waktu_mom_users" value="{{Request::old('tenggat_waktu_mom_users')}}">
-                                {{General::pesanErrorForm($errors->first('tenggat_waktu_mom_users'))}}
-                            </div>
+								<label class="form-col-form-label" for="tenggat_waktu_mom_users">Tenggat Waktu</label>
+								<div class="input-group">
+									<input readonly class="form-control {{ General::validForm($errors->first('tenggat_waktu_mom_users')) }} getDate" id="tenggat_waktu_mom_users" type="text" name="tenggat_waktu_mom_users" value="{{Request::old('tenggat_waktu_mom_users')}}">
+									<span class="input-group-append">
+										<button class="btn btn-danger" type="button" onclick="$('#tenggat_waktu_mom_users').val('')"> Kosongkan</button>
+									</span>
+									{{General::pesanErrorForm($errors->first('tenggat_waktu_mom_users'))}}
+								</div>
+							</div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="dikirimkan_mom_users">Dikirimkan</label>
                                 <input class="form-control {{ General::validForm($errors->first('dikirimkan_mom_users')) }}" id="dikirimkan_mom_users" type="text" name="dikirimkan_mom_users" value="{{Request::old('dikirimkan_mom_users')}}">
@@ -95,14 +100,19 @@
 								{{General::pesanErrorForm($errors->first('tugas_mom_users'))}}
 							</div>
 							<div class="form-group">
-                                <label class="form-col-form-label" for="tenggat_waktu_mom_users">Tenggat Waktu</label>
-								@php($tenggat_waktu_mom_users = '')
-								@if($edit_mom_users->tenggat_waktu_mom_users != null)
-									@php($tenggat_waktu_mom_users = General::ubahDBKeTanggal($edit_mom_users->tenggat_waktu_mom_users))
-								@endif
-                                <input class="form-control getDate {{ General::validForm($errors->first('tenggat_waktu_mom_users')) }}" id="tenggat_waktu_mom_users" type="text" name="tenggat_waktu_mom_users" value="{{Request::old('tenggat_waktu_mom_users') == '' ? $tenggat_waktu_mom_users : Request::old('tenggat_waktu_mom_users')}}">
-                                {{General::pesanErrorForm($errors->first('tenggat_waktu_mom_users'))}}
-                            </div>
+								<label class="form-col-form-label" for="tenggat_waktu_mom_users">Tenggat Waktu</label>
+								<div class="input-group">
+									@php($tenggat_waktu_mom_users = '')
+									@if($edit_mom_users->tenggat_waktu_mom_users != null)
+										@php($tenggat_waktu_mom_users = General::ubahDBKeTanggal($edit_mom_users->tenggat_waktu_mom_users))
+									@endif
+									<input readonly class="form-control {{ General::validForm($errors->first('tenggat_waktu_mom_users')) }} getDate" id="tenggat_waktu_mom_users" type="text" name="tenggat_waktu_mom_users" value="{{Request::old('tenggat_waktu_mom_users') == '' ? $tenggat_waktu_mom_users : Request::old('tenggat_waktu_mom_users')}}">
+									<span class="input-group-append">
+										<button class="btn btn-danger" type="button" onclick="$('#tenggat_waktu_mom_users').val('')"> Kosongkan</button>
+									</span>
+									{{General::pesanErrorForm($errors->first('tenggat_waktu_mom_users'))}}
+								</div>
+							</div>
                             <div class="form-group">
                                 <label class="form-col-form-label" for="dikirimkan_mom_users">Dikirimkan</label>
                                 <input class="form-control {{ General::validForm($errors->first('dikirimkan_mom_users')) }}" id="dikirimkan_mom_users" type="text" name="dikirimkan_mom_users" value="{{Request::old('dikirimkan_mom_users') == '' ? $edit_mom_users->dikirimkan_mom_users : Request::old('dikirimkan_mom_users')}}">

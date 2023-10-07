@@ -79,8 +79,13 @@
 								</div>
 								<div class="form-group">
 									<label class="form-col-form-label" for="tanggal_keluar_karyawans">Tanggal Keluar</label>
-									<input class="form-control {{ General::validForm($errors->first('tanggal_keluar_karyawans')) }} getDate" id="tanggal_keluar_karyawans" type="text" name="tanggal_keluar_karyawans" value="{{Request::old('tanggal_keluar_karyawans')}}">
-									{{General::pesanErrorForm($errors->first('tanggal_keluar_karyawans'))}}
+									<div class="input-group">
+										<input readonly class="form-control {{ General::validForm($errors->first('tanggal_keluar_karyawans')) }} getDate" id="tanggal_keluar_karyawans" type="text" name="tanggal_keluar_karyawans" value="{{Request::old('tanggal_keluar_karyawans')}}">
+										<span class="input-group-append">
+											<button class="btn btn-danger" type="button" onclick="$('#tanggal_keluar_karyawans').val('')"> Kosongkan</button>
+										</span>
+										{{General::pesanErrorForm($errors->first('tanggal_keluar_karyawans'))}}
+									</div>
 								</div>
 								<div class="form-group">
 									<label class="form-col-form-label" for="ktp_karyawans">No Identitas (KTP) <b style="color:red">*</b></label>
@@ -101,8 +106,13 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="form-col-form-label" for="tanggal_lahir_karyawans">Tanggal Lahir</label>
-									<input class="form-control {{ General::validForm($errors->first('tanggal_lahir_karyawans')) }} getDate" id="tanggal_lahir_karyawans" type="text" name="tanggal_lahir_karyawans" value="{{Request::old('tanggal_lahir_karyawans')}}">
-									{{General::pesanErrorForm($errors->first('tanggal_lahir_karyawans'))}}
+									<div class="input-group">
+										<input readonly class="form-control {{ General::validForm($errors->first('tanggal_lahir_karyawans')) }} getDate" id="tanggal_lahir_karyawans" type="text" name="tanggal_lahir_karyawans" value="{{Request::old('tanggal_lahir_karyawans')}}">
+										<span class="input-group-append">
+											<button class="btn btn-danger" type="button" onclick="$('#tanggal_lahir_karyawans').val('')"> Kosongkan</button>
+										</span>
+										{{General::pesanErrorForm($errors->first('tanggal_lahir_karyawans'))}}
+									</div>
 								</div>
 								<div class="form-group">
 									<label class="form-col-form-label" for="tempat_lahir_karyawans">Tempat Lahir</label>
