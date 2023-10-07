@@ -266,8 +266,10 @@
 					</div>
 				</div>
 			@endif
-					<div class="col-sm-12">
-						{{ $lihat_moms->appends(Request::except('page'))->links('vendor.pagination.custom') }}
+	            	<div class="scrolltable">
+						<div class="col-sm-12">
+							{{ $lihat_moms->appends(Request::except('page'))->links('vendor.pagination.custom') }}
+						</div>
 					</div>
 				</div>
 			</div>
