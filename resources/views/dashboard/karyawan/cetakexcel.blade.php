@@ -81,7 +81,6 @@
                 <td>{!! nl2br($karyawans->lokasi_unit_kerjas) !!}</td>
                 <td>'{{$karyawans->nik_gys_karyawans}}</td>
                 <td>'{{$karyawans->nik_tg_karyawans}}</td>
-                <td>{{$karyawans->band_posisi_karyawans}}</td>
                 <td>
                     @if(!empty($karyawans->tanggal_bergabung_karyawans))
                     {{General::ubahDBKeTanggal($karyawans->tanggal_bergabung_karyawans)}}
@@ -89,6 +88,7 @@
                     -
                     @endif
                 </td>
+                <td>{{$karyawans->band_posisi_karyawans}}</td>
                 <td>
                     @if(!empty($karyawans->tanggal_keluar_karyawans))
                     {{General::ubahDBKeTanggal($karyawans->tanggal_keluar_karyawans)}}

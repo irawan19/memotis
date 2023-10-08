@@ -177,7 +177,6 @@
 								    		<td class="nowrap">{!! nl2br($karyawans->lokasi_unit_kerjas) !!}</td>
 								    		<td class="nowrap">{{$karyawans->nik_gys_karyawans}}</td>
 								    		<td class="nowrap">{{$karyawans->nik_tg_karyawans}}</td>
-								    		<td class="nowrap">{{$karyawans->band_posisi_karyawans}}</td>
 								    		<td class="nowrap">
                                                 @if(!empty($karyawans->tanggal_bergabung_karyawans))    
                                                     {{General::ubahDBKeTanggal($karyawans->tanggal_bergabung_karyawans)}}
@@ -185,6 +184,7 @@
                                                     -
                                                 @endif
                                             </td>
+								    		<td class="nowrap">{{$karyawans->band_posisi_karyawans}}</td>
 								    		<td class="nowrap">
                                                 @if(!empty($karyawans->tanggal_keluar_karyawans))    
                                                     {{General::ubahDBKeTanggal($karyawans->tanggal_keluar_karyawans)}}
