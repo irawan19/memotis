@@ -98,41 +98,61 @@ class KaryawanController extends AdminCoreController
                                                             ->join('master_status_kawins','karyawans.status_kawins_id','=','master_status_kawins.id_status_kawins')
                                                             ->join('master_pendidikans','karyawans.pendidikans_id','=','master_pendidikans.id_pendidikans')
                                                             ->join('master_status_karyawans','karyawans.status_karyawans_id','=','master_status_karyawans.id_status_karyawans')
+                                                            
                                                             ->where('nama_jabatans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nama_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nik_gys_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nik_tg_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('band_posisi_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('npwp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('ktp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('tempat_lahir_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nama_jenis_kelamins', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nama_agamas', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('alamat_domisili_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nama_status_kawins', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('nama_pendidikans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('institusi_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('hobi_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('keahlian_khusus_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('no_hp_karyawans', 'LIKE', '%'.$hasil_kata.'%')
-                                                            ->where('unit_kerjas_id',$hasil_unit_kerja)
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+                                                            
                                                             ->orWhere('email_karyawans', 'LIKE', '%'.$hasil_kata.'%')
+                                                            ->where('id_unit_kerjas',$hasil_unit_kerja)
+
                                                             ->orderBy('nama_karyawans')
                                                             ->paginate(25);
             }
