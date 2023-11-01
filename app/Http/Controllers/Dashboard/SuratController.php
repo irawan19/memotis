@@ -42,7 +42,20 @@ class SuratController extends AdminCoreController
             }
             else
             {
-                $data['lihat_surats']    	        = Surat::selectRaw('*,
+                $data['lihat_surats']    	        = Surat::selectRaw('id_surats,
+                                                                no_surats,
+                                                                status_selesai_surats,
+                                                                judul_surats,
+                                                                asal_surats,
+                                                                no_asal_surats,
+                                                                perihal_surats,
+                                                                ringkasan_surats,
+                                                                keterangan_surats,
+                                                                nama_klasifikasi_surats,
+                                                                tanggal_mulai_surats,
+                                                                tanggal_selesai_surats,
+                                                                nama_derajat_surats,
+                                                                surats.users_id,
                                                                 surats.created_at as tanggal_surats')
                                                         ->join('users','surats.users_id','=','users.id')
                                                         ->join('master_klasifikasi_surats','klasifikasi_surats_id','=','master_klasifikasi_surats.id_klasifikasi_surats')
@@ -51,6 +64,7 @@ class SuratController extends AdminCoreController
                                                         ->leftJoin('surat_users','surats.id_surats','=','surat_users.surats_id')
                                                         ->where('surat_users.users_id',Auth::user()->id)
                                                         ->orWhere('surats.users_id',Auth::user()->id)
+                                                        ->groupBy('surats.id_surats')
                                                         ->orderBy('surats.status_selesai_surats','asc')
                                                         ->orderBy('surats.created_at','desc')
                                                         ->paginate(10);
