@@ -38,6 +38,7 @@ use App\Http\Controllers\Dashboard\UnitKerjaController as DashboardUnitKerja;
 use App\Http\Controllers\Dashboard\JabatanController as DashboardJabatan;
 use App\Http\Controllers\Dashboard\StatusKaryawanController as DashboardStatusKaryawan;
 use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
+use App\Http\Controllers\Dashboard\StatusPrioritasController as DashboardStatusPrioritas;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
 use App\Http\Controllers\Dashboard\SosialMediaController as DashboardSosialMedia;
@@ -235,6 +236,17 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardStatusTugas::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardStatusTugas::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardStatusTugas::class, 'hapus']);
+            });
+
+            //Status Prioritas
+            Route::group(['prefix' => 'status_prioritas'],function() {
+                Route::get('/', [DashboardStatusPrioritas::class, 'index']);
+                Route::get('/cari', [DashboardStatusPrioritas::class, 'cari']);
+                Route::get('/tambah', [DashboardStatusPrioritas::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardStatusPrioritas::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardStatusPrioritas::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardStatusPrioritas::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardStatusPrioritas::class, 'hapus']);
             });
 
             //Menu

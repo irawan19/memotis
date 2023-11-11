@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('users_id')->references('id')->on('users')->onUpdate('set null')->onDelete('set null');
             $table->bigInteger('status_tugas_id')->unsigned()->index()->nullable();
             $table->foreign('status_tugas_id')->references('id_status_tugas')->on('master_status_tugas')->onUpdate('set null')->onDelete('set null');
+            $table->bigInteger('status_prioritas_id')->unsigned()->index()->nullable();
+            $table->foreign('status_prioritas_id')->references('id_status_prioritas')->on('master_status_prioritas')->onUpdate('set null')->onDelete('set null');
             $table->longtext('proyek_mom_users');
             $table->date('tenggat_waktu_mom_users');
             $table->longtext('dikirimkan_mom_users');

@@ -14,6 +14,7 @@
 				    			<tr>
 				    				<th class="nowrap">MOM</th>
 				    				<th class="nowrap">Proyek</th>
+				    				<th class="nowrap">Prioritas</th>
 				    				<th class="nowrap">Tugas</th>
 									@php($ambil_divisis = \App\Models\Master_level_sistem::where('id_level_sistems',Auth::user()->level_sistems_id)
 																						->first())
@@ -31,6 +32,7 @@
 								    	<tr>
 								    		<td class="nowrap">{{ $tugas->no_moms }}</td>
 								    		<td class="nowrap">{{ $tugas->proyek_mom_users }}</td>
+								    		<td class="nowrap">{!! nl2br($tugas->nama_status_prioritas) !!}</td>
 								    		<td class="nowrap">{!! nl2br($tugas->tugas_mom_users) !!}</td>
 											@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
 												@php($nama = $tugas->nama_level_sistems.' - '.$tugas->name)
@@ -51,7 +53,8 @@
 								@else
 									<tr>
 										@if(Auth::user()->level_sistems_id == 1 || $ambil_divisis->divisis_id == null)
-											<td colspan="7" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="8" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
@@ -59,7 +62,8 @@
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 										@else
-											<td colspan="6" class="center-align">Tidak ada data ditampilkan</td>
+											<td colspan="7" class="center-align">Tidak ada data ditampilkan</td>
+											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>
 											<td style="display:none"></td>

@@ -53,6 +53,15 @@
                                 {{General::pesanErrorForm($errors->first('dikirimkan_mom_users'))}}
                             </div>
 							<div class="form-group">
+								<label class="form-col-form-label" for="status_prioritas_id">Prioritas <b style="color:red">*</b></label>
+								<select class="form-control select2" id="status_prioritas_id" name="status_prioritas_id">
+									@foreach($tambah_status_prioritas as $status_prioritas)
+										<option value="{{$status_prioritas->id_status_prioritas}}" {{ Request::old('status_prioritas_id') == $status_prioritas->id_status_prioritas ? $select='selected' : $select='' }}>{{$status_prioritas->nama_status_prioritas}}</option>
+									@endforeach
+								</select>
+								{{General::pesanErrorForm($errors->first('status_prioritas_id'))}}
+							</div>
+							<div class="form-group">
 								<label class="form-col-form-label" for="status_tugas_id">Status <b style="color:red">*</b></label>
 								<select class="form-control select2" id="status_tugas_id" name="status_tugas_id">
 									@foreach($tambah_status_tugas as $status_tugas)
@@ -119,6 +128,25 @@
                                 {{General::pesanErrorForm($errors->first('dikirimkan_mom_users'))}}
                             </div>
 							<div class="form-group">
+								<label class="form-col-form-label" for="status_prioritas_id">Prioritas <b style="color:red">*</b></label>
+								<select class="form-control select2" id="status_prioritas_id" name="status_prioritas_id">
+									@foreach($edit_status_prioritas as $status_prioritas)
+										@php($selected = '')
+										@if(Request::old('status_prioritas_id') == '')
+					                    	@if($status_prioritas->id_status_prioritas == $edit_mom_users->id_status_prioritas)
+					                    		@php($selected = 'selected')
+					                    	@endif
+					                    @else
+					                    	@if($status_prioritas->id_status_prioritas == Request::old('status_prioritas_id'))
+					                    		@php($selected = 'selected')
+					                    	@endif
+					                    @endif
+										<option value="{{$status_prioritas->id_status_prioritas}}" {{ $selected }}>{{$status_prioritas->nama_status_prioritas}}</option>
+									@endforeach
+								</select>
+								{{General::pesanErrorForm($errors->first('status_prioritas_id'))}}
+							</div>
+							<div class="form-group">
 								<label class="form-col-form-label" for="status_tugas_id">Status <b style="color:red">*</b></label>
 								<select class="form-control select2" id="status_tugas_id" name="status_tugas_id">
 									@foreach($edit_status_tugas as $status_tugas)
@@ -169,6 +197,7 @@
 				    				<th class="nowrap">Ditugaskan</th>
 				    				<th class="nowrap">Tenggat Waktu</th>
 				    				<th class="nowrap">Dikirimkan</th>
+				    				<th class="nowrap">Prioritas</th>
 				    				<th class="nowrap">Status</th>
 				    				<th class="nowrap">Catatan</th>
 				    				<th class="nowrap"></th>
@@ -193,6 +222,7 @@
 												@endif
 											</td>
 								    		<td class="nowrap">{{$mom_users->dikirimkan_mom_users}}</td>
+								    		<td class="nowrap">{{$mom_users->nama_status_prioritas}}</td>
 								    		<td class="nowrap">{{$mom_users->nama_status_tugas}}</td>
 								    		<td class="nowrap">{!! nl2br($mom_users->catatan_mom_users) !!}</td>
                                             <td class="nowrap">
@@ -204,7 +234,8 @@
 								    @endforeach
 								@else
 									<tr>
-										<td colspan="9" class="center-align">Tidak ada data ditampilkan</td>
+										<td colspan="10" class="center-align">Tidak ada data ditampilkan</td>
+										<td style="display:none"></td>
 										<td style="display:none"></td>
 										<td style="display:none"></td>
 										<td style="display:none"></td>

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Mom_user;
 use App\Models\Mom_user_external;
 use App\Models\Master_status_tugas;
+use App\Models\Master_status_prioritas;
 use Auth;
 
 class MomController extends AdminCoreController
@@ -37,6 +38,7 @@ class MomController extends AdminCoreController
                                                                 mom_users.moms_id as moms_id,
                                                                 mom_users.users_id as users_id,
                                                                 status_tugas_id,
+                                                                status_prioritas_id,
                                                                 proyek_mom_users,
                                                                 tenggat_waktu_mom_users,
                                                                 dikirimkan_mom_users,
@@ -65,6 +67,7 @@ class MomController extends AdminCoreController
                                                                 mom_users.moms_id as moms_id,
                                                                 mom_users.users_id as users_id,
                                                                 status_tugas_id,
+                                                                status_prioritas_id,
                                                                 proyek_mom_users,
                                                                 tenggat_waktu_mom_users,
                                                                 dikirimkan_mom_users,
@@ -113,6 +116,7 @@ class MomController extends AdminCoreController
                                                                     mom_users.moms_id as moms_id,
                                                                     mom_users.users_id as users_id,
                                                                     status_tugas_id,
+                                                                    status_prioritas_id,
                                                                     proyek_mom_users,
                                                                     tenggat_waktu_mom_users,
                                                                     dikirimkan_mom_users,
@@ -143,6 +147,7 @@ class MomController extends AdminCoreController
                                                                     mom_users.moms_id as moms_id,
                                                                     mom_users.users_id as users_id,
                                                                     status_tugas_id,
+                                                                    status_prioritas_id,
                                                                     proyek_mom_users,
                                                                     tenggat_waktu_mom_users,
                                                                     dikirimkan_mom_users,
@@ -245,6 +250,7 @@ class MomController extends AdminCoreController
                     $mom_users_data = [
                         'moms_id'               => $id_moms,
                         'users_id'              => $mom_users->users_id,
+                        'status_prioritas_id'   => $mom_users->status_prioritas_id,
                         'status_tugas_id'       => $mom_users->status_tugas_id,
                         'proyek_mom_users'      => $mom_users->proyek_mom_users,
                         'tenggat_waktu_mom_users'=> $mom_users->tenggat_waktu_mom_users,
@@ -275,12 +281,14 @@ class MomController extends AdminCoreController
                 $data['lihat_moms']                 = $cek_moms;
                 $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
                                                                 ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                ->join('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
                                                                 ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                 ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                                                 ->where('moms_id',$id_moms)
                                                                 ->orderBy('proyek_mom_users','asc')
                                                                 ->get();
                 $data['tambah_status_tugas']        = Master_status_tugas::get();
+                $data['tambah_status_prioritas']    = Master_status_prioritas::get();
                 $data['tambah_users']               = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                             ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                                             ->where('id','!=',1)
@@ -306,6 +314,7 @@ class MomController extends AdminCoreController
                         'proyek_mom_users'      => 'required',
                         'tugas_mom_users'       => 'required',
                         'status_tugas_id'       => 'required',
+                        'status_prioritas_id'   => 'required',
                         'catatan_mom_users'     => 'required',
                         
                     ];
@@ -320,15 +329,16 @@ class MomController extends AdminCoreController
                         $dikirimkan_mom_users = $request->dikirimkan_mom_users;
         
                     $data = [
-                        'moms_id'               => $id_moms,
-                        'users_id'              => $request->users_id,
-                        'proyek_mom_users'      => $request->proyek_mom_users,
-                        'tenggat_waktu_mom_users'=> $tenggat_waktu_mom_users,
-                        'dikirimkan_mom_users'  => $dikirimkan_mom_users,
-                        'tugas_mom_users'       => $request->tugas_mom_users,
-                        'status_tugas_id'       => $request->status_tugas_id,
-                        'catatan_mom_users'     => $request->catatan_mom_users,
-                        'created_at'            => date('Y-m-d H:i:s'),
+                        'moms_id'                   => $id_moms,
+                        'users_id'                  => $request->users_id,
+                        'proyek_mom_users'          => $request->proyek_mom_users,
+                        'tenggat_waktu_mom_users'   => $tenggat_waktu_mom_users,
+                        'dikirimkan_mom_users'      => $dikirimkan_mom_users,
+                        'tugas_mom_users'           => $request->tugas_mom_users,
+                        'status_tugas_id'           => $request->status_tugas_id,
+                        'status_prioritas_id'       => $request->status_prioritas_id,
+                        'catatan_mom_users'         => $request->catatan_mom_users,
+                        'created_at'                => date('Y-m-d H:i:s'),
                     ];
                     $id_mom_users = Mom_user::insertGetId($data);
 
@@ -360,12 +370,15 @@ class MomController extends AdminCoreController
                     $data['lihat_moms']                 = $ambil_moms;
                     $data['lihat_mom_users']            = Mom_user::join('users','users_id','=','users.id')
                                                                     ->join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                    ->join('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
                                                                     ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                     ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                                                     ->where('moms_id',$ambil_moms->id_moms)
                                                                     ->get();
                     $data['edit_status_tugas']          = Master_status_tugas::get();
+                    $data['edit_status_prioritas']      = Master_status_prioritas::get();
                     $data['edit_mom_users']             = Mom_user::join('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                                    ->join('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
                                                                     ->join('users','mom_users.users_id','=','users.id')
                                                                     ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                                     ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
@@ -393,6 +406,7 @@ class MomController extends AdminCoreController
                         'proyek_mom_users'      => 'required',
                         'tugas_mom_users'       => 'required',
                         'status_tugas_id'       => 'required',
+                        'status_prioritas_id'   => 'required',
                         'catatan_mom_users'     => 'required',
                         
                     ];
@@ -412,6 +426,7 @@ class MomController extends AdminCoreController
                         'dikirimkan_mom_users'  => $dikirimkan_mom_users,
                         'tugas_mom_users'       => $request->tugas_mom_users,
                         'status_tugas_id'       => $request->status_tugas_id,
+                        'status_prioritas_id'   => $request->status_prioritas_id,
                         'catatan_mom_users'     => $request->catatan_mom_users,
                         'updated_at'            => date('Y-m-d H:i:s'),
                     ];
@@ -457,7 +472,6 @@ class MomController extends AdminCoreController
                 if($cek_moms->users_id == Auth::user()->id || Auth::user()->level_sistems_id == 1)
                 {
                     $data['edit_sub_moms']              = Mom::orderBy('no_moms')->where('id_moms','!=',$id_moms)->get();
-                    $data['edit_status_tugas']          = Master_status_tugas::get();
                     $data['edit_moms']                  = Mom::where('id_moms',$id_moms)
                                                             ->first();
                     return view('dashboard.mom.edit',$data);

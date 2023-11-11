@@ -24,6 +24,7 @@ class TugasController extends AdminCoreController
                                                                     no_moms,
                                                                     proyek_mom_users,
                                                                     tugas_mom_users,
+                                                                    nama_status_prioritas,
                                                                     tenggat_waktu_mom_users,
                                                                     dikirimkan_mom_users,
                                                                     catatan_mom_users,
@@ -31,6 +32,7 @@ class TugasController extends AdminCoreController
                                                                     name,
                                                                     nama_divisis')
                                                     ->join('moms','mom_users.moms_id','=','moms.id_moms')
+                                                    ->join('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
                                                     ->join('users','mom_users.users_id','=','users.id')
                                                     ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                     ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
@@ -45,10 +47,12 @@ class TugasController extends AdminCoreController
                                                                 no_moms,
                                                                 proyek_mom_users,
                                                                 tugas_mom_users,
+                                                                nama_status_prioritas,
                                                                 tenggat_waktu_mom_users,
                                                                 dikirimkan_mom_users,
                                                                 catatan_mom_users')
                                                     ->join('moms','mom_users.moms_id','=','moms.id_moms')
+                                                    ->join('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
                                                     ->where('status_tugas_id',$id_status_tugas)
                                                     ->where('mom_users.users_id',Auth::user()->id)
                                                     ->groupBy('tugas_mom_users')

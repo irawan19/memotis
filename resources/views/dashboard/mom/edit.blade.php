@@ -163,7 +163,6 @@
 									$.each( data.data, function(key, value) {
 										$('#users_id'+value.users_id).prop('checked',true);
 										$('#tugas_mom_users'+value.users_id).val(value.tugas_mom_users);
-										$('#status_tugas_id'+value.users_id).val(value.status_tugas_id).trigger('change');
 										$('#catatan_mom_users'+value.users_id).val(value.catatan_mom_users);
 									});
 								}

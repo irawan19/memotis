@@ -69,6 +69,7 @@
             @php($lihat_pesertas = \App\Models\Mom_user::join('users','users_id','=','users.id')
 														->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
 														->leftJoin('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                        ->leftJoin('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
 														->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
 														->where('moms_id',$lihat_moms->id_moms)
 													    ->groupBy('mom_users.users_id')
@@ -104,6 +105,7 @@
             @php($lihat_tugas = \App\Models\Mom_user::join('users','users_id','=','users.id')
                                                             ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                             ->leftJoin('master_status_tugas','status_tugas_id','=','master_status_tugas.id_status_tugas')
+                                                            ->leftJoin('master_status_prioritas','status_prioritas_id','=','master_status_prioritas.id_status_prioritas')
                                                             ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis')
                                                             ->where('moms_id',$lihat_moms->id_moms)
                                                             ->orderBy('proyek_mom_users')
@@ -119,6 +121,7 @@
                                 <th>Ditugaskan</th>
                                 <th>Tenggat Waktu</th>
                                 <th>Dikirimkan</th>
+                                <th>Prioritas</th>
                                 <th>Status</th>
                                 <th>Catatan</th>
                             </tr>
@@ -139,6 +142,7 @@
                                         @endif
                                     </td>
                                     <td>{{$tugas->dikirimkan_mom_users}}</td>
+                                    <td>{{$tugas->nama_status_prioritas}}</td>
                                     <td>{{$tugas->nama_status_tugas}}</td>
                                     <td>{!! nl2br($tugas->catatan_mom_users) !!}</td>
                                 </tr>
