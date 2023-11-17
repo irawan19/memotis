@@ -28,17 +28,25 @@ use App\Http\Controllers\Dashboard\FileManagerController as DashboardFileManager
 use App\Http\Controllers\Dashboard\KaryawanController as DashboardKaryawan;
 
 //Konfigurasi Aplikasi
+//surat
 use App\Http\Controllers\Dashboard\KlasifikasiSuratController as DashboardKlasifikasiSurat;
 use App\Http\Controllers\Dashboard\DisposisiSuratController as DashboardDisposisiSurat;
 use App\Http\Controllers\Dashboard\DerajatSuratController as DashboardDerajatSurat;
 use App\Http\Controllers\Dashboard\SifatSuratController as DashboardSifatSurat;
+//tugas
+use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
+use App\Http\Controllers\Dashboard\StatusPrioritasController as DashboardStatusPrioritas;
+//sales
+use App\Http\Controllers\Dashboard\SegmentasiSalesController as DashboardSegmentasiSales;
+use App\Http\Controllers\Dashbboard\ProjectSalesController as DashboardProjectSales;
+use App\Http\Controllers\Dashboard\StatusSalesController as StatusSalesController;
+use App\Http\Controllers\Dashboard\KegiatanSalesController as DashboardKegiatanSales;
+//user
 use App\Http\Controllers\Dashboard\MenuController as DashboardMenu;
 use App\Http\Controllers\Dashboard\DivisiController as DashboardDivisi;
 use App\Http\Controllers\Dashboard\UnitKerjaController as DashboardUnitKerja;
 use App\Http\Controllers\Dashboard\JabatanController as DashboardJabatan;
 use App\Http\Controllers\Dashboard\StatusKaryawanController as DashboardStatusKaryawan;
-use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
-use App\Http\Controllers\Dashboard\StatusPrioritasController as DashboardStatusPrioritas;
 use App\Http\Controllers\Dashboard\LevelSistemController as DashboardLevelSistem;
 use App\Http\Controllers\Dashboard\AdminController as DashboardAdmin;
 use App\Http\Controllers\Dashboard\SosialMediaController as DashboardSosialMedia;
@@ -247,6 +255,50 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardStatusPrioritas::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardStatusPrioritas::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardStatusPrioritas::class, 'hapus']);
+            });
+
+            // Segmentasi Sales
+            Route::group(['prefix' => 'segmentasi_sales'], function() {
+                Route::get('/', [DashboardSegmentasiSales::class, 'index']);
+                Route::get('/cari', [DashboardSegmentasiSales::class, 'cari']);
+                Route::get('/tambah', [DashboardSegmentasiSales::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardSegmentasiSales::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardSegmentasiSales::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardSegmentasiSales::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardSegmentasiSales::class, 'hapus']);
+            });
+
+            //Project Sales
+            Route::group(['prefix' => 'project_sales'], function() {
+                Route::get('/', [DashboardProjectSales::class, 'index']);
+                Route::get('/cari', [DashboardProjectSales::class, 'cari']);
+                Route::get('/tambah', [DashboardProjectSales::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardProjectSales::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardProjectSales::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardProjectSales::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardProjectSales::class, 'hapus']);
+            });
+
+            //Status Sales
+            Route::group(['prefix' => 'status_sales'], function() {
+                Route::get('/', [DashboardStatusSales::class, 'index']);
+                Route::get('/cari', [DashboardStatusSales::class, 'cari']);
+                Route::get('/tambah', [DashboardStatusSales::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardStatusSales::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardStatusSales::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardStatusSales::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardStatusSales::class, 'hapus']);
+            });
+
+            //Kegiatan Sales
+            Route::group(['prefix' => 'kegiatan_sales'], function() {
+                Route::get('/', [DashboardKegiatanSales::class, 'index']);
+                Route::get('/cari', [DashboardKegiatanSales::class, 'cari']);
+                Route::get('/tambah', [DashboardKegiatanSales::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardKegiatanSales::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardKegiatanSales::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardKegiatanSales::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardKegiatanSales::class, 'hapus']);
             });
 
             //Menu
