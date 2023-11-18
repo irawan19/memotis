@@ -35,13 +35,13 @@
                                     @foreach($edit_jabatans as $jabatans)
                                     @php($selected = '')
                                     @if(Request::old('karyawans_id') == '')
-                                    @if($jabatans->id_jabatans == $edit_karyawans->karyawans_id)
-                                    @php($selected = 'selected')
-                                    @endif
-                                    @else
-                                    @if($jabatans->id_jabatans == Request::old('karyawans_id'))
-                                    @php($selected = 'selected')
-                                    @endif
+                                        @if($jabatans->id_jabatans == $edit_karyawans->karyawans_id)
+                                            @php($selected = 'selected')
+                                        @endif
+                                        @else
+                                            @if($jabatans->id_jabatans == Request::old('karyawans_id'))
+                                            @php($selected = 'selected')
+                                        @endif
                                     @endif
                                     <option value="{{$jabatans->id_jabatans}}" {{ $selected }}>{{$jabatans->nama_jabatans}}</option>
                                     @endforeach

@@ -23,13 +23,14 @@ return new class extends Migration
             $table->foreign('status_sales_id')->references('id_status_sales')->on('master_status_sales')->onUpdate('set null')->onDelete('set null');
             $table->bigInteger('project_sales_id')->unsigned()->index()->nullable();
             $table->foreign('project_sales_id')->references('id_project_sales')->on('master_project_sales')->onUpdate('set null')->onDelete('set null');
+            $table->date('tanggal_aktivitas_sales');
             $table->string('nama_aktivitas_sales');
             $table->longtext('alamat_aktivitas_sales');
             $table->string('pic_aktivitas_sales');
             $table->string('kontak_personal_aktivitas_sales');
-            $table->string('periode_aktivitas_sales');
+            $table->string('jangka_waktu_aktivitas_sales');
             $table->double('total_aktivitas_sales');
-            $table->longtext('komentar_aktivitas_sales');
+            $table->longtext('catatan_aktivitas_sales');
             $table->timestamps();
         });
     }

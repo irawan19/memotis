@@ -26,6 +26,7 @@ use App\Http\Controllers\Dashboard\MomController as DashboardMom;
 use App\Http\Controllers\Dashboard\EventController as DashboardEvent;
 use App\Http\Controllers\Dashboard\FileManagerController as DashboardFileManager;
 use App\Http\Controllers\Dashboard\KaryawanController as DashboardKaryawan;
+use App\Http\Controllers\Dashboard\AktivitasSalesController as DashboardAktivitasSales;
 
 //Konfigurasi Aplikasi
 //surat
@@ -37,8 +38,9 @@ use App\Http\Controllers\Dashboard\SifatSuratController as DashboardSifatSurat;
 use App\Http\Controllers\Dashboard\StatusTugasController as DashboardStatusTugas;
 use App\Http\Controllers\Dashboard\StatusPrioritasController as DashboardStatusPrioritas;
 //sales
+use App\Http\Controllers\Dashboard\StatusSalesController as DashboardStatusSales;
 use App\Http\Controllers\Dashboard\SegmentasiSalesController as DashboardSegmentasiSales;
-use App\Http\Controllers\Dashbboard\ProjectSalesController as DashboardProjectSales;
+use App\Http\Controllers\Dashboard\ProjectSalesController as DashboardProjectSales;
 use App\Http\Controllers\Dashboard\StatusSalesController as StatusSalesController;
 use App\Http\Controllers\Dashboard\KegiatanSalesController as DashboardKegiatanSales;
 //user
@@ -188,6 +190,17 @@ Route::middleware([
                 Route::post('/prosesedit/{id}', [DashboardKaryawan::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardKaryawan::class, 'hapus']);
                 Route::get('/cetakexcel', [DashboardKaryawan::class, 'cetakexcel']);
+            });
+
+            //Aktivitas Sales
+            Route::group(['prefix' => 'aktivitas_sales'], function() {
+                Route::get('/', [DashboardAktivitasSales::class, 'index']);
+                Route::get('/cari', [DashboardAktivitasSales::class, 'cari']);
+                Route::get('/tambah', [DashboardAktivitasSales::class, 'tambah']);
+                Route::post('/prosestambah', [DashboardAktivitasSales::class, 'prosestambah']);
+                Route::get('/edit/{id}', [DashboardAktivitasSales::class, 'edit']);
+                Route::post('/prosesedit/{id}', [DashboardAktivitasSales::class, 'prosesedit']);
+                Route::get('/hapus/{id}', [DashboardAktivitasSales::class, 'hapus']);
             });
 
         //Konfigurasi Aplikasi
