@@ -6,12 +6,13 @@
 			<div class="row">
 				@foreach($lihat_unit_kerjas as $unit_kerjas)
 					@php($tanggal_sekarang = date('Y-m-d'))
-					@php($total_karyawans_aktif = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
-																	->whereRaw('tanggal_keluar_karyawans IS NULL')
+					@php($total_karyawans_aktif = \App\Models\Karyawan::whereRaw('tanggal_keluar_karyawans IS NULL')
+																	->where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
 																	->orWhereRaw('tanggal_keluar_karyawans > "'.$tanggal_sekarang.'"')
+																	->where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
 																	->count())
 					@php($total_karyawans_tidak_aktif = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
-																	->WhereRaw('tanggal_keluar_karyawans < "'.$tanggal_sekarang.'"')
+																	->whereRaw('tanggal_keluar_karyawans < "'.$tanggal_sekarang.'"')
 																	->count())
 					<div class="col-sm-4">
 						<div class="card">
@@ -128,7 +129,9 @@
 				    		</thead>
 				    		<tbody>
 				    			@if(!$lihat_karyawans->isEmpty())
-		            				@foreach($lihat_karyawans as $karyawans)
+									@php($no = 1)
+		            				@foreach($lihat_karyawans as $key => $karyawans)
+										@php($no = $lihat_karyawans->firstItem() + $key) 
                                         @if(!empty($karyawans->tanggal_keluar_karyawans))
                                             @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d')))
                                                 @php($color = 'color:red')
@@ -138,9 +141,6 @@
                                         @else
                                             @php($color = '')
                                         @endif
-
-										@php($no = 1)
-										@php($skipped = ($lihat_karyawans->currentPage() - 1) * $lihat_karyawans->perPage())
 								    	<tr {{$color}}>
 								    		@if(General::totalHakAkses($link_karyawan) != 0)
 								    			<td class="nowrap">
@@ -154,7 +154,7 @@
 										            </div>
 											    </td>
 								    		@endif
-								    		<td class="nowrap">{{$no + $skipped}}</td>
+								    		<td class="nowrap">{{$no}}</td>
 								    		<td class="nowrap">
                                                 @if(!empty($karyawans->tanggal_keluar_karyawans))
                                                     @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d')))

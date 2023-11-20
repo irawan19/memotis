@@ -44,8 +44,8 @@
 				    		<tbody>
 				    			@if(!$lihat_admins->isEmpty())
 					    			@php($no = 1)
-									@php($skipped = ($lihat_admins->currentPage() - 1) * $lihat_admins->perPage())
-		            				@foreach($lihat_admins as $admins)
+		            				@foreach($lihat_admins as $key => $admins)
+										@php($no = $lihat_admins->firstItem() + $key) 
 								    	<tr>
 					    					@if(General::totalHakAkses($link_admin) != 0)
 					    						<td class="nowrap">
@@ -63,7 +63,7 @@
 										            </div>
 											    </td>
 									    	@endif
-								    		<td class="nowrap">{{$no + $skipped}}</td>
+								    		<td class="nowrap">{{$no}}</td>
 								    		<td class="nowrap">{{$admins->nama_level_sistems}}</td>
 								    		<td class="nowrap">{{$admins->name}}</td>
 								    		<td class="nowrap">{{$admins->username}}</td>
