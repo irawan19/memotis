@@ -33,17 +33,17 @@
                                 <label class="form-col-form-label" for="jabatans_id">Jabatan <b style="color:red">*</b></label>
                                 <select class="form-control select2" id="jabatans_id" name="jabatans_id">
                                     @foreach($edit_jabatans as $jabatans)
-                                    @php($selected = '')
-                                    @if(Request::old('karyawans_id') == '')
-                                        @if($jabatans->id_jabatans == $edit_karyawans->karyawans_id)
-                                            @php($selected = 'selected')
+                                        @php($selected = '')
+                                        @if(Request::old('jabatans_id') == '')
+                                            @if($jabatans->id_jabatans == $edit_karyawans->jabatans_id)
+                                                @php($selected = 'selected')
+                                            @endif
+                                            @else
+                                                @if($jabatans->id_jabatans == Request::old('jabatans_id'))
+                                                @php($selected = 'selected')
+                                            @endif
                                         @endif
-                                        @else
-                                            @if($jabatans->id_jabatans == Request::old('karyawans_id'))
-                                            @php($selected = 'selected')
-                                        @endif
-                                    @endif
-                                    <option value="{{$jabatans->id_jabatans}}" {{ $selected }}>{{$jabatans->nama_jabatans}}</option>
+                                        <option value="{{$jabatans->id_jabatans}}" {{ $selected }}>{{$jabatans->nama_jabatans}}</option>
                                     @endforeach
                                 </select>
                                 {{General::pesanErrorForm($errors->first('jabatans_id'))}}
@@ -52,17 +52,17 @@
                                 <label class="form-col-form-label" for="status_karyawans_id">Status Karyawan <b style="color:red">*</b></label>
                                 <select class="form-control select2" id="status_karyawans_id" name="status_karyawans_id">
                                     @foreach($edit_status_karyawans as $status_karyawans)
-                                    @php($selected = '')
-                                    @if(Request::old('karyawans_id') == '')
-                                    @if($status_karyawans->id_status_karyawans == $edit_karyawans->karyawans_id)
-                                    @php($selected = 'selected')
-                                    @endif
-                                    @else
-                                    @if($status_karyawans->id_status_karyawans == Request::old('karyawans_id'))
-                                    @php($selected = 'selected')
-                                    @endif
-                                    @endif
-                                    <option value="{{$status_karyawans->id_status_karyawans}}" {{ $selected }}>{{$status_karyawans->nama_status_karyawans}}</option>
+                                        @php($selected = '')
+                                        @if(Request::old('karyawans_id') == '')
+                                            @if($status_karyawans->id_status_karyawans == $edit_karyawans->karyawans_id)
+                                                @php($selected = 'selected')
+                                            @endif
+                                        @else
+                                            @if($status_karyawans->id_status_karyawans == Request::old('karyawans_id'))
+                                                @php($selected = 'selected')
+                                            @endif
+                                        @endif
+                                        <option value="{{$status_karyawans->id_status_karyawans}}" {{ $selected }}>{{$status_karyawans->nama_status_karyawans}}</option>
                                     @endforeach
                                 </select>
                                 {{General::pesanErrorForm($errors->first('status_karyawans_id'))}}
@@ -71,17 +71,17 @@
                                 <label class="form-col-form-label" for="unit_kerjas_id">Unit Kerja <b style="color:red">*</b></label>
                                 <select class="form-control select2" id="unit_kerjas_id" name="unit_kerjas_id">
                                     @foreach($edit_unit_kerjas as $unit_kerjas)
-                                    @php($selected = '')
-                                    @if(Request::old('unit_kerjas_id') == '')
-                                    @if($unit_kerjas->id_unit_kerjas == $edit_karyawans->unit_kerjas_id)
-                                    @php($selected = 'selected')
-                                    @endif
-                                    @else
-                                    @if($unit_kerjas->id_unit_kerjas == Request::old('unit_kerjas_id'))
-                                    @php($selected = 'selected')
-                                    @endif
-                                    @endif
-                                    <option value="{{$unit_kerjas->id_unit_kerjas}}" {{ $selected }}>{{$unit_kerjas->nama_unit_kerjas}}</option>
+                                        @php($selected = '')
+                                        @if(Request::old('unit_kerjas_id') == '')
+                                            @if($unit_kerjas->id_unit_kerjas == $edit_karyawans->unit_kerjas_id)
+                                                @php($selected = 'selected')
+                                            @endif
+                                        @else
+                                            @if($unit_kerjas->id_unit_kerjas == Request::old('unit_kerjas_id'))
+                                                @php($selected = 'selected')
+                                            @endif
+                                        @endif
+                                        <option value="{{$unit_kerjas->id_unit_kerjas}}" {{ $selected }}>{{$unit_kerjas->nama_unit_kerjas}}</option>
                                     @endforeach
                                 </select>
                                 {{General::pesanErrorForm($errors->first('unit_kerjas_id'))}}
