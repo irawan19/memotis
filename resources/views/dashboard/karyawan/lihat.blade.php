@@ -133,7 +133,7 @@
 		            				@foreach($lihat_karyawans as $key => $karyawans)
 										@php($no = $lihat_karyawans->firstItem() + $key) 
                                         @if(!empty($karyawans->tanggal_keluar_karyawans))
-                                            @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d')))
+                                            @if(strtotime($karyawans->tanggal_keluar_karyawans) <= strtotime(date('Y-m-d')))
                                                 @php($color = 'color:red')
                                             @else
                                                 @php($color = '')
@@ -141,7 +141,7 @@
                                         @else
                                             @php($color = '')
                                         @endif
-								    	<tr {{$color}}>
+								    	<tr style={{$color}}>
 								    		@if(General::totalHakAkses($link_karyawan) != 0)
 								    			<td class="nowrap">
 											      	<div class="dropdown">
@@ -157,7 +157,7 @@
 								    		<td class="nowrap">{{$no}}</td>
 								    		<td class="nowrap">
                                                 @if(!empty($karyawans->tanggal_keluar_karyawans))
-                                                    @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d')))
+                                                    @if(strtotime($karyawans->tanggal_keluar_karyawans) <= strtotime(date('Y-m-d')))
                                                         Tidak Aktif
                                                     @else
                                                         Aktif

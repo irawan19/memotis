@@ -66,7 +66,7 @@
             @php($no = 1)
                 @foreach($lihat_karyawans as $karyawans)
                     @if(!empty($karyawans->tanggal_keluar_karyawans))
-                        @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d')))
+                        @if(strtotime($karyawans->tanggal_keluar_karyawans) <= strtotime(date('Y-m-d')))
                             @php($color = 'color:red')
                         @else
                             @php($color = '')
@@ -74,11 +74,11 @@
                     @else
                         @php($color = '')
                     @endif
-                    <tr {{$color}}>
+                    <tr style={{$color}}>
                         <td>{{$no}}</td>
                         <td>
                             @if(!empty($karyawans->tanggal_keluar_karyawans))
-                                @if(strtotime($karyawans->tanggal_keluar_karyawans) < strtotime(date('Y-m-d')))
+                                @if(strtotime($karyawans->tanggal_keluar_karyawans) <= strtotime(date('Y-m-d')))
                                     Tidak Aktif
                                 @else
                                     Aktif
