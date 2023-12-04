@@ -12,7 +12,7 @@
 																	->where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
 																	->count())
 					@php($total_karyawans_tidak_aktif = \App\Models\Karyawan::where('unit_kerjas_id',$unit_kerjas->id_unit_kerjas)
-																	->whereRaw('tanggal_keluar_karyawans < "'.$tanggal_sekarang.'"')
+																	->whereRaw('tanggal_keluar_karyawans <= "'.$tanggal_sekarang.'"')
 																	->count())
 					<div class="col-sm-4">
 						<div class="card">
