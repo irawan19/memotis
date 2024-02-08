@@ -34,6 +34,9 @@
 				    				@if(General::totalHakAkses($link_aktivitas_sales) != 0)
 						    			<th width="5px"></th>
 						    		@endif
+									@if(Auth::user()->level_sistems_id == 1)
+										<th class="nowrap">User</th>
+									@endif
 				    				<th class="nowrap">Tanggal</th>
 				    				<th class="nowrap">Kegiatan</th>
 				    				<th class="nowrap">Segmentasi</th>
@@ -64,6 +67,13 @@
 										            </div>
 											    </td>
 								    		@endif
+											@if(Auth::user()->level_sistems_id == 1)
+												@php($nama = $aktivitas_sales->nama_level_sistems.' - '.$aktivitas_sales->name)
+												@if(!empty($aktivitas_sales->id_divisis))
+													@php($nama = $aktivitas_sales->nama_level_sistems.' - '.$aktivitas_sales->nama_divisis.' - '.$aktivitas_sales->name)
+												@endif
+								    			<td class="nowrap">{{$nama}}</td>
+											@endif
 								    		<td class="nowrap">{{General::ubahDBKeTanggal($aktivitas_sales->tanggal_aktivitas_sales)}}</td>
 								    		<td class="nowrap">{{$aktivitas_sales->nama_kegiatan_sales}}</td>
 								    		<td class="nowrap">{{$aktivitas_sales->nama_segmentasi_sales}}</td>
@@ -74,39 +84,72 @@
 								    		<td class="nowrap">{{$aktivitas_sales->nama_status_sales}}</td>
 								    		<td class="nowrap">{{$aktivitas_sales->nama_project_sales}}</td>
 								    		<td class="nowrap">{{$aktivitas_sales->jangka_waktu_aktivitas_sales}}</td>
-								    		<td class="nowrap right-align">{{$aktivitas_sales->total_aktivitas_sales}}</td>
+								    		<td class="nowrap right-align">{{General::ubahDBKeHarga($aktivitas_sales->total_aktivitas_sales)}}</td>
 								    		<td class="nowrap">{!! nl2br($aktivitas_sales->catatan_aktivitas_sales) !!}</td>
 								    	</tr>
 								    @endforeach
 								@else
 									<tr>
-										@if(General::totalHakAkses($link_aktivitas_sales) != 0)
-											<td colspan="13" class="center-align">Tidak ada data ditampilkan</td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
+										@if(Auth::user()->level_sistems_id == 1)
+											@if(General::totalHakAkses($link_aktivitas_sales) != 0)
+												<td colspan="14" class="center-align">Tidak ada data ditampilkan</td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+											@else
+												<td colspan="13" class="center-align">Tidak ada data ditampilkan</td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+											@endif
 										@else
-											<td colspan="12" class="center-align">Tidak ada data ditampilkan</td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
+											@if(General::totalHakAkses($link_aktivitas_sales) != 0)
+												<td colspan="13" class="center-align">Tidak ada data ditampilkan</td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+											@else
+												<td colspan="12" class="center-align">Tidak ada data ditampilkan</td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+												<td style="display:none"></td>
+											@endif
 										@endif
 									</tr>
 								@endif
