@@ -15,6 +15,21 @@
 					    @endif
 						<div class="row">
 							<div class="col-md-6">
+								@if(Auth::user()->level_sistems_id == 1)
+									<div class="form-group">
+										<label class="form-col-form-label" for="users_id">User <b style="color:red">*</b></label>
+										<select class="form-control select2" id="users_id" name="users_id">
+											@foreach($tambah_users as $users)
+												@php($nama = $users->nama_level_sistems.' - '.$users->name)
+												@if(!empty($users->id_divisis))
+													@php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
+												@endif
+												<option value="{{$users->id_users}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
+											@endforeach
+										</select>
+										{{General::pesanErrorForm($errors->first('users_id'))}}
+									</div>
+								@endif
 								<div class="form-group">
 									<label class="form-col-form-label" for="kegiatan_sales_id">Kegiatan <b style="color:red">*</b></label>
 				                    <select class="form-control select2" id="kegiatan_sales_id" name="kegiatan_sales_id">
