@@ -592,9 +592,9 @@ class General
 			return Str::limit(strip_tags($text),$jumlah);
 		}
 
-		public static function tanggalTerakhir($bulan, $tahun)
+		public static function tanggalTerakhir($tahun, $bulan)
 		{
-			return date('t', strtotime($tahun.'-'.$bulan.'-01'));
+			return date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01'));
 		}
 
 		public static function angkaAlphabet($number=1)
