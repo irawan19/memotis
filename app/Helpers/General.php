@@ -592,6 +592,11 @@ class General
 			return Str::limit(strip_tags($text),$jumlah);
 		}
 
+		public static function tanggalTerakhir($bulan, $tahun)
+		{
+			return date('t', strtotime($tahun.'-'.$bulan.'-01'));
+		}
+
 		public static function angkaAlphabet($number=1)
 		{
 		    $number = intval($number);
@@ -605,7 +610,7 @@ class General
 		       $alphabet = chr(65 + $p) . $alphabet;
 		   }
 		   return $alphabet;
-		  }
+		}
 
 		public static function tampilHari($hari)
 		{

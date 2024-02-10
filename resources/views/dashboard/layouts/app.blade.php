@@ -178,6 +178,36 @@
 	       		    format      : 'DD MMM YYYY HH:mm:ss'
 	       		});
 
+				$('.getStartEndDateMonthYear').daterangepicker({
+	       		    startDate   : dateNowRange,
+	       		    endDate     : dateNowRange,
+	       		   	separator 	: " sampai ",
+				    locale: {
+				      	monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+				      	cancelLabel: "Batal",
+        				fromLabel: "Dari",
+        				toLabel: "Sampai",
+        				customRangeLabel: "Pilih Sendiri",
+        				daysOfWeek: [
+							            "Mi",
+							            "Se",
+							            "Se",
+							            "Ra",
+							            "Ka",
+							            "Ju",
+							            "Sa"
+							        ],
+				    },
+	       		    "showDropdowns": true,
+	       		    timePicker: false,
+	       		    timePickerSeconds: false,
+	       		    timePicker12Hour: false,
+	       		    timePickerIncrement: 1,
+	       		    format      : 'MMM YYYY'
+	       		}).on('hide.daterangepicker', function (ev, picker) {
+					$('.table-condensed tbody tr:nth-child(2) td').click();
+				});
+
 	        //Datepicker
 	            $('.getDate').datepicker({
 	                dayNames: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],

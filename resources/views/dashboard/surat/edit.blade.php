@@ -175,7 +175,7 @@
                                     <div class="form-group formdropzone">
                                         <label for="lampiran">Lampiran</label>
                                         <div class="needsclick dropzone" id="lampiran-dropzone">
-                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran (maks 5MB)</span></div>
+                                        <div class="dz-message" data-dz-message><span>Klik / drag and drop untuk upload lampiran (maks 512MB)</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@
         var uploadedDocumentMap = {}
         Dropzone.options.lampiranDropzone = {
             url: "{{ url('dashboard/surat/lampiran/upload') }}",
-            maxFilesize: 5, // MB
+            maxFilesize: 512, // MB
             addRemoveLinks: true,
             type:"POST",
             headers: {

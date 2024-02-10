@@ -15,6 +15,7 @@ use Storage;
 use Auth;
 use App\Exports\KaryawanExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 class KaryawanController extends AdminCoreController
 {
 

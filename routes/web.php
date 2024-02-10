@@ -27,6 +27,7 @@ use App\Http\Controllers\Dashboard\EventController as DashboardEvent;
 use App\Http\Controllers\Dashboard\FileManagerController as DashboardFileManager;
 use App\Http\Controllers\Dashboard\KaryawanController as DashboardKaryawan;
 use App\Http\Controllers\Dashboard\AktivitasSalesController as DashboardAktivitasSales;
+use App\Http\Controllers\Dashboard\LaporanAktivitasSalesController as DashboardLaporanAktivitasSales;
 
 //Konfigurasi Aplikasi
 //surat
@@ -201,6 +202,13 @@ Route::middleware([
                 Route::get('/edit/{id}', [DashboardAktivitasSales::class, 'edit']);
                 Route::post('/prosesedit/{id}', [DashboardAktivitasSales::class, 'prosesedit']);
                 Route::get('/hapus/{id}', [DashboardAktivitasSales::class, 'hapus']);
+            });
+
+            //Laporan Aktivitas Sales
+            Route::group(['prefix' => 'laporan_aktivitas_sales'], function() {
+                Route::get('/', [DashboardLaporanAktivitasSales::class, 'index']);
+                Route::get('/cari', [DashboardLaporanAktivitasSales::class, 'cari']);
+                Route::get('/cetakexcel', [DashboardLaporanAktivitasSales::class, 'cetakexcel']);
             });
 
         //Konfigurasi Aplikasi

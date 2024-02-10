@@ -145,7 +145,7 @@
                 @endforeach
             @else
                 <tr>
-                    <td colspan="27" align="right-align">Tidak ada data ditampilkan</td>
+                    <td colspan="27" style="text-align:center">Tidak ada data ditampilkan</td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
                     <td style="display:none"></td>
