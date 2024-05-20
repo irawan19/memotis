@@ -49,7 +49,8 @@ class MomController extends AdminCoreController
                                                         ->leftJoin('mom_users','moms.id_moms','=','mom_users.moms_id')
                                                         ->orderBy('moms.created_at','desc')
                                                         ->groupBy('id_moms')
-                                                        ->paginate(10);
+                                                        ->paginate(10)
+                                                        ->onEachSide(0);
             }
             else
             {
@@ -80,7 +81,8 @@ class MomController extends AdminCoreController
                                                         ->orWhere('moms.users_id',Auth::user()->id)
                                                         ->groupBy('moms.id_moms')
                                                         ->orderBy('moms.created_at','desc')
-                                                        ->paginate(10);
+                                                        ->paginate(10)
+                                                        ->onEachSide(0);
             }
             session()->forget('halaman');
             session()->forget('hasil_kata');
@@ -129,7 +131,8 @@ class MomController extends AdminCoreController
                                                     ->orwhere('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->groupBy('id_moms')
                                                     ->orderBy('moms.created_at','desc')
-                                                    ->paginate(10);
+                                                    ->paginate(10)
+                                                        ->onEachSide(0);
             }
             else
             {
@@ -164,7 +167,8 @@ class MomController extends AdminCoreController
                                                         ->where('no_moms', 'LIKE', '%'.$hasil_kata.'%')
                                                         ->groupBy('id_moms')
                                                         ->orderBy('moms.created_at','desc')
-                                                        ->paginate(10);
+                                                        ->paginate(10)
+                                                        ->onEachSide(0);
             }
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);

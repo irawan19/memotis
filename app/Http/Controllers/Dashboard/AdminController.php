@@ -20,7 +20,8 @@ class AdminController extends AdminCoreController
             $url_sekarang               = $request->fullUrl();
             $data['lihat_admins']    	= User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
                                                 ->orderBy('nama_level_sistems','asc')
-                                                ->paginate(10);
+                                                ->paginate(10)
+                                                        ->onEachSide(0);
             session()->forget('halaman');
             session()->forget('hasil_kata');
             session(['halaman'          => $url_sekarang]);
@@ -46,7 +47,8 @@ class AdminController extends AdminCoreController
                                                 ->orWhere('username', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orWhere('email', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orderBy('nama_level_sistems')
-                                                ->paginate(10);
+                                                ->paginate(10)
+                                                        ->onEachSide(0);
             session(['halaman'          => $url_sekarang]);
             session(['hasil_kata'		=> $hasil_kata]);
             return view('dashboard.admin.lihat', $data);

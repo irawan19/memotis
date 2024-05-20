@@ -38,7 +38,8 @@ class SuratController extends AdminCoreController
                                                             ->join('master_sifat_surats','sifat_surats_id','=','master_sifat_surats.id_sifat_surats')
                                                             ->orderBy('surats.status_selesai_surats','asc')
                                                             ->orderBy('surats.created_at','desc')
-                                                            ->paginate(10);
+                                                            ->paginate(10)
+                                                        ->onEachSide(0);
             }
             else
             {
@@ -67,7 +68,8 @@ class SuratController extends AdminCoreController
                                                         ->groupBy('surats.id_surats')
                                                         ->orderBy('surats.status_selesai_surats','asc')
                                                         ->orderBy('surats.created_at','desc')
-                                                        ->paginate(10);
+                                                        ->paginate(10)
+                                                        ->onEachSide(0);
             }
             session()->forget('halaman');
             session()->forget('hasil_kata');
@@ -99,7 +101,8 @@ class SuratController extends AdminCoreController
                                                     ->orwhere('no_surats', 'LIKE', '%'.$hasil_kata.'%')
                                                     ->orderBy('surats.status_selesai_surats','asc')
                                                     ->orderBy('surats.created_at','desc')
-                                                    ->paginate(10);
+                                                    ->paginate(10)
+                                                        ->onEachSide(0);
             }
             else
             {
@@ -132,7 +135,8 @@ class SuratController extends AdminCoreController
                                                         ->groupBy('surats.id_surats')
                                                         ->orderBy('surats.status_selesai_surats','asc')
                                                         ->orderBy('surats.created_at','desc')
-                                                        ->paginate(10);
+                                                        ->paginate(10)
+                                                        ->onEachSide(0);
             }
             session(['halaman'              => $url_sekarang]);
             session(['hasil_kata'		    => $hasil_kata]);
