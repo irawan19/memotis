@@ -665,7 +665,7 @@ class General
 				),
 				array(
 					'nama' 	=> 'Website',
-					'icon'	=> 'website'
+					'icon'	=> 'globe'
 				),
 				array(
 					'nama' 	=> 'Tiktok',

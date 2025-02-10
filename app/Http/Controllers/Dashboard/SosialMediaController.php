@@ -143,7 +143,7 @@ class SosialMediaController extends AdminCoreController
                 $data = [
 		        	'icon_sosial_medias'	=> $pisah_sosial_media[0],
 		        	'nama_sosial_medias'	=> $pisah_sosial_media[1],
-                    'url_sosial_medias'     => $request->url_sosial_medias,
+                    'url_sosial_medias'         => $request->url_sosial_medias,
                     'updated_at'            => date('Y-m-d H:i:s')
                 ];
                 Master_sosial_media::where('id_sosial_medias', $id_sosial_medias)
