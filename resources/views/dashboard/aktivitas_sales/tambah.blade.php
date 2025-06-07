@@ -24,7 +24,7 @@
 												@if(!empty($users->id_divisis))
 													@php($nama = $users->nama_level_sistems.' - '.$users->nama_divisis.' - '.$users->name)
 												@endif
-												<option value="{{$users->id_users}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
+												<option value="{{$users->id}}" {{ Request::old('users_id') == $users->id ? $select='selected' : $select='' }}>{{$nama}}</option>
 											@endforeach
 										</select>
 										{{General::pesanErrorForm($errors->first('users_id'))}}

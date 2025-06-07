@@ -192,10 +192,10 @@ class AktivitasSalesController extends AdminCoreController
                 'nama_aktivitas_sales'              => $request->nama_aktivitas_sales,
                 'alamat_aktivitas_sales'            => $request->alamat_aktivitas_sales,
                 'pic_aktivitas_sales'               => $request->pic_aktivitas_sales,
-                'kontak_personal_aktivitas_sales'   => $request->kontak_personal_aktivitas_sales,
-                'jangka_waktu_aktivitas_sales'      => $request->jangka_waktu_aktivitas_sales,
+                'kontak_personal_aktivitas_sales'   => $kontak_personal_aktivitas_sales,
+                'jangka_waktu_aktivitas_sales'      => $jangka_waktu_aktivitas_sales,
                 'total_aktivitas_sales'             => General::ubahHargaKeDB($request->total_aktivitas_sales),
-                'catatan_aktivitas_sales'           => $request->catatan_aktivitas_sales,
+                'catatan_aktivitas_sales'           => $catatan_aktivitas_sales,
                 'created_at'                        => date('Y-m-d H:i:s'),
             ];
             Aktivitas_sales::insert($data);
@@ -312,10 +312,10 @@ class AktivitasSalesController extends AdminCoreController
                     'nama_aktivitas_sales'              => $request->nama_aktivitas_sales,
                     'alamat_aktivitas_sales'            => $request->alamat_aktivitas_sales,
                     'pic_aktivitas_sales'               => $request->pic_aktivitas_sales,
-                    'kontak_personal_aktivitas_sales'   => $request->kontak_personal_aktivitas_sales,
-                    'jangka_waktu_aktivitas_sales'      => $request->jangka_waktu_aktivitas_sales,
+                    'kontak_personal_aktivitas_sales'   => $kontak_personal_aktivitas_sales,
+                    'jangka_waktu_aktivitas_sales'      => $jangka_waktu_aktivitas_sales,
                     'total_aktivitas_sales'             => General::ubahHargaKeDB($request->total_aktivitas_sales),
-                    'catatan_aktivitas_sales'           => $request->catatan_aktivitas_sales,
+                    'catatan_aktivitas_sales'           => $catatan_aktivitas_sales,
                     'updated_at'                        => date('Y-m-d H:i:s'),
                 ];
                 Aktivitas_sales::where('id_aktivitas_sales', $id_aktivitas_sales)
