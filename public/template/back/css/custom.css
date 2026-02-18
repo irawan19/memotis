@@ -306,30 +306,41 @@ not all {
     width: 100% !important;
 }
 
-/* Modal detail MOM - gambar responsive, tidak overflow */
+/* Semua modal - scroll kanan-kiri bila konten lebar */
+.modal .modal-content {
+    max-width: 100%;
+}
+.modal .card-body,
+.modal .modal-body {
+    overflow-x: auto;
+    overflow-y: visible;
+    max-width: 100%;
+}
+
+/* Modal detail MOM - scroll kanan-kiri bila konten/gambar lebar */
 [id^="modaldetailmoms"] .modal-content {
     max-width: 100%;
-    overflow-x: hidden;
 }
 [id^="modaldetailmoms"] .modal-dialog {
     max-width: min(1400px, 95vw) !important;
 }
 [id^="modaldetailmoms"] .card-body {
-    overflow-x: hidden;
+    overflow-x: auto;
+    overflow-y: visible;
     max-width: 100%;
 }
 [id^="modaldetailmoms"] .modal-content img {
-    max-width: 100% !important;
+    max-width: none;
     height: auto !important;
     display: block;
-    object-fit: contain;
+    vertical-align: top;
 }
 [id^="modaldetailmoms"] #ckeditor5konten {
-    max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
+    min-width: min-content;
 }
 [id^="modaldetailmoms"] #ckeditor5konten img {
-    max-width: 100% !important;
+    max-width: none !important;
     width: auto !important;
     height: auto !important;
 }
