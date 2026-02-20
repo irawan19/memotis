@@ -48,7 +48,22 @@
 			</div>
 
 			<div id="modaldetailmoms{{$event_moms->id_moms}}" class="modal" tabindex="-1">
-				<div class="modal-dialog modal-xl" style="max-width:1400px !important">
+				<style>
+					#modaldetailmoms{{$event_moms->id_moms}} .modal-dialog { width: 95vw !important; max-width: 1400px !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} .modal-content .card-body { max-width: 100% !important; min-width: 0 !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} .mom-deskripsi-wrapper,
+					#modaldetailmoms{{$event_moms->id_moms}} #ckeditor5konten { max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overflow-y: visible !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} #ckeditor5konten img,
+					#modaldetailmoms{{$event_moms->id_moms}} #ckeditor5konten figure img,
+					#modaldetailmoms{{$event_moms->id_moms}} .mom-deskripsi-wrapper img { width: 400px !important; height: 400px !important; object-fit: contain !important; display: block !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} #ckeditor5konten figure,
+					#modaldetailmoms{{$event_moms->id_moms}} #ckeditor5konten p { max-width: 100% !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} #ckeditor5konten { word-wrap: break-word !important; overflow-wrap: break-word !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} .modal-content .table { table-layout: fixed !important; width: 100% !important; }
+					#modaldetailmoms{{$event_moms->id_moms}} .modal-content .table td,
+					#modaldetailmoms{{$event_moms->id_moms}} .modal-content .table th { word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: break-word !important; }
+				</style>
+				<div class="modal-dialog modal-xl mom-detail-dialog">
 					<div class="modal-content">
 						<div class="card-body">
 							<div class="row">
@@ -67,7 +82,7 @@
 								<div class="col-sm-12">
 									<table width="100%">
 										<tr>
-											<th width="50px">Dari</th>
+											<th width="150px">Dari</th>
 											<th width="1px">:</th>
 											<td>{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_mulai_moms)}}</td>
 										</tr>
@@ -77,7 +92,7 @@
 											<td>{{General::ubahDBKeTanggalwaktu($event_moms->tanggal_selesai_moms)}}</td>
 										</tr>
 										<tr>
-											<th>Venue</th>
+											<th>Ditujukan Kepada</th>
 											<th>:</th>
 											<td>{{$event_moms->venue_moms}}</td>
 										</tr>
@@ -118,10 +133,10 @@
 								<div class="col-sm-12">
 									<hr/>
 								</div>
-								<div class="col-sm-12">
+								<div class="col-sm-12 mom-deskripsi-wrapper" style="max-width:100%;min-width:0;overflow-x:auto;">
 									<h4>Deskripsi</h4>
 									<br/>
-									<div id="ckeditor5konten">{!! $event_moms->deskripsi_moms !!}</div>
+									<div id="ckeditor5konten" class="mom-deskripsi-content" style="max-width:100%;min-width:0;overflow-x:auto;">{!! $event_moms->deskripsi_moms !!}</div>
 								</div>
 								@php($lihat_tugas = \App\Models\Mom_user::join('users','users_id','=','users.id')
 																				->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
@@ -165,7 +180,7 @@
 														<td>{{$tugas->dikirimkan_mom_users}}</td>
 														<td>{{$tugas->nama_status_prioritas}}</td>
 														<td>{{$tugas->nama_status_tugas}}</td>
-														<td>{!! nl2br($tugas->catatan_mom_users) !!}</td>
+														<td>{!! nl2br($tugas->catatan_mom_users ?? '') !!}</td>
 													</tr>
 												@endforeach
 											</tbody>

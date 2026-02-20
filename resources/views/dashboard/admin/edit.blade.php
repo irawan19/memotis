@@ -60,6 +60,25 @@
 				                    </select>
 		                      	</div>
 								<div class="form-group">
+									<label class="form-col-form-label" for="unit_kerjas_id">Unit Kerja</label>
+				                    <select class="form-control select2" id="unit_kerjas_id" name="unit_kerjas_id">
+				                    	<option value="">-- Pilih Unit Kerja --</option>
+				                    	@foreach($edit_unit_kerjas as $unit_kerja)
+				                    		@php($selected_uk = '')
+					                        @if(Request::old('unit_kerjas_id') !== null && Request::old('unit_kerjas_id') !== '')
+					                        	@if($unit_kerja->id_unit_kerjas == Request::old('unit_kerjas_id'))
+					                        		@php($selected_uk = 'selected')
+					                        	@endif
+					                        @else
+					                        	@if(isset($edit_admins->unit_kerjas_id) && $unit_kerja->id_unit_kerjas == $edit_admins->unit_kerjas_id)
+					                        		@php($selected_uk = 'selected')
+					                        	@endif
+					                        @endif
+										    <option value="{{$unit_kerja->id_unit_kerjas}}" {{ $selected_uk }}>{{$unit_kerja->nama_unit_kerjas}}</option>
+				                    	@endforeach
+				                    </select>
+		                      	</div>
+								<div class="form-group">
 									<label class="form-col-form-label" for="email">Email <b style="color:red">*</b></label>
 									<input class="form-control {{ General::validForm($errors->first('email')) }}" id="email" type="email" name="email" value="{{Request::old('email') == '' ? $edit_admins->email : Request::old('email')}}">
 									{{General::pesanErrorForm($errors->first('email'))}}

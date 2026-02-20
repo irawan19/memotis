@@ -93,7 +93,22 @@
 						</div>
 
 						<div id="modaldetailmoms{{$moms->id_moms}}" class="modal" tabindex="-1">
-							<div class="modal-dialog modal-xl" style="max-width:1400px !important">
+							<style>
+								#modaldetailmoms{{$moms->id_moms}} .modal-dialog { width: 95vw !important; max-width: 1400px !important; }
+								#modaldetailmoms{{$moms->id_moms}} .modal-content .card-body { max-width: 100% !important; min-width: 0 !important; }
+								#modaldetailmoms{{$moms->id_moms}} .mom-deskripsi-wrapper,
+								#modaldetailmoms{{$moms->id_moms}} #ckeditor5konten { max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overflow-y: visible !important; }
+								#modaldetailmoms{{$moms->id_moms}} #ckeditor5konten img,
+								#modaldetailmoms{{$moms->id_moms}} #ckeditor5konten figure img,
+								#modaldetailmoms{{$moms->id_moms}} .mom-deskripsi-wrapper img { width: 400px !important; height: 400px !important; object-fit: contain !important; display: block !important; }
+								#modaldetailmoms{{$moms->id_moms}} #ckeditor5konten figure,
+								#modaldetailmoms{{$moms->id_moms}} #ckeditor5konten p { max-width: 100% !important; }
+								#modaldetailmoms{{$moms->id_moms}} #ckeditor5konten { word-wrap: break-word !important; overflow-wrap: break-word !important; }
+								#modaldetailmoms{{$moms->id_moms}} .modal-content .table { table-layout: fixed !important; width: 100% !important; }
+								#modaldetailmoms{{$moms->id_moms}} .modal-content .table td,
+								#modaldetailmoms{{$moms->id_moms}} .modal-content .table th { word-wrap: break-word !important; overflow-wrap: break-word !important; word-break: break-word !important; }
+							</style>
+							<div class="modal-dialog modal-xl mom-detail-dialog">
 								<div class="modal-content">
 									<div class="card-body">
 										<div class="row">
@@ -163,10 +178,10 @@
 											<div class="col-sm-12">
 												<hr/>
 											</div>
-											<div class="col-sm-12">
+											<div class="col-sm-12 mom-deskripsi-wrapper" style="max-width:100%;min-width:0;overflow-x:auto;">
 												<h4>Deskripsi</h4>
 												<br/>
-												<div id="ckeditor5konten">{!! $moms->deskripsi_moms !!}</div>
+												<div id="ckeditor5konten" class="mom-deskripsi-content" style="max-width:100%;min-width:0;overflow-x:auto;">{!! $moms->deskripsi_moms !!}</div>
 											</div>
 											@php($lihat_tugas = \App\Models\Mom_user::join('users','users_id','=','users.id')
 																							->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
@@ -210,7 +225,7 @@
 																	<td>{{$tugas->dikirimkan_mom_users}}</td>
 																	<td>{{$tugas->nama_status_prioritas}}</td>
 																	<td>{{$tugas->nama_status_tugas}}</td>
-																	<td>{!! nl2br($tugas->catatan_mom_users) !!}</td>
+																	<td>{!! nl2br($tugas->catatan_mom_users ?? '') !!}</td>
 																</tr>
 															@endforeach
 														</tbody>

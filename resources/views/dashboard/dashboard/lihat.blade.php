@@ -67,6 +67,7 @@
 				    </div>
 				</div>
 
+				@if($boleh_lihat_kalender ?? false)
 				<div class="card">
 					<div class="card-header">
 						<strong>
@@ -82,6 +83,7 @@
 						<div id="calendar"></div>
 					</div>
 				</div>
+				@endif
 			</div>
 
 			<div class="col-sm-5">
@@ -198,6 +200,7 @@
 						</div>
 					@endforeach
 
+					@if($boleh_lihat_kalender ?? false)
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-body">
@@ -205,12 +208,14 @@
 							</div>
 						</div>
 					</div>
+					@endif
 				</div>
 				
 			</div>
 		</div>
 	</div>
 
+	@if($boleh_lihat_kalender ?? false)
 	<link href="{{URL::asset('template/back/vendors/fullcalendar/main.css')}}" rel="stylesheet">
     <script src="{{URL::asset('template/back/vendors/fullcalendar/main.js')}}"></script>
     <script src="{{URL::asset('template/back/vendors/fullcalendar/locales/id.js')}}"></script>
@@ -218,6 +223,7 @@
     <script type="text/javascript">
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
+			if (!calendarEl) return;
 			var calendar = new FullCalendar.Calendar(calendarEl, {
   				initialView: 'timeGridWeek',
 				locale: 'id',
@@ -266,8 +272,7 @@
 				$('.cardeventcalendar').load('{{URL("dashboard/eventcalendar/mom/card")}}/'+formatdate);
 			});
 		});
-
 	</script>
-
+	@endif
 
 @endsection

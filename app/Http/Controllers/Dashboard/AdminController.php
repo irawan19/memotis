@@ -6,6 +6,7 @@ use App\Helpers\General;
 use Storage;
 use App\Models\User;
 use App\Models\Master_level_sistem;
+use App\Models\Master_unit_kerja;
 use App\Models\Master_menu;
 
 class AdminController extends AdminCoreController
@@ -19,6 +20,7 @@ class AdminController extends AdminCoreController
             $data['hasil_kata']         = '';
             $url_sekarang               = $request->fullUrl();
             $data['lihat_admins']    	= User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                ->leftJoin('master_unit_kerjas','users.unit_kerjas_id','=','master_unit_kerjas.id_unit_kerjas')
                                                 ->orderBy('nama_level_sistems','asc')
                                                 ->paginate(10)
                                                         ->onEachSide(0);
@@ -41,6 +43,7 @@ class AdminController extends AdminCoreController
             $hasil_kata                 = $request->cari_kata;
             $data['hasil_kata']         = $hasil_kata;
             $data['lihat_admins']       = User::join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
+                                                ->leftJoin('master_unit_kerjas','users.unit_kerjas_id','=','master_unit_kerjas.id_unit_kerjas')
                                                 ->where('nama_level_sistems', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orWhere('nama_level_sistems', 'LIKE', '%'.$hasil_kata.'%')
                                                 ->orWhere('name', 'LIKE', '%'.$hasil_kata.'%')
@@ -64,6 +67,7 @@ class AdminController extends AdminCoreController
         {
             $data['tambah_level_sistems']       = Master_level_sistem::orderBy('nama_level_sistems')
                                                       					->get();
+            $data['tambah_unit_kerjas']         = Master_unit_kerja::orderBy('nama_unit_kerjas')->get();
             return view('dashboard.admin.tambah',$data);
         }
         else
@@ -95,6 +99,7 @@ class AdminController extends AdminCoreController
                 $data = [
                     'profile_photo_path' 	=> $path_foto_user.$nama_foto_user,
                     'level_sistems_id'   	=> $request->level_sistems_id,
+                    'unit_kerjas_id'     	=> $request->unit_kerjas_id ?: null,
                     'name'               	=> $request->name,
                     'username'              => $request->username,
                     'email'              	=> $request->email,
@@ -116,6 +121,7 @@ class AdminController extends AdminCoreController
 
                 $data = [
                     'level_sistems_id'   	=> $request->level_sistems_id,
+                    'unit_kerjas_id'     	=> $request->unit_kerjas_id ?: null,
                     'profile_photo_path' 	=> null,
                     'name'               	=> $request->name,
                     'username'              => $request->username,
@@ -186,6 +192,7 @@ class AdminController extends AdminCoreController
             {
                 $data['edit_level_sistems']     = Master_level_sistem::orderBy('nama_level_sistems')
                                                           					->get();
+                $data['edit_unit_kerjas']       = Master_unit_kerja::orderBy('nama_unit_kerjas')->get();
                 $data['edit_admins']			= User::where('id',$id_admins)
                 													->first();
                 return view('dashboard.admin.edit',$data);
@@ -236,6 +243,7 @@ class AdminController extends AdminCoreController
                             'updated_at'            => date('Y-m-d H:i:s'),
                             'password'              => bcrypt($request->password),
                             'level_sistems_id'      => $request->level_sistems_id,
+                            'unit_kerjas_id'        => $request->unit_kerjas_id ?: null,
                         ];
                     }
                     else
@@ -256,6 +264,7 @@ class AdminController extends AdminCoreController
                 	        'updated_at'	        => date('Y-m-d H:i:s'),
                 	        'password' 		        => bcrypt($request->password),
                             'level_sistems_id'      => $request->level_sistems_id,
+                            'unit_kerjas_id'        => $request->unit_kerjas_id ?: null,
                 	    ];
                     }
             	}
@@ -287,6 +296,7 @@ class AdminController extends AdminCoreController
                             'email'                 => $request->email,
                             'updated_at'            => date('Y-m-d H:i:s'),
                             'level_sistems_id'      => $request->level_sistems_id,
+                            'unit_kerjas_id'        => $request->unit_kerjas_id ?: null,
                             'foto_user'             => $path_foto_user.$nama_foto_user,
                         ];
                     }
@@ -306,6 +316,7 @@ class AdminController extends AdminCoreController
                 	        'email'			     	=> $request->email,
                 	        'updated_at'	     	=> date('Y-m-d H:i:s'),
                             'level_sistems_id'    	=> $request->level_sistems_id,
+                            'unit_kerjas_id'        => $request->unit_kerjas_id ?: null,
                 	    ];
                     }
             	}

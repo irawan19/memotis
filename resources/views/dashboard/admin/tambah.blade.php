@@ -38,6 +38,15 @@
 				                    	@endforeach
 				                    </select>
 		                      	</div>
+								<div class="form-group">
+									<label class="form-col-form-label" for="unit_kerjas_id">Unit Kerja</label>
+				                    <select class="form-control select2" id="unit_kerjas_id" name="unit_kerjas_id">
+				                    	<option value="">-- Pilih Unit Kerja --</option>
+				                    	@foreach($tambah_unit_kerjas as $unit_kerja)
+										    <option value="{{$unit_kerja->id_unit_kerjas}}" {{ Request::old('unit_kerjas_id') == $unit_kerja->id_unit_kerjas ? 'selected' : '' }}>{{$unit_kerja->nama_unit_kerjas}}</option>
+				                    	@endforeach
+				                    </select>
+		                      	</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">

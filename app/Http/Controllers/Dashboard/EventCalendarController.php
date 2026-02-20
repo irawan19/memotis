@@ -11,8 +11,16 @@ use Auth;
 
 class EventCalendarController extends AdminCoreController
 {
+    private function bolehLihatKalender()
+    {
+        return in_array(Auth::user()->unit_kerjas_id, [1, null], true);
+    }
+
     public function index(Request $request)
     {
+        if (!$this->bolehLihatKalender())
+            return response()->json([]);
+
         $mulai          = date('Y-m-d', strtotime($request->start));
         $selesai        = date('Y-m-d', strtotime($request->end));
         $lihat_events   = Event::selectRaw('"event" as type,
@@ -73,6 +81,11 @@ class EventCalendarController extends AdminCoreController
 
     public function mom($tanggal_mulai='')
     {
+        if (!$this->bolehLihatKalender()) {
+            $data['lihat_event_moms'] = collect([]);
+            return view('dashboard.dashboard.cardeventmom', $data);
+        }
+
         if(strtotime($tanggal_mulai) === strtotime(date('Y-m-d'))) {
             $awal_minggu = date('Y-m-d', strtotime('-'.date('w').' days'));
             $tanggal_mulai = date('Y-m-d', strtotime($awal_minggu.' 1 day'));
@@ -148,6 +161,9 @@ class EventCalendarController extends AdminCoreController
 
     public function detail($id_moms=0)
     {
+        if (!$this->bolehLihatKalender())
+            return response()->json(["error" => "error"], 403);
+
         $link_mom = 'mom';
         if(General::hakAkses($link_mom,'baca') == 'true')
         {

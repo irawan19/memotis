@@ -27,11 +27,20 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'level_sistems_id',
+        'unit_kerjas_id',
         'name',
         'username',
         'email',
         'password',
     ];
+
+    /**
+     * Relasi ke master unit kerja (optional).
+     */
+    public function unitKerja()
+    {
+        return $this->belongsTo(Master_unit_kerja::class, 'unit_kerjas_id', 'id_unit_kerjas');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

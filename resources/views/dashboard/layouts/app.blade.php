@@ -30,7 +30,7 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css" />
 	<meta name="_token" content="{{ csrf_token() }}">
 	<script src="{{URL::asset('template/back/vendors/jquery/js/jquery.min.js')}}"></script>
-	<link href="{{URL::asset('template/back/css/custom.css')}}" rel="stylesheet">
+	<link href="{{URL::asset('template/back/css/custom.css')}}?v=4" rel="stylesheet">
     <script type="text/javascript">
         jQuery(document).ready(function () {
             //Select2
@@ -88,6 +88,19 @@
 		    	event.preventDefault();
 		   	});
 		});
+		// Modal MOM: gambar di deskripsi/remarks tetap 256x256 (Bootstrap + CoreUI)
+		function momModalResizeImages(ev) {
+			var $modal = $(ev.target);
+			if ($modal.attr('id') && $modal.attr('id').indexOf('modaldetailmoms') === 0) {
+				$modal.find('.mom-deskripsi-wrapper img, #ckeditor5konten img').each(function() {
+					this.style.setProperty('width', '400px', 'important');
+					this.style.setProperty('height', '400px', 'important');
+					this.style.setProperty('object-fit', 'contain', 'important');
+				});
+			}
+		}
+		$(document).on('shown.bs.modal', '.modal', momModalResizeImages);
+		$(document).on('shown.coreui.modal', '.modal', momModalResizeImages);
 	    jQuery(document).ready(function () {
 			//Smooth Products
 				$('.sp-wrap').smoothproducts();

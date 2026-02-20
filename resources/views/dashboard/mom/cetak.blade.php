@@ -1,34 +1,41 @@
 
 <link href="{{URL::asset('template/back/css/style.css')}}" rel="stylesheet">
 <style>
-    table {border-collapse: collapse;}
-    @media print 
-    {
-        @page
-        {
-            size: A4;
-			margin: 0;
-        }
-		html, body {
-			color: black;
-		}
+    table { border-collapse: collapse; font-size: 14px; }
+    .cetak-mom-wrap { width: 100%; max-width: 100%; overflow: hidden; box-sizing: border-box; }
+    .cetak-mom-wrap * { box-sizing: border-box; }
+    .right-align { text-align: right; }
+    .page { page-break-before: always; }
+    .page:first-child { page-break-before: avoid; }
+    /* Gambar di deskripsi/remarks cetak: 300px */
+    .cetak-mom-wrap #ckeditor5konten img,
+    .cetak-mom-wrap .card-body img,
+    #ckeditor5konten img,
+    .cetak-mom-wrap figure img {
+        width: 300px !important;
+        height: 300px !important;
+        object-fit: contain !important;
     }
-    table
-    {
-        border-collapse : collapse;
-        font-size       : 14px;
-    }
-    .page {
-        page-break-before: always;
-    }
-    .page:first-child {
-        page-break-before: avoid;
-    }
-    .right-align{
-        text-align:right;
+    #ckeditor5konten { max-width: 100%; overflow: hidden; word-wrap: break-word; overflow-wrap: break-word; }
+    /* Tabel tugas: teks wrap di semua sel (termasuk Catatan/remarks) */
+    .cetak-mom-wrap .table { table-layout: fixed; width: 100%; }
+    .cetak-mom-wrap .table td,
+    .cetak-mom-wrap .table th { word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; }
+    @media print {
+        @page { size: A4; margin: 15mm; }
+        html, body { color: black; width: 100% !important; max-width: 100% !important; overflow-x: hidden; }
+        .cetak-mom-wrap { width: 100% !important; max-width: 100% !important; overflow: hidden !important; }
+        .cetak-mom-wrap #ckeditor5konten img,
+        #ckeditor5konten img,
+        .cetak-mom-wrap td img,
+        .cetak-mom-wrap figure img { width: 300px !important; height: 300px !important; object-fit: contain !important; }
+        #ckeditor5konten { word-wrap: break-word !important; overflow-wrap: break-word !important; }
+        .cetak-mom-wrap .table { table-layout: fixed !important; width: 100% !important; }
+        .cetak-mom-wrap .table td,
+        .cetak-mom-wrap .table th { word-wrap: break-word !important; overflow-wrap: break-word !important; }
     }
 </style>
-<div class="card-body">
+<div class="card-body cetak-mom-wrap">
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
@@ -55,7 +62,7 @@
                     <td>{{General::ubahDBKeTanggalwaktu($lihat_moms->tanggal_selesai_moms)}}</td>
                 </tr>
                 <tr>
-                    <th width="50px">Venue</th>
+                    <th width="50px">Ditujukan Kepada</th>
                     <th width="1px">:</th>
                     <td>{{$lihat_moms->venue_moms}}</td>
                 </tr>
@@ -96,10 +103,10 @@
         <div class="col-sm-12">
             <hr/>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="max-width:100%;overflow:hidden;">
             <h4>Deskripsi</h4>
             <br/>
-            <div id="ckeditor5konten">{!! $lihat_moms->deskripsi_moms !!}</div>
+            <div id="ckeditor5konten" style="max-width:100%;overflow:hidden;">{!! $lihat_moms->deskripsi_moms !!}</div>
         </div>
         <div class="col-sm-12">
             @php($lihat_tugas = \App\Models\Mom_user::join('users','users_id','=','users.id')
@@ -144,7 +151,7 @@
                                     <td>{{$tugas->dikirimkan_mom_users}}</td>
                                     <td>{{$tugas->nama_status_prioritas}}</td>
                                     <td>{{$tugas->nama_status_tugas}}</td>
-                                    <td>{!! nl2br($tugas->catatan_mom_users) !!}</td>
+                                    <td>{!! nl2br($tugas->catatan_mom_users ?? '') !!}</td>
                                 </tr>
                             @endforeach
                         </tbody>

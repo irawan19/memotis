@@ -35,6 +35,7 @@ class DashboardController extends AdminCoreController
     {
         $data['lihat_konfigurasi_aplikasis']    = Master_konfigurasi_aplikasi::first();
         $data['lihat_status_tugas']             = Master_status_tugas::get();
+        $data['boleh_lihat_kalender']           = in_array(Auth::user()->unit_kerjas_id, [1, null], true);
         if(Auth::user()->level_sistems_id == 1)
         {
             $data['total_surats']    	            = Surat::count();

@@ -48,8 +48,10 @@
 										            	<button class="btn btn-sm btn-primary dropdown-toggle" id="dropdownMenu2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
 										            	<div class="dropdown-menu" aria-labelledby="dropdownMenu2" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 34px, 0px); top: 0px; left: 0px; will-change: transform;">
 										            		{{General::edit($link_unit_kerja,'dashboard/unit_kerja/edit/'.$unit_kerjas->id_unit_kerjas)}}
+										            		@if($unit_kerjas->id_unit_kerjas != 1)
 										            		<div class="dropdown-divider"></div>
 										            		{{General::hapus($link_unit_kerja,'dashboard/unit_kerja/hapus/'.$unit_kerjas->id_unit_kerjas, $unit_kerjas->id_unit_kerjas.' - '.$unit_kerjas->nama_unit_kerjas)}}
+										            		@endif
 										            	</div>
 										            </div>
 											    </td>

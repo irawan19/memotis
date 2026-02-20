@@ -176,6 +176,9 @@ class UnitKerjaController extends AdminCoreController
         $link_unit_kerja = 'unit_kerja';
         if(General::hakAkses($link_unit_kerja,'hapus') == 'true')
         {
+            if($id_unit_kerjas == 1)
+                return response()->json(["error" => "Unit kerja dengan id 1 tidak boleh dihapus"], 403);
+
             $cek_unit_kerjas = Master_unit_kerja::where('id_unit_kerjas',$id_unit_kerjas)->first();
             if(!empty($cek_unit_kerjas))
             {

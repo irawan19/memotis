@@ -36,6 +36,7 @@
 					    			@endif
 				    				<th class="nowrap" width="50px">No</th>
 				    				<th class="nowrap">Level Sistem</th>
+				    				<th class="nowrap">Unit Kerja</th>
 				    				<th class="nowrap">Nama</th>
 				    				<th class="nowrap">Username</th>
 				    				<th class="nowrap">Email</th>
@@ -65,6 +66,7 @@
 									    	@endif
 								    		<td class="nowrap">{{$no}}</td>
 								    		<td class="nowrap">{{$admins->nama_level_sistems}}</td>
+								    		<td class="nowrap">{{ $admins->nama_unit_kerjas ?? '–' }}</td>
 								    		<td class="nowrap">{{$admins->name}}</td>
 								    		<td class="nowrap">{{$admins->username}}</td>
 								    		<td class="nowrap">
@@ -78,18 +80,9 @@
 								@else
 									<tr>
 										@if(General::totalHakAkses($link_admin) != 0)
-											<td colspan="6" class="center-align">Tidak ada data ditampilkan</td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
+											<td colspan="7" class="center-align">Tidak ada data ditampilkan</td>
 										@else
-											<td colspan="5" class="center-align">Tidak ada data ditampilkan</td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
-											<td style="display:none"></td>
+											<td colspan="6" class="center-align">Tidak ada data ditampilkan</td>
 										@endif
 									</tr>
 								@endif

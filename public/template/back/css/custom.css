@@ -317,35 +317,65 @@ not all {
     max-width: 100%;
 }
 
-/* Modal detail MOM - scroll kanan-kiri bila konten/gambar lebar */
-[id^="modaldetailmoms"] .modal-content {
-    max-width: 100%;
-}
+/* Modal detail MOM - gambar tidak boleh terpotong, harus mengecil ke dalam modal */
 [id^="modaldetailmoms"] .modal-dialog {
-    max-width: min(1400px, 95vw) !important;
+    width: 95vw !important;
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
-[id^="modaldetailmoms"] .card-body {
+[id^="modaldetailmoms"] .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+}
+[id^="modaldetailmoms"] .modal-content .card-body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+}
+[id^="modaldetailmoms"] .modal-content .row,
+[id^="modaldetailmoms"] .modal-content [class*="col-"] {
+    max-width: 100% !important;
+    min-width: 0;
+}
+[id^="modaldetailmoms"] .mom-deskripsi-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
     overflow-x: auto;
     overflow-y: visible;
-    max-width: 100%;
 }
-[id^="modaldetailmoms"] .modal-content img {
-    max-width: none;
-    height: auto !important;
-    display: block;
-    vertical-align: top;
+[id^="modaldetailmoms"] .mom-deskripsi-content,
+[id^="modaldetailmoms"] #ckeditor5konten {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: visible;
+}
+[id^="modaldetailmoms"] .mom-deskripsi-content img,
+[id^="modaldetailmoms"] #ckeditor5konten img,
+[id^="modaldetailmoms"] .mom-deskripsi-wrapper img {
+    width: 400px !important;
+    height: 400px !important;
+    display: block !important;
+    object-fit: contain !important;
 }
 [id^="modaldetailmoms"] #ckeditor5konten {
-    overflow-x: auto;
-    min-width: min-content;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
-[id^="modaldetailmoms"] #ckeditor5konten img {
-    max-width: none !important;
-    width: auto !important;
-    height: auto !important;
-}
-[id^="modaldetailmoms"] .modal-content .row {
+[id^="modaldetailmoms"] .modal-content .table {
+    table-layout: fixed;
     max-width: 100%;
+    width: 100%;
+}
+[id^="modaldetailmoms"] .modal-content .table td,
+[id^="modaldetailmoms"] .modal-content .table th {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 @media(max-width:938px) {
