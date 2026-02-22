@@ -189,7 +189,7 @@
 											<th class="th-nama text-white" style="background: {{ $sectionColor }} !important;">NAMA</th>
 											<th class="th-revenue text-white" style="background: {{ $sectionColor }} !important;">ROOM REVENUE</th>
 											<th class="th-revenue text-white" style="background: {{ $sectionColor }} !important;">BANQUET REVENUE</th>
-											<th class="th-total text-white" style="background: {{ $sectionColor }} !important;">TOTAL TARGET REVENUE</th>
+											<th class="th-total text-white" style="background: {{ $sectionColor }} !important;">TOTAL REVENUE</th>
 											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W1 (Result)</th>
 											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W2 (Result)</th>
 											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W3 (Result)</th>

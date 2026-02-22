@@ -10,7 +10,7 @@
         <td>NAMA</td>
         <td>ROOM REVENUE</td>
         <td>BANQUET REVENUE</td>
-        <td style="background: #f9e79f;">TOTAL TARGET REVENUE</td>
+        <td style="background: #f9e79f;">TOTAL REVENUE</td>
         <td style="background: #d5d8dc;">W 1</td>
         <td style="background: #d5d8dc;">W 2</td>
         <td style="background: #d5d8dc;">W 3</td>
