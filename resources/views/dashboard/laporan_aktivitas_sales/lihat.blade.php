@@ -139,10 +139,10 @@
 										<td class="text-center">{{ $r['definitive'] ?? 0 }}</td>
 										<td class="text-center">{{ $r['cancellation'] ?? 0 }}</td>
 										<td class="text-center">{{ $r['lost'] ?? 0 }}</td>
-										<td class="text-center">@if(!empty($r['w1_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
-										<td class="text-center">@if(!empty($r['w2_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
-										<td class="text-center">@if(!empty($r['w3_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
-										<td class="text-center">@if(!empty($r['w4_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
+										<td class="text-center">{{ number_format($r['w1_pct'] ?? 0, 1, ',', '') }}%</td>
+										<td class="text-center">{{ number_format($r['w2_pct'] ?? 0, 1, ',', '') }}%</td>
+										<td class="text-center">{{ number_format($r['w3_pct'] ?? 0, 1, ',', '') }}%</td>
+										<td class="text-center">{{ number_format($r['w4_pct'] ?? 0, 1, ',', '') }}%</td>
 									</tr>
 									@endforeach
 								</tbody>

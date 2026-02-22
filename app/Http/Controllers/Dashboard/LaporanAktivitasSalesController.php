@@ -384,7 +384,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             foreach ($unit['users'] as $u) {
                 foreach ($u['months'] as $mk => $w) {
                     $totalMonth = ($w['w1'] ?? 0) + ($w['w2'] ?? 0) + ($w['w3'] ?? 0) + ($w['w4'] ?? 0);
-                    $targetWeek = $totalMonth / 4;
+                    $targetWeek = $totalMonth > 0 ? $totalMonth / 4 : 0;
                     $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
                     $nAchieved = ($targetWeek <= 0 || ($w['w1'] ?? 0) >= $targetWeek ? 1 : 0) + ($targetWeek <= 0 || ($w['w2'] ?? 0) >= $targetWeek ? 1 : 0) + ($targetWeek <= 0 || ($w['w3'] ?? 0) >= $targetWeek ? 1 : 0) + ($targetWeek <= 0 || ($w['w4'] ?? 0) >= $targetWeek ? 1 : 0);
                     $achievementPct = (int) round(($nAchieved / 4) * 100);
@@ -395,6 +395,16 @@ class LaporanAktivitasSalesController extends AdminCoreController
                         elseif (strpos($lower, 'cancel') !== false) $cancel += $cnt;
                         elseif (strpos($lower, 'lost') !== false) $lost += $cnt;
                     }
+                    // Persen per minggu: (w1 / total target minggu) * 100. Total target minggu = total_month/4.
+                    $w1Val = (float)($w['w1'] ?? 0);
+                    $w2Val = (float)($w['w2'] ?? 0);
+                    $w3Val = (float)($w['w3'] ?? 0);
+                    $w4Val = (float)($w['w4'] ?? 0);
+                    // Maksimal 100%: result ≥ target = 100%
+                    $w1_pct = $targetWeek > 0 ? min(100, round(($w1Val / $targetWeek) * 100, 1)) : 0;
+                    $w2_pct = $targetWeek > 0 ? min(100, round(($w2Val / $targetWeek) * 100, 1)) : 0;
+                    $w3_pct = $targetWeek > 0 ? min(100, round(($w3Val / $targetWeek) * 100, 1)) : 0;
+                    $w4_pct = $targetWeek > 0 ? min(100, round(($w4Val / $targetWeek) * 100, 1)) : 0;
                     $rows[] = [
                         'month_key' => $mk,
                         'month_label' => $monthLabel,
@@ -406,10 +416,10 @@ class LaporanAktivitasSalesController extends AdminCoreController
                         'definitive' => $def,
                         'cancellation' => $cancel,
                         'lost' => $lost,
-                        'w1_achieved' => $targetWeek <= 0 || ($w['w1'] ?? 0) >= $targetWeek,
-                        'w2_achieved' => $targetWeek <= 0 || ($w['w2'] ?? 0) >= $targetWeek,
-                        'w3_achieved' => $targetWeek <= 0 || ($w['w3'] ?? 0) >= $targetWeek,
-                        'w4_achieved' => $targetWeek <= 0 || ($w['w4'] ?? 0) >= $targetWeek,
+                        'w1_pct' => $w1_pct,
+                        'w2_pct' => $w2_pct,
+                        'w3_pct' => $w3_pct,
+                        'w4_pct' => $w4_pct,
                         'total_month' => $totalMonth,
                     ];
                 }
