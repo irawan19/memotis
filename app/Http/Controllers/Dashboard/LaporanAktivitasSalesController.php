@@ -395,17 +395,17 @@ class LaporanAktivitasSalesController extends AdminCoreController
                         elseif (strpos($lower, 'cancel') !== false) $cancel += $cnt;
                         elseif (strpos($lower, 'lost') !== false) $lost += $cnt;
                     }
-                    // Persen per minggu: (w1 / target_minggu) * 100. Target minggu = total_bulan/4 (total_bulan = w1+w2+w3+w4).
-                    // Pakai presisi penuh lalu cap 100% dan round 2 desimal agar 162.000/162.500 = 99,69% (bukan 100%).
+                    // Persen per minggu = (result minggu / total target bulan) * 100. Total target bulan = total result (w1+w2+w3+w4).
+                    // Jadi W1 162.676.000 / 650.704.000 = 25%, bukan (w1/target_minggu)=100%.
                     $w1Val = (float)($w['w1'] ?? 0);
                     $w2Val = (float)($w['w2'] ?? 0);
                     $w3Val = (float)($w['w3'] ?? 0);
                     $w4Val = (float)($w['w4'] ?? 0);
-                    $targetWeekF = (float) $targetWeek;
-                    $w1_pct = $targetWeekF > 0 ? min(100, round(($w1Val / $targetWeekF) * 100, 2)) : 0;
-                    $w2_pct = $targetWeekF > 0 ? min(100, round(($w2Val / $targetWeekF) * 100, 2)) : 0;
-                    $w3_pct = $targetWeekF > 0 ? min(100, round(($w3Val / $targetWeekF) * 100, 2)) : 0;
-                    $w4_pct = $targetWeekF > 0 ? min(100, round(($w4Val / $targetWeekF) * 100, 2)) : 0;
+                    $totalMonthF = (float) $totalMonth;
+                    $w1_pct = $totalMonthF > 0 ? round(($w1Val / $totalMonthF) * 100, 2) : 0;
+                    $w2_pct = $totalMonthF > 0 ? round(($w2Val / $totalMonthF) * 100, 2) : 0;
+                    $w3_pct = $totalMonthF > 0 ? round(($w3Val / $totalMonthF) * 100, 2) : 0;
+                    $w4_pct = $totalMonthF > 0 ? round(($w4Val / $totalMonthF) * 100, 2) : 0;
                     $rows[] = [
                         'month_key' => $mk,
                         'month_label' => $monthLabel,
