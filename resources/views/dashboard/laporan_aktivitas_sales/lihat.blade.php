@@ -95,7 +95,7 @@
 			<div class="card">
 				<div class="card-header">
 					<strong>SALES ACHIEVEMENT</strong>
-					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: achieved jika result minggu ≥ target (target = total bulan ÷ 4).</span>
+					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: (result minggu ÷ target minggu) × 100%, max 100%. Target minggu = total bulan ÷ 4.</span>
 				</div>
 				<div class="card-body p-0">
 					@foreach($sales_achievement_dashboard['units'] as $unit)
@@ -194,7 +194,10 @@
 										@foreach($section['rows'] as $idx => $row)
 											@php
 												$total = (float) ($row['total'] ?? 0);
-												$w = $total > 0 ? round($total / 4, 0) : 0;
+												$w1 = (float) ($row['w1'] ?? 0);
+												$w2 = (float) ($row['w2'] ?? 0);
+												$w3 = (float) ($row['w3'] ?? 0);
+												$w4 = (float) ($row['w4'] ?? 0);
 											@endphp
 											<tr>
 												<td class="td-bulan">{{ $row['month_label'] ?? '—' }}</td>
@@ -207,10 +210,10 @@
 												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
 												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
 												<td class="td-total text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
-												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
-												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
-												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
-												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w1, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w2, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w3, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w4, 0, ',', '.') }}</td>
 												<td class="td-result text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
 											</tr>
 										@endforeach

@@ -110,8 +110,8 @@ class LaporanAktivitasSalesController extends AdminCoreController
     }
 
     /**
-     * Agregasi aktivitas sales per unit, per bulan, per user.
-     * Return: [ ['unit_name' => '...', 'rows' => [ ['month_key' => 'Y-m', 'month_label' => '...', 'name' => '...', 'total' => ...], ... ] ], ... ]
+     * Agregasi aktivitas sales per unit, per bulan, per user, plus result per minggu (w1-w4).
+     * Return: [ ['unit_name' => '...', 'rows' => [ ['month_key', 'month_label', 'name', 'total', 'w1','w2','w3','w4'], ... ] ], ... ]
      */
     private function getLaporanAggregasi($tanggal_mulai, $tanggal_selesai, $hasil_kata = '', $hasil_status_sales = '', $unit_kerjas_id = '')
     {
@@ -122,7 +122,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m') AS month_key,
                 aktivitas_sales.users_id,
                 users.name,
-                SUM(aktivitas_sales.total_aktivitas_sales) AS total
+                SUM(aktivitas_sales.total_aktivitas_sales) AS total,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w1,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w2,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w3,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 22 AND 31 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w4
             ")
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
             ->leftJoin('master_unit_kerjas', function ($j) {
@@ -165,6 +169,10 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 'month_label' => $monthLabel,
                 'name'        => $r->name,
                 'total'       => (float) $r->total,
+                'w1'          => (float) ($r->w1 ?? 0),
+                'w2'          => (float) ($r->w2 ?? 0),
+                'w3'          => (float) ($r->w3 ?? 0),
+                'w4'          => (float) ($r->w4 ?? 0),
             ];
         }
         return array_values($sections);
@@ -395,17 +403,17 @@ class LaporanAktivitasSalesController extends AdminCoreController
                         elseif (strpos($lower, 'cancel') !== false) $cancel += $cnt;
                         elseif (strpos($lower, 'lost') !== false) $lost += $cnt;
                     }
-                    // Persen per minggu = (result minggu / total target bulan) * 100. Total target bulan = total result (w1+w2+w3+w4).
-                    // Jadi W1 162.676.000 / 650.704.000 = 25%, bukan (w1/target_minggu)=100%.
+                    // Persen per minggu = (result minggu / target minggu) * 100, max 100%. Target minggu = total bulan ÷ 4.
+                    // Jadi kalau W1 result 1.750.000 dan target minggu 1.750.000 → 100%. W1 result 0 → 0%.
                     $w1Val = (float)($w['w1'] ?? 0);
                     $w2Val = (float)($w['w2'] ?? 0);
                     $w3Val = (float)($w['w3'] ?? 0);
                     $w4Val = (float)($w['w4'] ?? 0);
-                    $totalMonthF = (float) $totalMonth;
-                    $w1_pct = $totalMonthF > 0 ? round(($w1Val / $totalMonthF) * 100, 2) : 0;
-                    $w2_pct = $totalMonthF > 0 ? round(($w2Val / $totalMonthF) * 100, 2) : 0;
-                    $w3_pct = $totalMonthF > 0 ? round(($w3Val / $totalMonthF) * 100, 2) : 0;
-                    $w4_pct = $totalMonthF > 0 ? round(($w4Val / $totalMonthF) * 100, 2) : 0;
+                    $targetWeekF = (float) $targetWeek;
+                    $w1_pct = $targetWeekF > 0 ? min(100, round(($w1Val / $targetWeekF) * 100, 2)) : 0;
+                    $w2_pct = $targetWeekF > 0 ? min(100, round(($w2Val / $targetWeekF) * 100, 2)) : 0;
+                    $w3_pct = $targetWeekF > 0 ? min(100, round(($w3Val / $targetWeekF) * 100, 2)) : 0;
+                    $w4_pct = $targetWeekF > 0 ? min(100, round(($w4Val / $targetWeekF) * 100, 2)) : 0;
                     $rows[] = [
                         'month_key' => $mk,
                         'month_label' => $monthLabel,

@@ -21,7 +21,10 @@
     @foreach($section['rows'] as $idx => $row)
     @php
         $total = (float) ($row['total'] ?? 0);
-        $w = $total > 0 ? round($total / 4, 0) : 0;
+        $w1 = (float) ($row['w1'] ?? 0);
+        $w2 = (float) ($row['w2'] ?? 0);
+        $w3 = (float) ($row['w3'] ?? 0);
+        $w4 = (float) ($row['w4'] ?? 0);
     @endphp
     <tr>
         <td>{{ $row['month_label'] ?? '—' }}</td>
@@ -30,10 +33,10 @@
         <td style="text-align:right">Rp {{ number_format(0, 0, ',', '.') }}</td>
         <td style="text-align:right">Rp {{ number_format(0, 0, ',', '.') }}</td>
         <td style="text-align:right">Rp {{ number_format($total, 0, ',', '.') }}</td>
-        <td style="text-align:right">Rp {{ number_format($w, 0, ',', '.') }}</td>
-        <td style="text-align:right">Rp {{ number_format($w, 0, ',', '.') }}</td>
-        <td style="text-align:right">Rp {{ number_format($w, 0, ',', '.') }}</td>
-        <td style="text-align:right">Rp {{ number_format($w, 0, ',', '.') }}</td>
+        <td style="text-align:right">Rp {{ number_format($w1, 0, ',', '.') }}</td>
+        <td style="text-align:right">Rp {{ number_format($w2, 0, ',', '.') }}</td>
+        <td style="text-align:right">Rp {{ number_format($w3, 0, ',', '.') }}</td>
+        <td style="text-align:right">Rp {{ number_format($w4, 0, ',', '.') }}</td>
         <td style="text-align:right">Rp {{ number_format($total, 0, ',', '.') }}</td>
     </tr>
     @endforeach

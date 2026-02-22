@@ -47,7 +47,11 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
                 DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m') AS month_key,
                 aktivitas_sales.users_id,
                 users.name,
-                SUM(aktivitas_sales.total_aktivitas_sales) AS total
+                SUM(aktivitas_sales.total_aktivitas_sales) AS total,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w1,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w2,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w3,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 22 AND 31 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w4
             ")
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
             ->leftJoin('master_unit_kerjas', function ($j) {
@@ -90,6 +94,10 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
                 'month_label' => $monthLabel,
                 'name'        => $r->name,
                 'total'       => (float) $r->total,
+                'w1'          => (float) ($r->w1 ?? 0),
+                'w2'          => (float) ($r->w2 ?? 0),
+                'w3'          => (float) ($r->w3 ?? 0),
+                'w4'          => (float) ($r->w4 ?? 0),
             ];
         }
         return array_values($sections);
