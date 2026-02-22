@@ -10,11 +10,12 @@
 						<strong>Edit Aktivitas Sales</strong>
 					</div>
 					<div class="card-body">
+						<p class="text-muted small mb-3">Label form mengacu ke kolom di tabel Aktivitas Sales (COMPANY, DATE, STATUS, NETT REVENUE, PIC, CONTACT, RESULT, dll.).</p>
 						<div class="row">
 							<div class="col-md-6">
 								@if(Auth::user()->level_sistems_id == 1)
 									<div class="form-group">
-										<label class="form-col-form-label" for="users_id">User <b style="color:red">*</b></label>
+										<label class="form-col-form-label" for="users_id">USER <b style="color:red">*</b></label>
 										<select class="form-control select2" id="users_id" name="users_id">
 											@foreach($edit_users as $users)
 												@php($selected = '')
@@ -38,7 +39,7 @@
 									</div>
 								@endif
 								<div class="form-group">
-									<label class="form-col-form-label" for="kegiatan_sales_id">Kegiatan <b style="color:red">*</b></label>
+									<label class="form-col-form-label" for="kegiatan_sales_id">SALES (Kegiatan) <b style="color:red">*</b></label>
 				                    <select class="form-control select2" id="kegiatan_sales_id" name="kegiatan_sales_id">
 				                    	@foreach($edit_kegiatan_sales as $kegiatan_sales)
                                             @php($selected = '')
@@ -57,7 +58,7 @@
 									{{General::pesanErrorForm($errors->first('kegiatan_sales_id'))}}
 		                      	</div>
 								<div class="form-group">
-									<label class="form-col-form-label" for="segmentasi_sales_id">Segmentasi <b style="color:red">*</b></label>
+									<label class="form-col-form-label" for="segmentasi_sales_id">SEGMENTATION <b style="color:red">*</b></label>
 				                    <select class="form-control select2" id="segmentasi_sales_id" name="segmentasi_sales_id">
 				                    	@foreach($edit_segmentasi_sales as $segmentasi_sales)
                                             @php($selected = '')
@@ -76,7 +77,7 @@
 									{{General::pesanErrorForm($errors->first('segmentasi_sales_id'))}}
 		                      	</div>
 								<div class="form-group">
-									<label class="form-col-form-label" for="tanggal_aktivitas_sales">Tanggal <b style="color:red">*</b></label>
+									<label class="form-col-form-label" for="tanggal_aktivitas_sales">DATE (Tanggal) <b style="color:red">*</b></label>
 									<input readonly class="form-control {{ General::validForm($errors->first('tanggal_aktivitas_sales')) }} getDate" id="tanggal_aktivitas_sales" type="text" name="tanggal_aktivitas_sales" value="{{Request::old('tanggal_aktivitas_sales') == '' ? General::ubahDBKeTanggal(date($edit_aktivitas_sales->tanggal_aktivitas_sales)) : Request::old('tanggal_aktivitas_sales')}}">
 									{{General::pesanErrorForm($errors->first('tanggal_aktivitas_sales'))}}
 								</div>
@@ -86,7 +87,7 @@
 									{{General::pesanErrorForm($errors->first('alamat_aktivitas_sales'))}}
 								</div>
 								<div class="form-group">
-									<label class="form-col-form-label" for="kontak_personal_aktivitas_sales">Kontak Personal</label>
+									<label class="form-col-form-label" for="kontak_personal_aktivitas_sales">CONTACT (Kontak personal)</label>
 									<input class="form-control {{ General::validForm($errors->first('kontak_personal_aktivitas_sales')) }}" id="kontak_personal_aktivitas_sales" type="text" name="kontak_personal_aktivitas_sales" value="{{Request::old('kontak_personal_aktivitas_sales') == '' ? $edit_aktivitas_sales->kontak_personal_aktivitas_sales : Request::old('kontak_personal_aktivitas_sales')}}">
 									{{General::pesanErrorForm($errors->first('kontak_personal_aktivitas_sales'))}}
 								</div>
@@ -106,13 +107,13 @@
                                                     @php($selected = 'selected')
                                                 @endif
                                             @endif
-										    <option value="{{$project_sales->id_project_sales}}" {{ $project_sales }}>{{$project_sales->nama_project_sales}}</option>
+										    <option value="{{$project_sales->id_project_sales}}" {{ $selected }}>{{$project_sales->nama_project_sales}}</option>
 				                    	@endforeach
 				                    </select>
 									{{General::pesanErrorForm($errors->first('project_sales_id'))}}
 		                      	</div>
 								<div class="form-group">
-									<label class="form-col-form-label" for="status_sales_id">Status <b style="color:red">*</b></label>
+									<label class="form-col-form-label" for="status_sales_id">STATUS <b style="color:red">*</b></label>
 				                    <select class="form-control select2" id="status_sales_id" name="status_sales_id">
 				                    	@foreach($edit_status_sales as $status_sales)
                                             @php($selected = '')
@@ -125,13 +126,13 @@
                                                     @php($selected = 'selected')
                                                 @endif
                                             @endif
-										    <option value="{{$status_sales->id_status_sales}}" {{ $status_sales }}>{{$status_sales->nama_status_sales}}</option>
+										    <option value="{{$status_sales->id_status_sales}}" {{ $selected }}>{{$status_sales->nama_status_sales}}</option>
 				                    	@endforeach
 				                    </select>
 									{{General::pesanErrorForm($errors->first('status_sales_id'))}}
 		                      	</div>
 								<div class="form-group">
-									<label class="form-col-form-label" for="nama_aktivitas_sales">Nama <b style="color:red">*</b></label>
+									<label class="form-col-form-label" for="nama_aktivitas_sales">COMPANY (Nama perusahaan/kegiatan) <b style="color:red">*</b></label>
 									<input class="form-control {{ General::validForm($errors->first('nama_aktivitas_sales')) }}" id="nama_aktivitas_sales" type="text" name="nama_aktivitas_sales" value="{{Request::old('nama_aktivitas_sales') == '' ? $edit_aktivitas_sales->nama_aktivitas_sales : Request::old('nama_aktivitas_sales')}}">
 									{{General::pesanErrorForm($errors->first('nama_aktivitas_sales'))}}
 								</div>
@@ -148,12 +149,12 @@
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="form-col-form-label" for="total_aktivitas_sales">Total <b style="color:red">*</b></label>
+									<label class="form-col-form-label" for="total_aktivitas_sales">NETT REVENUE (Total) <b style="color:red">*</b></label>
 									<input class="form-control right-align priceformat {{ General::validForm($errors->first('total_aktivitas_sales')) }}" id="total_aktivitas_sales" type="text" name="total_aktivitas_sales" value="{{Request::old('total_aktivitas_sales') == '' ? General::ubahDBKeHarga($edit_aktivitas_sales->total_aktivitas_sales) : Request::old('total_aktivitas_sales')}}">
 									{{General::pesanErrorForm($errors->first('total_aktivitas_sales'))}}
 								</div>
 								<div class="form-group">
-                                    <label class="form-col-form-label" for="catatan_aktivitas_sales">Catatan</label>
+                                    <label class="form-col-form-label" for="catatan_aktivitas_sales">RESULT (Catatan)</label>
                                     <textarea class="form-control {{ General::validForm($errors->first('catatan_aktivitas_sales')) }}" id="catatan_aktivitas_sales" name="catatan_aktivitas_sales" rows="5">{{Request::old('catatan_aktivitas_sales') == '' ? $edit_aktivitas_sales->catatan_aktivitas_sales : Request::old('catatan_aktivitas_sales')}}</textarea>
                                     {{General::pesanErrorForm($errors->first('catatan_aktivitas_sales'))}}
                                 </div>

@@ -667,6 +667,7 @@ class ComposerStaticInit86f7f73e2ff743826a52582566d65537
         'App\\Console\\Commands\\hapusTempLampiran' => __DIR__ . '/../..' . '/app/Console/Commands/hapusTempLampiran.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\AktivitasSalesExport' => __DIR__ . '/../..' . '/app/Exports/AktivitasSalesExport.php',
         'App\\Exports\\KaryawanExport' => __DIR__ . '/../..' . '/app/Exports/KaryawanExport.php',
         'App\\Exports\\LaporanAktivitasSalesExport' => __DIR__ . '/../..' . '/app/Exports/LaporanAktivitasSalesExport.php',
         'App\\Helpers\\General' => __DIR__ . '/../..' . '/app/Helpers/General.php',

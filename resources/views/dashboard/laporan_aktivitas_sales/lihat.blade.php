@@ -12,16 +12,7 @@
 								<div class="form-group">
 									<select class="form-control select2" id="cari_bulan_mulai" name="cari_bulan_mulai">
 										@for($bulan_mulai = 1; $bulan_mulai <= 12; $bulan_mulai++)
-											@php($selected = '')
-											@if(!empty($hasil_bulan_mulai))
-												@if($bulan_mulai == $hasil_bulan_mulai)
-													@php($selected = 'selected')
-												@endif
-											@else
-												@if($bulan_mulai == Request::old('cari_bulan_mulai'))
-													@php($selected = 'selected')
-												@endif
-											@endif
+											@php $selected = ''; if(!empty($hasil_bulan_mulai) && $bulan_mulai == $hasil_bulan_mulai) $selected = 'selected'; elseif(empty($hasil_bulan_mulai) && $bulan_mulai == Request::old('cari_bulan_mulai')) $selected = 'selected'; @endphp
 											<option value="{{$bulan_mulai}}" {{ $selected }}>{{General::ubahDBKeBulan($bulan_mulai)}}</option>
 										@endfor
 									</select>
@@ -30,17 +21,8 @@
 							<div class="col-md-2">
 								<div class="form-group">
 									<select class="form-control select2" id="cari_tahun_mulai" name="cari_tahun_mulai">
-										@for($tahun_mulai = date('Y') - 2; $tahun_mulai <= date('Y') + 2; $tahun_mulai++)
-											@php($selected = '')
-											@if(!empty($hasil_tahun_mulai))
-												@if($tahun_mulai == $hasil_tahun_mulai)
-													@php($selected = 'selected')
-												@endif
-											@else
-												@if($tahun_mulai == Request::old('cari_tahun_mulai'))
-													@php($selected = 'selected')
-												@endif
-											@endif
+										@for($tahun_mulai = date('Y') - 5; $tahun_mulai <= date('Y') + 2; $tahun_mulai++)
+											@php $selected = ''; if(!empty($hasil_tahun_mulai) && $tahun_mulai == $hasil_tahun_mulai) $selected = 'selected'; elseif(empty($hasil_tahun_mulai) && $tahun_mulai == Request::old('cari_tahun_mulai')) $selected = 'selected'; @endphp
 											<option value="{{$tahun_mulai}}" {{ $selected }}>{{$tahun_mulai}}</option>
 										@endfor
 									</select>
@@ -53,16 +35,7 @@
 								<div class="form-group">
 									<select class="form-control select2" id="cari_bulan_selesai" name="cari_bulan_selesai">
 										@for($bulan_selesai = 1; $bulan_selesai <= 12; $bulan_selesai++)
-											@php($selected = '')
-											@if(!empty($hasil_bulan_selesai))
-												@if($bulan_selesai == $hasil_bulan_selesai)
-													@php($selected = 'selected')
-												@endif
-											@else
-												@if($bulan_selesai == Request::old('cari_bulan_selesai'))
-													@php($selected = 'selected')
-												@endif
-											@endif
+											@php $selected = ''; if(!empty($hasil_bulan_selesai) && $bulan_selesai == $hasil_bulan_selesai) $selected = 'selected'; elseif(empty($hasil_bulan_selesai) && $bulan_selesai == Request::old('cari_bulan_selesai')) $selected = 'selected'; @endphp
 											<option value="{{$bulan_selesai}}" {{ $selected }}>{{General::ubahDBKeBulan($bulan_selesai)}}</option>
 										@endfor
 									</select>
@@ -71,17 +44,8 @@
 							<div class="col-md-2">
 									<div class="form-group">
 										<select class="form-control select2" id="cari_tahun_selesai" name="cari_tahun_selesai">
-											@for($tahun_selesai = date('Y') - 2; $tahun_selesai <= date('Y') + 2; $tahun_selesai++)
-												@php($selected = '')
-												@if(!empty($hasil_tahun_selesai))
-													@if($tahun_selesai == $hasil_tahun_selesai)
-														@php($selected = 'selected')
-													@endif
-												@else
-													@if($tahun_selesai == Request::old('cari_tahun_selesai'))
-														@php($selected = 'selected')
-													@endif
-												@endif
+											@for($tahun_selesai = date('Y') - 5; $tahun_selesai <= date('Y') + 2; $tahun_selesai++)
+												@php $selected = ''; if(!empty($hasil_tahun_selesai) && $tahun_selesai == $hasil_tahun_selesai) $selected = 'selected'; elseif(empty($hasil_tahun_selesai) && $tahun_selesai == Request::old('cari_tahun_selesai')) $selected = 'selected'; @endphp
 												<option value="{{$tahun_selesai}}" {{ $selected }}>{{$tahun_selesai}}</option>
 											@endfor
 										</select>
@@ -92,16 +56,7 @@
 									<select class="form-control select2" id="cari_status_sales" name="cari_status_sales">
 										<option value="" selected>Semua Status</option>
 										@foreach($lihat_status_sales as $status_sales)
-											@php($selected = '')
-											@if(!empty($hasil_status_sales))
-												@if($status_sales->id_status_sales == $hasil_status_sales)
-													@php($selected = 'selected')
-												@endif
-											@else
-												@if($status_sales->id_status_sales == Request::old('cari_status_sales'))
-													@php($selected = 'selected')
-												@endif
-											@endif
+											@php $selected = ''; if(!empty($hasil_status_sales) && $status_sales->id_status_sales == $hasil_status_sales) $selected = 'selected'; elseif(empty($hasil_status_sales) && $status_sales->id_status_sales == Request::old('cari_status_sales')) $selected = 'selected'; @endphp
 											<option value="{{$status_sales->id_status_sales}}" {{ $selected }}>{{$status_sales->nama_status_sales}}</option>
 										@endforeach
 									</select>
@@ -136,47 +91,82 @@
 				</div>
 				<div class="card-body">
 	            	<div class="scrolltable">
-                        <table id="tablesort" class="table table-responsive-sm table-bordered table-striped table-sm">
-				    		<thead>
-				    			<tr>
-				    				<th class="nowrap">Sales</th>
-				    				<th class="nowrap">Segmentasi</th>
-				    				<th class="nowrap">Project</th>
-				    				<th class="nowrap">Status</th>
-				    				<th class="nowrap">Total</th>
-				    			</tr>
-				    		</thead>
-				    		<tbody>
-				    			@if(!$lihat_laporan_aktivitas_sales->isEmpty())
-		            				@foreach($lihat_laporan_aktivitas_sales as $laporan_aktivitas_sales)
-								    	<tr>
-											@php($nama = $laporan_aktivitas_sales->nama_level_sistems.' - '.$laporan_aktivitas_sales->name)
-											@if(!empty($laporan_aktivitas_sales->id_divisis))
-												@php($nama = $laporan_aktivitas_sales->nama_level_sistems.' - '.$laporan_aktivitas_sales->nama_divisis.' - '.$laporan_aktivitas_sales->name)
-											@endif
-								    		<td class="nowrap">{{$nama}}</td>
-								    		<td class="nowrap">{{$laporan_aktivitas_sales->nama_segmentasi_sales}}</td>
-								    		<td class="nowrap">{{$laporan_aktivitas_sales->nama_project_sales}}</td>
-								    		<td class="nowrap">{{$laporan_aktivitas_sales->nama_status_sales}}</td>
-								    		<td class="nowrap right-align">{{General::ubahDBKeHarga($laporan_aktivitas_sales->total)}}</td>
-								    	</tr>
-								    @endforeach
-								@else
-									<tr>
-										<td colspan="5" class="center-align">Tidak ada data ditampilkan</td>
-										<td style="display:none"></td>
-										<td style="display:none"></td>
-										<td style="display:none"></td>
-										<td style="display:none"></td>
-									</tr>
-								@endif
-				    		</tbody>
-				    	</table>
+						@if(!empty($lihat_laporan_aktivitas_sales))
+							@foreach($lihat_laporan_aktivitas_sales as $section)
+								<table class="table table-laporan-sales-target table-bordered table-sm mb-4">
+									<thead>
+										<tr class="title-section">
+											<td colspan="10" class="title-cell">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
+										</tr>
+										<tr class="header-row">
+											<th class="th-nama">NAMA</th>
+											<th class="th-segmentation">SEGMENTATION</th>
+											<th class="th-revenue">ROOM REVENUE</th>
+											<th class="th-revenue">BANQUET REVENUE</th>
+											<th class="th-total">TOTAL TARGET REVENUE</th>
+											<th class="th-week">W 1</th>
+											<th class="th-week">W 2</th>
+											<th class="th-week">W 3</th>
+											<th class="th-week">W 4</th>
+											<th class="th-result">RESULT</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($section['rows'] as $idx => $row)
+											@php
+												$total = (float) ($row['total'] ?? 0);
+												$w = $total > 0 ? round($total / 4, 0) : 0;
+											@endphp
+											<tr>
+												<td class="td-nama">{{ $row['name'] }}</td>
+												<td class="td-segmentation">
+													@if($idx === 0)
+														Total akumulasi SEGMENTATION, G, SE, NA, DLL
+													@endif
+												</td>
+												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
+												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
+												<td class="td-total text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
+												<td class="td-week text-right">Rp {{ number_format($w, 0, ',', '.') }}</td>
+												<td class="td-result text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+							@endforeach
+						@else
+							<p class="center-align">Tidak ada data ditampilkan untuk periode {{ General::ubahDBKeTanggal($hasil_tanggal_mulai ?? '') }} s/d {{ General::ubahDBKeTanggal($hasil_tanggal_selesai ?? '') }}. Pastikan ada aktivitas sales di rentang tanggal tersebut dan user aktivitas terdaftar di tabel users.</p>
+						@endif
 				    </div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<style>
+		.table-laporan-sales-target { border-collapse: collapse; width: 100%; font-size: 14px; }
+		.table-laporan-sales-target .title-section .title-cell {
+			background: linear-gradient(180deg, #5a6c7d 0%, #4a5c6d 100%);
+			color: #fff;
+			font-weight: bold;
+			padding: 10px 8px;
+			border: 1px solid #3a4c5d;
+		}
+		.table-laporan-sales-target .header-row th {
+			background: #e8e8e8;
+			border: 1px solid #333;
+			padding: 8px 6px;
+			font-weight: bold;
+		}
+		.table-laporan-sales-target .th-total { background: #f9e79f !important; }
+		.table-laporan-sales-target .th-week { background: #d5d8dc !important; }
+		.table-laporan-sales-target tbody td { border: 1px solid #333; padding: 6px 8px; }
+		.table-laporan-sales-target .td-segmentation { word-wrap: break-word; overflow-wrap: break-word; max-width: 200px; }
+		.table-laporan-sales-target tbody tr:nth-child(even) { background-color: #fafafa; }
+	</style>
 
     <script type="text/javascript">
 		jQuery(document).ready(function () {

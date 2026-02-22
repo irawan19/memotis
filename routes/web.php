@@ -197,6 +197,7 @@ Route::middleware([
             Route::group(['prefix' => 'aktivitas_sales'], function() {
                 Route::get('/', [DashboardAktivitasSales::class, 'index']);
                 Route::get('/cari', [DashboardAktivitasSales::class, 'cari']);
+                Route::get('/cetakexcel', [DashboardAktivitasSales::class, 'cetakexcel']);
                 Route::get('/tambah', [DashboardAktivitasSales::class, 'tambah']);
                 Route::post('/prosestambah', [DashboardAktivitasSales::class, 'prosestambah']);
                 Route::get('/edit/{id}', [DashboardAktivitasSales::class, 'edit']);

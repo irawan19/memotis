@@ -15,6 +15,7 @@ return array(
     'App\\Console\\Commands\\hapusTempLampiran' => $baseDir . '/app/Console/Commands/hapusTempLampiran.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Exports\\AktivitasSalesExport' => $baseDir . '/app/Exports/AktivitasSalesExport.php',
     'App\\Exports\\KaryawanExport' => $baseDir . '/app/Exports/KaryawanExport.php',
     'App\\Exports\\LaporanAktivitasSalesExport' => $baseDir . '/app/Exports/LaporanAktivitasSalesExport.php',
     'App\\Helpers\\General' => $baseDir . '/app/Helpers/General.php',
