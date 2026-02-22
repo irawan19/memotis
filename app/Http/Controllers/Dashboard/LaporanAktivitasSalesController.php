@@ -410,8 +410,6 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     $totalMonth = ($w['w1'] ?? 0) + ($w['w2'] ?? 0) + ($w['w3'] ?? 0) + ($w['w4'] ?? 0);
                     $targetWeek = $totalMonth > 0 ? $totalMonth / 4 : 0;
                     $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
-                    $nAchieved = ($targetWeek <= 0 || ($w['w1'] ?? 0) >= $targetWeek ? 1 : 0) + ($targetWeek <= 0 || ($w['w2'] ?? 0) >= $targetWeek ? 1 : 0) + ($targetWeek <= 0 || ($w['w3'] ?? 0) >= $targetWeek ? 1 : 0) + ($targetWeek <= 0 || ($w['w4'] ?? 0) >= $targetWeek ? 1 : 0);
-                    $achievementPct = (int) round(($nAchieved / 4) * 100);
                     $def = 0; $cancel = 0; $lost = 0;
                     foreach ($w['statuses'] ?? [] as $stName => $cnt) {
                         $lower = strtolower($stName);
@@ -423,6 +421,9 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     $unitNameForKey = $unit['name'] === 'Lainnya' ? 'SALES TARGET' : $unit['name'];
                     $key = $unitNameForKey . '|' . $mk . '|' . $u['name'];
                     $laporanRow = $laporanLookup[$key] ?? $laporanLookup[$unit['name'] . '|' . $mk . '|' . $u['name']] ?? null;
+                    // % Achieve = (result / total target) * 100, max 100%. Result = target → 100%.
+                    $totalTarget = ($laporanRow && $laporanRow['total'] > 0) ? $laporanRow['total'] : $totalMonth;
+                    $achievementPct = $totalTarget > 0 ? min(100, (int) round(($totalMonth / $totalTarget) * 100)) : 0;
                     if ($laporanRow && $laporanRow['total'] > 0) {
                         $tot = $laporanRow['total'];
                         $w1_pct = round(($laporanRow['w1'] / $tot) * 100, 2);

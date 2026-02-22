@@ -98,28 +98,32 @@
 					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: (value minggu ÷ total target bulan) × 100%. Total target = W1+W2+W3+W4.</span>
 				</div>
 				<div class="card-body p-0">
+					@php
+						$unitHeaderColors = ['#2c3e50', '#16a085', '#2980b9', '#8e44ad', '#c0392b', '#d35400', '#27ae60', '#7f8c8d'];
+					@endphp
 					@foreach($sales_achievement_dashboard['units'] as $unit)
+					@php $unitColor = $unitHeaderColors[$loop->index % count($unitHeaderColors)] ?? '#5a6c7d'; @endphp
 					<div class="border-bottom border-light">
-						<div class="px-3 py-2 bg-light">
+						<div class="px-3 py-2 text-white" style="background-color: {{ $unitColor }};">
 							<strong>{{ $unit['name'] }}</strong>
 						</div>
 						<div class="table-responsive">
 							<table class="table table-bordered table-sm mb-0 achievement-table">
 								<thead>
 									<tr>
-										<th class="text-center" style="width: 90px;">BULAN</th>
-										<th class="text-center" style="width: 40px;">#</th>
-										<th>Nama</th>
-										<th class="text-center" style="width: 70px;">% Achieve</th>
-										<th class="text-center" style="width: 70px;">Visit</th>
-										<th>Activity</th>
-										<th class="text-center" style="width: 60px;">Definitive</th>
-										<th class="text-center" style="width: 60px;">Cancel</th>
-										<th class="text-center" style="width: 60px;">Lost</th>
-										<th class="text-center" style="width: 44px;">W1</th>
-										<th class="text-center" style="width: 44px;">W2</th>
-										<th class="text-center" style="width: 44px;">W3</th>
-										<th class="text-center" style="width: 44px;">W4</th>
+										<th class="text-center text-white" style="width: 90px; background-color: {{ $unitColor }} !important;">BULAN</th>
+										<th class="text-center text-white" style="width: 40px; background-color: {{ $unitColor }} !important;">#</th>
+										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Nama</th>
+										<th class="text-center text-white" style="width: 70px; background-color: {{ $unitColor }} !important;">% Achieve</th>
+										<th class="text-center text-white" style="width: 70px; background-color: {{ $unitColor }} !important;">Visit</th>
+										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Activity</th>
+										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Definitive</th>
+										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Cancel</th>
+										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Lost</th>
+										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W1</th>
+										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W2</th>
+										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W3</th>
+										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W4</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -128,7 +132,7 @@
 										<td class="text-center">{{ $r['month_label'] ?? '—' }}</td>
 										<td class="text-center font-weight-bold">{{ $r['rank'] ?? '—' }}</td>
 										<td>{{ $r['name'] ?? '—' }}</td>
-										<td class="text-center">{{ $r['achievement_pct'] ?? 0 }}%</td>
+										<td class="text-center @if(($r['achievement_pct'] ?? 0) >= 100) text-success font-weight-bold @else text-danger @endif">{{ $r['achievement_pct'] ?? 0 }}%</td>
 										<td class="text-center">{{ $r['visit_count'] ?? 0 }}</td>
 										<td>
 											@foreach($r['activities'] ?? [] as $act => $cnt)
