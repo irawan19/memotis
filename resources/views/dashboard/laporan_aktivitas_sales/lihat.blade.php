@@ -51,7 +51,19 @@
 										</select>
 									</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label class="form-col-form-label">Unit Kerja</label>
+									<select class="form-control select2" id="cari_unit_kerja" name="cari_unit_kerja">
+										<option value="">Semua Unit Kerja</option>
+										@foreach(isset($lihat_unit_kerjas) ? $lihat_unit_kerjas : [] as $uk)
+											@php $selected = ''; if((string)$uk->id_unit_kerjas === (string)($hasil_unit_kerja ?? '')) $selected = 'selected'; @endphp
+											<option value="{{ $uk->id_unit_kerjas }}" {{ $selected }}>{{ $uk->nama_unit_kerjas }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
 								<div class="form-group">
 									<select class="form-control select2" id="cari_status_sales" name="cari_status_sales">
 										<option value="" selected>Semua Status</option>
@@ -62,7 +74,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<div class="input-group">
 									<input class="form-control" id="cari_kata" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
 								</div>
@@ -76,6 +88,72 @@
 				</div>
 			</form>
         </div>
+
+		@if(!empty($sales_achievement_dashboard['units']))
+		{{-- Sales Achievement: per bulan per unit --}}
+		<div class="col-sm-12 mb-4">
+			<div class="card">
+				<div class="card-header">
+					<strong>SALES ACHIEVEMENT</strong>
+					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: achieved jika result minggu ≥ target (target = total bulan ÷ 4).</span>
+				</div>
+				<div class="card-body p-0">
+					@foreach($sales_achievement_dashboard['units'] as $unit)
+					<div class="border-bottom border-light">
+						<div class="px-3 py-2 bg-light">
+							<strong>{{ $unit['name'] }}</strong>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-bordered table-sm mb-0 achievement-table">
+								<thead>
+									<tr>
+										<th class="text-center" style="width: 90px;">BULAN</th>
+										<th class="text-center" style="width: 40px;">#</th>
+										<th>Nama</th>
+										<th class="text-center" style="width: 70px;">% Achieve</th>
+										<th class="text-center" style="width: 70px;">Visit</th>
+										<th>Activity</th>
+										<th class="text-center" style="width: 60px;">Definitive</th>
+										<th class="text-center" style="width: 60px;">Cancel</th>
+										<th class="text-center" style="width: 60px;">Lost</th>
+										<th class="text-center" style="width: 44px;">W1</th>
+										<th class="text-center" style="width: 44px;">W2</th>
+										<th class="text-center" style="width: 44px;">W3</th>
+										<th class="text-center" style="width: 44px;">W4</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach(isset($unit['rows']) ? $unit['rows'] : [] as $r)
+									<tr>
+										<td class="text-center">{{ $r['month_label'] ?? '—' }}</td>
+										<td class="text-center font-weight-bold">{{ $r['rank'] ?? '—' }}</td>
+										<td>{{ $r['name'] ?? '—' }}</td>
+										<td class="text-center">{{ $r['achievement_pct'] ?? 0 }}%</td>
+										<td class="text-center">{{ $r['visit_count'] ?? 0 }}</td>
+										<td>
+											@foreach($r['activities'] ?? [] as $act => $cnt)
+												{{ $act }}: {{ $cnt }}@if(!$loop->last), @endif
+											@endforeach
+											@if(empty($r['activities'])) — @endif
+										</td>
+										<td class="text-center">{{ $r['definitive'] ?? 0 }}</td>
+										<td class="text-center">{{ $r['cancellation'] ?? 0 }}</td>
+										<td class="text-center">{{ $r['lost'] ?? 0 }}</td>
+										<td class="text-center">@if(!empty($r['w1_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
+										<td class="text-center">@if(!empty($r['w2_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
+										<td class="text-center">@if(!empty($r['w3_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
+										<td class="text-center">@if(!empty($r['w4_achieved']))<span class="text-success">✓</span>@else<span class="text-danger">✗</span>@endif</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+					@endforeach
+				</div>
+			</div>
+		</div>
+		@endif
         
 		<div class="col-sm-12">
 			<div class="card">
@@ -96,9 +174,10 @@
 								<table class="table table-laporan-sales-target table-bordered table-sm mb-4">
 									<thead>
 										<tr class="title-section">
-											<td colspan="10" class="title-cell">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
+											<td colspan="11" class="title-cell">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
 										</tr>
 										<tr class="header-row">
+											<th class="th-bulan">BULAN</th>
 											<th class="th-nama">NAMA</th>
 											<th class="th-segmentation">SEGMENTATION</th>
 											<th class="th-revenue">ROOM REVENUE</th>
@@ -118,6 +197,7 @@
 												$w = $total > 0 ? round($total / 4, 0) : 0;
 											@endphp
 											<tr>
+												<td class="td-bulan">{{ $row['month_label'] ?? '—' }}</td>
 												<td class="td-nama">{{ $row['name'] }}</td>
 												<td class="td-segmentation">
 													@if($idx === 0)
@@ -147,6 +227,8 @@
 	</div>
 
 	<style>
+		.achievement-table th { background: #5a6c7d !important; color: #fff !important; font-size: 13px; padding: 10px 8px; }
+		.achievement-table td { font-size: 13px; vertical-align: middle !important; padding: 8px; }
 		.table-laporan-sales-target { border-collapse: collapse; width: 100%; font-size: 14px; }
 		.table-laporan-sales-target .title-section .title-cell {
 			background: linear-gradient(180deg, #5a6c7d 0%, #4a5c6d 100%);
@@ -172,6 +254,7 @@
 		jQuery(document).ready(function () {
             $('.resetbutton').on('click', function() {
 				$('#cari_status_sales').val('').trigger('change');
+				$('#cari_unit_kerja').val('').trigger('change');
 				$('#cari_bulan_mulai').val({{$hasil_bulan_mulai}}).trigger('change');
 				$('#cari_tahun_mulai').val({{$hasil_tahun_mulai}}).trigger('change');
 				$('#cari_bulan_selesai').val({{$hasil_bulan_selesai}}).trigger('change');

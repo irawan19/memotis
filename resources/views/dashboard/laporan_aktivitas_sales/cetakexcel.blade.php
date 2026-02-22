@@ -3,9 +3,10 @@
 @foreach($lihat_laporan_aktivitas_sales as $section)
 <table border="1" style="border-collapse: collapse; margin-bottom: 20px; width: 100%;">
     <tr>
-        <td colspan="10" style="background: #5a6c7d; color: #fff; font-weight: bold; padding: 8px;">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
+        <td colspan="11" style="background: #5a6c7d; color: #fff; font-weight: bold; padding: 8px;">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
     </tr>
     <tr style="background: #e8e8e8; font-weight: bold;">
+        <td>BULAN</td>
         <td>NAMA</td>
         <td>SEGMENTATION</td>
         <td>ROOM REVENUE</td>
@@ -23,6 +24,7 @@
         $w = $total > 0 ? round($total / 4, 0) : 0;
     @endphp
     <tr>
+        <td>{{ $row['month_label'] ?? '—' }}</td>
         <td>{{ $row['name'] }}</td>
         <td>@if($idx === 0)Total akumulasi SEGMENTATION, G, SE, NA, DLL@endif</td>
         <td style="text-align:right">Rp {{ number_format(0, 0, ',', '.') }}</td>

@@ -17,17 +17,18 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
     public function view(): View
     {
         $hasil_kata = session('hasil_kata', '');
-        $hasil_bulan_mulai = session('hasil_bulan_mulai', date('m'));
+        $hasil_bulan_mulai = session('hasil_bulan_mulai', date('n'));
         $hasil_tahun_mulai = session('hasil_tahun_mulai', date('Y'));
-        $hasil_bulan_selesai = session('hasil_bulan_selesai', date('m'));
+        $hasil_bulan_selesai = session('hasil_bulan_selesai', date('n'));
         $hasil_tahun_selesai = session('hasil_tahun_selesai', date('Y'));
         $hasil_status_sales = session('hasil_status_sales', '');
+        $hasil_unit_kerja = session('hasil_unit_kerja', '');
 
         $hari_terakhir = General::tanggalTerakhir((int) $hasil_tahun_selesai, (int) $hasil_bulan_selesai);
         $hasil_tanggal_mulai = sprintf('%04d-%02d-01', (int) $hasil_tahun_mulai, (int) $hasil_bulan_mulai);
         $hasil_tanggal_selesai = sprintf('%04d-%02d-%02d', (int) $hasil_tahun_selesai, (int) $hasil_bulan_selesai, $hari_terakhir);
 
-        $lihat_laporan_aktivitas_sales = $this->buildAggregasi($hasil_tanggal_mulai, $hasil_tanggal_selesai, $hasil_kata, $hasil_status_sales);
+        $lihat_laporan_aktivitas_sales = $this->buildAggregasi($hasil_tanggal_mulai, $hasil_tanggal_selesai, $hasil_kata, $hasil_status_sales, $hasil_unit_kerja);
 
         $data['lihat_laporan_aktivitas_sales'] = $lihat_laporan_aktivitas_sales;
         $data['hasil_bulan_mulai'] = $hasil_bulan_mulai;
@@ -37,26 +38,31 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
         return view('dashboard.laporan_aktivitas_sales.cetakexcel', $data);
     }
 
-    private function buildAggregasi($tanggal_mulai, $tanggal_selesai, $hasil_kata, $hasil_status_sales)
+    private function buildAggregasi($tanggal_mulai, $tanggal_selesai, $hasil_kata, $hasil_status_sales, $unit_kerjas_id = '')
     {
         $query = DB::table('aktivitas_sales')
-            ->selectRaw('
+            ->selectRaw("
                 users.unit_kerjas_id,
                 master_unit_kerjas.nama_unit_kerjas,
+                DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m') AS month_key,
                 aktivitas_sales.users_id,
                 users.name,
                 SUM(aktivitas_sales.total_aktivitas_sales) AS total
-            ')
+            ")
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
             ->leftJoin('master_unit_kerjas', function ($j) {
                 $j->on('users.unit_kerjas_id', '=', 'master_unit_kerjas.id_unit_kerjas')
                   ->whereNull('master_unit_kerjas.deleted_at');
             })
             ->whereBetween('aktivitas_sales.tanggal_aktivitas_sales', [$tanggal_mulai, $tanggal_selesai])
-            ->groupBy('users.unit_kerjas_id', 'master_unit_kerjas.nama_unit_kerjas', 'aktivitas_sales.users_id', 'users.name')
+            ->groupByRaw("users.unit_kerjas_id, master_unit_kerjas.nama_unit_kerjas, DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m'), aktivitas_sales.users_id, users.name")
             ->orderByRaw('COALESCE(master_unit_kerjas.nama_unit_kerjas, \'zzz\')')
+            ->orderBy('month_key')
             ->orderBy('users.name');
 
+        if ($unit_kerjas_id !== '' && $unit_kerjas_id !== null) {
+            $query->where('users.unit_kerjas_id', $unit_kerjas_id);
+        }
         if ($hasil_status_sales !== '' && $hasil_status_sales !== null) {
             $query->where('aktivitas_sales.status_sales_id', $hasil_status_sales);
         }
@@ -78,7 +84,13 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
             if (!isset($sections[$ukId])) {
                 $sections[$ukId] = ['unit_name' => $ukName, 'rows' => []];
             }
-            $sections[$ukId]['rows'][] = ['name' => $r->name, 'total' => (float) $r->total];
+            $monthLabel = General::ubahDBKeBulan((int) substr($r->month_key, 5, 2)) . ' ' . substr($r->month_key, 0, 4);
+            $sections[$ukId]['rows'][] = [
+                'month_key'   => $r->month_key,
+                'month_label' => $monthLabel,
+                'name'        => $r->name,
+                'total'       => (float) $r->total,
+            ];
         }
         return array_values($sections);
     }
