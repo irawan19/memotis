@@ -414,18 +414,18 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     ];
                 }
             }
+            // Urut: bulan, lalu per bulan urut total_month tertinggi dulu (peringkat #1 = terbaik)
             usort($rows, function ($a, $b) {
                 $c = strcmp($a['month_key'], $b['month_key']);
-                return $c !== 0 ? $c : strcmp($a['name'], $b['name']);
+                if ($c !== 0) return $c;
+                return (int)($b['total_month'] ?? 0) <=> (int)($a['total_month'] ?? 0);
             });
             $rank = 1;
-            $prevMonth = null;
-            foreach ($rows as &$r) {
-                if ($r['month_key'] !== $prevMonth) {
+            for ($i = 0; $i < count($rows); $i++) {
+                if ($i === 0 || $rows[$i]['month_key'] !== $rows[$i - 1]['month_key']) {
                     $rank = 1;
-                    $prevMonth = $r['month_key'];
                 }
-                $r['rank'] = $rank++;
+                $rows[$i]['rank'] = $rank++;
             }
             $unitsOut[] = [
                 'id' => $unit['id'],
