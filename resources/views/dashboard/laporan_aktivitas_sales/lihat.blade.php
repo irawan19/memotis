@@ -95,7 +95,7 @@
 			<div class="card">
 				<div class="card-header">
 					<strong>SALES ACHIEVEMENT</strong>
-					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: (result minggu ÷ target minggu) × 100%, max 100%. Target minggu = total bulan ÷ 4.</span>
+					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: (value minggu ÷ total target bulan) × 100%. Total target = W1+W2+W3+W4.</span>
 				</div>
 				<div class="card-body p-0">
 					@foreach($sales_achievement_dashboard['units'] as $unit)
@@ -183,10 +183,10 @@
 											<th class="th-revenue">ROOM REVENUE</th>
 											<th class="th-revenue">BANQUET REVENUE</th>
 											<th class="th-total">TOTAL TARGET REVENUE</th>
-											<th class="th-week">W 1</th>
-											<th class="th-week">W 2</th>
-											<th class="th-week">W 3</th>
-											<th class="th-week">W 4</th>
+											<th class="th-week">W1 (Result)</th>
+											<th class="th-week">W2 (Result)</th>
+											<th class="th-week">W3 (Result)</th>
+											<th class="th-week">W4 (Result)</th>
 											<th class="th-result">RESULT</th>
 										</tr>
 									</thead>

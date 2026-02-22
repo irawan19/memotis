@@ -43,7 +43,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $hasil_tanggal_selesai                      = sprintf('%04d-%02d-%02d', (int) $hasil_tahun_selesai, (int) $hasil_bulan_selesai, $hari_terakhir);
             $data['lihat_laporan_aktivitas_sales']      = $this->getLaporanAggregasi($hasil_tanggal_mulai, $hasil_tanggal_selesai, '', '', '');
             $data['sales_achievement']                  = $this->getSalesAchievement($hasil_tanggal_mulai, $hasil_tanggal_selesai, '', '', '');
-            $data['sales_achievement_dashboard']        = $this->getSalesAchievementDashboard($hasil_tanggal_mulai, $hasil_tanggal_selesai, '', '', '');
+            $data['sales_achievement_dashboard']        = $this->getSalesAchievementDashboard($hasil_tanggal_mulai, $hasil_tanggal_selesai, '', '', '', $data['lihat_laporan_aktivitas_sales']);
             $data['hasil_tanggal_mulai']                = $hasil_tanggal_mulai;
             $data['hasil_tanggal_selesai']              = $hasil_tanggal_selesai;
             session()->forget('halaman');
@@ -92,7 +92,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
 
             $data['lihat_laporan_aktivitas_sales']  = $this->getLaporanAggregasi($hasil_tanggal_mulai, $hasil_tanggal_selesai, $hasil_kata, $hasil_status_sales, $hasil_unit_kerja);
             $data['sales_achievement']              = $this->getSalesAchievement($hasil_tanggal_mulai, $hasil_tanggal_selesai, $hasil_kata, $hasil_status_sales, $hasil_unit_kerja);
-            $data['sales_achievement_dashboard']    = $this->getSalesAchievementDashboard($hasil_tanggal_mulai, $hasil_tanggal_selesai, $hasil_kata, $hasil_status_sales, $hasil_unit_kerja);
+            $data['sales_achievement_dashboard']    = $this->getSalesAchievementDashboard($hasil_tanggal_mulai, $hasil_tanggal_selesai, $hasil_kata, $hasil_status_sales, $hasil_unit_kerja, $data['lihat_laporan_aktivitas_sales']);
             $data['hasil_tanggal_mulai']            = $hasil_tanggal_mulai;
             $data['hasil_tanggal_selesai']          = $hasil_tanggal_selesai;
             session(['halaman'              => $url_sekarang]);
@@ -302,7 +302,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
      * Dashboard evaluasi per unit per bulan: satu baris per (bulan, sales).
      * Return: [ 'units' => [ { id, name, rows: [ { month_key, month_label, name, rank, achievement_pct, visit_count, activities, definitive, cancellation, lost, w1_achieved..w4_achieved } ] } ] ]
      */
-    private function getSalesAchievementDashboard($tanggal_mulai, $tanggal_selesai, $hasil_kata = '', $hasil_status_sales = '', $unit_kerjas_id = '')
+    private function getSalesAchievementDashboard($tanggal_mulai, $tanggal_selesai, $hasil_kata = '', $hasil_status_sales = '', $unit_kerjas_id = '', $laporanSections = [])
     {
         $base = DB::table('aktivitas_sales')
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
@@ -386,6 +386,22 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $u['months'][$monthKey]['statuses'][$st] = ($u['months'][$monthKey]['statuses'][$st] ?? 0) + 1;
         }
 
+        // Lookup dari laporan: (unit_name, month_key, name) -> total, w1, w2, w3, w4. Persen pakai data ini agar sama dengan tabel.
+        $laporanLookup = [];
+        foreach ($laporanSections as $sec) {
+            $uName = $sec['unit_name'] ?? '';
+            foreach ($sec['rows'] ?? [] as $lr) {
+                $key = $uName . '|' . ($lr['month_key'] ?? '') . '|' . ($lr['name'] ?? '');
+                $laporanLookup[$key] = [
+                    'total' => (float)($lr['total'] ?? 0),
+                    'w1' => (float)($lr['w1'] ?? 0),
+                    'w2' => (float)($lr['w2'] ?? 0),
+                    'w3' => (float)($lr['w3'] ?? 0),
+                    'w4' => (float)($lr['w4'] ?? 0),
+                ];
+            }
+        }
+
         $unitsOut = [];
         foreach ($byUnit as $ukId => $unit) {
             $rows = []; // flat: satu baris per (bulan, sales)
@@ -403,17 +419,27 @@ class LaporanAktivitasSalesController extends AdminCoreController
                         elseif (strpos($lower, 'cancel') !== false) $cancel += $cnt;
                         elseif (strpos($lower, 'lost') !== false) $lost += $cnt;
                     }
-                    // Persen per minggu = (result minggu / target minggu) * 100, max 100%. Target minggu = total bulan ÷ 4.
-                    // Jadi kalau W1 result 1.750.000 dan target minggu 1.750.000 → 100%. W1 result 0 → 0%.
-                    $w1Val = (float)($w['w1'] ?? 0);
-                    $w2Val = (float)($w['w2'] ?? 0);
-                    $w3Val = (float)($w['w3'] ?? 0);
-                    $w4Val = (float)($w['w4'] ?? 0);
-                    $targetWeekF = (float) $targetWeek;
-                    $w1_pct = $targetWeekF > 0 ? min(100, round(($w1Val / $targetWeekF) * 100, 2)) : 0;
-                    $w2_pct = $targetWeekF > 0 ? min(100, round(($w2Val / $targetWeekF) * 100, 2)) : 0;
-                    $w3_pct = $targetWeekF > 0 ? min(100, round(($w3Val / $targetWeekF) * 100, 2)) : 0;
-                    $w4_pct = $targetWeekF > 0 ? min(100, round(($w4Val / $targetWeekF) * 100, 2)) : 0;
+                    // Persen W1–W4 = (value minggu / total target) * 100. Pakai data LAPORAN agar sama persis dengan tabel.
+                    $unitNameForKey = $unit['name'] === 'Lainnya' ? 'SALES TARGET' : $unit['name'];
+                    $key = $unitNameForKey . '|' . $mk . '|' . $u['name'];
+                    $laporanRow = $laporanLookup[$key] ?? $laporanLookup[$unit['name'] . '|' . $mk . '|' . $u['name']] ?? null;
+                    if ($laporanRow && $laporanRow['total'] > 0) {
+                        $tot = $laporanRow['total'];
+                        $w1_pct = round(($laporanRow['w1'] / $tot) * 100, 2);
+                        $w2_pct = round(($laporanRow['w2'] / $tot) * 100, 2);
+                        $w3_pct = round(($laporanRow['w3'] / $tot) * 100, 2);
+                        $w4_pct = round(($laporanRow['w4'] / $tot) * 100, 2);
+                    } else {
+                        $w1Val = (float)($w['w1'] ?? 0);
+                        $w2Val = (float)($w['w2'] ?? 0);
+                        $w3Val = (float)($w['w3'] ?? 0);
+                        $w4Val = (float)($w['w4'] ?? 0);
+                        $totalMonthF = (float) $totalMonth;
+                        $w1_pct = $totalMonthF > 0 ? round(($w1Val / $totalMonthF) * 100, 2) : 0;
+                        $w2_pct = $totalMonthF > 0 ? round(($w2Val / $totalMonthF) * 100, 2) : 0;
+                        $w3_pct = $totalMonthF > 0 ? round(($w3Val / $totalMonthF) * 100, 2) : 0;
+                        $w4_pct = $totalMonthF > 0 ? round(($w4Val / $totalMonthF) * 100, 2) : 0;
+                    }
                     $rows[] = [
                         'month_key' => $mk,
                         'month_label' => $monthLabel,
