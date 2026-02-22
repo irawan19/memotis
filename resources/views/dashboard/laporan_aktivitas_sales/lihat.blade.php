@@ -174,24 +174,27 @@
 				<div class="card-body">
 	            	<div class="scrolltable">
 						@if(!empty($lihat_laporan_aktivitas_sales))
+							@php
+								$laporanHeaderColors = ['#2c3e50', '#16a085', '#2980b9', '#8e44ad', '#c0392b', '#d35400', '#27ae60', '#7f8c8d'];
+							@endphp
 							@foreach($lihat_laporan_aktivitas_sales as $section)
+								@php $sectionColor = $laporanHeaderColors[$loop->index % count($laporanHeaderColors)] ?? '#5a6c7d'; @endphp
 								<table class="table table-laporan-sales-target table-bordered table-sm mb-4">
 									<thead>
 										<tr class="title-section">
-											<td colspan="11" class="title-cell">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
+											<td colspan="10" class="title-cell text-white" style="background: {{ $sectionColor }} !important; border-color: {{ $sectionColor }};">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
 										</tr>
 										<tr class="header-row">
-											<th class="th-bulan">BULAN</th>
-											<th class="th-nama">NAMA</th>
-											<th class="th-segmentation">SEGMENTATION</th>
-											<th class="th-revenue">ROOM REVENUE</th>
-											<th class="th-revenue">BANQUET REVENUE</th>
-											<th class="th-total">TOTAL TARGET REVENUE</th>
-											<th class="th-week">W1 (Result)</th>
-											<th class="th-week">W2 (Result)</th>
-											<th class="th-week">W3 (Result)</th>
-											<th class="th-week">W4 (Result)</th>
-											<th class="th-result">RESULT</th>
+											<th class="th-bulan text-white" style="background: {{ $sectionColor }} !important;">BULAN</th>
+											<th class="th-nama text-white" style="background: {{ $sectionColor }} !important;">NAMA</th>
+											<th class="th-revenue text-white" style="background: {{ $sectionColor }} !important;">ROOM REVENUE</th>
+											<th class="th-revenue text-white" style="background: {{ $sectionColor }} !important;">BANQUET REVENUE</th>
+											<th class="th-total text-white" style="background: {{ $sectionColor }} !important;">TOTAL TARGET REVENUE</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W1 (Result)</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W2 (Result)</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W3 (Result)</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W4 (Result)</th>
+											<th class="th-result text-white" style="background: {{ $sectionColor }} !important;">RESULT</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -206,11 +209,6 @@
 											<tr>
 												<td class="td-bulan">{{ $row['month_label'] ?? '—' }}</td>
 												<td class="td-nama">{{ $row['name'] }}</td>
-												<td class="td-segmentation">
-													@if($idx === 0)
-														Total akumulasi SEGMENTATION, G, SE, NA, DLL
-													@endif
-												</td>
 												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
 												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
 												<td class="td-total text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
@@ -253,7 +251,6 @@
 		.table-laporan-sales-target .th-total { background: #f9e79f !important; }
 		.table-laporan-sales-target .th-week { background: #d5d8dc !important; }
 		.table-laporan-sales-target tbody td { border: 1px solid #333; padding: 6px 8px; }
-		.table-laporan-sales-target .td-segmentation { word-wrap: break-word; overflow-wrap: break-word; max-width: 200px; }
 		.table-laporan-sales-target tbody tr:nth-child(even) { background-color: #fafafa; }
 	</style>
 
