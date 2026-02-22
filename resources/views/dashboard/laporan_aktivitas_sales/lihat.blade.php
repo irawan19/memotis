@@ -128,11 +128,11 @@
 								</thead>
 								<tbody>
 									@foreach(isset($unit['rows']) ? $unit['rows'] : [] as $r)
-									<tr>
+									<tr class="@if(($r['achievement_pct'] ?? 0) >= 100) table-success @else table-danger @endif">
 										<td class="text-center">{{ $r['month_label'] ?? '—' }}</td>
 										<td class="text-center font-weight-bold">{{ $r['rank'] ?? '—' }}</td>
 										<td>{{ $r['name'] ?? '—' }}</td>
-										<td class="text-center @if(($r['achievement_pct'] ?? 0) >= 100) text-success font-weight-bold @else text-danger @endif">{{ $r['achievement_pct'] ?? 0 }}%</td>
+										<td class="text-center @if(($r['achievement_pct'] ?? 0) >= 100) font-weight-bold @endif">{{ $r['achievement_pct'] ?? 0 }}%</td>
 										<td class="text-center">{{ $r['visit_count'] ?? 0 }}</td>
 										<td>
 											@foreach($r['activities'] ?? [] as $act => $cnt)
