@@ -48,6 +48,8 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
                 aktivitas_sales.users_id,
                 users.name,
                 SUM(aktivitas_sales.total_aktivitas_sales) AS total,
+                SUM(COALESCE(aktivitas_sales.room_revenue, 0)) AS room_revenue,
+                SUM(COALESCE(aktivitas_sales.banquet_revenue, 0)) AS banquet_revenue,
                 SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w1,
                 SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w2,
                 SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w3,
@@ -90,14 +92,16 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
             }
             $monthLabel = General::ubahDBKeBulan((int) substr($r->month_key, 5, 2)) . ' ' . substr($r->month_key, 0, 4);
             $sections[$ukId]['rows'][] = [
-                'month_key'   => $r->month_key,
-                'month_label' => $monthLabel,
-                'name'        => $r->name,
-                'total'       => (float) $r->total,
-                'w1'          => (float) ($r->w1 ?? 0),
-                'w2'          => (float) ($r->w2 ?? 0),
-                'w3'          => (float) ($r->w3 ?? 0),
-                'w4'          => (float) ($r->w4 ?? 0),
+                'month_key'       => $r->month_key,
+                'month_label'     => $monthLabel,
+                'name'            => $r->name,
+                'total'           => (float) $r->total,
+                'room_revenue'    => (float) ($r->room_revenue ?? 0),
+                'banquet_revenue' => (float) ($r->banquet_revenue ?? 0),
+                'w1'              => (float) ($r->w1 ?? 0),
+                'w2'              => (float) ($r->w2 ?? 0),
+                'w3'              => (float) ($r->w3 ?? 0),
+                'w4'              => (float) ($r->w4 ?? 0),
             ];
         }
         return array_values($sections);

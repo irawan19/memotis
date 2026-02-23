@@ -196,6 +196,13 @@ class AktivitasSalesController extends AdminCoreController
             if(!empty($request->catatan_aktivitas_sales))
                 $catatan_aktivitas_sales = $request->catatan_aktivitas_sales;
 
+            $room_revenue = 0;
+            if ($request->has('room_revenue') && $request->room_revenue !== null && $request->room_revenue !== '')
+                $room_revenue = General::ubahHargaKeDB($request->room_revenue);
+            $banquet_revenue = 0;
+            if ($request->has('banquet_revenue') && $request->banquet_revenue !== null && $request->banquet_revenue !== '')
+                $banquet_revenue = General::ubahHargaKeDB($request->banquet_revenue);
+
             $users_id = Auth::user()->id;
             if(Auth::user()->level_sistems_id == 1)
                 $users_id = $request->users_id;
@@ -212,6 +219,8 @@ class AktivitasSalesController extends AdminCoreController
                 'pic_aktivitas_sales'               => $request->pic_aktivitas_sales,
                 'kontak_personal_aktivitas_sales'   => $kontak_personal_aktivitas_sales,
                 'jangka_waktu_aktivitas_sales'      => $jangka_waktu_aktivitas_sales,
+                'room_revenue'                      => $room_revenue,
+                'banquet_revenue'                   => $banquet_revenue,
                 'total_aktivitas_sales'             => General::ubahHargaKeDB($request->total_aktivitas_sales),
                 'catatan_aktivitas_sales'           => $catatan_aktivitas_sales,
                 'created_at'                        => date('Y-m-d H:i:s'),
@@ -316,6 +325,13 @@ class AktivitasSalesController extends AdminCoreController
                 if(!empty($request->catatan_aktivitas_sales))
                     $catatan_aktivitas_sales = $request->catatan_aktivitas_sales;
 
+                $room_revenue = $cek_aktivitas_sales->room_revenue ?? 0;
+                if ($request->has('room_revenue') && $request->room_revenue !== null && $request->room_revenue !== '')
+                    $room_revenue = General::ubahHargaKeDB($request->room_revenue);
+                $banquet_revenue = $cek_aktivitas_sales->banquet_revenue ?? 0;
+                if ($request->has('banquet_revenue') && $request->banquet_revenue !== null && $request->banquet_revenue !== '')
+                    $banquet_revenue = General::ubahHargaKeDB($request->banquet_revenue);
+
                 $users_id = Auth::user()->id;
                 if(Auth::user()->level_sistems_id == 1)
                     $users_id = $request->users_id;
@@ -332,6 +348,8 @@ class AktivitasSalesController extends AdminCoreController
                     'pic_aktivitas_sales'               => $request->pic_aktivitas_sales,
                     'kontak_personal_aktivitas_sales'   => $kontak_personal_aktivitas_sales,
                     'jangka_waktu_aktivitas_sales'      => $jangka_waktu_aktivitas_sales,
+                    'room_revenue'                      => $room_revenue,
+                    'banquet_revenue'                   => $banquet_revenue,
                     'total_aktivitas_sales'             => General::ubahHargaKeDB($request->total_aktivitas_sales),
                     'catatan_aktivitas_sales'           => $catatan_aktivitas_sales,
                     'updated_at'                        => date('Y-m-d H:i:s'),

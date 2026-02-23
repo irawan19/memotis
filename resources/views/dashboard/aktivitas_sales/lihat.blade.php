@@ -94,7 +94,7 @@
 									<th>SALES</th>
 									<th>DATE</th>
 									<th>STATUS</th>
-									<th>INCOM REVENUE</th>
+									<th>ROOM REVENUE</th>
 									<th>BANQUET REVENUE</th>
 									<th>NETT REVENUE</th>
 									<th>PIC</th>
@@ -141,8 +141,8 @@
 								    		<td>{{ $aktivitas_sales->nama_kegiatan_sales }}</td>
 								    		<td>{{ General::ubahDBKeTanggal($aktivitas_sales->tanggal_aktivitas_sales) }}</td>
 								    		<td class="status-cell {{ $status_class }}">{{ $aktivitas_sales->nama_status_sales ?? '-' }}</td>
-								    		<td class="revenue-cell">-</td>
-								    		<td class="revenue-cell">-</td>
+								    		<td class="revenue-cell">Rp {{ number_format((float)($aktivitas_sales->room_revenue ?? 0), 0, ',', '.') }}</td>
+								    		<td class="revenue-cell">Rp {{ number_format((float)($aktivitas_sales->banquet_revenue ?? 0), 0, ',', '.') }}</td>
 								    		<td class="revenue-cell">Rp {{ number_format((float)($aktivitas_sales->total_aktivitas_sales ?? 0), 0, ',', '.') }}</td>
 								    		<td>{{ $aktivitas_sales->pic_aktivitas_sales }}</td>
 								    		<td>{{ $aktivitas_sales->kontak_personal_aktivitas_sales }}</td>

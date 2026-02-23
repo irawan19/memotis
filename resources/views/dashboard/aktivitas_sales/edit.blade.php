@@ -148,10 +148,28 @@
 								</div>
 							</div>
 							<div class="col-md-12">
-								<div class="form-group">
-									<label class="form-col-form-label" for="total_aktivitas_sales">NETT REVENUE (Total) <b style="color:red">*</b></label>
-									<input class="form-control right-align priceformat {{ General::validForm($errors->first('total_aktivitas_sales')) }}" id="total_aktivitas_sales" type="text" name="total_aktivitas_sales" value="{{Request::old('total_aktivitas_sales') == '' ? General::ubahDBKeHarga($edit_aktivitas_sales->total_aktivitas_sales) : Request::old('total_aktivitas_sales')}}">
-									{{General::pesanErrorForm($errors->first('total_aktivitas_sales'))}}
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="form-col-form-label" for="room_revenue">ROOM REVENUE</label>
+											<input class="form-control right-align priceformat {{ General::validForm($errors->first('room_revenue')) }}" id="room_revenue" type="text" name="room_revenue" value="{{Request::old('room_revenue') != '' ? Request::old('room_revenue') : General::ubahDBKeHarga($edit_aktivitas_sales->room_revenue ?? 0)}}">
+											{{General::pesanErrorForm($errors->first('room_revenue'))}}
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="form-col-form-label" for="banquet_revenue">BANQUET REVENUE</label>
+											<input class="form-control right-align priceformat {{ General::validForm($errors->first('banquet_revenue')) }}" id="banquet_revenue" type="text" name="banquet_revenue" value="{{Request::old('banquet_revenue') != '' ? Request::old('banquet_revenue') : General::ubahDBKeHarga($edit_aktivitas_sales->banquet_revenue ?? 0)}}">
+											{{General::pesanErrorForm($errors->first('banquet_revenue'))}}
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="form-col-form-label" for="total_aktivitas_sales">NETT REVENUE (Total) <b style="color:red">*</b></label>
+											<input class="form-control right-align priceformat {{ General::validForm($errors->first('total_aktivitas_sales')) }}" id="total_aktivitas_sales" type="text" name="total_aktivitas_sales" value="{{Request::old('total_aktivitas_sales') == '' ? General::ubahDBKeHarga($edit_aktivitas_sales->total_aktivitas_sales) : Request::old('total_aktivitas_sales')}}">
+											{{General::pesanErrorForm($errors->first('total_aktivitas_sales'))}}
+										</div>
+									</div>
 								</div>
 								<div class="form-group">
                                     <label class="form-col-form-label" for="catatan_aktivitas_sales">RESULT (Catatan)</label>

@@ -201,6 +201,8 @@
 										@foreach($section['rows'] as $idx => $row)
 											@php
 												$total = (float) ($row['total'] ?? 0);
+												$room_revenue = (float) ($row['room_revenue'] ?? 0);
+												$banquet_revenue = (float) ($row['banquet_revenue'] ?? 0);
 												$w1 = (float) ($row['w1'] ?? 0);
 												$w2 = (float) ($row['w2'] ?? 0);
 												$w3 = (float) ($row['w3'] ?? 0);
@@ -209,8 +211,8 @@
 											<tr>
 												<td class="td-bulan">{{ $row['month_label'] ?? '—' }}</td>
 												<td class="td-nama">{{ $row['name'] }}</td>
-												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
-												<td class="td-revenue text-right">Rp {{ number_format(0, 0, ',', '.') }}</td>
+												<td class="td-revenue text-right">Rp {{ number_format($room_revenue, 0, ',', '.') }}</td>
+												<td class="td-revenue text-right">Rp {{ number_format($banquet_revenue, 0, ',', '.') }}</td>
 												<td class="td-total text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
 												<td class="td-week text-right">Rp {{ number_format($w1, 0, ',', '.') }}</td>
 												<td class="td-week text-right">Rp {{ number_format($w2, 0, ',', '.') }}</td>
