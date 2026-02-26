@@ -26,36 +26,36 @@ class AktivitasSalesController extends AdminCoreController
             $url_sekarang                  = $request->fullUrl();
             $hasil_kata                    = $data['hasil_kata'];
 
-            $query = Aktivitas_sales::join('master_kegiatan_sales','kegiatan_sales_id','=','master_kegiatan_sales.id_kegiatan_sales')
-                ->join('master_segmentasi_sales','segmentasi_sales_id','=','master_segmentasi_sales.id_segmentasi_sales')
-                ->join('master_project_sales','project_sales_id','=','master_project_sales.id_project_sales')
-                ->join('master_status_sales','status_sales_id','=','master_status_sales.id_status_sales')
-                ->join('users','users_id','=','users.id')
+            $query = Aktivitas_sales::join('master_kegiatan_sales','aktivitas_sales.kegiatan_sales_id','=','master_kegiatan_sales.id_kegiatan_sales')
+                ->join('master_segmentasi_sales','aktivitas_sales.segmentasi_sales_id','=','master_segmentasi_sales.id_segmentasi_sales')
+                ->join('master_project_sales','aktivitas_sales.project_sales_id','=','master_project_sales.id_project_sales')
+                ->leftJoin('master_status_sales','aktivitas_sales.status_sales_id','=','master_status_sales.id_status_sales')
+                ->join('users','aktivitas_sales.users_id','=','users.id')
                 ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis');
+                ->leftJoin('master_divisis','master_level_sistems.divisis_id','=','master_divisis.id_divisis');
 
             if(Auth::user()->level_sistems_id != 1) {
                 $query->where('aktivitas_sales.users_id', Auth::user()->id);
             }
             if($hasil_kata !== '') {
                 $query->where(function($q) use ($hasil_kata) {
-                    $q->where('nama_kegiatan_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('pic_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('kontak_personal_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_project_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_status_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('jangka_waktu_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('total_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('catatan_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%');
+                    $q->where('master_kegiatan_sales.nama_kegiatan_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('master_segmentasi_sales.nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.nama_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.pic_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.kontak_personal_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('master_project_sales.nama_project_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('master_status_sales.nama_status_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.jangka_waktu_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhereRaw('CAST(aktivitas_sales.total_aktivitas_sales AS CHAR) LIKE ?', ['%'.$hasil_kata.'%'])
+                        ->orWhere('aktivitas_sales.catatan_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%');
                 });
             }
             if($data['hasil_bulan'] !== '' && $data['hasil_tahun'] !== '') {
-                $query->whereMonth('tanggal_aktivitas_sales', (int)$data['hasil_bulan'])
-                    ->whereYear('tanggal_aktivitas_sales', (int)$data['hasil_tahun']);
+                $query->whereMonth('aktivitas_sales.tanggal_aktivitas_sales', (int)$data['hasil_bulan'])
+                    ->whereYear('aktivitas_sales.tanggal_aktivitas_sales', (int)$data['hasil_tahun']);
             }
-            $data['lihat_aktivitas_sales'] = $query->orderBy('tanggal_aktivitas_sales','desc')->paginate(20)->withQueryString();
+            $data['lihat_aktivitas_sales'] = $query->orderBy('aktivitas_sales.tanggal_aktivitas_sales','desc')->paginate(20)->withQueryString();
 
             session()->forget('halaman');
             session(['halaman' => $url_sekarang]);
@@ -77,39 +77,39 @@ class AktivitasSalesController extends AdminCoreController
             $url_sekarang                  = $request->fullUrl();
             $hasil_kata                    = $data['hasil_kata'];
 
-            $query = Aktivitas_sales::join('master_kegiatan_sales','kegiatan_sales_id','=','master_kegiatan_sales.id_kegiatan_sales')
-                ->join('master_segmentasi_sales','segmentasi_sales_id','=','master_segmentasi_sales.id_segmentasi_sales')
-                ->join('master_project_sales','project_sales_id','=','master_project_sales.id_project_sales')
-                ->join('master_status_sales','status_sales_id','=','master_status_sales.id_status_sales')
-                ->join('users','users_id','=','users.id')
+            $query = Aktivitas_sales::join('master_kegiatan_sales','aktivitas_sales.kegiatan_sales_id','=','master_kegiatan_sales.id_kegiatan_sales')
+                ->join('master_segmentasi_sales','aktivitas_sales.segmentasi_sales_id','=','master_segmentasi_sales.id_segmentasi_sales')
+                ->join('master_project_sales','aktivitas_sales.project_sales_id','=','master_project_sales.id_project_sales')
+                ->leftJoin('master_status_sales','aktivitas_sales.status_sales_id','=','master_status_sales.id_status_sales')
+                ->join('users','aktivitas_sales.users_id','=','users.id')
                 ->join('master_level_sistems','users.level_sistems_id','=','master_level_sistems.id_level_sistems')
-                ->leftJoin('master_divisis','divisis_id','=','master_divisis.id_divisis');
+                ->leftJoin('master_divisis','master_level_sistems.divisis_id','=','master_divisis.id_divisis');
 
             if(Auth::user()->level_sistems_id != 1) {
                 $query->where('aktivitas_sales.users_id', Auth::user()->id);
             }
             if($hasil_kata !== '') {
                 $query->where(function($q) use ($hasil_kata) {
-                    $q->where('nama_kegiatan_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('pic_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('kontak_personal_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_project_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('nama_status_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('jangka_waktu_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('total_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('catatan_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%');
+                    $q->where('master_kegiatan_sales.nama_kegiatan_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('master_segmentasi_sales.nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.nama_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.pic_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.kontak_personal_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('master_project_sales.nama_project_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('master_status_sales.nama_status_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhere('aktivitas_sales.jangka_waktu_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%')
+                        ->orWhereRaw('CAST(aktivitas_sales.total_aktivitas_sales AS CHAR) LIKE ?', ['%'.$hasil_kata.'%'])
+                        ->orWhere('aktivitas_sales.catatan_aktivitas_sales', 'LIKE', '%'.$hasil_kata.'%');
                 });
             }
             if($data['hasil_bulan'] !== '' && $data['hasil_tahun'] !== '') {
-                $query->whereMonth('tanggal_aktivitas_sales', (int)$data['hasil_bulan'])
-                    ->whereYear('tanggal_aktivitas_sales', (int)$data['hasil_tahun']);
+                $query->whereMonth('aktivitas_sales.tanggal_aktivitas_sales', (int)$data['hasil_bulan'])
+                    ->whereYear('aktivitas_sales.tanggal_aktivitas_sales', (int)$data['hasil_tahun']);
             }
-            $data['lihat_aktivitas_sales'] = $query->orderBy('tanggal_aktivitas_sales','desc')->paginate(20)->withQueryString();
+            $data['lihat_aktivitas_sales'] = $query->orderBy('aktivitas_sales.tanggal_aktivitas_sales','desc')->paginate(20)->withQueryString();
 
             session(['halaman' => $url_sekarang]);
-            session(['hasil_kata' => $hasil_kata, 'hasil_bulan' => $data['hasil_bulan'], 'hasil_tahun' => $data['hasil_tahun']]);
+            session(['hasil_kata' => $data['hasil_kata'], 'hasil_bulan' => $data['hasil_bulan'], 'hasil_tahun' => $data['hasil_tahun']]);
             return view('dashboard.aktivitas_sales.lihat', $data);
         }
         return redirect('dashboard/aktivitas_sales');
