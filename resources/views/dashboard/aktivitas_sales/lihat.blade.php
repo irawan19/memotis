@@ -66,7 +66,7 @@
 							<div class="col-md-4">
 								<div class="form-group mb-0">
 									<label class="form-col-form-label">Kata kunci</label>
-									<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari nama, PIC, alamat, ..." value="{{ $hasil_kata ?? '' }}">
+									<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari company, PIC, alamat, segmentation, status, user, dll..." value="{{ $hasil_kata ?? '' }}">
 								</div>
 							</div>
 							<div class="col-md-2">
