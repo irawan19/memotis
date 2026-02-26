@@ -36,8 +36,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="GET" action="{{ URL('dashboard/aktivitas_sales/cari') }}">
-						@csrf
+					<form method="GET" action="{{ URL('dashboard/aktivitas_sales') }}" id="form-cari-aktivitas-sales">
 						<div class="row align-items-end">
 							<div class="col-md-3">
 								<div class="form-group mb-0">
