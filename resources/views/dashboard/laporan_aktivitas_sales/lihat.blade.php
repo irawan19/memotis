@@ -4,7 +4,6 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<form method="GET" action="{{ URL('dashboard/laporan_aktivitas_sales/cari') }}">
-				@csrf
 				<div class="card">
 					<div class="card-body">
 						<div class="row">

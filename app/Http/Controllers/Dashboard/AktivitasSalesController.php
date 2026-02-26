@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\General;
 use App\Models\Aktivitas_sales;
 use App\Models\Master_kegiatan_sales;
@@ -9,7 +10,7 @@ use App\Models\Master_segmentasi_sales;
 use App\Models\Master_status_sales;
 use App\Models\Master_project_sales;
 use App\Models\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AktivitasSalesController extends AdminCoreController
 {
@@ -20,9 +21,9 @@ class AktivitasSalesController extends AdminCoreController
         if(General::hakAkses($link_aktivitas_sales,'lihat') == 'true')
         {
             $data['link_aktivitas_sales'] = $link_aktivitas_sales;
-            $data['hasil_kata']            = trim((string) $request->get('cari_kata', ''));
-            $data['hasil_bulan']          = $request->get('cari_bulan', '');
-            $data['hasil_tahun']          = $request->get('cari_tahun', '');
+            $data['hasil_kata']            = trim((string) $request->input('cari_kata', ''));
+            $data['hasil_bulan']          = $request->input('cari_bulan', '');
+            $data['hasil_tahun']          = $request->input('cari_tahun', '');
             $url_sekarang                  = $request->fullUrl();
             $hasil_kata                    = $data['hasil_kata'];
 
@@ -32,7 +33,12 @@ class AktivitasSalesController extends AdminCoreController
                 $query->where('aktivitas_sales.users_id', Auth::user()->id);
             }
             if($hasil_kata !== '') {
-                $this->applyAktivitasSalesSearch($query, $hasil_kata);
+                $ids = $this->getAktivitasSalesIdsByKeyword($hasil_kata);
+                if ($ids->isNotEmpty()) {
+                    $query->whereIn('aktivitas_sales.id_aktivitas_sales', $ids);
+                } else {
+                    $query->whereRaw('1 = 0');
+                }
             }
             if($data['hasil_bulan'] !== '' && $data['hasil_tahun'] !== '') {
                 $query->whereMonth('aktivitas_sales.tanggal_aktivitas_sales', (int)$data['hasil_bulan'])
@@ -54,9 +60,9 @@ class AktivitasSalesController extends AdminCoreController
         if(General::hakAkses($link_aktivitas_sales,'lihat') == 'true')
         {
             $data['link_aktivitas_sales'] = $link_aktivitas_sales;
-            $data['hasil_kata']            = trim((string) $request->get('cari_kata', ''));
-            $data['hasil_bulan']          = $request->get('cari_bulan', '');
-            $data['hasil_tahun']          = $request->get('cari_tahun', '');
+            $data['hasil_kata']           = trim((string) $request->input('cari_kata', ''));
+            $data['hasil_bulan']          = $request->input('cari_bulan', '');
+            $data['hasil_tahun']          = $request->input('cari_tahun', '');
             $url_sekarang                  = $request->fullUrl();
             $hasil_kata                    = $data['hasil_kata'];
 
@@ -66,7 +72,12 @@ class AktivitasSalesController extends AdminCoreController
                 $query->where('aktivitas_sales.users_id', Auth::user()->id);
             }
             if($hasil_kata !== '') {
-                $this->applyAktivitasSalesSearch($query, $hasil_kata);
+                $ids = $this->getAktivitasSalesIdsByKeyword($hasil_kata);
+                if ($ids->isNotEmpty()) {
+                    $query->whereIn('aktivitas_sales.id_aktivitas_sales', $ids);
+                } else {
+                    $query->whereRaw('1 = 0');
+                }
             }
             if($data['hasil_bulan'] !== '' && $data['hasil_tahun'] !== '') {
                 $query->whereMonth('aktivitas_sales.tanggal_aktivitas_sales', (int)$data['hasil_bulan'])
@@ -108,27 +119,53 @@ class AktivitasSalesController extends AdminCoreController
     }
 
     /**
+     * Ambil id_aktivitas_sales yang cocok dengan kata kunci (untuk filter di query utama).
+     */
+    private function getAktivitasSalesIdsByKeyword($hasil_kata)
+    {
+        $search = '%' . $hasil_kata . '%';
+        $q = DB::table('aktivitas_sales')
+            ->select('aktivitas_sales.id_aktivitas_sales')
+            ->leftJoin('master_kegiatan_sales', 'aktivitas_sales.kegiatan_sales_id', '=', 'master_kegiatan_sales.id_kegiatan_sales')
+            ->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
+            ->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales')
+            ->leftJoin('master_status_sales', 'aktivitas_sales.status_sales_id', '=', 'master_status_sales.id_status_sales')
+            ->leftJoin('users', 'aktivitas_sales.users_id', '=', 'users.id')
+            ->leftJoin('master_level_sistems', 'users.level_sistems_id', '=', 'master_level_sistems.id_level_sistems')
+            ->leftJoin('master_divisis', 'master_level_sistems.divisis_id', '=', 'master_divisis.id_divisis')
+            ->where(function ($sub) use ($search) {
+                $sub->whereRaw('LOWER(aktivitas_sales.nama_aktivitas_sales) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(aktivitas_sales.alamat_aktivitas_sales) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(aktivitas_sales.pic_aktivitas_sales) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(aktivitas_sales.kontak_personal_aktivitas_sales) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(aktivitas_sales.catatan_aktivitas_sales) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(aktivitas_sales.jangka_waktu_aktivitas_sales, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_kegiatan_sales.nama_kegiatan_sales, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_segmentasi_sales.nama_segmentasi_sales, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_project_sales.nama_project_sales, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_status_sales.nama_status_sales, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(users.name, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_level_sistems.nama_level_sistems, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_divisis.nama_divisis, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('CAST(aktivitas_sales.total_aktivitas_sales AS CHAR) LIKE ?', [$search]);
+            });
+        if (Auth::user()->level_sistems_id != 1) {
+            $q->where('aktivitas_sales.users_id', Auth::user()->id);
+        }
+        return $q->pluck('id_aktivitas_sales');
+    }
+
+    /**
      * Terapkan filter pencarian ke query (semua kolom tampilan, case-insensitive).
      */
     private function applyAktivitasSalesSearch($query, $hasil_kata)
     {
-        $search = '%' . $hasil_kata . '%';
-        $query->where(function ($q) use ($search) {
-            $q->whereRaw('LOWER(aktivitas_sales.nama_aktivitas_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(aktivitas_sales.alamat_aktivitas_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(aktivitas_sales.pic_aktivitas_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(aktivitas_sales.kontak_personal_aktivitas_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(aktivitas_sales.catatan_aktivitas_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(aktivitas_sales.jangka_waktu_aktivitas_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(master_kegiatan_sales.nama_kegiatan_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(master_segmentasi_sales.nama_segmentasi_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(master_project_sales.nama_project_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(master_status_sales.nama_status_sales) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(users.name) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(master_level_sistems.nama_level_sistems) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('LOWER(master_divisis.nama_divisis) LIKE LOWER(?)', [$search])
-                ->orWhereRaw('CAST(aktivitas_sales.total_aktivitas_sales AS CHAR) LIKE ?', [$search]);
-        });
+        $ids = $this->getAktivitasSalesIdsByKeyword($hasil_kata);
+        if ($ids->isNotEmpty()) {
+            $query->whereIn('aktivitas_sales.id_aktivitas_sales', $ids);
+        } else {
+            $query->whereRaw('1 = 0');
+        }
     }
 
     public function cetakexcel()

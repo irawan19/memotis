@@ -73,13 +73,16 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
             $query->where('aktivitas_sales.status_sales_id', $hasil_status_sales);
         }
         if ($hasil_kata !== '' && $hasil_kata !== null) {
-            $query->join('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
-                ->join('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales')
-                ->where(function ($q) use ($hasil_kata) {
-                    $q->where('users.name', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_segmentasi_sales.nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_project_sales.nama_project_sales', 'LIKE', '%'.$hasil_kata.'%');
-                });
+            $hasil_kata = trim((string) $hasil_kata);
+            $query->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
+                ->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales');
+            $search = '%' . $hasil_kata . '%';
+            $query->where(function ($q) use ($search) {
+                $q->whereRaw('LOWER(aktivitas_sales.nama_aktivitas_sales) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(users.name) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_segmentasi_sales.nama_segmentasi_sales, "")) LIKE LOWER(?)', [$search])
+                    ->orWhereRaw('LOWER(COALESCE(master_project_sales.nama_project_sales, "")) LIKE LOWER(?)', [$search]);
+            });
         }
 
         $rows = $query->get();

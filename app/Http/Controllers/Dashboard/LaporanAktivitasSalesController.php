@@ -69,7 +69,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $data['link_laporan_aktivitas_sales']   = $link_laporan_aktivitas_sales;
             $url_sekarang                           = $request->fullUrl();
             $data['hasil_kata']                     = '';
-            $hasil_kata                             = $request->get('cari_kata', '');
+            $hasil_kata                             = trim((string) $request->get('cari_kata', ''));
             $data['hasil_kata']                     = $hasil_kata;
             $hasil_bulan_mulai                      = (int) $request->get('cari_bulan_mulai') ?: (int) date('n');
             $data['hasil_bulan_mulai']              = $hasil_bulan_mulai;
@@ -148,13 +148,9 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $query->where('aktivitas_sales.status_sales_id', $hasil_status_sales);
         }
         if ($hasil_kata !== '' && $hasil_kata !== null) {
-            $query->join('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
-                ->join('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales')
-                ->where(function ($q) use ($hasil_kata) {
-                    $q->where('users.name', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_segmentasi_sales.nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_project_sales.nama_project_sales', 'LIKE', '%'.$hasil_kata.'%');
-                });
+            $query->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
+                ->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales');
+            $this->applyLaporanKeywordFilter($query, $hasil_kata);
         }
 
         $rows = $query->get();
@@ -183,6 +179,21 @@ class LaporanAktivitasSalesController extends AdminCoreController
     }
 
     /**
+     * Filter pencarian kata kunci (company, user, segmentation, project) - case insensitive.
+     * Pakai leftJoin untuk segmentasi/project agar baris dengan FK null tetap ikut.
+     */
+    private function applyLaporanKeywordFilter($query, $hasil_kata)
+    {
+        $search = '%' . $hasil_kata . '%';
+        $query->where(function ($q) use ($search) {
+            $q->whereRaw('LOWER(aktivitas_sales.nama_aktivitas_sales) LIKE LOWER(?)', [$search])
+                ->orWhereRaw('LOWER(users.name) LIKE LOWER(?)', [$search])
+                ->orWhereRaw('LOWER(COALESCE(master_segmentasi_sales.nama_segmentasi_sales, "")) LIKE LOWER(?)', [$search])
+                ->orWhereRaw('LOWER(COALESCE(master_project_sales.nama_project_sales, "")) LIKE LOWER(?)', [$search]);
+        });
+    }
+
+    /**
      * Achievement = total result >= total target → achieved; else not achieved.
      * Persen dari akumulasi 4 minggu (W1+W2+W3+W4) per bulan: (total_result / total_target) * 100.
      * Total result = SUM(total_aktivitas_sales). Target: belum ada kolom, pakai total_result sebagai target (100%).
@@ -201,13 +212,9 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $baseQuery->where('aktivitas_sales.status_sales_id', $hasil_status_sales);
         }
         if ($hasil_kata !== '' && $hasil_kata !== null) {
-            $baseQuery->join('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
-                ->join('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales')
-                ->where(function ($q) use ($hasil_kata) {
-                    $q->where('users.name', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_segmentasi_sales.nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_project_sales.nama_project_sales', 'LIKE', '%'.$hasil_kata.'%');
-                });
+            $baseQuery->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
+                ->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales');
+            $this->applyLaporanKeywordFilter($baseQuery, $hasil_kata);
         }
 
         // Per user: total result (revenue) = akumulasi semua aktivitas. Target = total result (belum ada kolom target).
@@ -337,13 +344,9 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $base->where('aktivitas_sales.status_sales_id', $hasil_status_sales);
         }
         if ($hasil_kata !== '' && $hasil_kata !== null) {
-            $base->join('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
-                ->join('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales')
-                ->where(function ($q) use ($hasil_kata) {
-                    $q->where('users.name', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_segmentasi_sales.nama_segmentasi_sales', 'LIKE', '%'.$hasil_kata.'%')
-                        ->orWhere('master_project_sales.nama_project_sales', 'LIKE', '%'.$hasil_kata.'%');
-                });
+            $base->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
+                ->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales');
+            $this->applyLaporanKeywordFilter($base, $hasil_kata);
         }
 
         $rows = $base->get();
