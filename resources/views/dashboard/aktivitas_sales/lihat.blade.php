@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="GET" action="{{ URL('dashboard/aktivitas_sales/cari') }}" id="form-cari-aktivitas-sales">
+					<form method="GET" action="{{ URL('dashboard/aktivitas_sales') }}" id="form-cari-aktivitas-sales">
 						<div class="row align-items-end">
 							<div class="col-md-3">
 								<div class="form-group mb-0">
@@ -65,7 +65,7 @@
 							<div class="col-md-4">
 								<div class="form-group mb-0">
 									<label class="form-col-form-label">Kata kunci</label>
-									<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari company, PIC, alamat, segmentation, status, user, dll..." value="{{ $hasil_kata ?? '' }}">
+									<input class="form-control" id="input2-group2" type="text" name="cari_kata" placeholder="Cari nama user, company, segmentation, PIC, status, dll..." value="{{ $hasil_kata ?? '' }}">
 								</div>
 							</div>
 							<div class="col-md-2">

@@ -89,12 +89,12 @@
         </div>
 
 		@if(!empty($sales_achievement_dashboard['units']))
-		{{-- Sales Achievement: per bulan per unit --}}
+		{{-- Sales Activity: per bulan per unit, urut visit tertinggi --}}
 		<div class="col-sm-12 mb-4">
 			<div class="card">
 				<div class="card-header">
-					<strong>SALES ACHIEVEMENT</strong>
-					<span class="small text-muted ml-2">— Per bulan per unit. W1–W4: (value minggu ÷ total target bulan) × 100%. Total target = W1+W2+W3+W4.</span>
+					<strong>SALES ACTIVITY</strong>
+					<span class="small text-muted ml-2">— Per bulan per unit. Urut berdasarkan visit tertinggi di bulan tersebut.</span>
 				</div>
 				<div class="card-body p-0">
 					@php
@@ -113,25 +113,20 @@
 										<th class="text-center text-white" style="width: 90px; background-color: {{ $unitColor }} !important;">BULAN</th>
 										<th class="text-center text-white" style="width: 40px; background-color: {{ $unitColor }} !important;">#</th>
 										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Nama</th>
-										<th class="text-center text-white" style="width: 70px; background-color: {{ $unitColor }} !important;">% Achieve</th>
 										<th class="text-center text-white" style="width: 70px; background-color: {{ $unitColor }} !important;">Visit</th>
 										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Activity</th>
+										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Segmentation</th>
 										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Definitive</th>
 										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Cancel</th>
 										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Lost</th>
-										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W1</th>
-										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W2</th>
-										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W3</th>
-										<th class="text-center text-white" style="width: 44px; background-color: {{ $unitColor }} !important;">W4</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach(isset($unit['rows']) ? $unit['rows'] : [] as $r)
-									<tr class="@if(($r['achievement_pct'] ?? 0) >= 100) table-success @else table-danger @endif">
+									<tr>
 										<td class="text-center">{{ $r['month_label'] ?? '—' }}</td>
 										<td class="text-center font-weight-bold">{{ $r['rank'] ?? '—' }}</td>
 										<td>{{ $r['name'] ?? '—' }}</td>
-										<td class="text-center @if(($r['achievement_pct'] ?? 0) >= 100) font-weight-bold @endif">{{ $r['achievement_pct'] ?? 0 }}%</td>
 										<td class="text-center">{{ $r['visit_count'] ?? 0 }}</td>
 										<td>
 											@foreach($r['activities'] ?? [] as $act => $cnt)
@@ -139,13 +134,15 @@
 											@endforeach
 											@if(empty($r['activities'])) — @endif
 										</td>
+										<td>
+											@foreach($r['segmentations'] ?? [] as $seg => $cnt)
+												{{ $seg }}: {{ $cnt }}@if(!$loop->last), @endif
+											@endforeach
+											@if(empty($r['segmentations'])) — @endif
+										</td>
 										<td class="text-center">{{ $r['definitive'] ?? 0 }}</td>
 										<td class="text-center">{{ $r['cancellation'] ?? 0 }}</td>
 										<td class="text-center">{{ $r['lost'] ?? 0 }}</td>
-										<td class="text-center">{{ number_format($r['w1_pct'] ?? 0, 2, ',', '') }}%</td>
-										<td class="text-center">{{ number_format($r['w2_pct'] ?? 0, 2, ',', '') }}%</td>
-										<td class="text-center">{{ number_format($r['w3_pct'] ?? 0, 2, ',', '') }}%</td>
-										<td class="text-center">{{ number_format($r['w4_pct'] ?? 0, 2, ',', '') }}%</td>
 									</tr>
 									@endforeach
 								</tbody>

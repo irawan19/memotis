@@ -322,6 +322,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
                   ->whereNull('master_unit_kerjas.deleted_at');
             })
             ->leftJoin('master_kegiatan_sales', 'aktivitas_sales.kegiatan_sales_id', '=', 'master_kegiatan_sales.id_kegiatan_sales')
+            ->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
             ->leftJoin('master_status_sales', 'aktivitas_sales.status_sales_id', '=', 'master_status_sales.id_status_sales')
             ->whereBetween('aktivitas_sales.tanggal_aktivitas_sales', [$tanggal_mulai, $tanggal_selesai]);
 
@@ -335,6 +336,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 'users.unit_kerjas_id',
                 'master_unit_kerjas.nama_unit_kerjas',
                 'master_kegiatan_sales.nama_kegiatan_sales',
+                'master_segmentasi_sales.nama_segmentasi_sales',
                 'master_status_sales.nama_status_sales',
                 'aktivitas_sales.tanggal_aktivitas_sales',
                 'aktivitas_sales.total_aktivitas_sales'
@@ -344,8 +346,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $base->where('aktivitas_sales.status_sales_id', $hasil_status_sales);
         }
         if ($hasil_kata !== '' && $hasil_kata !== null) {
-            $base->leftJoin('master_segmentasi_sales', 'aktivitas_sales.segmentasi_sales_id', '=', 'master_segmentasi_sales.id_segmentasi_sales')
-                ->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales');
+            $base->leftJoin('master_project_sales', 'aktivitas_sales.project_sales_id', '=', 'master_project_sales.id_project_sales');
             $this->applyLaporanKeywordFilter($base, $hasil_kata);
         }
 
@@ -364,6 +365,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     'name' => $r->name,
                     'visit_count' => 0,
                     'activities' => [],
+                    'segmentations' => [],
                     'statuses' => [],
                     'months' => [],
                     'total_result' => 0,
@@ -374,6 +376,8 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $u['total_result'] += (float) $r->total_aktivitas_sales;
             $keg = $r->nama_kegiatan_sales ?? 'Lainnya';
             $u['activities'][$keg] = ($u['activities'][$keg] ?? 0) + 1;
+            $seg = $r->nama_segmentasi_sales ?? 'Lainnya';
+            $u['segmentations'][$seg] = ($u['segmentations'][$seg] ?? 0) + 1;
             $st = $r->nama_status_sales ?? 'Tanpa status';
             $u['statuses'][$st] = ($u['statuses'][$st] ?? 0) + 1;
 
@@ -384,29 +388,14 @@ class LaporanAktivitasSalesController extends AdminCoreController
             if (!isset($u['months'][$monthKey])) {
                 $u['months'][$monthKey] = [
                     'w1' => 0, 'w2' => 0, 'w3' => 0, 'w4' => 0,
-                    'visit' => 0, 'activities' => [], 'statuses' => [],
+                    'visit' => 0, 'activities' => [], 'segmentations' => [], 'statuses' => [],
                 ];
             }
             $u['months'][$monthKey]['w'.$week] += (float) $r->total_aktivitas_sales;
             $u['months'][$monthKey]['visit']++;
             $u['months'][$monthKey]['activities'][$keg] = ($u['months'][$monthKey]['activities'][$keg] ?? 0) + 1;
+            $u['months'][$monthKey]['segmentations'][$seg] = ($u['months'][$monthKey]['segmentations'][$seg] ?? 0) + 1;
             $u['months'][$monthKey]['statuses'][$st] = ($u['months'][$monthKey]['statuses'][$st] ?? 0) + 1;
-        }
-
-        // Lookup dari laporan: (unit_name, month_key, name) -> total, w1, w2, w3, w4. Persen pakai data ini agar sama dengan tabel.
-        $laporanLookup = [];
-        foreach ($laporanSections as $sec) {
-            $uName = $sec['unit_name'] ?? '';
-            foreach ($sec['rows'] ?? [] as $lr) {
-                $key = $uName . '|' . ($lr['month_key'] ?? '') . '|' . ($lr['name'] ?? '');
-                $laporanLookup[$key] = [
-                    'total' => (float)($lr['total'] ?? 0),
-                    'w1' => (float)($lr['w1'] ?? 0),
-                    'w2' => (float)($lr['w2'] ?? 0),
-                    'w3' => (float)($lr['w3'] ?? 0),
-                    'w4' => (float)($lr['w4'] ?? 0),
-                ];
-            }
         }
 
         $unitsOut = [];
@@ -424,54 +413,26 @@ class LaporanAktivitasSalesController extends AdminCoreController
                         elseif (strpos($lower, 'cancel') !== false) $cancel += $cnt;
                         elseif (strpos($lower, 'lost') !== false) $lost += $cnt;
                     }
-                    // Persen W1–W4 = (value minggu / total target) * 100. Pakai data LAPORAN agar sama persis dengan tabel.
-                    $unitNameForKey = $unit['name'] === 'Lainnya' ? 'SALES TARGET' : $unit['name'];
-                    $key = $unitNameForKey . '|' . $mk . '|' . $u['name'];
-                    $laporanRow = $laporanLookup[$key] ?? $laporanLookup[$unit['name'] . '|' . $mk . '|' . $u['name']] ?? null;
-                    // % Achieve = (result / total target) * 100, max 100%. Result = target → 100%.
-                    $totalTarget = ($laporanRow && $laporanRow['total'] > 0) ? $laporanRow['total'] : $totalMonth;
-                    $achievementPct = $totalTarget > 0 ? min(100, (int) round(($totalMonth / $totalTarget) * 100)) : 0;
-                    if ($laporanRow && $laporanRow['total'] > 0) {
-                        $tot = $laporanRow['total'];
-                        $w1_pct = round(($laporanRow['w1'] / $tot) * 100, 2);
-                        $w2_pct = round(($laporanRow['w2'] / $tot) * 100, 2);
-                        $w3_pct = round(($laporanRow['w3'] / $tot) * 100, 2);
-                        $w4_pct = round(($laporanRow['w4'] / $tot) * 100, 2);
-                    } else {
-                        $w1Val = (float)($w['w1'] ?? 0);
-                        $w2Val = (float)($w['w2'] ?? 0);
-                        $w3Val = (float)($w['w3'] ?? 0);
-                        $w4Val = (float)($w['w4'] ?? 0);
-                        $totalMonthF = (float) $totalMonth;
-                        $w1_pct = $totalMonthF > 0 ? round(($w1Val / $totalMonthF) * 100, 2) : 0;
-                        $w2_pct = $totalMonthF > 0 ? round(($w2Val / $totalMonthF) * 100, 2) : 0;
-                        $w3_pct = $totalMonthF > 0 ? round(($w3Val / $totalMonthF) * 100, 2) : 0;
-                        $w4_pct = $totalMonthF > 0 ? round(($w4Val / $totalMonthF) * 100, 2) : 0;
-                    }
                     $rows[] = [
                         'month_key' => $mk,
                         'month_label' => $monthLabel,
                         'name' => $u['name'],
                         'user_id' => $u['user_id'],
-                        'achievement_pct' => $achievementPct,
                         'visit_count' => $w['visit'] ?? 0,
                         'activities' => $w['activities'] ?? [],
+                        'segmentations' => $w['segmentations'] ?? [],
                         'definitive' => $def,
                         'cancellation' => $cancel,
                         'lost' => $lost,
-                        'w1_pct' => $w1_pct,
-                        'w2_pct' => $w2_pct,
-                        'w3_pct' => $w3_pct,
-                        'w4_pct' => $w4_pct,
                         'total_month' => $totalMonth,
                     ];
                 }
             }
-            // Urut: bulan, lalu per bulan urut total_month tertinggi dulu (peringkat #1 = terbaik)
+            // Urut: bulan, lalu per bulan urut visit tertinggi dulu (visit paling tinggi paling atas)
             usort($rows, function ($a, $b) {
                 $c = strcmp($a['month_key'], $b['month_key']);
                 if ($c !== 0) return $c;
-                return (int)($b['total_month'] ?? 0) <=> (int)($a['total_month'] ?? 0);
+                return (int)($b['visit_count'] ?? 0) <=> (int)($a['visit_count'] ?? 0);
             });
             $rank = 1;
             for ($i = 0; $i < count($rows); $i++) {
