@@ -408,8 +408,9 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
                     $def = 0; $cancel = 0; $lost = 0;
                     foreach ($w['statuses'] ?? [] as $stName => $cnt) {
-                        $lower = strtolower($stName);
-                        if (strpos($lower, 'definitive') !== false) $def += $cnt;
+                        $lower = strtolower(trim($stName));
+                        // Match "Definite" atau "Definitive" (nama status di master bisa salah satu)
+                        if (strpos($lower, 'definite') !== false) $def += $cnt;
                         elseif (strpos($lower, 'cancel') !== false) $cancel += $cnt;
                         elseif (strpos($lower, 'lost') !== false) $lost += $cnt;
                     }
