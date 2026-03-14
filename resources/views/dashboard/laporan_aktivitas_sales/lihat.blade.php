@@ -94,7 +94,7 @@
 			<div class="card">
 				<div class="card-header">
 					<strong>SALES ACTIVITY</strong>
-					<span class="small text-muted ml-2">— Per bulan per unit. Urut berdasarkan visit tertinggi di bulan tersebut.</span>
+					<span class="small text-muted ml-2">— Per bulan per unit. Rank #1 = total revenue tertinggi di bulan tersebut.</span>
 				</div>
 				<div class="card-body p-0">
 					@php

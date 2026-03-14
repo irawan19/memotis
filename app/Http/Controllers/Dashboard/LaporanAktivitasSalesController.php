@@ -429,11 +429,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     ];
                 }
             }
-            // Urut: bulan, lalu per bulan urut visit tertinggi dulu (visit paling tinggi paling atas)
+            // Urut: bulan, lalu per bulan urut TOTAL REVENUE tertinggi dulu (rank #1 = revenue terbesar, seperti laporan target)
             usort($rows, function ($a, $b) {
                 $c = strcmp($a['month_key'], $b['month_key']);
                 if ($c !== 0) return $c;
-                return (int)($b['visit_count'] ?? 0) <=> (int)($a['visit_count'] ?? 0);
+                return (float)($b['total_month'] ?? 0) <=> (float)($a['total_month'] ?? 0);
             });
             $rank = 1;
             for ($i = 0; $i < count($rows); $i++) {
