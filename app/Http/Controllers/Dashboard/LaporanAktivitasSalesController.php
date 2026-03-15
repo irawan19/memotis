@@ -440,15 +440,37 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $u['months'][$monthKey]['status_nominal'][$st] = ($u['months'][$monthKey]['status_nominal'][$st] ?? 0) + $revenue;
         }
 
+        // Pakai daftar dari Laporan Aktivitas Sales (getLaporanAggregasi) agar orang yang muncul di laporan pasti muncul di Sales Activity
         $unitsOut = [];
+        $unitByName = [];
         foreach ($byUnit as $ukId => $unit) {
-            $rows = []; // flat: satu baris per (bulan, user)
-            foreach ($unit['users'] as $u) {
-                foreach ($u['months'] as $mk => $w) {
+            $unitByName[$unit['name']] = $unit;
+            if (($ukId === '_null' || $ukId === null) && $unit['name'] === 'Lainnya') {
+                $unitByName['SALES TARGET'] = $unit;
+            }
+        }
+        $sections = !empty($laporanSections) ? $laporanSections : $this->buildSalesActivitySectionsFromByUnit($byUnit);
+        foreach ($sections as $section) {
+            $unitName = $section['unit_name'] ?? '';
+            $unit = $unitByName[$unitName] ?? null;
+            $rows = [];
+            foreach ($section['rows'] ?? [] as $laporanRow) {
+                $mk = $laporanRow['month_key'] ?? '';
+                $name = trim((string) ($laporanRow['name'] ?? ''));
+                $usersId = $laporanRow['users_id'] ?? null;
+                $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
+                $def = 0; $cancel = 0; $lost = 0;
+                $defNominal = 0.0; $cancelNominal = 0.0; $lostNominal = 0.0;
+                $visitCount = 0;
+                $activities = [];
+                $segmentations = [];
+                $totalMonth = 0.0;
+                if ($unit && $usersId !== null && isset($unit['users'][$usersId]['months'][$mk])) {
+                    $w = $unit['users'][$usersId]['months'][$mk];
+                    $visitCount = (int) ($w['visit'] ?? 0);
+                    $activities = $w['activities'] ?? [];
+                    $segmentations = $w['segmentations'] ?? [];
                     $totalMonth = ($w['w1'] ?? 0) + ($w['w2'] ?? 0) + ($w['w3'] ?? 0) + ($w['w4'] ?? 0);
-                    $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
-                    $def = 0; $cancel = 0; $lost = 0;
-                    $defNominal = 0.0; $cancelNominal = 0.0; $lostNominal = 0.0;
                     foreach ($w['statuses'] ?? [] as $stName => $cnt) {
                         $lower = strtolower(trim($stName));
                         $nominal = (float) ($w['status_nominal'][$stName] ?? 0);
@@ -463,52 +485,26 @@ class LaporanAktivitasSalesController extends AdminCoreController
                             $lostNominal += $nominal;
                         }
                     }
-                    $rows[] = [
-                        'month_key' => $mk,
-                        'month_label' => $monthLabel,
-                        'name' => trim((string) $u['name']),
-                        'user_id' => $u['user_id'],
-                        'visit_count' => (int) ($w['visit'] ?? 0),
-                        'activities' => $w['activities'] ?? [],
-                        'segmentations' => $w['segmentations'] ?? [],
-                        'definitive' => $def,
-                        'cancellation' => $cancel,
-                        'lost' => $lost,
-                        'definitive_nominal' => $defNominal,
-                        'cancellation_nominal' => $cancelNominal,
-                        'lost_nominal' => $lostNominal,
-                        'total_month' => $totalMonth,
-                    ];
-                }
-            }
-            // Gabungkan baris yang sama (unit + bulan + nama) agar satu nama hanya muncul sekali per bulan
-            $merged = [];
-            foreach ($rows as $row) {
-                $nameNorm = strtolower(trim((string) $row['name']));
-                $key = $row['month_key'] . '|' . ($nameNorm !== '' ? $nameNorm : 'user_' . $row['user_id']);
-                if (!isset($merged[$key])) {
-                    $merged[$key] = $row;
                 } else {
-                    $m = &$merged[$key];
-                    $m['visit_count'] += $row['visit_count'];
-                    $m['total_month'] += $row['total_month'];
-                    $m['definitive'] += $row['definitive'];
-                    $m['cancellation'] += $row['cancellation'];
-                    $m['lost'] += $row['lost'];
-                    $m['definitive_nominal'] += $row['definitive_nominal'];
-                    $m['cancellation_nominal'] += $row['cancellation_nominal'];
-                    $m['lost_nominal'] += $row['lost_nominal'];
-                    foreach ($row['activities'] as $k => $v) {
-                        $m['activities'][$k] = ($m['activities'][$k] ?? 0) + $v;
-                    }
-                    foreach ($row['segmentations'] as $k => $v) {
-                        $m['segmentations'][$k] = ($m['segmentations'][$k] ?? 0) + $v;
-                    }
+                    $totalMonth = (float) ($laporanRow['total'] ?? 0);
                 }
+                $rows[] = [
+                    'month_key' => $mk,
+                    'month_label' => $monthLabel,
+                    'name' => $name !== '' ? $name : '—',
+                    'user_id' => $usersId,
+                    'visit_count' => $visitCount,
+                    'activities' => $activities,
+                    'segmentations' => $segmentations,
+                    'definitive' => $def,
+                    'cancellation' => $cancel,
+                    'lost' => $lost,
+                    'definitive_nominal' => $defNominal,
+                    'cancellation_nominal' => $cancelNominal,
+                    'lost_nominal' => $lostNominal,
+                    'total_month' => $totalMonth,
+                ];
             }
-            $rows = array_values($merged);
-            unset($merged, $m);
-            // Urut: bulan, lalu per bulan urut TOTAL REVENUE tertinggi dulu (rank #1 = revenue terbesar)
             usort($rows, function ($a, $b) {
                 $c = strcmp($a['month_key'], $b['month_key']);
                 if ($c !== 0) return $c;
@@ -521,14 +517,96 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 }
                 $rows[$i]['rank'] = $rank++;
             }
+            $unitId = ($unit !== null && isset($unit['id'])) ? $unit['id'] : $unitName;
             $unitsOut[] = [
-                'id' => $unit['id'],
-                'name' => $unit['name'],
+                'id' => $unitId,
+                'name' => $unitName,
                 'rows' => $rows,
             ];
         }
         usort($unitsOut, function ($a, $b) { return strcmp($a['name'], $b['name']); });
         return ['units' => $unitsOut];
+    }
+
+    /**
+     * Build sections array from byUnit (unit_name + rows) for when laporan sections not provided.
+     */
+    private function buildSalesActivitySectionsFromByUnit(array $byUnit)
+    {
+        $sections = [];
+        foreach ($byUnit as $ukId => $unit) {
+            $rows = [];
+            foreach ($unit['users'] as $u) {
+                foreach ($u['months'] as $mk => $w) {
+                    $totalMonth = ($w['w1'] ?? 0) + ($w['w2'] ?? 0) + ($w['w3'] ?? 0) + ($w['w4'] ?? 0);
+                    $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
+                    $def = 0; $cancel = 0; $lost = 0;
+                    $defNominal = 0.0; $cancelNominal = 0.0; $lostNominal = 0.0;
+                    foreach ($w['statuses'] ?? [] as $stName => $cnt) {
+                        $lower = strtolower(trim($stName));
+                        $nominal = (float) ($w['status_nominal'][$stName] ?? 0);
+                        if (strpos($lower, 'definite') !== false) { $def += $cnt; $defNominal += $nominal; }
+                        elseif (strpos($lower, 'cancel') !== false) { $cancel += $cnt; $cancelNominal += $nominal; }
+                        elseif (strpos($lower, 'lost') !== false) { $lost += $cnt; $lostNominal += $nominal; }
+                    }
+                    $rows[] = [
+                        'month_key' => $mk,
+                        'month_label' => $monthLabel,
+                        'name' => trim((string) $u['name']),
+                        'users_id' => $u['user_id'],
+                        'visit_count' => (int) ($w['visit'] ?? 0),
+                        'activities' => $w['activities'] ?? [],
+                        'segmentations' => $w['segmentations'] ?? [],
+                        'definitive' => $def, 'cancellation' => $cancel, 'lost' => $lost,
+                        'definitive_nominal' => $defNominal, 'cancellation_nominal' => $cancelNominal, 'lost_nominal' => $lostNominal,
+                        'total_month' => $totalMonth, 'total' => $totalMonth,
+                    ];
+                }
+            }
+            $sections[] = ['unit_name' => $unit['name'], 'rows' => $rows];
+        }
+        return $sections;
+    }
+
+    /**
+     * Build flat rows for one unit from byUnit (fallback when no laporan sections).
+     */
+    private function buildSalesActivityRowsFromByUnit(array $unit)
+    {
+        $rows = [];
+        foreach ($unit['users'] as $u) {
+            foreach ($u['months'] as $mk => $w) {
+                $totalMonth = ($w['w1'] ?? 0) + ($w['w2'] ?? 0) + ($w['w3'] ?? 0) + ($w['w4'] ?? 0);
+                $monthLabel = General::ubahDBKeBulan((int) substr($mk, 5, 2)) . ' ' . substr($mk, 0, 4);
+                $def = 0; $cancel = 0; $lost = 0;
+                $defNominal = 0.0; $cancelNominal = 0.0; $lostNominal = 0.0;
+                foreach ($w['statuses'] ?? [] as $stName => $cnt) {
+                    $lower = strtolower(trim($stName));
+                    $nominal = (float) ($w['status_nominal'][$stName] ?? 0);
+                    if (strpos($lower, 'definite') !== false) { $def += $cnt; $defNominal += $nominal; }
+                    elseif (strpos($lower, 'cancel') !== false) { $cancel += $cnt; $cancelNominal += $nominal; }
+                    elseif (strpos($lower, 'lost') !== false) { $lost += $cnt; $lostNominal += $nominal; }
+                }
+                $rows[] = [
+                    'month_key' => $mk, 'month_label' => $monthLabel, 'name' => trim((string) $u['name']), 'user_id' => $u['user_id'],
+                    'visit_count' => (int) ($w['visit'] ?? 0), 'activities' => $w['activities'] ?? [], 'segmentations' => $w['segmentations'] ?? [],
+                    'definitive' => $def, 'cancellation' => $cancel, 'lost' => $lost,
+                    'definitive_nominal' => $defNominal, 'cancellation_nominal' => $cancelNominal, 'lost_nominal' => $lostNominal,
+                    'total_month' => $totalMonth,
+                ];
+            }
+        }
+        usort($rows, function ($a, $b) {
+            $c = strcmp($a['month_key'], $b['month_key']);
+            if ($c !== 0) return $c;
+            return (float)($b['total_month'] ?? 0) <=> (float)($a['total_month'] ?? 0);
+        });
+        $rank = 1;
+        for ($i = 0; $i < count($rows); $i++) {
+            if ($i === 0 || $rows[$i]['month_key'] !== $rows[$i - 1]['month_key']) $rank = 1;
+            $rows[$i]['rank'] = $rank++;
+        }
+        return $rows;
     }
 
     public function cetakexcel()
