@@ -141,6 +141,15 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
             unset($row);
         }
         unset($sec);
+        // Urut baris per section: result (total revenue) tertinggi di atas, terendah di bawah (sama dengan web)
+        foreach ($sections as &$sec) {
+            usort($sec['rows'], function ($a, $b) {
+                $tA = (float) ($a['total'] ?? 0);
+                $tB = (float) ($b['total'] ?? 0);
+                return $tB <=> $tA;
+            });
+        }
+        unset($sec);
         return $sections;
     }
 }

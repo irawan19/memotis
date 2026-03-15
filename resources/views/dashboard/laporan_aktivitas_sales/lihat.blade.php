@@ -102,7 +102,7 @@
 			<div class="card">
 				<div class="card-header">
 					<strong>SALES ACTIVITY</strong>
-					<span class="small text-muted ml-2">— Per bulan per unit. Rank #1 = total revenue tertinggi.</span>
+					<span class="small text-muted ml-2">— Per bulan per unit. Rank #1 = jumlah visit terbanyak, urutan terakhir = visit paling rendah.</span>
 				</div>
 				<div class="card-body p-0">
 					@php
@@ -198,7 +198,7 @@
 			<div class="card">
 				<div class="card-header">
 					<strong>Grafik % Result per User</strong>
-					<span class="small text-muted ml-2">— Rata-rata % Result (Total Revenue ÷ Total Sales Target) per user dalam periode laporan.</span>
+					<span class="small text-muted ml-2">— Rata-rata % Result per user. Garis putus-putus 100% = penanda; di bawah = belum target, di atas = melewati target.</span>
 				</div>
 				<div class="card-body">
 					<div class="position-relative" style="height: 320px;">
@@ -345,26 +345,47 @@
 				var chartPctLabels = @json($chart_pct_labels);
 				var chartPctValues = @json($chart_pct_values);
 				var colors = ['#2c3e50', '#16a085', '#2980b9', '#8e44ad', '#c0392b', '#d35400', '#27ae60', '#7f8c8d', '#1abc9c', '#3498db'];
+				var line100 = chartPctLabels.map(function() { return 100; });
 				new Chart(ctxPct, {
 					type: 'bar',
 					data: {
 						labels: chartPctLabels,
-						datasets: [{
-							label: '% Result',
-							data: chartPctValues,
-							backgroundColor: chartPctLabels.map(function(_, i) { return colors[i % colors.length]; }),
-							borderColor: chartPctLabels.map(function(_, i) { return colors[i % colors.length]; }),
-							borderWidth: 1
-						}]
+						datasets: [
+							{
+								label: '% Result',
+								data: chartPctValues,
+								backgroundColor: chartPctLabels.map(function(_, i) { return colors[i % colors.length]; }),
+								borderColor: chartPctLabels.map(function(_, i) { return colors[i % colors.length]; }),
+								borderWidth: 1
+							},
+							{
+								type: 'line',
+								label: 'Target 100%',
+								data: line100,
+								borderColor: '#e74c3c',
+								borderWidth: 2,
+								borderDash: [6, 4],
+								pointRadius: 0,
+								pointHoverRadius: 0,
+								fill: false,
+								order: 0
+							}
+						]
 					},
 					options: {
 						responsive: true,
 						maintainAspectRatio: false,
 						plugins: {
-							legend: { display: false },
+							legend: {
+								display: true,
+								labels: { filter: function(item) { return item.datasetIndex === 1; } }
+							},
 							tooltip: {
 								callbacks: {
-									label: function(ctx) { return ctx.parsed.y + '%'; }
+									label: function(ctx) {
+										if (ctx.datasetIndex === 1) return 'Target 100%';
+										return ctx.parsed.y + '%';
+									}
 								}
 							}
 						},

@@ -210,6 +210,15 @@ class LaporanAktivitasSalesController extends AdminCoreController
             unset($row);
         }
         unset($sec);
+        // Urut baris per section: result (total revenue) tertinggi di atas, terendah di bawah
+        foreach ($sections as &$sec) {
+            usort($sec['rows'], function ($a, $b) {
+                $tA = (float) ($a['total'] ?? 0);
+                $tB = (float) ($b['total'] ?? 0);
+                return $tB <=> $tA;
+            });
+        }
+        unset($sec);
         return $sections;
     }
 
@@ -505,10 +514,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     'total_month' => $totalMonth,
                 ];
             }
+            // Urut: bulan, lalu per bulan urut jumlah visit tertinggi = rank #1
             usort($rows, function ($a, $b) {
                 $c = strcmp($a['month_key'], $b['month_key']);
                 if ($c !== 0) return $c;
-                return (float)($b['total_month'] ?? 0) <=> (float)($a['total_month'] ?? 0);
+                return (int)($b['visit_count'] ?? 0) <=> (int)($a['visit_count'] ?? 0);
             });
             $rank = 1;
             for ($i = 0; $i < count($rows); $i++) {
