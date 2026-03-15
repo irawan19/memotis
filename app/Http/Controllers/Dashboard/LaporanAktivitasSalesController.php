@@ -11,6 +11,7 @@ use App\Models\Master_status_sales;
 use App\Models\Master_project_sales;
 use App\Models\User;
 use App\Models\Master_unit_kerja;
+use App\Models\SalesTargetBudget;
 use Auth;
 use App\Exports\LaporanAktivitasSalesExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -166,6 +167,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 'month_key'       => $r->month_key,
                 'month_label'     => $monthLabel,
                 'name'            => $r->name,
+                'users_id'        => $r->users_id,
                 'total'           => (float) $r->total,
                 'room_revenue'    => (float) ($r->room_revenue ?? 0),
                 'banquet_revenue' => (float) ($r->banquet_revenue ?? 0),
@@ -175,7 +177,40 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 'w4'              => (float) ($r->w4 ?? 0),
             ];
         }
-        return array_values($sections);
+        $sections = array_values($sections);
+        // Lookup budget (Total Sales Target, Budget W1–W4, % W1–W4, % Result) untuk Laporan Aktivitas Sales
+        $allPeriods = [];
+        $allUserIds = [];
+        foreach ($sections as $sec) {
+            foreach ($sec['rows'] as $row) {
+                $allPeriods[$row['month_key']] = true;
+                $allUserIds[$row['users_id']] = true;
+            }
+        }
+        $budgets = SalesTargetBudget::whereIn('period', array_keys($allPeriods))
+            ->whereIn('users_id', array_keys($allUserIds))
+            ->get()
+            ->keyBy(function ($b) { return $b->users_id . '|' . $b->period; });
+        foreach ($sections as &$sec) {
+            foreach ($sec['rows'] as &$row) {
+                $key = $row['users_id'] . '|' . $row['month_key'];
+                $b = $budgets->get($key);
+                $totalTarget = $b ? (float) $b->total_sales_target : 0;
+                $row['total_sales_target'] = $totalTarget;
+                $row['budget_w1'] = $b ? (float) $b->budget_w1 : 0;
+                $row['budget_w2'] = $b ? (float) $b->budget_w2 : 0;
+                $row['budget_w3'] = $b ? (float) $b->budget_w3 : 0;
+                $row['budget_w4'] = $b ? (float) $b->budget_w4 : 0;
+                $row['pct_w1'] = $row['budget_w1'] > 0 ? round((float) $row['w1'] / $row['budget_w1'] * 100, 2) : null;
+                $row['pct_w2'] = $row['budget_w2'] > 0 ? round((float) $row['w2'] / $row['budget_w2'] * 100, 2) : null;
+                $row['pct_w3'] = $row['budget_w3'] > 0 ? round((float) $row['w3'] / $row['budget_w3'] * 100, 2) : null;
+                $row['pct_w4'] = $row['budget_w4'] > 0 ? round((float) $row['w4'] / $row['budget_w4'] * 100, 2) : null;
+                $row['pct_result'] = $totalTarget > 0 ? round((float) $row['total'] / $totalTarget * 100, 2) : null;
+            }
+            unset($row);
+        }
+        unset($sec);
+        return $sections;
     }
 
     /**
@@ -339,7 +374,9 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 'master_segmentasi_sales.nama_segmentasi_sales',
                 'master_status_sales.nama_status_sales',
                 'aktivitas_sales.tanggal_aktivitas_sales',
-                'aktivitas_sales.total_aktivitas_sales'
+                'aktivitas_sales.total_aktivitas_sales',
+                'aktivitas_sales.room_revenue',
+                'aktivitas_sales.banquet_revenue'
             );
 
         if ($hasil_status_sales !== '' && $hasil_status_sales !== null) {
@@ -385,13 +422,17 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $monthKey = substr($tgl, 0, 7);
             $day = (int) substr($tgl, 8, 2);
             $week = $day <= 7 ? 1 : ($day <= 14 ? 2 : ($day <= 21 ? 3 : 4));
+            $revenue = (float) ($r->room_revenue ?? 0) + (float) ($r->banquet_revenue ?? 0);
+            if ($revenue <= 0) {
+                $revenue = (float) $r->total_aktivitas_sales;
+            }
             if (!isset($u['months'][$monthKey])) {
                 $u['months'][$monthKey] = [
                     'w1' => 0, 'w2' => 0, 'w3' => 0, 'w4' => 0,
                     'visit' => 0, 'activities' => [], 'segmentations' => [], 'statuses' => [],
                 ];
             }
-            $u['months'][$monthKey]['w'.$week] += (float) $r->total_aktivitas_sales;
+            $u['months'][$monthKey]['w'.$week] += $revenue;
             $u['months'][$monthKey]['visit']++;
             $u['months'][$monthKey]['activities'][$keg] = ($u['months'][$monthKey]['activities'][$keg] ?? 0) + 1;
             $u['months'][$monthKey]['segmentations'][$seg] = ($u['months'][$monthKey]['segmentations'][$seg] ?? 0) + 1;
@@ -429,7 +470,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     ];
                 }
             }
-            // Urut: bulan, lalu per bulan urut TOTAL REVENUE tertinggi dulu (rank #1 = revenue terbesar, seperti laporan target)
+            // Urut: bulan, lalu per bulan urut TOTAL REVENUE tertinggi dulu (rank #1 = revenue terbesar)
             usort($rows, function ($a, $b) {
                 $c = strcmp($a['month_key'], $b['month_key']);
                 if ($c !== 0) return $c;

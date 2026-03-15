@@ -94,7 +94,7 @@
 			<div class="card">
 				<div class="card-header">
 					<strong>SALES ACTIVITY</strong>
-					<span class="small text-muted ml-2">— Per bulan per unit. Rank #1 = total revenue tertinggi di bulan tersebut.</span>
+					<span class="small text-muted ml-2">— Per bulan per unit. Rank #1 = total revenue tertinggi.</span>
 				</div>
 				<div class="card-body p-0">
 					@php
@@ -154,6 +154,43 @@
 			</div>
 		</div>
 		@endif
+
+		{{-- Grafik % Result per user (dari data Laporan Aktivitas Sales) --}}
+		@php
+			$chart_pct_labels = [];
+			$chart_pct_values = [];
+			$chart_user_pct = [];
+			foreach ($lihat_laporan_aktivitas_sales ?? [] as $section) {
+				foreach ($section['rows'] as $row) {
+					$name = $row['name'] ?? '—';
+					if (!isset($chart_user_pct[$name])) {
+						$chart_user_pct[$name] = [];
+					}
+					if (isset($row['pct_result']) && $row['pct_result'] !== null) {
+						$chart_user_pct[$name][] = (float) $row['pct_result'];
+					}
+				}
+			}
+			foreach ($chart_user_pct as $nama => $pcts) {
+				$chart_pct_labels[] = $nama;
+				$chart_pct_values[] = count($pcts) > 0 ? round(array_sum($pcts) / count($pcts), 1) : 0;
+			}
+		@endphp
+		@if(!empty($chart_pct_labels))
+		<div class="col-sm-12 mb-4">
+			<div class="card">
+				<div class="card-header">
+					<strong>Grafik % Result per User</strong>
+					<span class="small text-muted ml-2">— Rata-rata % Result (Total Revenue ÷ Total Sales Target) per user dalam periode laporan.</span>
+				</div>
+				<div class="card-body">
+					<div class="position-relative" style="height: 320px;">
+						<canvas id="chartPctResultUser"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		@endif
         
 		<div class="col-sm-12">
 			<div class="card">
@@ -178,7 +215,7 @@
 								<table class="table table-laporan-sales-target table-bordered table-sm mb-4">
 									<thead>
 										<tr class="title-section">
-											<td colspan="10" class="title-cell text-white" style="background: {{ $sectionColor }} !important; border-color: {{ $sectionColor }};">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
+											<td colspan="19" class="title-cell text-white" style="background: {{ $sectionColor }} !important; border-color: {{ $sectionColor }};">{{ strtoupper($section['unit_name']) }} SALES TARGET</td>
 										</tr>
 										<tr class="header-row">
 											<th class="th-bulan text-white" style="background: {{ $sectionColor }} !important;">BULAN</th>
@@ -186,11 +223,20 @@
 											<th class="th-revenue text-white" style="background: {{ $sectionColor }} !important;">ROOM REVENUE</th>
 											<th class="th-revenue text-white" style="background: {{ $sectionColor }} !important;">BANQUET REVENUE</th>
 											<th class="th-total text-white" style="background: {{ $sectionColor }} !important;">TOTAL REVENUE</th>
-											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W1 (Result)</th>
-											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W2 (Result)</th>
-											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W3 (Result)</th>
-											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W4 (Result)</th>
-											<th class="th-result text-white" style="background: {{ $sectionColor }} !important;">RESULT</th>
+											<th class="th-target text-white" style="background: {{ $sectionColor }} !important;">TOTAL SALES TARGET</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W1</th>
+											<th class="th-budget text-white" style="background: {{ $sectionColor }} !important;">BUDGET W1</th>
+											<th class="th-pct text-white" style="background: {{ $sectionColor }} !important;">% W1</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W2</th>
+											<th class="th-budget text-white" style="background: {{ $sectionColor }} !important;">BUDGET W2</th>
+											<th class="th-pct text-white" style="background: {{ $sectionColor }} !important;">% W2</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W3</th>
+											<th class="th-budget text-white" style="background: {{ $sectionColor }} !important;">BUDGET W3</th>
+											<th class="th-pct text-white" style="background: {{ $sectionColor }} !important;">% W3</th>
+											<th class="th-week text-white" style="background: {{ $sectionColor }} !important;">W4</th>
+											<th class="th-budget text-white" style="background: {{ $sectionColor }} !important;">BUDGET W4</th>
+											<th class="th-pct text-white" style="background: {{ $sectionColor }} !important;">% W4</th>
+											<th class="th-result text-white" style="background: {{ $sectionColor }} !important;">% RESULT</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -210,11 +256,20 @@
 												<td class="td-revenue text-right">Rp {{ number_format($room_revenue, 0, ',', '.') }}</td>
 												<td class="td-revenue text-right">Rp {{ number_format($banquet_revenue, 0, ',', '.') }}</td>
 												<td class="td-total text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
+												<td class="td-target text-right">@if(!empty($row['total_sales_target'])) Rp {{ number_format($row['total_sales_target'], 0, ',', '.') }} @else — @endif</td>
 												<td class="td-week text-right">Rp {{ number_format($w1, 0, ',', '.') }}</td>
+												<td class="td-budget text-right">@if(!empty($row['budget_w1'])) Rp {{ number_format($row['budget_w1'], 0, ',', '.') }} @else — @endif</td>
+												<td class="td-pct text-center">@if(isset($row['pct_w1'])) {{ number_format($row['pct_w1'], 0, ',', '') }}% @else — @endif</td>
 												<td class="td-week text-right">Rp {{ number_format($w2, 0, ',', '.') }}</td>
+												<td class="td-budget text-right">@if(!empty($row['budget_w2'])) Rp {{ number_format($row['budget_w2'], 0, ',', '.') }} @else — @endif</td>
+												<td class="td-pct text-center">@if(isset($row['pct_w2'])) {{ number_format($row['pct_w2'], 0, ',', '') }}% @else — @endif</td>
 												<td class="td-week text-right">Rp {{ number_format($w3, 0, ',', '.') }}</td>
+												<td class="td-budget text-right">@if(!empty($row['budget_w3'])) Rp {{ number_format($row['budget_w3'], 0, ',', '.') }} @else — @endif</td>
+												<td class="td-pct text-center">@if(isset($row['pct_w3'])) {{ number_format($row['pct_w3'], 0, ',', '') }}% @else — @endif</td>
 												<td class="td-week text-right">Rp {{ number_format($w4, 0, ',', '.') }}</td>
-												<td class="td-result text-right">Rp {{ number_format($total, 0, ',', '.') }}</td>
+												<td class="td-budget text-right">@if(!empty($row['budget_w4'])) Rp {{ number_format($row['budget_w4'], 0, ',', '.') }} @else — @endif</td>
+												<td class="td-pct text-center">@if(isset($row['pct_w4'])) {{ number_format($row['pct_w4'], 0, ',', '') }}% @else — @endif</td>
+												<td class="td-result text-center font-weight-bold">@if(isset($row['pct_result'])) {{ number_format($row['pct_result'], 0, ',', '') }}% @else — @endif</td>
 											</tr>
 										@endforeach
 									</tbody>
@@ -233,6 +288,8 @@
 		.achievement-table th { background: #5a6c7d !important; color: #fff !important; font-size: 13px; padding: 10px 8px; }
 		.achievement-table td { font-size: 13px; vertical-align: middle !important; padding: 8px; }
 		.table-laporan-sales-target { border-collapse: collapse; width: 100%; font-size: 14px; }
+		.table-laporan-sales-target th,
+		.table-laporan-sales-target td { white-space: nowrap; }
 		.table-laporan-sales-target .title-section .title-cell {
 			background: linear-gradient(180deg, #5a6c7d 0%, #4a5c6d 100%);
 			color: #fff;
@@ -252,6 +309,7 @@
 		.table-laporan-sales-target tbody tr:nth-child(even) { background-color: #fafafa; }
 	</style>
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script type="text/javascript">
 		jQuery(document).ready(function () {
             $('.resetbutton').on('click', function() {
@@ -263,6 +321,46 @@
 				$('#cari_tahun_selesai').val({{$hasil_tahun_selesai}}).trigger('change');
 				$('#cari_kata').val('');
 			});
+
+			@if(!empty($chart_pct_labels))
+			var ctxPct = document.getElementById('chartPctResultUser');
+			if (ctxPct && typeof Chart !== 'undefined') {
+				var chartPctLabels = @json($chart_pct_labels);
+				var chartPctValues = @json($chart_pct_values);
+				var colors = ['#2c3e50', '#16a085', '#2980b9', '#8e44ad', '#c0392b', '#d35400', '#27ae60', '#7f8c8d', '#1abc9c', '#3498db'];
+				new Chart(ctxPct, {
+					type: 'bar',
+					data: {
+						labels: chartPctLabels,
+						datasets: [{
+							label: '% Result',
+							data: chartPctValues,
+							backgroundColor: chartPctLabels.map(function(_, i) { return colors[i % colors.length]; }),
+							borderColor: chartPctLabels.map(function(_, i) { return colors[i % colors.length]; }),
+							borderWidth: 1
+						}]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						plugins: {
+							legend: { display: false },
+							tooltip: {
+								callbacks: {
+									label: function(ctx) { return ctx.parsed.y + '%'; }
+								}
+							}
+						},
+						scales: {
+							y: {
+								beginAtZero: true,
+								ticks: { callback: function(v) { return v + '%'; } }
+							}
+						}
+					}
+				});
+			}
+			@endif
 		});
     </script>
 

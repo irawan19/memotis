@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 //Beranda
@@ -28,6 +29,7 @@ use App\Http\Controllers\Dashboard\FileManagerController as DashboardFileManager
 use App\Http\Controllers\Dashboard\KaryawanController as DashboardKaryawan;
 use App\Http\Controllers\Dashboard\AktivitasSalesController as DashboardAktivitasSales;
 use App\Http\Controllers\Dashboard\LaporanAktivitasSalesController as DashboardLaporanAktivitasSales;
+use App\Http\Controllers\Dashboard\BudgetSalesController as DashboardBudgetSales;
 
 //Konfigurasi Aplikasi
 //surat
@@ -210,6 +212,12 @@ Route::middleware([
                 Route::get('/', [DashboardLaporanAktivitasSales::class, 'index']);
                 Route::get('/cari', [DashboardLaporanAktivitasSales::class, 'cari']);
                 Route::get('/cetakexcel', [DashboardLaporanAktivitasSales::class, 'cetakexcel']);
+            });
+
+            //Budget Sales (target & budget per sales per bulan)
+            Route::group(['prefix' => 'budget_sales'], function() {
+                Route::get('/', [DashboardBudgetSales::class, 'index']);
+                Route::post('/simpan', [DashboardBudgetSales::class, 'simpan']);
             });
 
         //Konfigurasi Aplikasi

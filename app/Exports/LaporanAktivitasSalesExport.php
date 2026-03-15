@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\General;
 use App\Models\Aktivitas_sales;
+use App\Models\SalesTargetBudget;
 
 class LaporanAktivitasSalesExport implements FromView, ShouldQueue
 {
@@ -98,6 +99,7 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
                 'month_key'       => $r->month_key,
                 'month_label'     => $monthLabel,
                 'name'            => $r->name,
+                'users_id'        => $r->users_id,
                 'total'           => (float) $r->total,
                 'room_revenue'    => (float) ($r->room_revenue ?? 0),
                 'banquet_revenue' => (float) ($r->banquet_revenue ?? 0),
@@ -107,6 +109,38 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
                 'w4'              => (float) ($r->w4 ?? 0),
             ];
         }
-        return array_values($sections);
+        $sections = array_values($sections);
+        $allPeriods = [];
+        $allUserIds = [];
+        foreach ($sections as $sec) {
+            foreach ($sec['rows'] as $row) {
+                $allPeriods[$row['month_key']] = true;
+                $allUserIds[$row['users_id']] = true;
+            }
+        }
+        $budgets = SalesTargetBudget::whereIn('period', array_keys($allPeriods))
+            ->whereIn('users_id', array_keys($allUserIds))
+            ->get()
+            ->keyBy(function ($b) { return $b->users_id . '|' . $b->period; });
+        foreach ($sections as &$sec) {
+            foreach ($sec['rows'] as &$row) {
+                $key = $row['users_id'] . '|' . $row['month_key'];
+                $b = $budgets->get($key);
+                $totalTarget = $b ? (float) $b->total_sales_target : 0;
+                $row['total_sales_target'] = $totalTarget;
+                $row['budget_w1'] = $b ? (float) $b->budget_w1 : 0;
+                $row['budget_w2'] = $b ? (float) $b->budget_w2 : 0;
+                $row['budget_w3'] = $b ? (float) $b->budget_w3 : 0;
+                $row['budget_w4'] = $b ? (float) $b->budget_w4 : 0;
+                $row['pct_w1'] = $row['budget_w1'] > 0 ? round((float) $row['w1'] / $row['budget_w1'] * 100, 2) : null;
+                $row['pct_w2'] = $row['budget_w2'] > 0 ? round((float) $row['w2'] / $row['budget_w2'] * 100, 2) : null;
+                $row['pct_w3'] = $row['budget_w3'] > 0 ? round((float) $row['w3'] / $row['budget_w3'] * 100, 2) : null;
+                $row['pct_w4'] = $row['budget_w4'] > 0 ? round((float) $row['w4'] / $row['budget_w4'] * 100, 2) : null;
+                $row['pct_result'] = $totalTarget > 0 ? round((float) $row['total'] / $totalTarget * 100, 2) : null;
+            }
+            unset($row);
+        }
+        unset($sec);
+        return $sections;
     }
 }
