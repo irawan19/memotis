@@ -5,88 +5,96 @@
 		<div class="col-sm-12">
 			<form method="GET" action="{{ URL('dashboard/laporan_aktivitas_sales/cari') }}">
 				<div class="card">
+					<div class="card-header py-2">
+						<strong>Filter Laporan</strong>
+						<span class="small text-muted ml-2">— Pilih periode dan filter lalu klik Cari.</span>
+					</div>
 					<div class="card-body">
-						<div class="row">
-							<div class="col-md-2">
-								<div class="form-group">
-									<select class="form-control select2" id="cari_bulan_mulai" name="cari_bulan_mulai">
-										@for($bulan_mulai = 1; $bulan_mulai <= 12; $bulan_mulai++)
-											@php $selected = ''; if(!empty($hasil_bulan_mulai) && $bulan_mulai == $hasil_bulan_mulai) $selected = 'selected'; elseif(empty($hasil_bulan_mulai) && $bulan_mulai == Request::old('cari_bulan_mulai')) $selected = 'selected'; @endphp
-											<option value="{{$bulan_mulai}}" {{ $selected }}>{{General::ubahDBKeBulan($bulan_mulai)}}</option>
-										@endfor
-									</select>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="form-group">
-									<select class="form-control select2" id="cari_tahun_mulai" name="cari_tahun_mulai">
-										@for($tahun_mulai = date('Y') - 5; $tahun_mulai <= date('Y') + 2; $tahun_mulai++)
-											@php $selected = ''; if(!empty($hasil_tahun_mulai) && $tahun_mulai == $hasil_tahun_mulai) $selected = 'selected'; elseif(empty($hasil_tahun_mulai) && $tahun_mulai == Request::old('cari_tahun_mulai')) $selected = 'selected'; @endphp
-											<option value="{{$tahun_mulai}}" {{ $selected }}>{{$tahun_mulai}}</option>
-										@endfor
-									</select>
-								</div>
-							</div>
-							<div class="col-md-1">
-								<p class="textsampai">sampai</p>
-							</div>
-							<div class="col-md-2">
-								<div class="form-group">
-									<select class="form-control select2" id="cari_bulan_selesai" name="cari_bulan_selesai">
-										@for($bulan_selesai = 1; $bulan_selesai <= 12; $bulan_selesai++)
-											@php $selected = ''; if(!empty($hasil_bulan_selesai) && $bulan_selesai == $hasil_bulan_selesai) $selected = 'selected'; elseif(empty($hasil_bulan_selesai) && $bulan_selesai == Request::old('cari_bulan_selesai')) $selected = 'selected'; @endphp
-											<option value="{{$bulan_selesai}}" {{ $selected }}>{{General::ubahDBKeBulan($bulan_selesai)}}</option>
-										@endfor
-									</select>
-								</div>
-							</div>
-							<div class="col-md-2">
-									<div class="form-group">
-										<select class="form-control select2" id="cari_tahun_selesai" name="cari_tahun_selesai">
+						{{-- Baris 1: Rentang tanggal --}}
+						<div class="form-group row mb-3">
+							<label class="col-form-label col-sm-12 col-md-2 text-md-right">Rentang Tanggal</label>
+							<div class="col-sm-12 col-md-10">
+								<div class="d-flex flex-wrap align-items-center">
+									<div class="mr-2 mb-1">
+										<label class="small text-muted d-block mb-0">Bulan Mulai</label>
+										<select class="form-control form-control-sm select2" id="cari_bulan_mulai" name="cari_bulan_mulai" style="min-width: 100px;">
+											@for($bulan_mulai = 1; $bulan_mulai <= 12; $bulan_mulai++)
+												@php $selected = ''; if(!empty($hasil_bulan_mulai) && $bulan_mulai == $hasil_bulan_mulai) $selected = 'selected'; elseif(empty($hasil_bulan_mulai) && $bulan_mulai == Request::old('cari_bulan_mulai')) $selected = 'selected'; @endphp
+												<option value="{{$bulan_mulai}}" {{ $selected }}>{{General::ubahDBKeBulan($bulan_mulai)}}</option>
+											@endfor
+										</select>
+									</div>
+									<div class="mr-2 mb-1">
+										<label class="small text-muted d-block mb-0">Tahun Mulai</label>
+										<select class="form-control form-control-sm select2" id="cari_tahun_mulai" name="cari_tahun_mulai" style="min-width: 85px;">
+											@for($tahun_mulai = date('Y') - 5; $tahun_mulai <= date('Y') + 2; $tahun_mulai++)
+												@php $selected = ''; if(!empty($hasil_tahun_mulai) && $tahun_mulai == $hasil_tahun_mulai) $selected = 'selected'; elseif(empty($hasil_tahun_mulai) && $tahun_mulai == Request::old('cari_tahun_mulai')) $selected = 'selected'; @endphp
+												<option value="{{$tahun_mulai}}" {{ $selected }}>{{$tahun_mulai}}</option>
+											@endfor
+										</select>
+									</div>
+									<span class="align-self-end mb-1 mr-2 text-muted small">sampai</span>
+									<div class="mr-2 mb-1">
+										<label class="small text-muted d-block mb-0">Bulan Selesai</label>
+										<select class="form-control form-control-sm select2" id="cari_bulan_selesai" name="cari_bulan_selesai" style="min-width: 100px;">
+											@for($bulan_selesai = 1; $bulan_selesai <= 12; $bulan_selesai++)
+												@php $selected = ''; if(!empty($hasil_bulan_selesai) && $bulan_selesai == $hasil_bulan_selesai) $selected = 'selected'; elseif(empty($hasil_bulan_selesai) && $bulan_selesai == Request::old('cari_bulan_selesai')) $selected = 'selected'; @endphp
+												<option value="{{$bulan_selesai}}" {{ $selected }}>{{General::ubahDBKeBulan($bulan_selesai)}}</option>
+											@endfor
+										</select>
+									</div>
+									<div class="mb-1">
+										<label class="small text-muted d-block mb-0">Tahun Selesai</label>
+										<select class="form-control form-control-sm select2" id="cari_tahun_selesai" name="cari_tahun_selesai" style="min-width: 85px;">
 											@for($tahun_selesai = date('Y') - 5; $tahun_selesai <= date('Y') + 2; $tahun_selesai++)
 												@php $selected = ''; if(!empty($hasil_tahun_selesai) && $tahun_selesai == $hasil_tahun_selesai) $selected = 'selected'; elseif(empty($hasil_tahun_selesai) && $tahun_selesai == Request::old('cari_tahun_selesai')) $selected = 'selected'; @endphp
 												<option value="{{$tahun_selesai}}" {{ $selected }}>{{$tahun_selesai}}</option>
 											@endfor
 										</select>
 									</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label class="form-col-form-label">Unit Kerja</label>
-									<select class="form-control select2" id="cari_unit_kerja" name="cari_unit_kerja">
-										<option value="">Semua Unit Kerja</option>
-										@foreach(isset($lihat_unit_kerjas) ? $lihat_unit_kerjas : [] as $uk)
-											@php $selected = ''; if((string)$uk->id_unit_kerjas === (string)($hasil_unit_kerja ?? '')) $selected = 'selected'; @endphp
-											<option value="{{ $uk->id_unit_kerjas }}" {{ $selected }}>{{ $uk->nama_unit_kerjas }}</option>
-										@endforeach
-									</select>
 								</div>
 							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<select class="form-control select2" id="cari_status_sales" name="cari_status_sales">
-										<option value="" selected>Semua Status</option>
-										@foreach($lihat_status_sales as $status_sales)
-											@php $selected = ''; if(!empty($hasil_status_sales) && $status_sales->id_status_sales == $hasil_status_sales) $selected = 'selected'; elseif(empty($hasil_status_sales) && $status_sales->id_status_sales == Request::old('cari_status_sales')) $selected = 'selected'; @endphp
-											<option value="{{$status_sales->id_status_sales}}" {{ $selected }}>{{$status_sales->nama_status_sales}}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="input-group">
-									<input class="form-control" id="cari_kata" type="text" name="cari_kata" placeholder="Cari" value="{{$hasil_kata}}">
+						</div>
+						{{-- Baris 2: Unit, Status, Kata kunci --}}
+						<div class="form-group row mb-0">
+							<label class="col-form-label col-sm-12 col-md-2 text-md-right">Filter Lain</label>
+							<div class="col-sm-12 col-md-10">
+								<div class="row">
+									<div class="col-sm-6 col-md-4 col-lg-3 mb-2 mb-lg-0">
+										<label class="small text-muted d-block mb-0">Unit Kerja</label>
+										<select class="form-control form-control-sm select2" id="cari_unit_kerja" name="cari_unit_kerja">
+											<option value="">Semua Unit Kerja</option>
+											@foreach(isset($lihat_unit_kerjas) ? $lihat_unit_kerjas : [] as $uk)
+												@php $selected = ''; if((string)$uk->id_unit_kerjas === (string)($hasil_unit_kerja ?? '')) $selected = 'selected'; @endphp
+												<option value="{{ $uk->id_unit_kerjas }}" {{ $selected }}>{{ $uk->nama_unit_kerjas }}</option>
+											@endforeach
+										</select>
+									</div>
+									<div class="col-sm-6 col-md-4 col-lg-3 mb-2 mb-lg-0">
+										<label class="small text-muted d-block mb-0">Status Aktivitas</label>
+										<select class="form-control form-control-sm select2" id="cari_status_sales" name="cari_status_sales">
+											<option value="">Semua Status</option>
+											@foreach($lihat_status_sales as $status_sales)
+												@php $selected = ''; if(!empty($hasil_status_sales) && $status_sales->id_status_sales == $hasil_status_sales) $selected = 'selected'; elseif(empty($hasil_status_sales) && $status_sales->id_status_sales == Request::old('cari_status_sales')) $selected = 'selected'; @endphp
+												<option value="{{$status_sales->id_status_sales}}" {{ $selected }}>{{$status_sales->nama_status_sales}}</option>
+											@endforeach
+										</select>
+									</div>
+									<div class="col-sm-12 col-md-4 col-lg-4">
+										<label class="small text-muted d-block mb-0">Cari kata (nama user, company, segmentasi)</label>
+										<input class="form-control form-control-sm" id="cari_kata" type="text" name="cari_kata" placeholder="Kosongkan = tampilkan semua" value="{{ $hasil_kata }}">
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="card-footer right-align">
-						{{General::reset()}}
-						{{General::pencarian()}}
+					<div class="card-footer text-right py-2">
+						{{ General::reset() }}
+						{{ General::pencarian() }}
 					</div>
 				</div>
 			</form>
-        </div>
+		</div>
 
 		@if(!empty($sales_achievement_dashboard['units']))
 		{{-- Sales Activity: per bulan per unit, urut visit tertinggi --}}

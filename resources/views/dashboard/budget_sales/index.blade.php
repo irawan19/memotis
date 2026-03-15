@@ -38,7 +38,7 @@
 						<div class="col-md-3">
 							<label class="form-col-form-label">Unit Kerja</label>
 							<select class="form-control" name="unit_kerjas_id">
-								<option value="">— Semua unit —</option>
+								<option value="">Semua Unit</option>
 								@foreach($unit_kerjas ?? [] as $uk)
 									<option value="{{ $uk->id_unit_kerjas }}" {{ ($unit_kerjas_id ?? '') == $uk->id_unit_kerjas ? 'selected' : '' }}>{{ $uk->nama_unit_kerjas }}</option>
 								@endforeach
