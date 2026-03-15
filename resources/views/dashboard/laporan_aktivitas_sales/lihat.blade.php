@@ -124,9 +124,9 @@
 										<th class="text-center text-white" style="width: 70px; background-color: {{ $unitColor }} !important;">Visit</th>
 										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Activity</th>
 										<th class="text-white" style="background-color: {{ $unitColor }} !important;">Segmentation</th>
-										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Definitive</th>
-										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Cancel</th>
-										<th class="text-center text-white" style="width: 60px; background-color: {{ $unitColor }} !important;">Lost</th>
+										<th class="text-center text-white" style="width: 95px; background-color: {{ $unitColor }} !important;">Definitive</th>
+										<th class="text-center text-white" style="width: 95px; background-color: {{ $unitColor }} !important;">Cancel</th>
+										<th class="text-center text-white" style="width: 95px; background-color: {{ $unitColor }} !important;">Lost</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -148,9 +148,18 @@
 											@endforeach
 											@if(empty($r['segmentations'])) — @endif
 										</td>
-										<td class="text-center">{{ $r['definitive'] ?? 0 }}</td>
-										<td class="text-center">{{ $r['cancellation'] ?? 0 }}</td>
-										<td class="text-center">{{ $r['lost'] ?? 0 }}</td>
+										<td class="text-center">
+											<div>{{ $r['definitive'] ?? 0 }}</div>
+											<div class="small text-nowrap">Rp {{ number_format($r['definitive_nominal'] ?? 0, 0, ',', '.') }}</div>
+										</td>
+										<td class="text-center">
+											<div>{{ $r['cancellation'] ?? 0 }}</div>
+											<div class="small text-nowrap">Rp {{ number_format($r['cancellation_nominal'] ?? 0, 0, ',', '.') }}</div>
+										</td>
+										<td class="text-center">
+											<div>{{ $r['lost'] ?? 0 }}</div>
+											<div class="small text-nowrap">Rp {{ number_format($r['lost_nominal'] ?? 0, 0, ',', '.') }}</div>
+										</td>
 									</tr>
 									@endforeach
 								</tbody>
