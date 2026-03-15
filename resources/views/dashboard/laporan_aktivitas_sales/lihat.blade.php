@@ -290,6 +290,52 @@
 											</tr>
 										@endforeach
 									</tbody>
+									@php
+										$sum_room = 0; $sum_banquet = 0; $sum_total = 0; $sum_target = 0;
+										$sum_w1 = 0; $sum_w2 = 0; $sum_w3 = 0; $sum_w4 = 0;
+										$sum_b1 = 0; $sum_b2 = 0; $sum_b3 = 0; $sum_b4 = 0;
+										foreach ($section['rows'] as $r) {
+											$sum_room += (float)($r['room_revenue'] ?? 0);
+											$sum_banquet += (float)($r['banquet_revenue'] ?? 0);
+											$sum_total += (float)($r['total'] ?? 0);
+											$sum_target += (float)($r['total_sales_target'] ?? 0);
+											$sum_w1 += (float)($r['w1'] ?? 0);
+											$sum_w2 += (float)($r['w2'] ?? 0);
+											$sum_w3 += (float)($r['w3'] ?? 0);
+											$sum_w4 += (float)($r['w4'] ?? 0);
+											$sum_b1 += (float)($r['budget_w1'] ?? 0);
+											$sum_b2 += (float)($r['budget_w2'] ?? 0);
+											$sum_b3 += (float)($r['budget_w3'] ?? 0);
+											$sum_b4 += (float)($r['budget_w4'] ?? 0);
+										}
+										$foot_pct_w1 = $sum_b1 > 0 ? round($sum_w1 / $sum_b1 * 100, 2) : null;
+										$foot_pct_w2 = $sum_b2 > 0 ? round($sum_w2 / $sum_b2 * 100, 2) : null;
+										$foot_pct_w3 = $sum_b3 > 0 ? round($sum_w3 / $sum_b3 * 100, 2) : null;
+										$foot_pct_w4 = $sum_b4 > 0 ? round($sum_w4 / $sum_b4 * 100, 2) : null;
+										$foot_pct_result = $sum_target > 0 ? round($sum_total / $sum_target * 100, 2) : null;
+									@endphp
+									<tfoot>
+										<tr class="table-laporan-footer font-weight-bold">
+											<td colspan="2" class="text-right">TOTAL</td>
+											<td class="td-revenue text-right">Rp {{ number_format($sum_room, 0, ',', '.') }}</td>
+											<td class="td-revenue text-right">Rp {{ number_format($sum_banquet, 0, ',', '.') }}</td>
+											<td class="td-total text-right">Rp {{ number_format($sum_total, 0, ',', '.') }}</td>
+											<td class="td-target text-right">@if($sum_target > 0) Rp {{ number_format($sum_target, 0, ',', '.') }} @else — @endif</td>
+											<td class="td-week text-right">Rp {{ number_format($sum_w1, 0, ',', '.') }}</td>
+											<td class="td-budget text-right">@if($sum_b1 > 0) Rp {{ number_format($sum_b1, 0, ',', '.') }} @else — @endif</td>
+											<td class="td-pct text-center">@if($foot_pct_w1 !== null) {{ number_format($foot_pct_w1, 0, ',', '') }}% @else — @endif</td>
+											<td class="td-week text-right">Rp {{ number_format($sum_w2, 0, ',', '.') }}</td>
+											<td class="td-budget text-right">@if($sum_b2 > 0) Rp {{ number_format($sum_b2, 0, ',', '.') }} @else — @endif</td>
+											<td class="td-pct text-center">@if($foot_pct_w2 !== null) {{ number_format($foot_pct_w2, 0, ',', '') }}% @else — @endif</td>
+											<td class="td-week text-right">Rp {{ number_format($sum_w3, 0, ',', '.') }}</td>
+											<td class="td-budget text-right">@if($sum_b3 > 0) Rp {{ number_format($sum_b3, 0, ',', '.') }} @else — @endif</td>
+											<td class="td-pct text-center">@if($foot_pct_w3 !== null) {{ number_format($foot_pct_w3, 0, ',', '') }}% @else — @endif</td>
+											<td class="td-week text-right">Rp {{ number_format($sum_w4, 0, ',', '.') }}</td>
+											<td class="td-budget text-right">@if($sum_b4 > 0) Rp {{ number_format($sum_b4, 0, ',', '.') }} @else — @endif</td>
+											<td class="td-pct text-center">@if($foot_pct_w4 !== null) {{ number_format($foot_pct_w4, 0, ',', '') }}% @else — @endif</td>
+											<td class="td-result text-center">@if($foot_pct_result !== null) {{ number_format($foot_pct_result, 0, ',', '') }}% @else — @endif</td>
+										</tr>
+									</tfoot>
 								</table>
 							@endforeach
 						@else
@@ -324,6 +370,7 @@
 		.table-laporan-sales-target .th-week { background: #d5d8dc !important; }
 		.table-laporan-sales-target tbody td { border: 1px solid #333; padding: 6px 8px; }
 		.table-laporan-sales-target tbody tr:nth-child(even) { background-color: #fafafa; }
+		.table-laporan-sales-target tfoot .table-laporan-footer td { border: 1px solid #333; padding: 8px; background-color: #e8e8e8 !important; }
 	</style>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>

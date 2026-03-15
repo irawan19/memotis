@@ -58,6 +58,50 @@
         <td style="text-align:center; font-weight:bold">@if(isset($row['pct_result'])) {{ number_format($row['pct_result'], 0, ',', '') }}% @else — @endif</td>
     </tr>
     @endforeach
+    @php
+        $sum_room = 0; $sum_banquet = 0; $sum_total = 0; $sum_target = 0;
+        $sum_w1 = 0; $sum_w2 = 0; $sum_w3 = 0; $sum_w4 = 0;
+        $sum_b1 = 0; $sum_b2 = 0; $sum_b3 = 0; $sum_b4 = 0;
+        foreach ($section['rows'] as $r) {
+            $sum_room += (float)($r['room_revenue'] ?? 0);
+            $sum_banquet += (float)($r['banquet_revenue'] ?? 0);
+            $sum_total += (float)($r['total'] ?? 0);
+            $sum_target += (float)($r['total_sales_target'] ?? 0);
+            $sum_w1 += (float)($r['w1'] ?? 0);
+            $sum_w2 += (float)($r['w2'] ?? 0);
+            $sum_w3 += (float)($r['w3'] ?? 0);
+            $sum_w4 += (float)($r['w4'] ?? 0);
+            $sum_b1 += (float)($r['budget_w1'] ?? 0);
+            $sum_b2 += (float)($r['budget_w2'] ?? 0);
+            $sum_b3 += (float)($r['budget_w3'] ?? 0);
+            $sum_b4 += (float)($r['budget_w4'] ?? 0);
+        }
+        $foot_pct_w1 = $sum_b1 > 0 ? round($sum_w1 / $sum_b1 * 100, 2) : null;
+        $foot_pct_w2 = $sum_b2 > 0 ? round($sum_w2 / $sum_b2 * 100, 2) : null;
+        $foot_pct_w3 = $sum_b3 > 0 ? round($sum_w3 / $sum_b3 * 100, 2) : null;
+        $foot_pct_w4 = $sum_b4 > 0 ? round($sum_w4 / $sum_b4 * 100, 2) : null;
+        $foot_pct_result = $sum_target > 0 ? round($sum_total / $sum_target * 100, 2) : null;
+    @endphp
+    <tr style="font-weight: bold; background: #e8e8e8;">
+        <td colspan="2" style="text-align:right; padding: 6px;">TOTAL</td>
+        <td style="text-align:right">Rp {{ number_format($sum_room, 0, ',', '.') }}</td>
+        <td style="text-align:right">Rp {{ number_format($sum_banquet, 0, ',', '.') }}</td>
+        <td style="text-align:right">Rp {{ number_format($sum_total, 0, ',', '.') }}</td>
+        <td style="text-align:right">@if($sum_target > 0) Rp {{ number_format($sum_target, 0, ',', '.') }} @else — @endif</td>
+        <td style="text-align:right">Rp {{ number_format($sum_w1, 0, ',', '.') }}</td>
+        <td style="text-align:right">@if($sum_b1 > 0) Rp {{ number_format($sum_b1, 0, ',', '.') }} @else — @endif</td>
+        <td style="text-align:center">@if($foot_pct_w1 !== null) {{ number_format($foot_pct_w1, 0, ',', '') }}% @else — @endif</td>
+        <td style="text-align:right">Rp {{ number_format($sum_w2, 0, ',', '.') }}</td>
+        <td style="text-align:right">@if($sum_b2 > 0) Rp {{ number_format($sum_b2, 0, ',', '.') }} @else — @endif</td>
+        <td style="text-align:center">@if($foot_pct_w2 !== null) {{ number_format($foot_pct_w2, 0, ',', '') }}% @else — @endif</td>
+        <td style="text-align:right">Rp {{ number_format($sum_w3, 0, ',', '.') }}</td>
+        <td style="text-align:right">@if($sum_b3 > 0) Rp {{ number_format($sum_b3, 0, ',', '.') }} @else — @endif</td>
+        <td style="text-align:center">@if($foot_pct_w3 !== null) {{ number_format($foot_pct_w3, 0, ',', '') }}% @else — @endif</td>
+        <td style="text-align:right">Rp {{ number_format($sum_w4, 0, ',', '.') }}</td>
+        <td style="text-align:right">@if($sum_b4 > 0) Rp {{ number_format($sum_b4, 0, ',', '.') }} @else — @endif</td>
+        <td style="text-align:center">@if($foot_pct_w4 !== null) {{ number_format($foot_pct_w4, 0, ',', '') }}% @else — @endif</td>
+        <td style="text-align:center">@if($foot_pct_result !== null) {{ number_format($foot_pct_result, 0, ',', '') }}% @else — @endif</td>
+    </tr>
 </table>
 @endforeach
 @else
