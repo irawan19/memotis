@@ -439,10 +439,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $monthKey = substr($tgl, 0, 7);
             $day = (int) substr($tgl, 8, 2);
             $week = $day <= 7 ? 1 : ($day <= 14 ? 2 : ($day <= 21 ? 3 : 4));
-            $revenue = (float) ($r->room_revenue ?? 0) + (float) ($r->banquet_revenue ?? 0);
-            if ($revenue <= 0) {
-                $revenue = (float) $r->total_aktivitas_sales;
+            $revenueRaw = (float) ($r->room_revenue ?? 0) + (float) ($r->banquet_revenue ?? 0);
+            if ($revenueRaw <= 0) {
+                $revenueRaw = (float) $r->total_aktivitas_sales;
             }
+            $revenue = $isDefinitive ? $revenueRaw : 0.0;
             if (!isset($u['months'][$monthKey])) {
                 $u['months'][$monthKey] = [
                     'w1' => 0, 'w2' => 0, 'w3' => 0, 'w4' => 0,
