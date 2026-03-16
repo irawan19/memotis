@@ -116,6 +116,8 @@ class LaporanAktivitasSalesController extends AdminCoreController
      */
     private function getLaporanAggregasi($tanggal_mulai, $tanggal_selesai, $hasil_kata = '', $hasil_status_sales = '', $unit_kerjas_id = '')
     {
+        $definitiveCondition = "LOWER(COALESCE(master_status_sales.nama_status_sales, '')) LIKE '%definit%'";
+
         $query = DB::table('aktivitas_sales')
             ->selectRaw("
                 users.unit_kerjas_id,
@@ -123,19 +125,20 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m') AS month_key,
                 aktivitas_sales.users_id,
                 users.name,
-                SUM(aktivitas_sales.total_aktivitas_sales) AS total,
-                SUM(COALESCE(aktivitas_sales.room_revenue, 0)) AS room_revenue,
-                SUM(COALESCE(aktivitas_sales.banquet_revenue, 0)) AS banquet_revenue,
-                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w1,
-                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w2,
-                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w3,
-                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 22 AND 31 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w4
+                SUM(CASE WHEN {$definitiveCondition} THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS total,
+                SUM(CASE WHEN {$definitiveCondition} THEN COALESCE(aktivitas_sales.room_revenue, 0) ELSE 0 END) AS room_revenue,
+                SUM(CASE WHEN {$definitiveCondition} THEN COALESCE(aktivitas_sales.banquet_revenue, 0) ELSE 0 END) AS banquet_revenue,
+                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w1,
+                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w2,
+                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w3,
+                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 22 AND 31 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w4
             ")
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
             ->leftJoin('master_unit_kerjas', function ($j) {
                 $j->on('users.unit_kerjas_id', '=', 'master_unit_kerjas.id_unit_kerjas')
                   ->whereNull('master_unit_kerjas.deleted_at');
             })
+            ->leftJoin('master_status_sales', 'aktivitas_sales.status_sales_id', '=', 'master_status_sales.id_status_sales')
             ->whereBetween('aktivitas_sales.tanggal_aktivitas_sales', [$tanggal_mulai, $tanggal_selesai])
             ->groupByRaw("users.unit_kerjas_id, master_unit_kerjas.nama_unit_kerjas, DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m'), aktivitas_sales.users_id, users.name")
             ->orderByRaw('COALESCE(master_unit_kerjas.nama_unit_kerjas, \'zzz\')')
@@ -245,8 +248,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
      */
     private function getSalesAchievement($tanggal_mulai, $tanggal_selesai, $hasil_kata = '', $hasil_status_sales = '', $unit_kerjas_id = '')
     {
+        $definitiveCondition = "LOWER(COALESCE(master_status_sales.nama_status_sales, '')) LIKE '%definit%'";
+
         $baseQuery = DB::table('aktivitas_sales')
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
+            ->leftJoin('master_status_sales', 'aktivitas_sales.status_sales_id', '=', 'master_status_sales.id_status_sales')
             ->whereBetween('aktivitas_sales.tanggal_aktivitas_sales', [$tanggal_mulai, $tanggal_selesai]);
 
         if ($unit_kerjas_id !== '' && $unit_kerjas_id !== null) {
@@ -263,11 +269,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
 
         // Per user: total result (revenue) = akumulasi semua aktivitas. Target = total result (belum ada kolom target).
         $summary = (clone $baseQuery)
-            ->selectRaw('
+            ->selectRaw("
                 aktivitas_sales.users_id,
                 users.name,
-                SUM(aktivitas_sales.total_aktivitas_sales) AS total_result
-            ')
+                SUM(CASE WHEN {$definitiveCondition} THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS total_result
+            ")
             ->groupBy('aktivitas_sales.users_id', 'users.name')
             ->orderBy('users.name')
             ->get();
@@ -294,17 +300,17 @@ class LaporanAktivitasSalesController extends AdminCoreController
 
         // Per user per bulan: 4 minggu (W1: 1-7, W2: 8-14, W3: 15-21, W4: 22-31). Persen = akumulasi 4 week result / target.
         $weekly = (clone $baseQuery)
-            ->selectRaw('
+            ->selectRaw("
                 aktivitas_sales.users_id,
-                DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, "%Y-%m") AS month_key,
+                DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, \"%Y-%m\") AS month_key,
                 CASE
                     WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN 1
                     WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN 2
                     WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN 3
                     ELSE 4
                 END AS week_num,
-                SUM(aktivitas_sales.total_aktivitas_sales) AS week_result
-            ')
+                SUM(CASE WHEN {$definitiveCondition} THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS week_result
+            ")
             ->groupByRaw('aktivitas_sales.users_id, DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, "%Y-%m"), CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN 1 WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN 2 WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN 3 ELSE 4 END')
             ->get();
 
@@ -425,6 +431,8 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $seg = $r->nama_segmentasi_sales ?? 'Lainnya';
             $u['segmentations'][$seg] = ($u['segmentations'][$seg] ?? 0) + 1;
             $st = $r->nama_status_sales ?? 'Tanpa status';
+            $statusLower = strtolower(trim($st));
+            $isDefinitive = strpos($statusLower, 'definit') !== false;
             $u['statuses'][$st] = ($u['statuses'][$st] ?? 0) + 1;
 
             $tgl = $r->tanggal_aktivitas_sales;
@@ -441,7 +449,10 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     'visit' => 0, 'activities' => [], 'segmentations' => [], 'statuses' => [], 'status_nominal' => [],
                 ];
             }
-            $u['months'][$monthKey]['w'.$week] += $revenue;
+            if ($isDefinitive) {
+                $u['months'][$monthKey]['w'.$week] += $revenue;
+                $u['total_result'] += (float) $r->total_aktivitas_sales;
+            }
             $u['months'][$monthKey]['visit']++;
             $u['months'][$monthKey]['activities'][$keg] = ($u['months'][$monthKey]['activities'][$keg] ?? 0) + 1;
             $u['months'][$monthKey]['segmentations'][$seg] = ($u['months'][$monthKey]['segmentations'][$seg] ?? 0) + 1;

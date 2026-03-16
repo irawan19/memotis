@@ -154,9 +154,11 @@
 										</td>
 										<td class="text-center">
 											<div>{{ $r['cancellation'] ?? 0 }}</div>
+											<div class="small text-nowrap">Rp {{ number_format($r['cancellation_nominal'] ?? 0, 0, ',', '.') }}</div>
 										</td>
 										<td class="text-center">
 											<div>{{ $r['lost'] ?? 0 }}</div>
+											<div class="small text-nowrap">Rp {{ number_format($r['lost_nominal'] ?? 0, 0, ',', '.') }}</div>
 										</td>
 									</tr>
 									@endforeach
