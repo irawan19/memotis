@@ -425,7 +425,6 @@ class LaporanAktivitasSalesController extends AdminCoreController
             }
             $u = &$byUnit[$ukId]['users'][$uid];
             $u['visit_count']++;
-            $u['total_result'] += (float) $r->total_aktivitas_sales;
             $keg = $r->nama_kegiatan_sales ?? 'Lainnya';
             $u['activities'][$keg] = ($u['activities'][$keg] ?? 0) + 1;
             $seg = $r->nama_segmentasi_sales ?? 'Lainnya';
@@ -452,7 +451,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             }
             if ($isDefinitive) {
                 $u['months'][$monthKey]['w'.$week] += $revenue;
-                $u['total_result'] += (float) $r->total_aktivitas_sales;
+                $u['total_result'] += $revenue;
             }
             $u['months'][$monthKey]['visit']++;
             $u['months'][$monthKey]['activities'][$keg] = ($u['months'][$monthKey]['activities'][$keg] ?? 0) + 1;
