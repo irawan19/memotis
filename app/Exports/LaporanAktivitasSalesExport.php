@@ -42,6 +42,7 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
     private function buildAggregasi($tanggal_mulai, $tanggal_selesai, $hasil_kata, $hasil_status_sales, $unit_kerjas_id = '')
     {
         $definitiveCondition = "LOWER(COALESCE(master_status_sales.nama_status_sales, '')) LIKE '%definit%'";
+        $revExpr = "CASE WHEN {$definitiveCondition} THEN (CASE WHEN COALESCE(aktivitas_sales.room_revenue,0)+COALESCE(aktivitas_sales.banquet_revenue,0) > 0 THEN COALESCE(aktivitas_sales.room_revenue,0)+COALESCE(aktivitas_sales.banquet_revenue,0) ELSE aktivitas_sales.total_aktivitas_sales END) ELSE 0 END";
 
         $query = DB::table('aktivitas_sales')
             ->selectRaw("
@@ -50,13 +51,13 @@ class LaporanAktivitasSalesExport implements FromView, ShouldQueue
                 DATE_FORMAT(aktivitas_sales.tanggal_aktivitas_sales, '%Y-%m') AS month_key,
                 aktivitas_sales.users_id,
                 users.name,
-                SUM(CASE WHEN {$definitiveCondition} THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS total,
+                SUM({$revExpr}) AS total,
                 SUM(CASE WHEN {$definitiveCondition} THEN COALESCE(aktivitas_sales.room_revenue, 0) ELSE 0 END) AS room_revenue,
                 SUM(CASE WHEN {$definitiveCondition} THEN COALESCE(aktivitas_sales.banquet_revenue, 0) ELSE 0 END) AS banquet_revenue,
-                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w1,
-                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w2,
-                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w3,
-                SUM(CASE WHEN {$definitiveCondition} AND DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 22 AND 31 THEN aktivitas_sales.total_aktivitas_sales ELSE 0 END) AS w4
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 1 AND 7 THEN {$revExpr} ELSE 0 END) AS w1,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 8 AND 14 THEN {$revExpr} ELSE 0 END) AS w2,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 15 AND 21 THEN {$revExpr} ELSE 0 END) AS w3,
+                SUM(CASE WHEN DAY(aktivitas_sales.tanggal_aktivitas_sales) BETWEEN 22 AND 31 THEN {$revExpr} ELSE 0 END) AS w4
             ")
             ->join('users', 'aktivitas_sales.users_id', '=', 'users.id')
             ->leftJoin('master_unit_kerjas', function ($j) {
