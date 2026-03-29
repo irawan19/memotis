@@ -241,6 +241,34 @@ class LaporanAktivitasSalesController extends AdminCoreController
         });
     }
 
+    /** Nilai rupiah satu baris aktivitas: ambil yang lebih besar antara NETT total dan jumlah room+banquet (hindari total terabaikan saat breakdown kecil/nol). */
+    private function aktivitasSalesNominalFromRow(object $r): float
+    {
+        $nett = (float) ($r->total_aktivitas_sales ?? 0);
+        $rb = (float) ($r->room_revenue ?? 0) + (float) ($r->banquet_revenue ?? 0);
+
+        return max($nett, $rb);
+    }
+
+    /** Kolom Sales Activity: lost → cancel/batal → definit/definite (cancel diprioritaskan bila ada dua kata kunci). */
+    private function salesActivityStatusBucket(string $namaStatus): ?string
+    {
+        $lower = strtolower(trim($namaStatus));
+        if (strpos($lower, 'lost') !== false) {
+            return 'lost';
+        }
+        if (strpos($lower, 'cancel') !== false
+            || strpos($lower, 'batal') !== false
+            || strpos($lower, 'dibatalkan') !== false) {
+            return 'cancel';
+        }
+        if (strpos($lower, 'definit') !== false || strpos($lower, 'definite') !== false) {
+            return 'def';
+        }
+
+        return null;
+    }
+
     /**
      * Achievement = total result >= total target → achieved; else not achieved.
      * Persen dari akumulasi 4 minggu (W1+W2+W3+W4) per bulan: (total_result / total_target) * 100.
@@ -439,10 +467,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $monthKey = substr($tgl, 0, 7);
             $day = (int) substr($tgl, 8, 2);
             $week = $day <= 7 ? 1 : ($day <= 14 ? 2 : ($day <= 21 ? 3 : 4));
-            $revenueRaw = (float) ($r->room_revenue ?? 0) + (float) ($r->banquet_revenue ?? 0);
-            if ($revenueRaw <= 0) {
-                $revenueRaw = (float) $r->total_aktivitas_sales;
-            }
+            $revenueRaw = $this->aktivitasSalesNominalFromRow($r);
             $revenue = $isDefinitive ? $revenueRaw : 0.0;
             if (!isset($u['months'][$monthKey])) {
                 $u['months'][$monthKey] = [
@@ -460,6 +485,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $u['months'][$monthKey]['statuses'][$st] = ($u['months'][$monthKey]['statuses'][$st] ?? 0) + 1;
             $u['months'][$monthKey]['status_nominal'][$st] = ($u['months'][$monthKey]['status_nominal'][$st] ?? 0) + $revenueRaw;
         }
+        unset($u);
 
         // Pakai daftar dari Laporan Aktivitas Sales (getLaporanAggregasi) agar orang yang muncul di laporan pasti muncul di Sales Activity
         $unitsOut = [];
@@ -493,15 +519,15 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     $segmentations = $w['segmentations'] ?? [];
                     $totalMonth = ($w['w1'] ?? 0) + ($w['w2'] ?? 0) + ($w['w3'] ?? 0) + ($w['w4'] ?? 0);
                     foreach ($w['statuses'] ?? [] as $stName => $cnt) {
-                        $lower = strtolower(trim($stName));
                         $nominal = (float) ($w['status_nominal'][$stName] ?? 0);
-                        if (strpos($lower, 'definite') !== false) {
+                        $bucket = $this->salesActivityStatusBucket($stName);
+                        if ($bucket === 'def') {
                             $def += $cnt;
                             $defNominal += $nominal;
-                        } elseif (strpos($lower, 'cancel') !== false) {
+                        } elseif ($bucket === 'cancel') {
                             $cancel += $cnt;
                             $cancelNominal += $nominal;
-                        } elseif (strpos($lower, 'lost') !== false) {
+                        } elseif ($bucket === 'lost') {
                             $lost += $cnt;
                             $lostNominal += $nominal;
                         }
@@ -565,11 +591,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
                     $def = 0; $cancel = 0; $lost = 0;
                     $defNominal = 0.0; $cancelNominal = 0.0; $lostNominal = 0.0;
                     foreach ($w['statuses'] ?? [] as $stName => $cnt) {
-                        $lower = strtolower(trim($stName));
                         $nominal = (float) ($w['status_nominal'][$stName] ?? 0);
-                        if (strpos($lower, 'definite') !== false) { $def += $cnt; $defNominal += $nominal; }
-                        elseif (strpos($lower, 'cancel') !== false) { $cancel += $cnt; $cancelNominal += $nominal; }
-                        elseif (strpos($lower, 'lost') !== false) { $lost += $cnt; $lostNominal += $nominal; }
+                        $bucket = $this->salesActivityStatusBucket($stName);
+                        if ($bucket === 'def') { $def += $cnt; $defNominal += $nominal; }
+                        elseif ($bucket === 'cancel') { $cancel += $cnt; $cancelNominal += $nominal; }
+                        elseif ($bucket === 'lost') { $lost += $cnt; $lostNominal += $nominal; }
                     }
                     $rows[] = [
                         'month_key' => $mk,
@@ -603,11 +629,11 @@ class LaporanAktivitasSalesController extends AdminCoreController
                 $def = 0; $cancel = 0; $lost = 0;
                 $defNominal = 0.0; $cancelNominal = 0.0; $lostNominal = 0.0;
                 foreach ($w['statuses'] ?? [] as $stName => $cnt) {
-                    $lower = strtolower(trim($stName));
                     $nominal = (float) ($w['status_nominal'][$stName] ?? 0);
-                    if (strpos($lower, 'definite') !== false) { $def += $cnt; $defNominal += $nominal; }
-                    elseif (strpos($lower, 'cancel') !== false) { $cancel += $cnt; $cancelNominal += $nominal; }
-                    elseif (strpos($lower, 'lost') !== false) { $lost += $cnt; $lostNominal += $nominal; }
+                    $bucket = $this->salesActivityStatusBucket($stName);
+                    if ($bucket === 'def') { $def += $cnt; $defNominal += $nominal; }
+                    elseif ($bucket === 'cancel') { $cancel += $cnt; $cancelNominal += $nominal; }
+                    elseif ($bucket === 'lost') { $lost += $cnt; $lostNominal += $nominal; }
                 }
                 $rows[] = [
                     'month_key' => $mk, 'month_label' => $monthLabel, 'name' => trim((string) $u['name']), 'user_id' => $u['user_id'],
