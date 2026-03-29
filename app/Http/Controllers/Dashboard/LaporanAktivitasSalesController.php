@@ -458,7 +458,7 @@ class LaporanAktivitasSalesController extends AdminCoreController
             $u['months'][$monthKey]['activities'][$keg] = ($u['months'][$monthKey]['activities'][$keg] ?? 0) + 1;
             $u['months'][$monthKey]['segmentations'][$seg] = ($u['months'][$monthKey]['segmentations'][$seg] ?? 0) + 1;
             $u['months'][$monthKey]['statuses'][$st] = ($u['months'][$monthKey]['statuses'][$st] ?? 0) + 1;
-            $u['months'][$monthKey]['status_nominal'][$st] = ($u['months'][$monthKey]['status_nominal'][$st] ?? 0) + $revenue;
+            $u['months'][$monthKey]['status_nominal'][$st] = ($u['months'][$monthKey]['status_nominal'][$st] ?? 0) + $revenueRaw;
         }
 
         // Pakai daftar dari Laporan Aktivitas Sales (getLaporanAggregasi) agar orang yang muncul di laporan pasti muncul di Sales Activity
